@@ -1,0 +1,76 @@
+{
+  "name": "@ngrx/forms",
+  "version": "0.1.0",
+  "description": "Proper integration of forms in Angular 4 applications using Ngrx",
+  "module": "@ngrx/forms.es5.js",
+  "es2015": "@ngrx/forms.js",
+  "main": "bundles/forms.umd.js",
+  "scripts": {
+    "build": "node build.js",
+    "test": "karma start",
+    "pack-lib": "npm pack ./dist",
+    "publish-lib": "npm publish ./dist",
+    "compodoc": "compodoc -p tsconfig.json",
+    "compodoc-serve": "compodoc -s"
+  },
+  "typings": "./index.d.ts",
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MrWolfZ/ngrx-forms.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MrWolfZ/ngrx-forms/issues"
+  },
+  "homepage": "https://github.com/MrWolfZ/ngrx-forms",
+  "keywords": [
+    "angular",
+    "javascript",
+    "typescript"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/core": "^4.0.0",
+    "@angular/forms": "^4.1.0",
+    "@ngrx/store": "^4.0.0",
+    "rxjs": "^5.0.0"
+  },
+  "devDependencies": {
+    "@angular/common": "4.3.5",
+    "@angular/compiler": "4.3.5",
+    "@angular/compiler-cli": "4.3.5",
+    "@angular/core": "4.3.5",
+    "@angular/forms": "4.3.5",
+    "@angular/platform-browser": "4.3.5",
+    "@angular/platform-browser-dynamic": "4.3.5",
+    "@angular/platform-server": "4.3.5",
+    "@compodoc/compodoc": "1.0.0-beta.10",
+    "@ngrx/store": "4.0.3",
+    "@types/jasmine": "2.5.52",
+    "@types/node": "8.0.1",
+    "chalk": "1.1.3",
+    "codelyzer": "3.1.1",
+    "core-js": "2.4.1",
+    "jasmine-core": "2.6.4",
+    "karma": "1.7.0",
+    "karma-chrome-launcher": "2.1.1",
+    "karma-jasmine": "1.1.0",
+    "karma-sourcemap-loader": "0.3.7",
+    "karma-spec-reporter": "0.0.31",
+    "karma-webpack": "2.0.3",
+    "reflect-metadata": "0.1.10",
+    "rollup": "0.43.0",
+    "rollup-plugin-node-resolve": "3.0.0",
+    "rxjs": "5.4.1",
+    "shelljs": "0.7.8",
+    "sorcery": "0.10.0",
+    "source-map-loader": "0.2.1",
+    "ts-loader": "2.1.0",
+    "tslint": "5.4.3",
+    "typescript": "2.3.4",
+    "uglify-js": "2.8.29",
+    "webpack": "3.0.0",
+    "yargs": "8.0.2",
+    "zone.js": "0.8.12"
+  }
+}
