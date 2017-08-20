@@ -313,7 +313,7 @@ export function createFormGroupReducer<TValue extends { [key: string]: any }>(
     const dispatchActionPerChild = (actionCreator: (controlId: string) => Actions<TValue>) =>
       Object.keys(state.controls)
         .reduce((c, key) => {
-          c[key] = childReducers[key](c[key], actionCreator(`${id}.${key}`)); // `;
+          c[key] = childReducers[key](state.controls[key], actionCreator(`${id}.${key}`)); // `;
           return c;
         }, {} as Controls<TValue>);
 
@@ -329,7 +329,7 @@ export function createFormGroupReducer<TValue extends { [key: string]: any }>(
 
         const controls = Object.keys(value)
           .reduce((c, key) => {
-            c[key] = childReducers[key](c[key], new SetValueAction(`${id}.${key}`, value[key])); // `;
+            c[key] = childReducers[key](state.controls[key], new SetValueAction(`${id}.${key}`, value[key])); // `;
             return c;
           }, {} as Controls<TValue>);
 

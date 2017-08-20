@@ -295,6 +295,13 @@ describe('ngrx-forms:', () => {
       expect(resultState.value).toBe(INITIAL_STATE.value);
     });
 
+    it('should not reset child states', () => {
+      const value = 'A';
+      const state = reducer(INITIAL_STATE, new SetValueAction(FORM_CONTROL_INNER_ID, value));
+      const resultState = reducer(state, new MarkAsSubmittedAction(FORM_CONTROL_ID));
+      expect(resultState.controls.inner.value).toBe(value);
+    });
+
     describe(SetValueAction.name, () => {
       it('should update state value if different', () => {
         const value = { inner: 'A' };
