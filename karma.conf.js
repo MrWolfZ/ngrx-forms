@@ -42,7 +42,7 @@ module.exports = function (config) {
           {
             test: /\.ts/,
             loaders: ['ts-loader', 'source-map-loader'],
-            exclude: /node_modules/
+            exclude: /(node_modules|example-app)/
           }
         ],
         exprContextCritical: false
