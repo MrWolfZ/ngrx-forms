@@ -1,4 +1,6 @@
 {
+  "html.format.wrapAttributes": "force-aligned",
+  "html.format.endWithNewline": true,
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
   "beautify.tabSize": 2,

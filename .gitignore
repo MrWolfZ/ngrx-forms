@@ -6,4 +6,4 @@ $ cat .gitignore
 /documentation
 
 *.log
-*.tgz
+/*.tgz

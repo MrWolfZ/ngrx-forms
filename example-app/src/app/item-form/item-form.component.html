@@ -1,0 +1,60 @@
+<form>
+  <div class="first-row">
+    <md-select placeholder="Category"
+               [ngrxFormControlState]="formState.controls.category">
+      <md-option value="Private">Private</md-option>
+      <md-option value="Work">Work</md-option>
+    </md-select>
+    <md-input-container>
+      <input type="number"
+             mdInput
+             id="priority"
+             placeholder="Priority"
+             [ngrxFormControlState]="formState.controls.priority">
+
+      <md-error *ngIf="formState.controls.priority.errors.required">
+        A priority is required
+      </md-error>
+
+      <md-error *ngIf="formState.controls.priority.errors.min">
+        Priority must be at least 1
+      </md-error>
+    </md-input-container>
+    <md-input-container>
+      <input mdInput
+             id="duedate"
+             [mdDatepicker]="picker"
+             placeholder="Due date"
+             [ngrxFormControlState]="formState.controls.duedate">
+
+      <button mdSuffix
+              [mdDatepickerToggle]="picker"></button>
+
+      <md-error *ngIf="formState.controls.duedate.errors.required">
+        A due date is required
+      </md-error>
+    </md-input-container>
+    <md-datepicker #picker></md-datepicker>
+  </div>
+  <div class="second-row">
+    <md-input-container>
+      <input type="text"
+             mdInput
+             id="text"
+             placeholder="Text"
+             [ngrxFormControlState]="formState.controls.text">
+
+      <md-error *ngIf="formState.controls.text.errors.required">
+        A text is required
+      </md-error>
+    </md-input-container>
+    <button md-raised-button
+            color="primary"
+            type="button"
+            [disabled]="formState.isInvalid && (formState.isSubmitted || formState.isTouched)"
+            (click)="onSubmit()">
+      Add Item
+    </button>
+  </div>
+</form>
+<div class="divider"></div>
