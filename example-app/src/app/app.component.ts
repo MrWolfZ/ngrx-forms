@@ -22,7 +22,8 @@ export class AppComponent {
     this.items$ = store.select(s => s.app.items);
   }
 
-  formatDate(date: Date) {
+  formatDate(value: string) {
+    const date = new Date(value);
     const curr_date = date.getDate();
     const curr_month = date.getMonth() + 1; // Months are zero based
     const curr_year = date.getFullYear();

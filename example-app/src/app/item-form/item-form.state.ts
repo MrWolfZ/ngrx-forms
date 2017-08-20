@@ -1,7 +1,7 @@
 export interface ItemFormValue {
   readonly category: 'Private' | 'Work';
   readonly priority: number;
-  readonly duedate: Date;
+  readonly duedate: string;
   readonly text: string;
 }
 
@@ -21,6 +21,6 @@ export function priorityValidator(priority: number) {
   return {};
 }
 
-export function duedateValidator(duedate: Date) {
+export function duedateValidator(duedate: string) {
   return !duedate ? { required: true } : {};
 }

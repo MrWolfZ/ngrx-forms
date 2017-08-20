@@ -27,7 +27,9 @@
              id="duedate"
              [mdDatepicker]="picker"
              placeholder="Due date"
-             [ngrxFormControlState]="formState.controls.duedate">
+             [ngrxFormControlState]="formState.controls.duedate"
+             [convertViewValue]="convertDateViewValue"
+             [convertModelValue]="convertDateModelValue">
 
       <button mdSuffix
               [mdDatepickerToggle]="picker"></button>

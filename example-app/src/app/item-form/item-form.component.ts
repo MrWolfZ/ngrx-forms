@@ -27,6 +27,14 @@ export class ItemFormComponent implements AfterViewInit {
     this.inputs.find(i => i.id === 'text')!._isErrorState = () => isErrorState(this.formState.controls.text);
   }
 
+  convertDateViewValue(date: Date | null): string | null {
+    return date && date.toISOString();
+  }
+
+  convertDateModelValue(value: string | null): Date | null {
+    return value ? new Date(value) : null;
+  }
+
   onSubmit() {
     if (this.formState.isInvalid) {
       return;

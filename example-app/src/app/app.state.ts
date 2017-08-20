@@ -6,7 +6,7 @@ import { ItemFormValue } from './item-form/item-form.state';
 export class TodoItem {
   readonly category: 'Private' | 'Work';
   readonly priority: number;
-  readonly duedate: Date;
+  readonly duedate: string;
   readonly text: string;
 }
 
@@ -20,7 +20,7 @@ export const ITEM_FORM_ID = 'app/ITEM_FORM';
 export const initialItemFormValue: ItemFormValue = {
   category: 'Private',
   priority: 1,
-  duedate: new Date(),
+  duedate: new Date().toISOString(),
   text: '',
 };
 
