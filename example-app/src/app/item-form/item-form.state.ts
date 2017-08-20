@@ -1,9 +1,20 @@
 export interface ItemFormValue {
   readonly category: 'Private' | 'Work';
-  readonly priority: number;
-  readonly duedate: string;
   readonly text: string;
+  readonly meta: {
+    readonly priority: number;
+    readonly duedate: string;
+  };
 }
+
+export const initialItemFormValue: ItemFormValue = {
+  category: 'Private',
+  text: '',
+  meta: {
+    priority: 1,
+    duedate: new Date().toISOString(),
+  },
+};
 
 export function textValidator(text: string) {
   return !text ? { required: true } : {};

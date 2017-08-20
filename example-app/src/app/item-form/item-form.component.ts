@@ -17,13 +17,18 @@ export class ItemFormComponent implements AfterViewInit {
 
   @ViewChildren(MdInputDirective) inputs: QueryList<MdInputDirective>;
 
+  get metaState(): FormGroupState<any> {
+    return this.formState.controls.meta as FormGroupState<any>;
+  }
+
   ngAfterViewInit() {
     const isErrorState = (state: AbstractControlState<any>) => state.isInvalid && (state.isDirty || state.isTouched || state.isSubmitted);
 
     // sadly, material 2 only properly integrates its error handling with @angular/forms; therefore
     // we have to implement a small hack to make error messages work
-    this.inputs.find(i => i.id === 'priority')!._isErrorState = () => isErrorState(this.formState.controls.priority);
-    this.inputs.find(i => i.id === 'duedate')!._isErrorState = () => isErrorState(this.formState.controls.duedate);
+    const meta = () => this.formState.controls.meta as FormGroupState<any>;
+    this.inputs.find(i => i.id === 'priority')!._isErrorState = () => isErrorState(meta().controls.priority);
+    this.inputs.find(i => i.id === 'duedate')!._isErrorState = () => isErrorState(meta().controls.duedate);
     this.inputs.find(i => i.id === 'text')!._isErrorState = () => isErrorState(this.formState.controls.text);
   }
 

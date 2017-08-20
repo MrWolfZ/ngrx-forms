@@ -1,13 +1,15 @@
 import { Store } from '@ngrx/store';
 import { FormGroupState, createFormGroupState } from '@ngrx/forms';
 
-import { ItemFormValue } from './item-form/item-form.state';
+import { ItemFormValue, initialItemFormValue } from './item-form/item-form.state';
 
 export class TodoItem {
   readonly category: 'Private' | 'Work';
-  readonly priority: number;
-  readonly duedate: string;
   readonly text: string;
+  readonly meta: {
+    readonly priority: number;
+    readonly duedate: string;
+  };
 }
 
 export interface AppState {
@@ -16,13 +18,6 @@ export interface AppState {
 }
 
 export const ITEM_FORM_ID = 'app/ITEM_FORM';
-
-export const initialItemFormValue: ItemFormValue = {
-  category: 'Private',
-  priority: 1,
-  duedate: new Date().toISOString(),
-  text: '',
-};
 
 export const initialState: AppState = {
   items: [],

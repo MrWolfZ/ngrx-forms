@@ -1,16 +1,17 @@
 import { ActionReducer } from '@ngrx/store';
 import { FormGroupState, createFormGroupReducer, createFormGroupState, SetErrorsAction } from '@ngrx/forms';
 
-import { AppState, initialState, ITEM_FORM_ID, initialItemFormValue } from './app.state';
+import { AppState, initialState, ITEM_FORM_ID } from './app.state';
 import { Actions, AddTodoItemAction } from './app.actions';
-import { ItemFormValue, textValidator, priorityValidator, duedateValidator } from './item-form/item-form.state';
+import { ItemFormValue, textValidator, priorityValidator, duedateValidator, initialItemFormValue } from './item-form/item-form.state';
 
 const formReducer = createFormGroupReducer(ITEM_FORM_ID, initialItemFormValue);
 
 function validateItemForm(state: FormGroupState<ItemFormValue>) {
+  const meta = () => state.controls.meta as FormGroupState<any>;
   state = formReducer(state, new SetErrorsAction(state.controls.text.id, textValidator(state.value.text)));
-  state = formReducer(state, new SetErrorsAction(state.controls.priority.id, priorityValidator(state.value.priority)));
-  state = formReducer(state, new SetErrorsAction(state.controls.duedate.id, duedateValidator(state.value.duedate)));
+  state = formReducer(state, new SetErrorsAction(meta().controls.priority.id, priorityValidator(state.value.meta.priority)));
+  state = formReducer(state, new SetErrorsAction(meta().controls.duedate.id, duedateValidator(state.value.meta.duedate)));
   return state;
 }
 

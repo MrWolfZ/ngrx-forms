@@ -12,13 +12,13 @@
              mdInput
              id="priority"
              placeholder="Priority"
-             [ngrxFormControlState]="formState.controls.priority">
+             [ngrxFormControlState]="metaState.controls.priority">
 
-      <md-error *ngIf="formState.controls.priority.errors.required">
+      <md-error *ngIf="metaState.controls.priority.errors.required">
         A priority is required
       </md-error>
 
-      <md-error *ngIf="formState.controls.priority.errors.min">
+      <md-error *ngIf="metaState.controls.priority.errors.min">
         Priority must be at least 1
       </md-error>
     </md-input-container>
@@ -27,14 +27,14 @@
              id="duedate"
              [mdDatepicker]="picker"
              placeholder="Due date"
-             [ngrxFormControlState]="formState.controls.duedate"
+             [ngrxFormControlState]="metaState.controls.duedate"
              [convertViewValue]="convertDateViewValue"
              [convertModelValue]="convertDateModelValue">
 
       <button mdSuffix
               [mdDatepickerToggle]="picker"></button>
 
-      <md-error *ngIf="formState.controls.duedate.errors.required">
+      <md-error *ngIf="metaState.controls.duedate.errors.required">
         A due date is required
       </md-error>
     </md-input-container>
