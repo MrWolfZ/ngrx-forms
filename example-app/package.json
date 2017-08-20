@@ -26,6 +26,7 @@
     "@ngrx/effects": "^4.0.0",
     "@ngrx/forms": "file:ngrx-forms-0.1.0.tgz",
     "@ngrx/store": "^4.0.0",
+    "@ngrx/store-devtools": "^4.0.0",
     "core-js": "^2.4.1",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
