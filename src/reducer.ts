@@ -310,6 +310,13 @@ export function createFormGroupReducer<TValue extends { [key: string]: any }>(
       return state;
     }
 
+    const dispatchActionPerChild = (actionCreator: (controlId: string) => Actions<TValue>) =>
+      Object.keys(state.controls)
+        .reduce((c, key) => {
+          c[key] = childReducers[key](c[key], actionCreator(`${id}.${key}`)); // `;
+          return c;
+        }, {} as Controls<TValue>);
+
     switch (action.type) {
       case SetValueAction.TYPE: {
         if (state.value === action.payload.value) {
@@ -367,17 +374,11 @@ export function createFormGroupReducer<TValue extends { [key: string]: any }>(
           return state;
         }
 
-        const controls = Object.keys(state.controls)
-          .reduce((c, key) => {
-            c[key] = childReducers[key](c[key], new MarkAsDirtyAction(`${id}.${key}`)); // `;
-            return c;
-          }, {} as Controls<TValue>);
-
         return {
           ...state,
           isDirty: true,
           isPristine: false,
-          controls,
+          controls: dispatchActionPerChild(controlId => new MarkAsDirtyAction(controlId)),
         };
       }
 
@@ -386,17 +387,11 @@ export function createFormGroupReducer<TValue extends { [key: string]: any }>(
           return state;
         }
 
-        const controls = Object.keys(state.controls)
-          .reduce((c, key) => {
-            c[key] = childReducers[key](c[key], new MarkAsPristineAction(`${id}.${key}`)); // `;
-            return c;
-          }, {} as Controls<TValue>);
-
         return {
           ...state,
           isDirty: false,
           isPristine: true,
-          controls,
+          controls: dispatchActionPerChild(controlId => new MarkAsPristineAction(controlId)),
         };
       }
 
@@ -405,17 +400,11 @@ export function createFormGroupReducer<TValue extends { [key: string]: any }>(
           return state;
         }
 
-        const controls = Object.keys(state.controls)
-          .reduce((c, key) => {
-            c[key] = childReducers[key](c[key], new EnableAction(`${id}.${key}`)); // `;
-            return c;
-          }, {} as Controls<TValue>);
-
         return {
           ...state,
           isEnabled: true,
           isDisabled: false,
-          controls,
+          controls: dispatchActionPerChild(controlId => new EnableAction(controlId)),
         };
       }
 
@@ -424,12 +413,6 @@ export function createFormGroupReducer<TValue extends { [key: string]: any }>(
           return state;
         }
 
-        const controls = Object.keys(state.controls)
-          .reduce((c, key) => {
-            c[key] = childReducers[key](c[key], new DisableAction(`${id}.${key}`)); // `;
-            return c;
-          }, {} as Controls<TValue>);
-
         return {
           ...state,
           isValid: true,
@@ -437,7 +420,7 @@ export function createFormGroupReducer<TValue extends { [key: string]: any }>(
           errors: {},
           isEnabled: false,
           isDisabled: true,
-          controls,
+          controls: dispatchActionPerChild(controlId => new DisableAction(controlId)),
         };
       }
 
@@ -446,17 +429,11 @@ export function createFormGroupReducer<TValue extends { [key: string]: any }>(
           return state;
         }
 
-        const controls = Object.keys(state.controls)
-          .reduce((c, key) => {
-            c[key] = childReducers[key](c[key], new MarkAsTouchedAction(`${id}.${key}`)); // `;
-            return c;
-          }, {} as Controls<TValue>);
-
         return {
           ...state,
           isTouched: true,
           isUntouched: false,
-          controls,
+          controls: dispatchActionPerChild(controlId => new MarkAsTouchedAction(controlId)),
         };
       }
 
@@ -465,17 +442,11 @@ export function createFormGroupReducer<TValue extends { [key: string]: any }>(
           return state;
         }
 
-        const controls = Object.keys(state.controls)
-          .reduce((c, key) => {
-            c[key] = childReducers[key](c[key], new MarkAsUntouchedAction(`${id}.${key}`)); // `;
-            return c;
-          }, {} as Controls<TValue>);
-
         return {
           ...state,
           isTouched: false,
           isUntouched: true,
-          controls,
+          controls: dispatchActionPerChild(controlId => new MarkAsUntouchedAction(controlId)),
         };
       }
 
@@ -484,17 +455,11 @@ export function createFormGroupReducer<TValue extends { [key: string]: any }>(
           return state;
         }
 
-        const controls = Object.keys(state.controls)
-          .reduce((c, key) => {
-            c[key] = childReducers[key](c[key], new MarkAsSubmittedAction(`${id}.${key}`)); // `;
-            return c;
-          }, {} as Controls<TValue>);
-
         return {
           ...state,
           isSubmitted: true,
           isUnsubmitted: false,
-          controls,
+          controls: dispatchActionPerChild(controlId => new MarkAsSubmittedAction(controlId)),
         };
       }
 
@@ -503,17 +468,11 @@ export function createFormGroupReducer<TValue extends { [key: string]: any }>(
           return state;
         }
 
-        const controls = Object.keys(state.controls)
-          .reduce((c, key) => {
-            c[key] = childReducers[key](c[key], new MarkAsUnsubmittedAction(`${id}.${key}`)); // `;
-            return c;
-          }, {} as Controls<TValue>);
-
         return {
           ...state,
           isSubmitted: false,
           isUnsubmitted: true,
-          controls,
+          controls: dispatchActionPerChild(controlId => new MarkAsUnsubmittedAction(controlId)),
         };
       }
 
