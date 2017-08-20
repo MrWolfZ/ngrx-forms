@@ -1,6 +1,14 @@
 # ngrx-forms
 
-Proper integration of forms in Angular 4 applications using Ngrx
+Proper integration of forms in Angular 4 applications using Ngrx.
+
+Please note that this library is not yet available via npm. If you want to beta test it you can download the `ngrx-forms-[version].tgz` file from the example app and use that to install the library to your project via:
+
+```Shell
+npm install [path]ngrx-forms-[version].tgz --save
+```
+
+Until proper documentation exists I recommend having a look at the example app to see how the library can be used.
 
 Get the [Changelog](https://github.com/MrWolfZ/ngrx-forms/blob/master/CHANGELOG.md).
 
