@@ -16,6 +16,7 @@ export class AbstractControlState<TValue> {
   readonly isTouched: boolean;
   readonly isUntouched: boolean;
   readonly isSubmitted: boolean;
+  readonly isUnsubmitted: boolean;
 }
 
 export class FormControlState<TValue extends SupportedNgrxFormControlValueTypes> extends AbstractControlState<TValue> {
@@ -61,6 +62,7 @@ export function createFormControlState<TValue extends SupportedNgrxFormControlVa
     isUntouched: true,
     lastKeyDownCode: -1,
     isSubmitted: false,
+    isUnsubmitted: true,
   };
 }
 
@@ -94,5 +96,6 @@ export function createFormGroupState<TValue extends object>(
     isUntouched: true,
     controls,
     isSubmitted: false,
+    isUnsubmitted: true,
   };
 }

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { NgrxFormControlDirective } from './directive';
+import { NgrxFormControlDirective, NgrxFormDirective } from './directive';
 import {
   NgrxDefaultValueAccessor,
   NgrxCheckboxControlValueAccessor,
@@ -15,6 +15,7 @@ import {
 
 const exportsAndDeclarations = [
   NgrxFormControlDirective,
+  NgrxFormDirective,
   NgrxDefaultValueAccessor,
   NgrxCheckboxControlValueAccessor,
   NgrxNumberValueAccessor,

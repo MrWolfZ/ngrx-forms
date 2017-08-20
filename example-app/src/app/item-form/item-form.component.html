@@ -1,4 +1,6 @@
-<form>
+<form novalidate
+      [ngrxFormState]="formState"
+      (submit)="onSubmit()">
   <div class="first-row">
     <md-select placeholder="Category"
                [ngrxFormControlState]="formState.controls.category">
@@ -50,9 +52,8 @@
     </md-input-container>
     <button md-raised-button
             color="primary"
-            type="button"
-            [disabled]="formState.isInvalid && (formState.isSubmitted || formState.isTouched)"
-            (click)="onSubmit()">
+            type="submit"
+            [disabled]="formState.isInvalid && formState.isSubmitted">
       Add Item
     </button>
   </div>

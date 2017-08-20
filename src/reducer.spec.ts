@@ -14,6 +14,8 @@ import {
   FocusAction,
   UnfocusAction,
   SetLastKeyDownCodeAction,
+  MarkAsSubmittedAction,
+  MarkAsUnsubmittedAction,
 } from './actions';
 import { createFormControlReducer, createFormGroupReducer } from './reducer';
 
@@ -220,6 +222,34 @@ describe('ngrx-forms:', () => {
         const state = { ...INITIAL_STATE, lastKeyDownCode };
         const resultState = reducer(state, new SetLastKeyDownCodeAction(FORM_CONTROL_ID, lastKeyDownCode));
         expect(resultState).toBe(state);
+      });
+    });
+
+    describe(MarkAsSubmittedAction.name, () => {
+      it('should update state if unsubmitted', () => {
+        const resultState = reducer(INITIAL_STATE, new MarkAsSubmittedAction(FORM_CONTROL_ID));
+        expect(resultState.isSubmitted).toEqual(true);
+        expect(resultState.isUnsubmitted).toEqual(false);
+      });
+
+      it('should not update state if submitted', () => {
+        const state = { ...INITIAL_STATE, isSubmitted: true, isUnsubmitted: false };
+        const resultState = reducer(state, new MarkAsSubmittedAction(FORM_CONTROL_ID));
+        expect(resultState).toBe(state);
+      });
+    });
+
+    describe(MarkAsUnsubmittedAction.name, () => {
+      it('should update state if submitted', () => {
+        const state = { ...INITIAL_STATE, isSubmitted: true, isUnsubmitted: false };
+        const resultState = reducer(state, new MarkAsUnsubmittedAction(FORM_CONTROL_ID));
+        expect(resultState.isSubmitted).toEqual(false);
+        expect(resultState.isUnsubmitted).toEqual(true);
+      });
+
+      it('should not update state if unsubmitted', () => {
+        const resultState = reducer(INITIAL_STATE, new MarkAsUnsubmittedAction(FORM_CONTROL_ID));
+        expect(resultState).toBe(INITIAL_STATE);
       });
     });
   });
@@ -1182,6 +1212,235 @@ describe('ngrx-forms:', () => {
         const resultState = reducerFull(state, new MarkAsUntouchedAction(FORM_CONTROL_INNER4_ID));
         expect(resultState.isTouched).toEqual(false);
         expect(resultState.isUntouched).toEqual(true);
+      });
+    });
+
+    describe(MarkAsSubmittedAction.name, () => {
+      it('should update state if unsubmitted', () => {
+        const resultState = reducer(INITIAL_STATE, new MarkAsSubmittedAction(FORM_CONTROL_ID));
+        expect(resultState.isSubmitted).toEqual(true);
+        expect(resultState.isUnsubmitted).toEqual(false);
+      });
+
+      it('should not update state if submitted', () => {
+        const state = { ...INITIAL_STATE, isSubmitted: true, isUnsubmitted: false };
+        const resultState = reducer(state, new MarkAsSubmittedAction(FORM_CONTROL_ID));
+        expect(resultState).toBe(state);
+      });
+
+      it('should mark direct control children as submitted', () => {
+        const resultState = reducer(INITIAL_STATE, new MarkAsSubmittedAction(FORM_CONTROL_ID));
+        expect(resultState.controls.inner.isSubmitted).toEqual(true);
+        expect(resultState.controls.inner.isUnsubmitted).toEqual(false);
+      });
+
+      it('should mark direct group children as submitted', () => {
+        const resultState = reducerFull(INITIAL_STATE_FULL, new MarkAsSubmittedAction(FORM_CONTROL_ID));
+        expect(resultState.controls.inner3.isSubmitted).toEqual(true);
+        expect(resultState.controls.inner3.isUnsubmitted).toEqual(false);
+      });
+
+      it('should mark nested children as submitted', () => {
+        const resultState = reducerFull(INITIAL_STATE_FULL, new MarkAsSubmittedAction(FORM_CONTROL_ID));
+        expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isSubmitted).toBe(true);
+        expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isUnsubmitted).toBe(false);
+      });
+
+      it('should mark state as submitted if direct control child is marked as submitted', () => {
+        const resultState = reducer(INITIAL_STATE, new MarkAsSubmittedAction(FORM_CONTROL_INNER_ID));
+        expect(resultState.isSubmitted).toEqual(true);
+        expect(resultState.isUnsubmitted).toEqual(false);
+      });
+
+      it('should mark state as submitted if direct group child is marked as submitted', () => {
+        const resultState = reducerFull(INITIAL_STATE_FULL, new MarkAsSubmittedAction(FORM_CONTROL_INNER3_ID));
+        expect(resultState.isSubmitted).toEqual(true);
+        expect(resultState.isUnsubmitted).toEqual(false);
+      });
+
+      it('should mark state as submitted if nested child is marked as submitted', () => {
+        const resultState = reducerFull(INITIAL_STATE_FULL, new MarkAsSubmittedAction(FORM_CONTROL_INNER4_ID));
+        expect(resultState.isSubmitted).toEqual(true);
+        expect(resultState.isUnsubmitted).toEqual(false);
+      });
+    });
+
+    describe(MarkAsUnsubmittedAction.name, () => {
+      it('should update state if submitted', () => {
+        const state = { ...INITIAL_STATE, isSubmitted: true, isUnsubmitted: false };
+        const resultState = reducer(state, new MarkAsUnsubmittedAction(FORM_CONTROL_ID));
+        expect(resultState.isSubmitted).toEqual(false);
+        expect(resultState.isUnsubmitted).toEqual(true);
+      });
+
+      it('should not update state if unsubmitted', () => {
+        const resultState = reducer(INITIAL_STATE, new MarkAsUnsubmittedAction(FORM_CONTROL_ID));
+        expect(resultState).toBe(INITIAL_STATE);
+      });
+
+      it('should mark direct control children as unsubmitted', () => {
+        const state = {
+          ...INITIAL_STATE,
+          isSubmitted: true,
+          isUnsubmitted: false,
+          controls: {
+            ...INITIAL_STATE.controls,
+            inner: {
+              ...INITIAL_STATE.controls.inner,
+              isSubmitted: true,
+              isUnsubmitted: false,
+            },
+          },
+        };
+        const resultState = reducer(state, new MarkAsUnsubmittedAction(FORM_CONTROL_ID));
+        expect(resultState.controls.inner.isSubmitted).toEqual(false);
+        expect(resultState.controls.inner.isUnsubmitted).toEqual(true);
+      });
+
+      it('should mark direct group children as unsubmitted', () => {
+        const state = {
+          ...INITIAL_STATE_FULL,
+          isSubmitted: true,
+          isUnsubmitted: false,
+          controls: {
+            ...INITIAL_STATE_FULL.controls,
+            inner3: {
+              ...INITIAL_STATE_FULL.controls.inner3,
+              isSubmitted: true,
+              isUnsubmitted: false,
+            },
+          },
+        };
+        const resultState = reducerFull(state, new MarkAsUnsubmittedAction(FORM_CONTROL_ID));
+        expect(resultState.controls.inner3.isSubmitted).toEqual(false);
+        expect(resultState.controls.inner3.isUnsubmitted).toEqual(true);
+      });
+
+      it('should mark nested children as unsubmitted', () => {
+        const inner3State = INITIAL_STATE_FULL.controls.inner3 as FormGroupState<any>;
+        const state = {
+          ...INITIAL_STATE_FULL,
+          isSubmitted: true,
+          isUnsubmitted: false,
+          controls: {
+            ...INITIAL_STATE_FULL.controls,
+            inner3: {
+              ...inner3State,
+              isSubmitted: true,
+              isUnsubmitted: false,
+              controls: {
+                ...inner3State.controls,
+                inner4: {
+                  ...inner3State.controls.inner4,
+                  isSubmitted: true,
+                  isUnsubmitted: false,
+                },
+              },
+            },
+          },
+        };
+        const resultState = reducerFull(state, new MarkAsUnsubmittedAction(FORM_CONTROL_ID));
+        expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isSubmitted).toBe(false);
+        expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isUnsubmitted).toBe(true);
+      });
+
+      it('should mark state as unsubmitted if all children are unsubmitted when direct control child is updated', () => {
+        const state = {
+          ...INITIAL_STATE,
+          isSubmitted: true,
+          isUnsubmitted: false,
+          controls: {
+            ...INITIAL_STATE.controls,
+            inner: {
+              ...INITIAL_STATE.controls.inner,
+              isSubmitted: true,
+              isUnsubmitted: false,
+            },
+          },
+        };
+        const resultState = reducer(INITIAL_STATE, new MarkAsUnsubmittedAction(FORM_CONTROL_INNER_ID));
+        expect(resultState.isSubmitted).toEqual(false);
+        expect(resultState.isUnsubmitted).toEqual(true);
+      });
+
+      it('should not mark state as unsubmitted if not all children are unsubmitted when direct control child is updated', () => {
+        const inner3State = INITIAL_STATE_FULL.controls.inner3 as FormGroupState<any>;
+        const state = {
+          ...INITIAL_STATE_FULL,
+          isSubmitted: true,
+          isUnsubmitted: false,
+          controls: {
+            ...INITIAL_STATE_FULL.controls,
+            inner: {
+              ...INITIAL_STATE_FULL.controls.inner,
+              isSubmitted: true,
+              isUnsubmitted: false,
+            },
+            inner3: {
+              ...INITIAL_STATE_FULL.controls.inner3,
+              isSubmitted: true,
+              isUnsubmitted: false,
+              controls: {
+                ...inner3State.controls,
+                inner4: {
+                  ...inner3State.controls.inner4,
+                  isSubmitted: true,
+                  isUnsubmitted: false,
+                },
+              },
+            },
+          },
+        };
+        const resultState = reducerFull(state, new MarkAsUnsubmittedAction(FORM_CONTROL_INNER_ID));
+        expect(resultState.isSubmitted).toEqual(true);
+        expect(resultState.isUnsubmitted).toEqual(false);
+      });
+
+      it('should mark state as unsubmitted if all children are unsubmitted when direct group child is updated', () => {
+        const state = {
+          ...INITIAL_STATE_FULL,
+          isSubmitted: true,
+          isUnsubmitted: false,
+          controls: {
+            ...INITIAL_STATE_FULL.controls,
+            inner3: {
+              ...INITIAL_STATE_FULL.controls.inner3,
+              isSubmitted: true,
+              isUnsubmitted: false,
+            },
+          },
+        };
+        const resultState = reducerFull(state, new MarkAsUnsubmittedAction(FORM_CONTROL_INNER3_ID));
+        expect(resultState.isSubmitted).toEqual(false);
+        expect(resultState.isUnsubmitted).toEqual(true);
+      });
+
+      it('should mark state as unsubmitted if all children are unsubmitted when nested child is updated', () => {
+        const inner3State = INITIAL_STATE_FULL.controls.inner3 as FormGroupState<any>;
+        const state = {
+          ...INITIAL_STATE_FULL,
+          isSubmitted: true,
+          isUnsubmitted: false,
+          controls: {
+            ...INITIAL_STATE_FULL.controls,
+            inner3: {
+              ...inner3State,
+              isSubmitted: true,
+              isUnsubmitted: false,
+              controls: {
+                ...inner3State.controls,
+                inner4: {
+                  ...inner3State.controls.inner4,
+                  isSubmitted: true,
+                  isUnsubmitted: false,
+                },
+              },
+            },
+          },
+        };
+        const resultState = reducerFull(state, new MarkAsUnsubmittedAction(FORM_CONTROL_INNER4_ID));
+        expect(resultState.isSubmitted).toEqual(false);
+        expect(resultState.isUnsubmitted).toEqual(true);
       });
     });
   });

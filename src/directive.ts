@@ -24,8 +24,15 @@ import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/distinctUntilChanged';
 
-import { SetValueAction, MarkAsTouchedAction, FocusAction, UnfocusAction, SetLastKeyDownCodeAction } from './actions';
-import { FormControlState, SupportedNgrxFormControlValueTypes } from './state';
+import {
+  SetValueAction,
+  MarkAsTouchedAction,
+  FocusAction,
+  UnfocusAction,
+  SetLastKeyDownCodeAction,
+  MarkAsSubmittedAction,
+} from './actions';
+import { FormControlState, FormGroupState, SupportedNgrxFormControlValueTypes } from './state';
 import { selectValueAccessor } from './value-accessors';
 
 @Directive({
@@ -127,6 +134,28 @@ export class NgrxFormControlDirective<TValue extends SupportedNgrxFormControlVal
 
     if (event.keyCode !== this.state.lastKeyDownCode) {
       this.actionsSubject.next(new SetLastKeyDownCodeAction(this.state.id, event.keyCode));
+    }
+  }
+}
+
+@Directive({
+  selector: 'form[ngrxFormState]',
+})
+export class NgrxFormDirective<TValue extends { [key: string]: any }> {
+  // tslint:disable-next-line:no-input-rename
+  @Input('ngrxFormState') state: FormGroupState<TValue>;
+
+  constructor(private actionsSubject: ActionsSubject) { }
+
+  @HostListener('submit', ['$event'])
+  onSubmit(event: Event) {
+    if (!this.state) {
+      return;
+    }
+
+    event.preventDefault();
+    if (this.state.isUnsubmitted) {
+      this.actionsSubject.next(new MarkAsSubmittedAction(this.state.id));
     }
   }
 }

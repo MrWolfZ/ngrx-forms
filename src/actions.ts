@@ -135,8 +135,28 @@ export class SetLastKeyDownCodeAction implements Action {
   }
 }
 
-export type Actions =
-  | SetValueAction<any>
+export class MarkAsSubmittedAction implements Action {
+  static readonly TYPE = 'ngrx/forms/MARK_AS_SUBMITTED';
+  readonly type = MarkAsSubmittedAction.TYPE;
+  readonly controlId: NgrxFormControlId;
+
+  constructor(controlId: string) {
+    this.controlId = controlId;
+  }
+}
+
+export class MarkAsUnsubmittedAction implements Action {
+  static readonly TYPE = 'ngrx/forms/MARK_AS_UNSUBMITTED';
+  readonly type = MarkAsUnsubmittedAction.TYPE;
+  readonly controlId: NgrxFormControlId;
+
+  constructor(controlId: string) {
+    this.controlId = controlId;
+  }
+}
+
+export type Actions<TValue> =
+  | SetValueAction<TValue>
   | SetErrorsAction
   | MarkAsDirtyAction
   | MarkAsPristineAction
@@ -147,4 +167,6 @@ export type Actions =
   | FocusAction
   | UnfocusAction
   | SetLastKeyDownCodeAction
+  | MarkAsSubmittedAction
+  | MarkAsUnsubmittedAction
   ;

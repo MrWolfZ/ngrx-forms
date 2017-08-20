@@ -22,6 +22,8 @@ import {
   FocusAction,
   UnfocusAction,
   SetLastKeyDownCodeAction,
+  MarkAsSubmittedAction,
+  MarkAsUnsubmittedAction,
 } from './actions';
 
 function isEmpty(obj: object) {
@@ -33,7 +35,7 @@ export function createFormControlReducer<TValue extends SupportedNgrxFormControl
   initialValue: TValue,
 ): ActionReducer<FormControlState<TValue>> {
   const initialState = createFormControlState<TValue>(id, initialValue);
-  const reducer = (state = initialState, action: Actions): FormControlState<TValue> => {
+  const reducer = (state = initialState, action: Actions<TValue>): FormControlState<TValue> => {
     if (action.controlId !== state.id) {
       return state;
     }
@@ -175,6 +177,28 @@ export function createFormControlReducer<TValue extends SupportedNgrxFormControl
           lastKeyDownCode: action.payload.lastKeyDownCode,
         };
 
+      case MarkAsSubmittedAction.TYPE:
+        if (state.isSubmitted) {
+          return state;
+        }
+
+        return {
+          ...state,
+          isSubmitted: true,
+          isUnsubmitted: false,
+        };
+
+      case MarkAsUnsubmittedAction.TYPE:
+        if (state.isUnsubmitted) {
+          return state;
+        }
+
+        return {
+          ...state,
+          isSubmitted: false,
+          isUnsubmitted: true,
+        };
+
       default: {
         return state;
       }
@@ -245,13 +269,16 @@ function updateChildControlsReducer<TValue extends { [key: string]: any }>(
     .reduce((res, [key, state]) => Object.assign(res, { [key]: state }), {} as ControlsReducer<TValue>);
 }
 
-export function createFormGroupReducer<TValue extends object>(id: string, initialValue: TValue): ActionReducer<FormGroupState<TValue>> {
+export function createFormGroupReducer<TValue extends { [key: string]: any }>(
+  id: string,
+  initialValue: TValue,
+): ActionReducer<FormGroupState<TValue>> {
   const initialState = createFormGroupState(id, initialValue);
 
   let childReducers = updateChildControlsReducer(id, {} as any, initialValue);
   let combinedChildReducer = combineReducers<Controls<TValue>>(childReducers);
 
-  const childReducer = (state: FormGroupState<TValue>, action: Actions) => {
+  const childReducer = (state: FormGroupState<TValue>, action: Actions<TValue>) => {
     const controls = combinedChildReducer(state.controls, action);
     const value = getFormGroupValue<TValue>(controls, state.value);
     const errors = getFormGroupErrors(controls, state.errors);
@@ -259,6 +286,7 @@ export function createFormGroupReducer<TValue extends object>(id: string, initia
     const isDirty = Object.keys(controls).some(key => controls[key].isDirty);
     const isEnabled = Object.keys(controls).some(key => controls[key].isEnabled);
     const isTouched = Object.keys(controls).some(key => controls[key].isTouched);
+    const isSubmitted = Object.keys(controls).some(key => controls[key].isSubmitted);
     return state.controls === controls ? state : {
       ...state,
       value,
@@ -271,11 +299,13 @@ export function createFormGroupReducer<TValue extends object>(id: string, initia
       isDisabled: !isEnabled,
       isTouched,
       isUntouched: !isTouched,
+      isSubmitted,
+      isUnsubmitted: !isSubmitted,
       controls,
     };
   };
 
-  const groupReducer = (state = initialState, action: Actions): FormGroupState<TValue> => {
+  const groupReducer = (state = initialState, action: Actions<TValue>): FormGroupState<TValue> => {
     if (action.controlId !== state.id) {
       return state;
     }
@@ -449,13 +479,51 @@ export function createFormGroupReducer<TValue extends object>(id: string, initia
         };
       }
 
+      case MarkAsSubmittedAction.TYPE: {
+        if (state.isSubmitted) {
+          return state;
+        }
+
+        const controls = Object.keys(state.controls)
+          .reduce((c, key) => {
+            c[key] = childReducers[key](c[key], new MarkAsSubmittedAction(`${id}.${key}`)); // `;
+            return c;
+          }, {} as Controls<TValue>);
+
+        return {
+          ...state,
+          isSubmitted: true,
+          isUnsubmitted: false,
+          controls,
+        };
+      }
+
+      case MarkAsUnsubmittedAction.TYPE: {
+        if (state.isUnsubmitted) {
+          return state;
+        }
+
+        const controls = Object.keys(state.controls)
+          .reduce((c, key) => {
+            c[key] = childReducers[key](c[key], new MarkAsUnsubmittedAction(`${id}.${key}`)); // `;
+            return c;
+          }, {} as Controls<TValue>);
+
+        return {
+          ...state,
+          isSubmitted: false,
+          isUnsubmitted: true,
+          controls,
+        };
+      }
+
       default: {
         return state;
       }
     }
   };
 
-  return (state: FormGroupState<TValue>, action: Actions) => {
+  return (state: FormGroupState<TValue>, action: Actions<TValue>) => {
     state = groupReducer(state, action);
     state = childReducer(state, action);
 
