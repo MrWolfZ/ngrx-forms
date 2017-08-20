@@ -5,8 +5,8 @@ const chalk = require('chalk');
 
 const PACKAGE = `forms`;
 const NPM_DIR = `dist`;
-const MODULES_DIR = `${NPM_DIR}/forms/@ngrx`;
-const BUNDLES_DIR = `${NPM_DIR}/forms/bundles`;
+const MODULES_DIR = `${NPM_DIR}/@ngrx`;
+const BUNDLES_DIR = `${NPM_DIR}/bundles`;
 
 shell.echo(`Start building...`);
 
@@ -51,8 +51,7 @@ shell.exec(`node scripts/map-sources -f ${BUNDLES_DIR}/${PACKAGE}.umd.js`);
 shell.echo(`Minifying`);
 shell.cd(`${BUNDLES_DIR}`);
 shell.exec(`uglifyjs -c warnings=false --screw-ie8 --comments -o ${PACKAGE}.umd.min.js --source-map ${PACKAGE}.umd.min.js.map --source-map-include-sources ${PACKAGE}.umd.js`);
-shell.exec(`node ../../../scripts/map-sources -f ${PACKAGE}.umd.min.js`);
-shell.cd(`..`);
+shell.exec(`node ../../scripts/map-sources -f ${PACKAGE}.umd.min.js`);
 shell.cd(`..`);
 shell.cd(`..`);
 
