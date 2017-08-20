@@ -67,12 +67,17 @@ export class NgrxFormControlDirective<TValue extends SupportedNgrxFormControlVal
     this.valueAccessor = selectValueAccessor(valueAccessors);
   }
 
+  @Input() convertViewValue: (value: any) => TValue = value => value;
+  @Input() convertModelValue: (value: TValue) => any = value => value;
+
   ngOnInit() {
     this.valueAccessor.registerOnChange((newValue: any) => {
+      newValue = this.convertViewValue(newValue);
       if (newValue !== this.state.value) {
         this.actionsSubject.next(new SetValueAction(this.state.id, newValue));
       }
     });
+
     this.valueAccessor.registerOnTouched(() => {
       if (!this.state.isTouched) {
         this.actionsSubject.next(new MarkAsTouchedAction(this.state.id));
@@ -82,6 +87,7 @@ export class NgrxFormControlDirective<TValue extends SupportedNgrxFormControlVal
     this.subscriptions.push(
       this.state$
         .map(s => s.value)
+        .map(this.convertModelValue)
         .distinctUntilChanged()
         .subscribe(value => this.valueAccessor.writeValue(value))
     );
