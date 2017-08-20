@@ -71,7 +71,7 @@ export function createFormGroupState<TValue extends object>(
   initialValue: TValue,
 ): FormGroupState<TValue> {
   function createState(key: string, value: any) {
-    if (typeof value === 'object') {
+    if (value !== null && typeof value === 'object') {
       return createFormGroupState(`${id}.${key}`, value);
     }
 

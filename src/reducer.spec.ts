@@ -56,6 +56,13 @@ describe('ngrx-forms:', () => {
         expect(resultState.isDirty).toEqual(true);
       });
 
+      it('should throw for date values', () => {
+        const value = new Date(1970, 0, 1);
+        const state = createFormControlState<Date | null>(FORM_CONTROL_ID, null);
+        const dateReducer = createFormControlReducer<Date | null>(FORM_CONTROL_ID, null);
+        expect(() => dateReducer(state, new SetValueAction(FORM_CONTROL_ID, value))).toThrowError();
+      });
+
       it('should throw if value is not supported', () => {
         const value = {};
         expect(() => reducer(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, value))).toThrowError();
@@ -302,6 +309,18 @@ describe('ngrx-forms:', () => {
       expect(resultState.controls.inner.value).toBe(value);
     });
 
+    it('should throw if trying to set a date as value', () => {
+      const state = createFormGroupState(FORM_CONTROL_ID, {});
+      const reducerDate = createFormGroupReducer(FORM_CONTROL_ID, {});
+      expect(() => reducerDate(state, new SetValueAction(FORM_CONTROL_ID, new Date()))).toThrowError();
+    });
+
+    it('should throw if trying to set a date as a child value', () => {
+      const state = createFormGroupState(FORM_CONTROL_ID, { inner: null });
+      const reducerDate = createFormGroupReducer(FORM_CONTROL_ID, { inner: null });
+      expect(() => reducerDate(state, new SetValueAction(FORM_CONTROL_INNER_ID, new Date()))).toThrowError();
+    });
+
     describe(SetValueAction.name, () => {
       it('should update state value if different', () => {
         const value = { inner: 'A' };
@@ -340,6 +359,13 @@ describe('ngrx-forms:', () => {
         const resultState = reducer(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, value));
         expect(resultState.value).toEqual(value);
         expect(resultState.controls.inner3.value).toEqual(value.inner3);
+      });
+
+      it('should create child states on demand for null children', () => {
+        const value = { inner: 'A', inner2: null as any as string };
+        const resultState = reducer(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, value));
+        expect(resultState.value).toEqual(value);
+        expect(resultState.controls.inner2.value).toEqual(value.inner2);
       });
 
       it('should remove child states on demand', () => {

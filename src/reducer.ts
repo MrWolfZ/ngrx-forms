@@ -46,9 +46,10 @@ export function createFormControlReducer<TValue extends SupportedNgrxFormControl
           return state;
         }
 
-        const valueType = typeof action.payload.value;
-        if (action.payload.value !== null && ['string', 'number', 'boolean', 'undefined'].indexOf(valueType) === -1) {
-          const errorMsg = `Form control states only support null or values of type "string", "number", "boolean", or "undefined"`; // `;
+        const value = action.payload.value;
+        const valueType = typeof value;
+        if (value !== null && ['string', 'number', 'boolean', 'undefined'].indexOf(valueType) === -1) {
+          const errorMsg = 'Form control states only support undefined, null, string, number, and boolean values';
           throw new Error(`${errorMsg}; got ${JSON.stringify(action.payload.value)} of type "${valueType}"`); // `;
         }
 
@@ -254,11 +255,15 @@ function updateChildControlsReducer<TValue extends { [key: string]: any }>(
       const createReducer = () => {
         if (reducers[key] === undefined) {
           const childValue = value[key];
-          if (typeof value[key] === 'object') {
-            return createFormGroupReducer(`${parentId}.${key}`, value[key]); // `;
+          if (childValue instanceof Date) {
+            throw new Error('Date values are not supported. Please used serialized strings instead.');
           }
 
-          return createFormControlReducer(`${parentId}.${key}`, value[key]); // `;
+          if (childValue !== null && typeof childValue === 'object') {
+            return createFormGroupReducer(`${parentId}.${key}`, childValue); // `;
+          }
+
+          return createFormControlReducer(`${parentId}.${key}`, childValue); // `;
         }
 
         return reducers[key];
@@ -321,6 +326,10 @@ export function createFormGroupReducer<TValue extends { [key: string]: any }>(
       case SetValueAction.TYPE: {
         if (state.value === action.payload.value) {
           return state;
+        }
+
+        if (action.payload.value instanceof Date) {
+          throw new Error('Date values are not supported. Please used serialized strings instead.');
         }
 
         const value = action.payload.value;
