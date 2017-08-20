@@ -1,6 +1,8 @@
 $ cat .gitignore
 /node_modules
+/example-app/node_modules
 /dist
+/example-app/dist
 /documentation
 
 *.log
