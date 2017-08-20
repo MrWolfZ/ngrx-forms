@@ -3,7 +3,7 @@ import { ValidationErrors } from '@angular/forms';
 export type SupportedNgrxFormControlValueTypes = string | number | boolean | null | undefined;
 export type NgrxFormControlId = string;
 
-export interface AbstractControlState<TValue> {
+export class AbstractControlState<TValue> {
   readonly id: string;
   readonly value: TValue;
   readonly isValid: boolean;
@@ -18,14 +18,14 @@ export interface AbstractControlState<TValue> {
   readonly isSubmitted: boolean;
 }
 
-export interface FormControlState<TValue extends SupportedNgrxFormControlValueTypes> extends AbstractControlState<TValue> {
+export class FormControlState<TValue extends SupportedNgrxFormControlValueTypes> extends AbstractControlState<TValue> {
   readonly isFocused: boolean;
   readonly isUnfocused: boolean;
   readonly lastKeyDownCode: number;
 }
 
 export type FormGroupControls<TValue> = {[controlId in keyof TValue]: AbstractControlState<TValue[controlId]> };
-export interface FormGroupState<TValue extends object> extends AbstractControlState<TValue> {
+export class FormGroupState<TValue extends object> extends AbstractControlState<TValue> {
   readonly controls: FormGroupControls<TValue>;
 }
 
