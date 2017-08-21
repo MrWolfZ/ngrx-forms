@@ -17,7 +17,7 @@ import {
   MarkAsSubmittedAction,
   MarkAsUnsubmittedAction,
 } from './actions';
-import { formControlReducer, formGroupReducer } from './reducer';
+import { formControlReducerInternal, formGroupReducerInternal } from './reducer';
 
 describe('ngrx-forms:', () => {
   describe('form control reducer', () => {
@@ -25,7 +25,7 @@ describe('ngrx-forms:', () => {
     const INITIAL_FORM_CONTROL_VALUE = '';
     const INITIAL_STATE = createFormControlState<string>(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
 
-    const reducer: ActionReducer<FormControlState<string>> = formControlReducer;
+    const reducer: ActionReducer<FormControlState<string>> = formControlReducerInternal;
 
     it('should skip any action with non-equal control ID', () => {
       const resultState = reducer(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID + 'A', 'A'));
@@ -55,7 +55,7 @@ describe('ngrx-forms:', () => {
       it('should throw for date values', () => {
         const value = new Date(1970, 0, 1);
         const state = createFormControlState<null>(FORM_CONTROL_ID, null);
-        const dateReducer: ActionReducer<FormControlState<null>> = formControlReducer;
+        const dateReducer: ActionReducer<FormControlState<null>> = formControlReducerInternal;
         expect(() => dateReducer(state, new SetValueAction(FORM_CONTROL_ID, value))).toThrowError();
       });
 
@@ -281,7 +281,7 @@ describe('ngrx-forms:', () => {
     const INITIAL_STATE = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
     const INITIAL_STATE_FULL = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE_FULL);
 
-    const reducer: ActionReducer<FormGroupState<FormGroupValue>> = formGroupReducer;
+    const reducer: ActionReducer<FormGroupState<FormGroupValue>> = formGroupReducerInternal;
 
     it('should skip any action with non-equal control ID', () => {
       const resultState = reducer(INITIAL_STATE, new SetValueAction('A' + FORM_CONTROL_ID, 'A'));

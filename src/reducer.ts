@@ -1,4 +1,4 @@
-import { ActionReducer, combineReducers } from '@ngrx/store';
+import { ActionReducer, Action } from '@ngrx/store';
 import { ValidationErrors } from '@angular/forms';
 
 import {
@@ -31,6 +31,13 @@ function isEmpty(obj: object) {
 }
 
 export function formControlReducer<TValue extends SupportedNgrxFormControlValueTypes>(
+  state: FormControlState<TValue>,
+  action: Action,
+) {
+  return formControlReducerInternal(state, action as any);
+}
+
+export function formControlReducerInternal<TValue extends SupportedNgrxFormControlValueTypes>(
   state: FormControlState<TValue>,
   action: Actions<TValue>,
 ): FormControlState<TValue> {
@@ -213,7 +220,6 @@ export function formControlReducer<TValue extends SupportedNgrxFormControlValueT
 }
 
 type Controls<TValue> = {[controlId in keyof TValue]: AbstractControlState<TValue[controlId]> };
-type ControlsReducer<TValue> = {[controlId in keyof TValue]: ActionReducer<AbstractControlState<TValue[controlId]>> };
 
 function getFormGroupValue<TValue extends { [key: string]: any }>(controls: Controls<TValue>, originalValue: TValue): TValue {
   let hasChanged = false;
@@ -261,10 +267,10 @@ function callChildReducer(
   action: Actions<any>,
 ): AbstractControlState<any> {
   if (state.hasOwnProperty('controls')) {
-    return formGroupReducer(state as FormGroupState<any>, action);
+    return formGroupReducerInternal(state as FormGroupState<any>, action);
   }
 
-  return formControlReducer(state as FormControlState<any>, action);
+  return formControlReducerInternal(state as FormControlState<any>, action);
 }
 
 function callChildReducers<TValue extends { [key: string]: any }>(controls: Controls<TValue>, action: Actions<TValue>): Controls<TValue> {
@@ -503,9 +509,13 @@ function groupReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, ac
   }
 }
 
-export function formGroupReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, action: Actions<TValue>) {
+export function formGroupReducerInternal<TValue extends KeyValue>(state: FormGroupState<TValue>, action: Actions<TValue>) {
   state = groupReducer(state, action);
   state = childReducer(state, action);
 
   return state;
+}
+
+export function formGroupReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, action: Action) {
+  return formGroupReducerInternal(state, action as any);
 }
