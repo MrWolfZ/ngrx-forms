@@ -61,12 +61,20 @@ export function createFormControlReducer<TValue extends SupportedNgrxFormControl
         };
 
       case SetErrorsAction.TYPE:
+        if (!action.payload.errors) {
+          throw new Error(`Control errors must be an object; got ${action.payload.errors}`); // `;
+        }
+
         if (state.errors === action.payload.errors) {
           return state;
         }
 
-        if (!action.payload.errors) {
-          throw new Error(`Control errors must be an object; got ${action.payload.errors}`); // `;
+        if (isEmpty(state.errors) && isEmpty(action.payload.errors)) {
+          return state;
+        }
+
+        if (state.isDisabled) {
+          return state;
         }
 
         const isValid = isEmpty(action.payload.errors);
@@ -350,17 +358,26 @@ export function createFormGroupReducer<TValue extends { [key: string]: any }>(
           controls,
         };
       }
-      case SetErrorsAction.TYPE:
-        if (state.errors === action.payload.errors) {
-          return state;
-        }
 
+      case SetErrorsAction.TYPE:
         if (!action.payload.errors) {
           throw new Error(`Control errors must be an object; got ${JSON.stringify(action.payload.errors)}`); // `;
         }
 
         if (Object.keys(action.payload.errors).some(key => key.startsWith('_'))) {
           throw new Error(`Control errors must not use underscore as a prefix; got ${JSON.stringify(action.payload.errors)}`); // `;
+        }
+
+        if (state.errors === action.payload.errors) {
+          return state;
+        }
+
+        if (isEmpty(state.errors) && isEmpty(action.payload.errors)) {
+          return state;
+        }
+
+        if (state.isDisabled) {
+          return state;
         }
 
         const childErrors =

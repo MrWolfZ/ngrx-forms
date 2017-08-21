@@ -58,8 +58,8 @@ describe('ngrx-forms:', () => {
 
       it('should throw for date values', () => {
         const value = new Date(1970, 0, 1);
-        const state = createFormControlState<Date | null>(FORM_CONTROL_ID, null);
-        const dateReducer = createFormControlReducer<Date | null>(FORM_CONTROL_ID, null);
+        const state = createFormControlState<null>(FORM_CONTROL_ID, null);
+        const dateReducer = createFormControlReducer<null>(FORM_CONTROL_ID, null);
         expect(() => dateReducer(state, new SetValueAction(FORM_CONTROL_ID, value))).toThrowError();
       });
 
@@ -93,6 +93,18 @@ describe('ngrx-forms:', () => {
         const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors };
         const resultState = reducer(state, new SetErrorsAction(FORM_CONTROL_ID, errors));
         expect(resultState).toBe(state);
+      });
+
+      it('should not update state if control is disabled', () => {
+        const errors = { required: true };
+        const state = { ...INITIAL_STATE, isEnabled: false, isDisabled: true };
+        const resultState = reducer(state, new SetErrorsAction(FORM_CONTROL_ID, errors));
+        expect(resultState).toBe(state);
+      });
+
+      it('should not update state if errors are equal and empty', () => {
+        const resultState = reducer(INITIAL_STATE, new SetErrorsAction(FORM_CONTROL_ID, {}));
+        expect(resultState).toBe(INITIAL_STATE);
       });
     });
 
@@ -444,6 +456,18 @@ describe('ngrx-forms:', () => {
         const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors };
         const resultState = reducer(state, new SetErrorsAction(FORM_CONTROL_ID, errors));
         expect(resultState).toBe(state);
+      });
+
+      it('should not update state if control is disabled', () => {
+        const errors = { required: true };
+        const state = { ...INITIAL_STATE, isEnabled: false, isDisabled: true };
+        const resultState = reducer(state, new SetErrorsAction(FORM_CONTROL_ID, errors));
+        expect(resultState).toBe(state);
+      });
+
+      it('should not update state if errors are equal and empty', () => {
+        const resultState = reducer(INITIAL_STATE, new SetErrorsAction(FORM_CONTROL_ID, {}));
+        expect(resultState).toBe(INITIAL_STATE);
       });
 
       it('should aggregate child errors', () => {
