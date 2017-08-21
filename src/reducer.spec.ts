@@ -17,7 +17,7 @@ import {
   MarkAsSubmittedAction,
   MarkAsUnsubmittedAction,
 } from './actions';
-import { createFormControlReducer, createFormGroupReducer } from './reducer';
+import { formControlReducer, formGroupReducer } from './reducer';
 
 describe('ngrx-forms:', () => {
   describe('form control reducer', () => {
@@ -25,11 +25,7 @@ describe('ngrx-forms:', () => {
     const INITIAL_FORM_CONTROL_VALUE = '';
     const INITIAL_STATE = createFormControlState<string>(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
 
-    let reducer: ActionReducer<FormControlState<string>>;
-
-    beforeEach(() => {
-      reducer = createFormControlReducer<string>(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
-    });
+    const reducer: ActionReducer<FormControlState<string>> = formControlReducer;
 
     it('should skip any action with non-equal control ID', () => {
       const resultState = reducer(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID + 'A', 'A'));
@@ -59,7 +55,7 @@ describe('ngrx-forms:', () => {
       it('should throw for date values', () => {
         const value = new Date(1970, 0, 1);
         const state = createFormControlState<null>(FORM_CONTROL_ID, null);
-        const dateReducer = createFormControlReducer<null>(FORM_CONTROL_ID, null);
+        const dateReducer: ActionReducer<FormControlState<null>> = formControlReducer;
         expect(() => dateReducer(state, new SetValueAction(FORM_CONTROL_ID, value))).toThrowError();
       });
 
@@ -285,13 +281,7 @@ describe('ngrx-forms:', () => {
     const INITIAL_STATE = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
     const INITIAL_STATE_FULL = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE_FULL);
 
-    let reducer: ActionReducer<FormGroupState<FormGroupValue>>;
-    let reducerFull: ActionReducer<FormGroupState<FormGroupValue>>;
-
-    beforeEach(() => {
-      reducer = createFormGroupReducer(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
-      reducerFull = createFormGroupReducer(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE_FULL);
-    });
+    const reducer: ActionReducer<FormGroupState<FormGroupValue>> = formGroupReducer;
 
     it('should skip any action with non-equal control ID', () => {
       const resultState = reducer(INITIAL_STATE, new SetValueAction('A' + FORM_CONTROL_ID, 'A'));
@@ -321,16 +311,19 @@ describe('ngrx-forms:', () => {
       expect(resultState.controls.inner.value).toBe(value);
     });
 
+    it('should not be stateful', () => {
+      const state = reducer(INITIAL_STATE_FULL, new SetValueAction(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE));
+      expect(() => reducer(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_ID))).not.toThrowError();
+    });
+
     it('should throw if trying to set a date as value', () => {
-      const state = createFormGroupState(FORM_CONTROL_ID, {});
-      const reducerDate = createFormGroupReducer(FORM_CONTROL_ID, {});
-      expect(() => reducerDate(state, new SetValueAction(FORM_CONTROL_ID, new Date()))).toThrowError();
+      const state = createFormGroupState<any>(FORM_CONTROL_ID, {});
+      expect(() => reducer(state, new SetValueAction(FORM_CONTROL_ID, new Date()))).toThrowError();
     });
 
     it('should throw if trying to set a date as a child value', () => {
-      const state = createFormGroupState(FORM_CONTROL_ID, { inner: null });
-      const reducerDate = createFormGroupReducer(FORM_CONTROL_ID, { inner: null });
-      expect(() => reducerDate(state, new SetValueAction(FORM_CONTROL_INNER_ID, new Date()))).toThrowError();
+      const state = createFormGroupState<any>(FORM_CONTROL_ID, { inner: null });
+      expect(() => reducer(state, new SetValueAction(FORM_CONTROL_INNER_ID, new Date()))).toThrowError();
     });
 
     describe(SetValueAction.name, () => {
@@ -569,13 +562,13 @@ describe('ngrx-forms:', () => {
       });
 
       it('should mark direct group children as dirty', () => {
-        const resultState = reducerFull(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_ID));
+        const resultState = reducer(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_ID));
         expect(resultState.controls.inner3.isDirty).toEqual(true);
         expect(resultState.controls.inner3.isPristine).toEqual(false);
       });
 
       it('should mark nested children as dirty', () => {
-        const resultState = reducerFull(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_ID));
+        const resultState = reducer(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_ID));
         expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isDirty).toBe(true);
         expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isPristine).toBe(false);
       });
@@ -587,13 +580,13 @@ describe('ngrx-forms:', () => {
       });
 
       it('should mark state as dirty if direct group child is marked as dirty', () => {
-        const resultState = reducerFull(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_INNER3_ID));
+        const resultState = reducer(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_INNER3_ID));
         expect(resultState.isDirty).toEqual(true);
         expect(resultState.isPristine).toEqual(false);
       });
 
       it('should mark state as dirty if nested child is marked as dirty', () => {
-        const resultState = reducerFull(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_INNER4_ID));
+        const resultState = reducer(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_INNER4_ID));
         expect(resultState.isDirty).toEqual(true);
         expect(resultState.isPristine).toEqual(false);
       });
@@ -645,7 +638,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new MarkAsPristineAction(FORM_CONTROL_ID));
+        const resultState = reducer(state, new MarkAsPristineAction(FORM_CONTROL_ID));
         expect(resultState.controls.inner3.isDirty).toEqual(false);
         expect(resultState.controls.inner3.isPristine).toEqual(true);
       });
@@ -673,7 +666,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new MarkAsPristineAction(FORM_CONTROL_ID));
+        const resultState = reducer(state, new MarkAsPristineAction(FORM_CONTROL_ID));
         expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isDirty).toBe(false);
         expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isPristine).toBe(true);
       });
@@ -716,7 +709,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new MarkAsPristineAction(FORM_CONTROL_INNER_ID));
+        const resultState = reducer(state, new MarkAsPristineAction(FORM_CONTROL_INNER_ID));
         expect(resultState.isDirty).toEqual(true);
         expect(resultState.isPristine).toEqual(false);
       });
@@ -735,7 +728,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(INITIAL_STATE_FULL, new MarkAsPristineAction(FORM_CONTROL_INNER3_ID));
+        const resultState = reducer(INITIAL_STATE_FULL, new MarkAsPristineAction(FORM_CONTROL_INNER3_ID));
         expect(resultState.isDirty).toEqual(false);
         expect(resultState.isPristine).toEqual(true);
       });
@@ -763,7 +756,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new MarkAsPristineAction(FORM_CONTROL_INNER4_ID));
+        const resultState = reducer(state, new MarkAsPristineAction(FORM_CONTROL_INNER4_ID));
         expect(resultState.isDirty).toEqual(false);
         expect(resultState.isPristine).toEqual(true);
       });
@@ -820,7 +813,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new EnableAction(FORM_CONTROL_ID));
+        const resultState = reducer(state, new EnableAction(FORM_CONTROL_ID));
         expect(resultState.controls.inner3.isEnabled).toBe(true);
         expect(resultState.controls.inner3.isDisabled).toBe(false);
       });
@@ -853,7 +846,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new EnableAction(FORM_CONTROL_ID));
+        const resultState = reducer(state, new EnableAction(FORM_CONTROL_ID));
         expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isEnabled).toBe(true);
         expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isDisabled).toBe(false);
       });
@@ -896,7 +889,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new EnableAction(FORM_CONTROL_INNER3_ID));
+        const resultState = reducer(state, new EnableAction(FORM_CONTROL_INNER3_ID));
         expect(resultState.isEnabled).toBe(true);
         expect(resultState.isDisabled).toBe(false);
         expect(resultState.controls.inner.isEnabled).toBe(false);
@@ -931,7 +924,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new EnableAction(FORM_CONTROL_INNER4_ID));
+        const resultState = reducer(state, new EnableAction(FORM_CONTROL_INNER4_ID));
         expect(resultState.isEnabled).toBe(true);
         expect(resultState.isDisabled).toBe(false);
         expect(resultState.controls.inner.isEnabled).toBe(false);
@@ -968,13 +961,13 @@ describe('ngrx-forms:', () => {
       });
 
       it('should disable direct group children', () => {
-        const resultState = reducerFull(INITIAL_STATE_FULL, new DisableAction(FORM_CONTROL_ID));
+        const resultState = reducer(INITIAL_STATE_FULL, new DisableAction(FORM_CONTROL_ID));
         expect(resultState.controls.inner3.isEnabled).toBe(false);
         expect(resultState.controls.inner3.isDisabled).toBe(true);
       });
 
       it('should disable nested children', () => {
-        const resultState = reducerFull(INITIAL_STATE_FULL, new DisableAction(FORM_CONTROL_ID));
+        const resultState = reducer(INITIAL_STATE_FULL, new DisableAction(FORM_CONTROL_ID));
         expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isEnabled).toBe(false);
         expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isDisabled).toBe(true);
       });
@@ -986,7 +979,7 @@ describe('ngrx-forms:', () => {
       });
 
       it('should not disable if not all children are disabled when direct control child is disabled', () => {
-        const resultState = reducerFull(INITIAL_STATE_FULL, new DisableAction(FORM_CONTROL_INNER_ID));
+        const resultState = reducer(INITIAL_STATE_FULL, new DisableAction(FORM_CONTROL_INNER_ID));
         expect(resultState.isEnabled).toBe(true);
         expect(resultState.isDisabled).toBe(false);
       });
@@ -1008,7 +1001,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new DisableAction(FORM_CONTROL_INNER3_ID));
+        const resultState = reducer(state, new DisableAction(FORM_CONTROL_INNER3_ID));
         expect(resultState.isEnabled).toBe(false);
         expect(resultState.isDisabled).toBe(true);
       });
@@ -1031,13 +1024,13 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new DisableAction(FORM_CONTROL_INNER4_ID));
+        const resultState = reducer(state, new DisableAction(FORM_CONTROL_INNER4_ID));
         expect(resultState.isEnabled).toBe(false);
         expect(resultState.isDisabled).toBe(true);
       });
 
       it('should not disable if not all children are disabled when nested child is disabled', () => {
-        const resultState = reducerFull(INITIAL_STATE_FULL, new DisableAction(FORM_CONTROL_INNER4_ID));
+        const resultState = reducer(INITIAL_STATE_FULL, new DisableAction(FORM_CONTROL_INNER4_ID));
         expect(resultState.isEnabled).toBe(true);
         expect(resultState.isDisabled).toBe(false);
       });
@@ -1063,13 +1056,13 @@ describe('ngrx-forms:', () => {
       });
 
       it('should mark direct group children as touched', () => {
-        const resultState = reducerFull(INITIAL_STATE_FULL, new MarkAsTouchedAction(FORM_CONTROL_ID));
+        const resultState = reducer(INITIAL_STATE_FULL, new MarkAsTouchedAction(FORM_CONTROL_ID));
         expect(resultState.controls.inner3.isTouched).toEqual(true);
         expect(resultState.controls.inner3.isUntouched).toEqual(false);
       });
 
       it('should mark nested children as touched', () => {
-        const resultState = reducerFull(INITIAL_STATE_FULL, new MarkAsTouchedAction(FORM_CONTROL_ID));
+        const resultState = reducer(INITIAL_STATE_FULL, new MarkAsTouchedAction(FORM_CONTROL_ID));
         expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isTouched).toBe(true);
         expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isUntouched).toBe(false);
       });
@@ -1081,13 +1074,13 @@ describe('ngrx-forms:', () => {
       });
 
       it('should mark state as touched if direct group child is marked as touched', () => {
-        const resultState = reducerFull(INITIAL_STATE_FULL, new MarkAsTouchedAction(FORM_CONTROL_INNER3_ID));
+        const resultState = reducer(INITIAL_STATE_FULL, new MarkAsTouchedAction(FORM_CONTROL_INNER3_ID));
         expect(resultState.isTouched).toEqual(true);
         expect(resultState.isUntouched).toEqual(false);
       });
 
       it('should mark state as touched if nested child is marked as touched', () => {
-        const resultState = reducerFull(INITIAL_STATE_FULL, new MarkAsTouchedAction(FORM_CONTROL_INNER4_ID));
+        const resultState = reducer(INITIAL_STATE_FULL, new MarkAsTouchedAction(FORM_CONTROL_INNER4_ID));
         expect(resultState.isTouched).toEqual(true);
         expect(resultState.isUntouched).toEqual(false);
       });
@@ -1139,7 +1132,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new MarkAsUntouchedAction(FORM_CONTROL_ID));
+        const resultState = reducer(state, new MarkAsUntouchedAction(FORM_CONTROL_ID));
         expect(resultState.controls.inner3.isTouched).toEqual(false);
         expect(resultState.controls.inner3.isUntouched).toEqual(true);
       });
@@ -1167,7 +1160,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new MarkAsUntouchedAction(FORM_CONTROL_ID));
+        const resultState = reducer(state, new MarkAsUntouchedAction(FORM_CONTROL_ID));
         expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isTouched).toBe(false);
         expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isUntouched).toBe(true);
       });
@@ -1219,7 +1212,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new MarkAsUntouchedAction(FORM_CONTROL_INNER_ID));
+        const resultState = reducer(state, new MarkAsUntouchedAction(FORM_CONTROL_INNER_ID));
         expect(resultState.isTouched).toEqual(true);
         expect(resultState.isUntouched).toEqual(false);
       });
@@ -1238,7 +1231,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new MarkAsUntouchedAction(FORM_CONTROL_INNER3_ID));
+        const resultState = reducer(state, new MarkAsUntouchedAction(FORM_CONTROL_INNER3_ID));
         expect(resultState.isTouched).toEqual(false);
         expect(resultState.isUntouched).toEqual(true);
       });
@@ -1266,7 +1259,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new MarkAsUntouchedAction(FORM_CONTROL_INNER4_ID));
+        const resultState = reducer(state, new MarkAsUntouchedAction(FORM_CONTROL_INNER4_ID));
         expect(resultState.isTouched).toEqual(false);
         expect(resultState.isUntouched).toEqual(true);
       });
@@ -1292,13 +1285,13 @@ describe('ngrx-forms:', () => {
       });
 
       it('should mark direct group children as submitted', () => {
-        const resultState = reducerFull(INITIAL_STATE_FULL, new MarkAsSubmittedAction(FORM_CONTROL_ID));
+        const resultState = reducer(INITIAL_STATE_FULL, new MarkAsSubmittedAction(FORM_CONTROL_ID));
         expect(resultState.controls.inner3.isSubmitted).toEqual(true);
         expect(resultState.controls.inner3.isUnsubmitted).toEqual(false);
       });
 
       it('should mark nested children as submitted', () => {
-        const resultState = reducerFull(INITIAL_STATE_FULL, new MarkAsSubmittedAction(FORM_CONTROL_ID));
+        const resultState = reducer(INITIAL_STATE_FULL, new MarkAsSubmittedAction(FORM_CONTROL_ID));
         expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isSubmitted).toBe(true);
         expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isUnsubmitted).toBe(false);
       });
@@ -1310,13 +1303,13 @@ describe('ngrx-forms:', () => {
       });
 
       it('should mark state as submitted if direct group child is marked as submitted', () => {
-        const resultState = reducerFull(INITIAL_STATE_FULL, new MarkAsSubmittedAction(FORM_CONTROL_INNER3_ID));
+        const resultState = reducer(INITIAL_STATE_FULL, new MarkAsSubmittedAction(FORM_CONTROL_INNER3_ID));
         expect(resultState.isSubmitted).toEqual(true);
         expect(resultState.isUnsubmitted).toEqual(false);
       });
 
       it('should mark state as submitted if nested child is marked as submitted', () => {
-        const resultState = reducerFull(INITIAL_STATE_FULL, new MarkAsSubmittedAction(FORM_CONTROL_INNER4_ID));
+        const resultState = reducer(INITIAL_STATE_FULL, new MarkAsSubmittedAction(FORM_CONTROL_INNER4_ID));
         expect(resultState.isSubmitted).toEqual(true);
         expect(resultState.isUnsubmitted).toEqual(false);
       });
@@ -1368,7 +1361,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new MarkAsUnsubmittedAction(FORM_CONTROL_ID));
+        const resultState = reducer(state, new MarkAsUnsubmittedAction(FORM_CONTROL_ID));
         expect(resultState.controls.inner3.isSubmitted).toEqual(false);
         expect(resultState.controls.inner3.isUnsubmitted).toEqual(true);
       });
@@ -1396,7 +1389,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new MarkAsUnsubmittedAction(FORM_CONTROL_ID));
+        const resultState = reducer(state, new MarkAsUnsubmittedAction(FORM_CONTROL_ID));
         expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isSubmitted).toBe(false);
         expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isUnsubmitted).toBe(true);
       });
@@ -1448,7 +1441,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new MarkAsUnsubmittedAction(FORM_CONTROL_INNER_ID));
+        const resultState = reducer(state, new MarkAsUnsubmittedAction(FORM_CONTROL_INNER_ID));
         expect(resultState.isSubmitted).toEqual(true);
         expect(resultState.isUnsubmitted).toEqual(false);
       });
@@ -1467,7 +1460,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new MarkAsUnsubmittedAction(FORM_CONTROL_INNER3_ID));
+        const resultState = reducer(state, new MarkAsUnsubmittedAction(FORM_CONTROL_INNER3_ID));
         expect(resultState.isSubmitted).toEqual(false);
         expect(resultState.isUnsubmitted).toEqual(true);
       });
@@ -1495,7 +1488,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducerFull(state, new MarkAsUnsubmittedAction(FORM_CONTROL_INNER4_ID));
+        const resultState = reducer(state, new MarkAsUnsubmittedAction(FORM_CONTROL_INNER4_ID));
         expect(resultState.isSubmitted).toEqual(false);
         expect(resultState.isUnsubmitted).toEqual(true);
       });
