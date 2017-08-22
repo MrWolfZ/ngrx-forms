@@ -1,24 +1,40 @@
-import { ActionReducer } from '@ngrx/store';
-import { FormGroupState, formGroupReducer, createFormGroupState, SetErrorsAction } from '@ngrx/forms';
+import { Action } from '@ngrx/store';
+import { AbstractControlState, FormGroupState, formGroupReducer, createFormGroupState, SetErrorsAction } from '@ngrx/forms';
 
 import { AppState, initialState, ITEM_FORM_ID } from './app.state';
 import { Actions, AddTodoItemAction } from './app.actions';
 import { ItemFormValue, textValidator, priorityValidator, duedateValidator, initialItemFormValue } from './item-form/item-form.state';
 
-function validateItemForm(state: FormGroupState<ItemFormValue>) {
-  const meta = () => state.controls.meta as FormGroupState<any>;
-  state = formGroupReducer(state, new SetErrorsAction(state.controls.text.id, textValidator(state.value.text)));
-  state = formGroupReducer(state, new SetErrorsAction(meta().controls.priority.id, priorityValidator(state.value.meta.priority)));
-  state = formGroupReducer(state, new SetErrorsAction(meta().controls.duedate.id, duedateValidator(state.value.meta.duedate)));
-  return state;
+function formGroupValidatorReducer<TValue extends object, TValidateValue = TValue>(
+  validatorFn: (value: TValidateValue) => any,
+  controlSelector: (state: FormGroupState<TValue>) => AbstractControlState<TValidateValue> = state => state as any,
+) {
+  return (state: FormGroupState<TValue>, action: Action) => {
+    const newState = formGroupReducer(state, action);
+    const validateState = controlSelector(state);
+    const newValidateState = controlSelector(newState);
+    return formGroupReducer(newState, new SetErrorsAction(newValidateState.id, validatorFn(newValidateState.value)));
+  };
 }
 
-const initialItemFormState = validateItemForm(initialState.itemForm);
+function composeReducers<TState>(...reducers: ((state: TState, action: Action) => TState)[]) {
+  return (state: TState, action: Action) => {
+    return reducers.reduce((agg, reducer) => reducer(agg, action), state);
+  };
+}
+
+const meta = (state: FormGroupState<ItemFormValue>) => state.controls.meta as FormGroupState<any>;
+const textValidatorReducer = formGroupValidatorReducer<ItemFormValue, string>(textValidator, s => s.controls.text);
+const priorityValidatorReducer = formGroupValidatorReducer<ItemFormValue, number>(priorityValidator, s => meta(s).controls.priority);
+const duedateValidatorReducer = formGroupValidatorReducer<ItemFormValue, string>(duedateValidator, s => meta(s).controls.duedate);
+const itemFormValidatorReducer = composeReducers(textValidatorReducer, priorityValidatorReducer, duedateValidatorReducer);
+
+const initialItemFormState = itemFormValidatorReducer(initialState.itemForm, { type: '' });
 
 export function appReducer(state = { ...initialState, itemForm: initialItemFormState }, action: Actions): AppState {
-  const itemForm = formGroupReducer(state.itemForm, action);
+  const itemForm = itemFormValidatorReducer(state.itemForm, action);
   if (itemForm !== state.itemForm) {
-    state = { ...state, itemForm: validateItemForm(itemForm) };
+    state = { ...state, itemForm };
   }
 
   switch (action.type) {
