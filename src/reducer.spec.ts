@@ -276,10 +276,9 @@ describe('ngrx-forms:', () => {
 
   describe('form group reducer', () => {
     const FORM_CONTROL_ID = 'test ID';
-    const FORM_CONTROL_INNER_ID = 'test ID.inner';
-    const FORM_CONTROL_INNER2_ID = 'test ID.inner2';
-    const FORM_CONTROL_INNER3_ID = 'test ID.inner3';
-    const FORM_CONTROL_INNER4_ID = 'test ID.inner3.inner4';
+    const FORM_CONTROL_INNER_ID = FORM_CONTROL_ID + '.inner';
+    const FORM_CONTROL_INNER3_ID = FORM_CONTROL_ID + '.inner3';
+    const FORM_CONTROL_INNER4_ID = FORM_CONTROL_ID + '.inner3.inner4';
     interface FormGroupValue { inner: string; inner2?: string; inner3?: { inner4: string }; }
     const INITIAL_FORM_CONTROL_VALUE: FormGroupValue = { inner: '' };
     const INITIAL_FORM_CONTROL_VALUE_FULL: FormGroupValue = { inner: '', inner2: '', inner3: { inner4: '' } };
@@ -733,7 +732,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducer(INITIAL_STATE_FULL, new MarkAsPristineAction(FORM_CONTROL_INNER3_ID));
+        const resultState = reducer(state, new MarkAsPristineAction(FORM_CONTROL_INNER3_ID));
         expect(resultState.isDirty).toEqual(false);
         expect(resultState.isPristine).toEqual(true);
       });
@@ -1183,7 +1182,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducer(INITIAL_STATE, new MarkAsUntouchedAction(FORM_CONTROL_INNER_ID));
+        const resultState = reducer(state, new MarkAsUntouchedAction(FORM_CONTROL_INNER_ID));
         expect(resultState.isTouched).toEqual(false);
         expect(resultState.isUntouched).toEqual(true);
       });
@@ -1412,7 +1411,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducer(INITIAL_STATE, new MarkAsUnsubmittedAction(FORM_CONTROL_INNER_ID));
+        const resultState = reducer(state, new MarkAsUnsubmittedAction(FORM_CONTROL_INNER_ID));
         expect(resultState.isSubmitted).toEqual(false);
         expect(resultState.isUnsubmitted).toEqual(true);
       });
