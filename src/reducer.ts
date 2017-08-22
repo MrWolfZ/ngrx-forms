@@ -1,4 +1,4 @@
-import { ActionReducer, Action } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { ValidationErrors } from '@angular/forms';
 
 import {

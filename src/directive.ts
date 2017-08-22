@@ -1,7 +1,6 @@
 import {
   Directive,
   ElementRef,
-  Renderer2,
   Input,
   Inject,
   HostListener,
@@ -9,13 +8,11 @@ import {
   OnInit,
   OnDestroy,
   Self,
-  forwardRef,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 import {
   NG_VALUE_ACCESSOR,
   ControlValueAccessor,
-  DefaultValueAccessor,
 } from '@angular/forms';
 import { ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';

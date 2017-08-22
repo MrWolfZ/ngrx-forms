@@ -1,8 +1,13 @@
 import { ActionReducer } from '@ngrx/store';
 
-import { FormControlState, createFormControlState, FormGroupState, createFormGroupState } from './state';
 import {
-  Actions,
+  // tslint:disable-next-line:no-unused-variable FormControlState is used as a Generic
+  FormControlState,
+  createFormControlState,
+  FormGroupState,
+  createFormGroupState
+} from './state';
+import {
   SetValueAction,
   SetErrorsAction,
   MarkAsDirtyAction,
@@ -312,7 +317,7 @@ describe('ngrx-forms:', () => {
     });
 
     it('should not be stateful', () => {
-      const state = reducer(INITIAL_STATE_FULL, new SetValueAction(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE));
+      reducer(INITIAL_STATE_FULL, new SetValueAction(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE));
       expect(() => reducer(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_ID))).not.toThrowError();
     });
 
@@ -1007,7 +1012,6 @@ describe('ngrx-forms:', () => {
       });
 
       it('should disable if all children are disabled when nested child is disabled', () => {
-        const inner3State = INITIAL_STATE_FULL.controls.inner3 as FormGroupState<any>;
         const state = {
           ...INITIAL_STATE_FULL,
           controls: {
