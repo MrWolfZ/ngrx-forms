@@ -32,9 +32,9 @@ function isEmpty(obj: object) {
 
 export function formControlReducer<TValue extends SupportedNgrxFormControlValueTypes>(
   state: FormControlState<TValue>,
-  action: Action,
+  action: Actions<TValue>,
 ) {
-  return formControlReducerInternal(state, action as any);
+  return formControlReducerInternal(state, action);
 }
 
 export function formControlReducerInternal<TValue extends SupportedNgrxFormControlValueTypes>(
@@ -266,11 +266,15 @@ function callChildReducer(
   state: AbstractControlState<any>,
   action: Actions<any>,
 ): AbstractControlState<any> {
-  if (state.hasOwnProperty('controls')) {
+  if (isGroupState(state)) {
     return formGroupReducerInternal(state as FormGroupState<any>, action);
   }
 
   return formControlReducerInternal(state as FormControlState<any>, action);
+}
+
+function isGroupState(state: AbstractControlState<any>): boolean {
+  return state.hasOwnProperty('controls');
 }
 
 function callChildReducers<TValue extends { [key: string]: any }>(controls: Controls<TValue>, action: Actions<TValue>): Controls<TValue> {
