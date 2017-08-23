@@ -1,18 +1,24 @@
 # ngrx-forms
 
-Proper integration of forms in Angular 4 applications using Ngrx.
+Proper integration of forms in Angular 4 applications using ngrx.
 
-You can see the [example app](http://ngrx-forms-example-app.azurewebsites.net/) online.
+Disclaimer: This library is not affiliated with the official ngrx library. I have created it mainly for my own use in one of my projects, but I thought others could profit as well.
 
-Please note that this library is not yet available via npm. If you want to beta test it you can download the `ngrx-forms-[version].tgz` file from the example app and use that to install the library to your project via:
+Please note that this library is still very much work-in-progress and therefore there are many changes still being done. The library is also not yet available via npm. If you want to beta test it you can download the `ngrx-forms-[version].tgz` file from the example app and use that to install the library to your project via:
 
 ```Shell
 npm install [path]ngrx-forms-[version].tgz --save
 ```
 
-Until proper documentation exists I recommend having a look at the example app to see how the library can be used.
+You can see the [example app](http://ngrx-forms-example-app.azurewebsites.net/) online.
 
-Get the [Changelog](https://github.com/MrWolfZ/ngrx-forms/blob/master/CHANGELOG.md).
+Until proper documentation exists I recommend having a look at the example app code to see how the library can be used.
+
+### Open Points
+
+- more ergenomic helper functions to modify form states (e.g. to disable, enable, update values etc.), especially for deeply nested states
+- validation infrastructure (i.e. sync and async validators incl. validation status; although both are already achievable via reducer or effects)
+- directive cleanup and tests (e.g. making certain status tracking like focus optional, having proper value conversion etc.)
 
 ## Contents
 * [1 Testing](#1)
