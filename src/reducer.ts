@@ -32,9 +32,9 @@ function isEmpty(obj: object) {
 
 export function formControlReducer<TValue extends SupportedNgrxFormControlValueTypes>(
   state: FormControlState<TValue>,
-  action: Actions<TValue>,
+  action: Action,
 ) {
-  return formControlReducerInternal(state, action);
+  return formControlReducerInternal(state, action as any);
 }
 
 export function formControlReducerInternal<TValue extends SupportedNgrxFormControlValueTypes>(
