@@ -262,6 +262,10 @@ function createChildState(id: string, childValue: any): AbstractControlState<any
   return createFormControlState(id, childValue);
 }
 
+function isGroupState(state: AbstractControlState<any>): boolean {
+  return state.hasOwnProperty('controls');
+}
+
 function callChildReducer(
   state: AbstractControlState<any>,
   action: Actions<any>,
@@ -271,10 +275,6 @@ function callChildReducer(
   }
 
   return formControlReducerInternal(state as FormControlState<any>, action);
-}
-
-function isGroupState(state: AbstractControlState<any>): boolean {
-  return state.hasOwnProperty('controls');
 }
 
 function callChildReducers<TValue extends { [key: string]: any }>(controls: Controls<TValue>, action: Actions<TValue>): Controls<TValue> {
