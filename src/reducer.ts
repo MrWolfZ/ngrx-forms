@@ -1,4 +1,4 @@
-import { ActionReducer, Action } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { ValidationErrors } from '@angular/forms';
 
 import {
@@ -262,11 +262,15 @@ function createChildState(id: string, childValue: any): AbstractControlState<any
   return createFormControlState(id, childValue);
 }
 
+function isGroupState(state: AbstractControlState<any>): boolean {
+  return state.hasOwnProperty('controls');
+}
+
 function callChildReducer(
   state: AbstractControlState<any>,
   action: Actions<any>,
 ): AbstractControlState<any> {
-  if (state.hasOwnProperty('controls')) {
+  if (isGroupState(state)) {
     return formGroupReducerInternal(state as FormGroupState<any>, action);
   }
 

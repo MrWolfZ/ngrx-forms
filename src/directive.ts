@@ -1,7 +1,6 @@
 import {
   Directive,
   ElementRef,
-  Renderer2,
   Input,
   Inject,
   HostListener,
@@ -9,13 +8,11 @@ import {
   OnInit,
   OnDestroy,
   Self,
-  forwardRef,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 import {
   NG_VALUE_ACCESSOR,
   ControlValueAccessor,
-  DefaultValueAccessor,
 } from '@angular/forms';
 import { ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -88,7 +85,6 @@ export class NgrxFormControlDirective<TValue extends SupportedNgrxFormControlVal
       this.state$
         .map(s => s.value)
         .map(this.convertModelValue)
-        .distinctUntilChanged()
         .subscribe(value => this.valueAccessor.writeValue(value))
     );
 
@@ -96,7 +92,6 @@ export class NgrxFormControlDirective<TValue extends SupportedNgrxFormControlVal
       this.subscriptions.push(
         this.state$
           .map(s => s.isDisabled)
-          .distinctUntilChanged()
           .subscribe(isDisabled => this.valueAccessor.setDisabledState!(isDisabled))
       );
     }

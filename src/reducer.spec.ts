@@ -1,8 +1,13 @@
 import { ActionReducer } from '@ngrx/store';
 
-import { FormControlState, createFormControlState, FormGroupState, createFormGroupState } from './state';
 import {
-  Actions,
+  // tslint:disable-next-line:no-unused-variable FormControlState is used as a Generic
+  FormControlState,
+  createFormControlState,
+  FormGroupState,
+  createFormGroupState
+} from './state';
+import {
   SetValueAction,
   SetErrorsAction,
   MarkAsDirtyAction,
@@ -271,10 +276,9 @@ describe('ngrx-forms:', () => {
 
   describe('form group reducer', () => {
     const FORM_CONTROL_ID = 'test ID';
-    const FORM_CONTROL_INNER_ID = 'test ID.inner';
-    const FORM_CONTROL_INNER2_ID = 'test ID.inner2';
-    const FORM_CONTROL_INNER3_ID = 'test ID.inner3';
-    const FORM_CONTROL_INNER4_ID = 'test ID.inner3.inner4';
+    const FORM_CONTROL_INNER_ID = FORM_CONTROL_ID + '.inner';
+    const FORM_CONTROL_INNER3_ID = FORM_CONTROL_ID + '.inner3';
+    const FORM_CONTROL_INNER4_ID = FORM_CONTROL_ID + '.inner3.inner4';
     interface FormGroupValue { inner: string; inner2?: string; inner3?: { inner4: string }; }
     const INITIAL_FORM_CONTROL_VALUE: FormGroupValue = { inner: '' };
     const INITIAL_FORM_CONTROL_VALUE_FULL: FormGroupValue = { inner: '', inner2: '', inner3: { inner4: '' } };
@@ -312,7 +316,7 @@ describe('ngrx-forms:', () => {
     });
 
     it('should not be stateful', () => {
-      const state = reducer(INITIAL_STATE_FULL, new SetValueAction(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE));
+      reducer(INITIAL_STATE_FULL, new SetValueAction(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE));
       expect(() => reducer(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_ID))).not.toThrowError();
     });
 
@@ -728,7 +732,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducer(INITIAL_STATE_FULL, new MarkAsPristineAction(FORM_CONTROL_INNER3_ID));
+        const resultState = reducer(state, new MarkAsPristineAction(FORM_CONTROL_INNER3_ID));
         expect(resultState.isDirty).toEqual(false);
         expect(resultState.isPristine).toEqual(true);
       });
@@ -1007,7 +1011,6 @@ describe('ngrx-forms:', () => {
       });
 
       it('should disable if all children are disabled when nested child is disabled', () => {
-        const inner3State = INITIAL_STATE_FULL.controls.inner3 as FormGroupState<any>;
         const state = {
           ...INITIAL_STATE_FULL,
           controls: {
@@ -1179,7 +1182,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducer(INITIAL_STATE, new MarkAsUntouchedAction(FORM_CONTROL_INNER_ID));
+        const resultState = reducer(state, new MarkAsUntouchedAction(FORM_CONTROL_INNER_ID));
         expect(resultState.isTouched).toEqual(false);
         expect(resultState.isUntouched).toEqual(true);
       });
@@ -1408,7 +1411,7 @@ describe('ngrx-forms:', () => {
             },
           },
         };
-        const resultState = reducer(INITIAL_STATE, new MarkAsUnsubmittedAction(FORM_CONTROL_INNER_ID));
+        const resultState = reducer(state, new MarkAsUnsubmittedAction(FORM_CONTROL_INNER_ID));
         expect(resultState.isSubmitted).toEqual(false);
         expect(resultState.isUnsubmitted).toEqual(true);
       });
