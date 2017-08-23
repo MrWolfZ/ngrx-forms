@@ -10,7 +10,7 @@ Please note that this library is still very much work-in-progress and therefore 
 npm install [path]ngrx-forms-[version].tgz --save
 ```
 
-You can see the [example app](http://ngrx-forms-example-app.azurewebsites.net/) online.
+You can see the [example app](https://ngrx-forms-example-app.herokuapp.com/) online.
 
 Until proper documentation exists I recommend having a look at the example app code to see how the library can be used.
 
