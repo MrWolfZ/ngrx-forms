@@ -34,7 +34,7 @@ export class NgrxMdSelectValueAccessor implements ControlValueAccessor {
 
     // because the options are potentially updated AFTER the value (because of their order in the DOM),
     // setting the value has to be deferred, otherwise we might select an option which is not available yet.
-    Promise.resolve().then(() => this.writeValue(value));
+    Promise.resolve().then(() => this.mdSelect.writeValue(value));
   }
 
   registerOnChange(fn: any) {
