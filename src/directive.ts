@@ -85,7 +85,6 @@ export class NgrxFormControlDirective<TValue extends SupportedNgrxFormControlVal
       this.state$
         .map(s => s.value)
         .map(this.convertModelValue)
-        .distinctUntilChanged()
         .subscribe(value => this.valueAccessor.writeValue(value))
     );
 
@@ -93,7 +92,6 @@ export class NgrxFormControlDirective<TValue extends SupportedNgrxFormControlVal
       this.subscriptions.push(
         this.state$
           .map(s => s.isDisabled)
-          .distinctUntilChanged()
           .subscribe(isDisabled => this.valueAccessor.setDisabledState!(isDisabled))
       );
     }
