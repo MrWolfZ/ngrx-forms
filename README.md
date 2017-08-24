@@ -16,9 +16,11 @@ Until proper documentation exists I recommend having a look at the example app c
 
 ### Open Points
 
-- more ergenomic helper functions to modify form states (e.g. to disable, enable, update values etc.), especially for deeply nested states
+- more ergonomic helper functions to modify form states (e.g. to disable, enable, update values etc.), especially for deeply nested states
 - validation infrastructure (i.e. sync and async validators incl. validation status; although both are already achievable via reducer or effects)
-- directive cleanup and tests (e.g. making certain status tracking like focus optional, having proper value conversion etc.)
+- directive cleanup (e.g. making certain status tracking like focus optional, having proper value conversion etc.)
+- lots of tests
+- proper documentation
 
 ## Contents
 * [1 Testing](#1)
