@@ -30,13 +30,6 @@ function isEmpty(obj: object) {
   return Object.keys(obj).length === 0;
 }
 
-export function formControlReducer<TValue extends SupportedNgrxFormControlValueTypes>(
-  state: FormControlState<TValue>,
-  action: Action,
-) {
-  return formControlReducerInternal(state, action as any);
-}
-
 export function formControlReducerInternal<TValue extends SupportedNgrxFormControlValueTypes>(
   state: FormControlState<TValue>,
   action: Actions<TValue>,
@@ -219,10 +212,17 @@ export function formControlReducerInternal<TValue extends SupportedNgrxFormContr
   }
 }
 
+export function formControlReducer<TValue extends SupportedNgrxFormControlValueTypes>(
+  state: FormControlState<TValue>,
+  action: Action,
+) {
+  return formControlReducerInternal(state, action as any);
+}
+
 type Controls<TValue> = {[controlId in keyof TValue]: AbstractControlState<TValue[controlId]> };
 
 function getFormGroupValue<TValue extends { [key: string]: any }>(controls: Controls<TValue>, originalValue: TValue): TValue {
-  let hasChanged = false;
+  let hasChanged = Object.keys(originalValue).length !== Object.keys(controls).length;
   const newValue = Object.keys(controls).reduce((res, key) => {
     hasChanged = hasChanged || originalValue[key] !== controls[key].value;
     res[key] = controls[key].value;
@@ -250,6 +250,8 @@ function getFormGroupErrors<TValue extends object>(
     }
     return res;
   }, groupErrors as ValidationErrors);
+
+  hasChanged = hasChanged || Object.keys(originalErrors).length !== Object.keys(newErrors).length;
 
   return hasChanged ? newErrors : originalErrors;
 }
@@ -289,22 +291,17 @@ function callChildReducers<TValue extends { [key: string]: any }>(controls: Cont
 }
 
 export interface KeyValue { [key: string]: any; }
-function childReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, action: Actions<TValue>) {
-  const controls = callChildReducers(state.controls, action);
 
-  if (state.controls === controls) {
-    return state;
-  }
-
-  const value = getFormGroupValue<TValue>(controls, state.value);
-  const errors = getFormGroupErrors(controls, state.errors);
+function computeGroupState<TValue extends KeyValue>(id: string, controls: Controls<TValue>, value: TValue, errors: ValidationErrors) {
+  value = getFormGroupValue<TValue>(controls, value);
+  errors = getFormGroupErrors(controls, errors);
   const isValid = isEmpty(errors);
   const isDirty = Object.keys(controls).some(key => controls[key].isDirty);
   const isEnabled = Object.keys(controls).some(key => controls[key].isEnabled);
   const isTouched = Object.keys(controls).some(key => controls[key].isTouched);
   const isSubmitted = Object.keys(controls).some(key => controls[key].isSubmitted);
   return {
-    ...state,
+    id,
     value,
     errors,
     isValid,
@@ -319,6 +316,16 @@ function childReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, ac
     isUnsubmitted: !isSubmitted,
     controls,
   };
+}
+
+function childReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, action: Actions<TValue>) {
+  const controls = callChildReducers(state.controls, action);
+
+  if (state.controls === controls) {
+    return state;
+  }
+
+  return computeGroupState(state.id, controls, state.value, state.errors);
 }
 
 function groupReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, action: Actions<TValue>): FormGroupState<TValue> {
@@ -355,13 +362,7 @@ function groupReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, ac
           return c;
         }, {} as Controls<TValue>);
 
-      return {
-        ...state,
-        value,
-        isDirty: true,
-        isPristine: false,
-        controls,
-      };
+      return computeGroupState(state.id, controls, value, state.errors);
     }
 
     case SetErrorsAction.TYPE:
@@ -392,25 +393,19 @@ function groupReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, ac
 
       const newErrors = Object.assign(childErrors, action.payload.errors);
 
-      const isValid = isEmpty(newErrors);
-      return {
-        ...state,
-        isValid,
-        isInvalid: !isValid,
-        errors: newErrors,
-      };
+      return computeGroupState(state.id, state.controls, state.value, newErrors);
 
     case MarkAsDirtyAction.TYPE: {
       if (state.isDirty) {
         return state;
       }
 
-      return {
-        ...state,
-        isDirty: true,
-        isPristine: false,
-        controls: dispatchActionPerChild(controlId => new MarkAsDirtyAction(controlId)),
-      };
+      return computeGroupState(
+        state.id,
+        dispatchActionPerChild(controlId => new MarkAsDirtyAction(controlId)),
+        state.value,
+        state.errors,
+      );
     }
 
     case MarkAsPristineAction.TYPE: {
@@ -418,12 +413,12 @@ function groupReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, ac
         return state;
       }
 
-      return {
-        ...state,
-        isDirty: false,
-        isPristine: true,
-        controls: dispatchActionPerChild(controlId => new MarkAsPristineAction(controlId)),
-      };
+      return computeGroupState(
+        state.id,
+        dispatchActionPerChild(controlId => new MarkAsPristineAction(controlId)),
+        state.value,
+        state.errors,
+      );
     }
 
     case EnableAction.TYPE: {
@@ -431,12 +426,12 @@ function groupReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, ac
         return state;
       }
 
-      return {
-        ...state,
-        isEnabled: true,
-        isDisabled: false,
-        controls: dispatchActionPerChild(controlId => new EnableAction(controlId)),
-      };
+      return computeGroupState(
+        state.id,
+        dispatchActionPerChild(controlId => new EnableAction(controlId)),
+        state.value,
+        state.errors,
+      );
     }
 
     case DisableAction.TYPE: {
@@ -444,15 +439,12 @@ function groupReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, ac
         return state;
       }
 
-      return {
-        ...state,
-        isValid: true,
-        isInvalid: false,
-        errors: {},
-        isEnabled: false,
-        isDisabled: true,
-        controls: dispatchActionPerChild(controlId => new DisableAction(controlId)),
-      };
+      return computeGroupState(
+        state.id,
+        dispatchActionPerChild(controlId => new DisableAction(controlId)),
+        state.value,
+        {},
+      );
     }
 
     case MarkAsTouchedAction.TYPE: {
@@ -460,12 +452,12 @@ function groupReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, ac
         return state;
       }
 
-      return {
-        ...state,
-        isTouched: true,
-        isUntouched: false,
-        controls: dispatchActionPerChild(controlId => new MarkAsTouchedAction(controlId)),
-      };
+      return computeGroupState(
+        state.id,
+        dispatchActionPerChild(controlId => new MarkAsTouchedAction(controlId)),
+        state.value,
+        state.errors,
+      );
     }
 
     case MarkAsUntouchedAction.TYPE: {
@@ -473,12 +465,12 @@ function groupReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, ac
         return state;
       }
 
-      return {
-        ...state,
-        isTouched: false,
-        isUntouched: true,
-        controls: dispatchActionPerChild(controlId => new MarkAsUntouchedAction(controlId)),
-      };
+      return computeGroupState(
+        state.id,
+        dispatchActionPerChild(controlId => new MarkAsUntouchedAction(controlId)),
+        state.value,
+        state.errors,
+      );
     }
 
     case MarkAsSubmittedAction.TYPE: {
@@ -486,12 +478,12 @@ function groupReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, ac
         return state;
       }
 
-      return {
-        ...state,
-        isSubmitted: true,
-        isUnsubmitted: false,
-        controls: dispatchActionPerChild(controlId => new MarkAsSubmittedAction(controlId)),
-      };
+      return computeGroupState(
+        state.id,
+        dispatchActionPerChild(controlId => new MarkAsSubmittedAction(controlId)),
+        state.value,
+        state.errors,
+      );
     }
 
     case MarkAsUnsubmittedAction.TYPE: {
@@ -499,12 +491,12 @@ function groupReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, ac
         return state;
       }
 
-      return {
-        ...state,
-        isSubmitted: false,
-        isUnsubmitted: true,
-        controls: dispatchActionPerChild(controlId => new MarkAsUnsubmittedAction(controlId)),
-      };
+      return computeGroupState(
+        state.id,
+        dispatchActionPerChild(controlId => new MarkAsUnsubmittedAction(controlId)),
+        state.value,
+        state.errors,
+      );
     }
 
     default: {

@@ -278,7 +278,7 @@ describe('ngrx-forms:', () => {
     const FORM_CONTROL_ID = 'test ID';
     const FORM_CONTROL_INNER_ID = FORM_CONTROL_ID + '.inner';
     const FORM_CONTROL_INNER3_ID = FORM_CONTROL_ID + '.inner3';
-    const FORM_CONTROL_INNER4_ID = FORM_CONTROL_ID + '.inner3.inner4';
+    const FORM_CONTROL_INNER4_ID = FORM_CONTROL_INNER3_ID + '.inner4';
     interface FormGroupValue { inner: string; inner2?: string; inner3?: { inner4: string }; }
     const INITIAL_FORM_CONTROL_VALUE: FormGroupValue = { inner: '' };
     const INITIAL_FORM_CONTROL_VALUE_FULL: FormGroupValue = { inner: '', inner2: '', inner3: { inner4: '' } };
@@ -384,6 +384,39 @@ describe('ngrx-forms:', () => {
         resultState = reducer(resultState, new SetValueAction(FORM_CONTROL_ID, value2));
         expect(resultState.value).toEqual(value2);
         expect(resultState.controls.inner2).toBeUndefined();
+      });
+
+      it('should remove child states on demand when value is empty', () => {
+        interface FormValue { inner?: number; }
+        const id = 'ID';
+        const state = createFormGroupState<FormValue>(id, { inner: 5 });
+        const resultState = formGroupReducerInternal<FormValue>(state, new SetValueAction(id, {}));
+        expect(resultState.value).toEqual({});
+        expect(resultState.controls.inner).toBeUndefined();
+      });
+
+      it('should remove child errors on demand when value is empty', () => {
+        interface FormValue { inner?: number; }
+        const id = 'ID';
+        let state = createFormGroupState<FormValue>(id, { inner: 5 });
+        state = formGroupReducerInternal<FormValue>(state, new SetErrorsAction(id + '.inner', { required: true }));
+        const resultState = formGroupReducerInternal<FormValue>(state, new SetValueAction(id, {}));
+        expect(resultState.value).toEqual({});
+        expect(resultState.errors).toEqual({});
+        expect(resultState.controls.inner).toBeUndefined();
+      });
+
+      it('should remove child errors and keep own errors on demand when value is empty', () => {
+        interface FormValue { inner?: number; }
+        const id = 'ID';
+        const errors = { required: true };
+        let state = createFormGroupState<FormValue>(id, { inner: 5 });
+        state = formGroupReducerInternal<FormValue>(state, new SetErrorsAction(id, errors));
+        state = formGroupReducerInternal<FormValue>(state, new SetErrorsAction(id + '.inner', errors));
+        const resultState = formGroupReducerInternal<FormValue>(state, new SetValueAction(id, {}));
+        expect(resultState.value).toEqual({});
+        expect(resultState.errors).toEqual(errors);
+        expect(resultState.controls.inner).toBeUndefined();
       });
 
       it('should aggregate child values', () => {
