@@ -12,17 +12,65 @@ describe('form group markAsDirtyReducer', () => {
   const INITIAL_FORM_CONTROL_VALUE_FULL: FormGroupValue = { inner: '', inner2: '', inner3: { inner4: '' } };
   const INITIAL_STATE = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
   const INITIAL_STATE_FULL = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE_FULL);
+  const INITIAL_STATE_FULL_INNER3 = INITIAL_STATE_FULL.controls.inner3 as FormGroupState<any>;
+  const INITIAL_STATE_FULL_DIRTY = {
+    ...INITIAL_STATE_FULL,
+    isDirty: true,
+    isPristine: false,
+    controls: {
+      ...INITIAL_STATE_FULL.controls,
+      inner: {
+        ...INITIAL_STATE_FULL.controls.inner,
+        isDirty: true,
+        isPristine: false,
+      },
+      inner2: {
+        ...INITIAL_STATE_FULL.controls.inner2,
+        isDirty: true,
+        isPristine: false,
+      },
+      inner3: {
+        ...INITIAL_STATE_FULL_INNER3,
+        isDirty: true,
+        isPristine: false,
+        controls: {
+          ...INITIAL_STATE_FULL_INNER3.controls,
+          inner4: {
+            ...INITIAL_STATE_FULL_INNER3.controls.inner4,
+            isDirty: true,
+            isPristine: false,
+          },
+        },
+      },
+    },
+  };
 
-  it('should update state if pristine', () => {
-    const resultState = markAsDirtyReducer(INITIAL_STATE, new MarkAsDirtyAction(FORM_CONTROL_ID));
-    expect(resultState.isDirty).toEqual(true);
-    expect(resultState.isPristine).toEqual(false);
+  it('should mark itself and all children recursively as dirty', () => {
+    const resultState = markAsDirtyReducer(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_ID));
+    expect(resultState).toEqual(INITIAL_STATE_FULL_DIRTY);
   });
 
-  it('should not update state if dirty', () => {
-    const state = { ...INITIAL_STATE, isDirty: true, isPristine: false };
+  it('should not update state if all children are marked as dirty recursively', () => {
+    const resultState = markAsDirtyReducer(INITIAL_STATE_FULL_DIRTY, new MarkAsDirtyAction(FORM_CONTROL_ID));
+    expect(resultState).toBe(INITIAL_STATE_FULL_DIRTY);
+  });
+
+  it('should mark children as dirty if the group itself is already marked as dirty', () => {
+    const state = {
+      ...INITIAL_STATE_FULL,
+      isDirty: true,
+      isPristine: false,
+      controls: {
+        ...INITIAL_STATE_FULL.controls,
+        inner: {
+          ...INITIAL_STATE_FULL.controls.inner,
+          isDirty: true,
+          isPristine: false,
+        },
+      },
+    };
     const resultState = markAsDirtyReducer(state, new MarkAsDirtyAction(FORM_CONTROL_ID));
-    expect(resultState).toBe(state);
+    expect(resultState).toEqual(INITIAL_STATE_FULL_DIRTY);
   });
 
   it('should mark direct control children as dirty', () => {

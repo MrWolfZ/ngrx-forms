@@ -12,17 +12,65 @@ describe('form group markAsTouchedReducer', () => {
   const INITIAL_FORM_CONTROL_VALUE_FULL: FormGroupValue = { inner: '', inner2: '', inner3: { inner4: '' } };
   const INITIAL_STATE = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
   const INITIAL_STATE_FULL = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE_FULL);
+  const INITIAL_STATE_FULL_INNER3 = INITIAL_STATE_FULL.controls.inner3 as FormGroupState<any>;
+  const INITIAL_STATE_FULL_TOUCHED = {
+    ...INITIAL_STATE_FULL,
+    isTouched: true,
+    isUntouched: false,
+    controls: {
+      ...INITIAL_STATE_FULL.controls,
+      inner: {
+        ...INITIAL_STATE_FULL.controls.inner,
+        isTouched: true,
+        isUntouched: false,
+      },
+      inner2: {
+        ...INITIAL_STATE_FULL.controls.inner2,
+        isTouched: true,
+        isUntouched: false,
+      },
+      inner3: {
+        ...INITIAL_STATE_FULL_INNER3,
+        isTouched: true,
+        isUntouched: false,
+        controls: {
+          ...INITIAL_STATE_FULL_INNER3.controls,
+          inner4: {
+            ...INITIAL_STATE_FULL_INNER3.controls.inner4,
+            isTouched: true,
+            isUntouched: false,
+          },
+        },
+      },
+    },
+  };
 
-  it('should update state if untouched', () => {
-    const resultState = markAsTouchedReducer(INITIAL_STATE, new MarkAsTouchedAction(FORM_CONTROL_ID));
-    expect(resultState.isTouched).toEqual(true);
-    expect(resultState.isUntouched).toEqual(false);
+  it('should mark itself and all children recursively as touched', () => {
+    const resultState = markAsTouchedReducer(INITIAL_STATE_FULL, new MarkAsTouchedAction(FORM_CONTROL_ID));
+    expect(resultState).toEqual(INITIAL_STATE_FULL_TOUCHED);
   });
 
-  it('should not update state if touched', () => {
-    const state = { ...INITIAL_STATE, isTouched: true, isUntouched: false };
+  it('should not update state if all children are marked as touched recursively', () => {
+    const resultState = markAsTouchedReducer(INITIAL_STATE_FULL_TOUCHED, new MarkAsTouchedAction(FORM_CONTROL_ID));
+    expect(resultState).toBe(INITIAL_STATE_FULL_TOUCHED);
+  });
+
+  it('should mark children as touched if the group itself is already marked as touched', () => {
+    const state = {
+      ...INITIAL_STATE_FULL,
+      isTouched: true,
+      isUntouched: false,
+      controls: {
+        ...INITIAL_STATE_FULL.controls,
+        inner: {
+          ...INITIAL_STATE_FULL.controls.inner,
+          isTouched: true,
+          isUntouched: false,
+        },
+      },
+    };
     const resultState = markAsTouchedReducer(state, new MarkAsTouchedAction(FORM_CONTROL_ID));
-    expect(resultState).toBe(state);
+    expect(resultState).toEqual(INITIAL_STATE_FULL_TOUCHED);
   });
 
   it('should mark direct control children as touched', () => {

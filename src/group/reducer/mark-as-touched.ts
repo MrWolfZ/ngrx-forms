@@ -14,13 +14,15 @@ export function markAsTouchedReducer<TValue extends KeyValue>(
     return childReducer(state, action);
   }
 
-  if (state.isTouched) {
+  const controls = dispatchActionPerChild(state.controls, controlId => new MarkAsTouchedAction(controlId));
+
+  if (controls === state.controls) {
     return state;
   }
 
   return computeGroupState(
     state.id,
-    dispatchActionPerChild(state.controls, controlId => new MarkAsTouchedAction(controlId)),
+    controls,
     state.value,
     state.errors,
   );

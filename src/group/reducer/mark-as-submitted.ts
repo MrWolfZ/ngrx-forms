@@ -14,13 +14,15 @@ export function markAsSubmittedReducer<TValue extends KeyValue>(
     return childReducer(state, action);
   }
 
-  if (state.isSubmitted) {
+  const controls = dispatchActionPerChild(state.controls, controlId => new MarkAsSubmittedAction(controlId));
+
+  if (controls === state.controls) {
     return state;
   }
 
   return computeGroupState(
     state.id,
-    dispatchActionPerChild(state.controls, controlId => new MarkAsSubmittedAction(controlId)),
+    controls,
     state.value,
     state.errors,
   );

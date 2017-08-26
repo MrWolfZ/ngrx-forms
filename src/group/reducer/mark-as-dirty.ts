@@ -14,13 +14,15 @@ export function markAsDirtyReducer<TValue extends KeyValue>(
     return childReducer(state, action);
   }
 
-  if (state.isDirty) {
+  const controls = dispatchActionPerChild(state.controls, controlId => new MarkAsDirtyAction(controlId));
+
+  if (controls === state.controls) {
     return state;
   }
 
   return computeGroupState(
     state.id,
-    dispatchActionPerChild(state.controls, controlId => new MarkAsDirtyAction(controlId)),
+    controls,
     state.value,
     state.errors,
   );
