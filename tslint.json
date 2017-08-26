@@ -74,7 +74,7 @@
     ],
     "max-line-length": [
       true,
-      140
+      160
     ],
     "no-unused-expression": true,
     "no-unused-variable": true
