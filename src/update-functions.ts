@@ -31,28 +31,30 @@ import { formGroupReducer } from './group/reducer';
 import { isGroupState, computeGroupState } from './group/reducer/util';
 
 export type ProjectFn<T> = (t: T) => T;
-export type StateUpdateFns<TValue> = {[controlId in keyof TValue]?: ProjectFn<AbstractControlState<TValue[controlId]>> };
+export type ProjectFn2<T, K> = (t: T, k: K) => T;
+export type StateUpdateFns<TValue extends KeyValue> =
+  {[controlId in keyof TValue]?: ProjectFn2<AbstractControlState<TValue[controlId]>, FormGroupState<TValue>> };
 
-function updateControlsState<TValue extends object>(updateFns: StateUpdateFns<TValue>) {
-  return (controls: FormGroupControls<TValue>) => {
+function updateControlsState<TValue extends KeyValue>(updateFns: StateUpdateFns<TValue>) {
+  return (state: FormGroupState<TValue>) => {
     let hasChanged = false;
-    const newControls = Object.keys(controls).reduce((res, key) => {
-      const control = controls[key];
+    const newControls = Object.keys(state.controls).reduce((res, key) => {
+      const control = state.controls[key];
       res[key] = control;
       if (updateFns.hasOwnProperty(key)) {
-        const newControl = updateFns[key]!(control);
+        const newControl = updateFns[key]!(control, state);
         hasChanged = hasChanged || newControl !== control;
         res[key] = newControl;
       }
       return res;
     }, {} as FormGroupControls<TValue>);
-    return hasChanged ? newControls : controls;
+    return hasChanged ? newControls : state.controls;
   };
 }
 
 export function updateGroup<TValue extends object>(updateFns: StateUpdateFns<TValue>) {
   return (state: FormGroupState<TValue>) => {
-    const newControls = updateControlsState(updateFns)(state.controls);
+    const newControls = updateControlsState(updateFns)(state);
     return newControls !== state.controls ? computeGroupState(state.id, newControls, state.value, state.errors) : state;
   };
 }

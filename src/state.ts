@@ -27,14 +27,14 @@ export class FormControlState<TValue extends FormControlValueTypes> extends Abst
 }
 
 export type FormGroupControls<TValue> = {[controlId in keyof TValue]: AbstractControlState<TValue[controlId]> };
-export class FormGroupState<TValue extends object> extends AbstractControlState<TValue> {
+export class FormGroupState<TValue extends KeyValue> extends AbstractControlState<TValue> {
   readonly controls: FormGroupControls<TValue>;
 }
 
 export function cast<TValue extends FormControlValueTypes>(
   state: AbstractControlState<TValue>,
 ): FormControlState<TValue>;
-export function cast<TValue extends object>(
+export function cast<TValue extends KeyValue>(
   state: AbstractControlState<TValue>,
 ): FormGroupState<TValue>;
 export function cast<TValue>(
@@ -67,7 +67,7 @@ export function createFormControlState<TValue extends FormControlValueTypes>(
   };
 }
 
-export function createFormGroupState<TValue extends object>(
+export function createFormGroupState<TValue extends KeyValue>(
   id: NgrxFormControlId,
   initialValue: TValue,
 ): FormGroupState<TValue> {

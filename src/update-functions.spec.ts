@@ -54,6 +54,15 @@ describe('update functions', () => {
       })(INITIAL_STATE);
       expect((resultState.controls.inner3 as FormGroupState<NestedValue>).controls.inner4).toBe(expected);
     });
+
+    it('should pass the parent group as the second parameter', () => {
+      updateGroup<FormGroupValue>({
+        inner3: (c, p) => {
+          expect(p).toBe(INITIAL_STATE);
+          return c;
+        },
+      })(INITIAL_STATE);
+    });
   });
 
   describe(groupUpdateReducer.name, () => {
