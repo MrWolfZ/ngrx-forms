@@ -57,7 +57,8 @@
       false
     ],
     "quotemark": [
-      false
+      true,
+      "single"
     ],
     "trailing-comma": [
       false
