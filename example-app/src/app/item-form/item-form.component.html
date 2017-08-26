@@ -8,11 +8,11 @@
       <md-option value="Private">Private</md-option>
       <md-option value="Work">Work</md-option>
     </md-select>
-    <md-input-container>
+    <md-input-container floatPlaceholder="always">
       <input type="number"
              mdInput
              id="priority"
-             placeholder="Priority"
+             [placeholder]="metaState.controls.priority.isEnabled ? 'Priority' : 'Priority (disabled)'"
              [ngrxFormControlState]="metaState.controls.priority"
              [ngrxEnableFocusTracking]="true"
              [ngrxEnableLastKeydownCodeTracking]="true">

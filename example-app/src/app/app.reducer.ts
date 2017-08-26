@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { groupUpdateReducer, updateGroup, validate } from '@ngrx/forms';
+import { groupUpdateReducer, updateGroup, setValue, validate, enable, disable, cast, compose } from '@ngrx/forms';
 
 import { AppState, initialState, ITEM_FORM_ID } from './app.state';
 import { Actions, AddTodoItemAction } from './app.actions';
@@ -11,7 +11,17 @@ const itemFormReducer = groupUpdateReducer<ItemFormValue>({
     priority: validate(validatePriority),
     duedate: validate(validateDuedate),
   }),
-});
+}, {
+    meta: (meta, itemForm) => updateGroup<MetaFormValue>({
+      priority: priority => {
+        if (itemForm.value.category === 'Private') {
+          return setValue<number>(0)(disable(cast(priority)));
+        }
+
+        return priority.isEnabled ? priority : setValue<number>(1)(enable(cast(priority)));
+      },
+    })(cast(meta)),
+  });
 
 export function appReducer(state = initialState, action: Actions): AppState {
   const itemForm = itemFormReducer(state.itemForm, action);

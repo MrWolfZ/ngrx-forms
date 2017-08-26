@@ -11,7 +11,7 @@
           <div class="list-item">
             <div class="category">{{item.category}}</div>
             <div class="text">{{item.text}}</div>
-            <div class="priority">{{item.meta.priority}}</div>
+            <div class="priority">{{item.meta.priority > 0 ? item.meta.priority : ''}}</div>
             <div class="duedate">{{formatDate(item.meta.duedate)}}</div>
           </div>
         </md-list-item>

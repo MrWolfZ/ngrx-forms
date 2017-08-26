@@ -10,7 +10,7 @@ export interface ItemFormValue {
 }
 
 export const initialItemFormValue: ItemFormValue = {
-  category: 'Private',
+  category: 'Work',
   text: '',
   meta: {
     priority: 1,
