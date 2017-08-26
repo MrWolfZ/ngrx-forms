@@ -30,10 +30,9 @@ describe('form group setErrorsReducer', () => {
     expect(resultState.isInvalid).toBe(false);
   });
 
-  it('should not update state if errors are same', () => {
-    const errors = { required: true };
-    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors };
-    const resultState = setErrorsReducer(state, new SetErrorsAction(FORM_CONTROL_ID, errors));
+  it('should not update state if errors are equal', () => {
+    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { required: true } };
+    const resultState = setErrorsReducer(state, new SetErrorsAction(FORM_CONTROL_ID, { required: true }));
     expect(resultState).toBe(state);
   });
 

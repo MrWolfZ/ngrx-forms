@@ -1,6 +1,6 @@
 import { FormControlState, FormControlValueTypes } from '../../state';
 import { Actions, SetErrorsAction } from '../../actions';
-import { isEmpty } from '../../util';
+import { isEmpty, deepEquals } from '../../util';
 
 export function setErrorsReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,
@@ -18,8 +18,7 @@ export function setErrorsReducer<TValue extends FormControlValueTypes>(
     return state;
   }
 
-  // TODO: deepEquals
-  if (isEmpty(state.errors) && isEmpty(action.payload.errors)) {
+  if (deepEquals(state.errors, action.payload.errors)) {
     return state;
   }
 

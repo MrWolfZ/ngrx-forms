@@ -7,7 +7,7 @@ describe('form control setErrorsReducer', () => {
   const INITIAL_FORM_CONTROL_VALUE = '';
   const INITIAL_STATE = createFormControlState<string>(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
 
-  it('should skip any actionof the wrong type', () => expect(setErrorsReducer(INITIAL_STATE, { type: '' } as any)).toBe(INITIAL_STATE));
+  it('should skip any action of the wrong type', () => expect(setErrorsReducer(INITIAL_STATE, { type: '' } as any)).toBe(INITIAL_STATE));
 
   it('should update state if there are errors', () => {
     const errors = { required: true };
@@ -27,10 +27,9 @@ describe('form control setErrorsReducer', () => {
     expect(resultState.isInvalid).toBe(false);
   });
 
-  it('should not update state if errors are same', () => {
-    const errors = { required: true };
-    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors };
-    const resultState = setErrorsReducer(state, new SetErrorsAction(FORM_CONTROL_ID, errors));
+  it('should not update state if errors are equal', () => {
+    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { required: true } };
+    const resultState = setErrorsReducer(state, new SetErrorsAction(FORM_CONTROL_ID, { required: true }));
     expect(resultState).toBe(state);
   });
 

@@ -1,7 +1,7 @@
 import { FormGroupState, KeyValue } from '../../state';
 import { Actions, SetErrorsAction } from '../../actions';
 import { computeGroupState, childReducer } from './util';
-import { isEmpty } from '../../util';
+import { isEmpty, deepEquals } from '../../util';
 
 export function setErrorsReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,
@@ -27,7 +27,7 @@ export function setErrorsReducer<TValue extends KeyValue>(
     return state;
   }
 
-  if (isEmpty(state.errors) && isEmpty(action.payload.errors)) {
+  if (deepEquals(state.errors, action.payload.errors)) {
     return state;
   }
 
