@@ -155,6 +155,26 @@ export class MarkAsUnsubmittedAction implements Action {
   }
 }
 
+export class AddControlAction<TValue, TControlKey extends keyof TValue> implements Action {
+  static readonly TYPE = 'ngrx/forms/ADD_CONTROL';
+  readonly type = AddControlAction.TYPE;
+  readonly controlId: NgrxFormControlId;
+
+  readonly payload: {
+    readonly name: keyof TValue;
+    readonly value: TValue[TControlKey];
+  };
+
+  constructor(
+    controlId: string,
+    name: keyof TValue,
+    value: TValue[TControlKey],
+  ) {
+    this.controlId = controlId;
+    this.payload = { name, value };
+  }
+}
+
 export type Actions<TValue> =
   | SetValueAction<TValue>
   | SetErrorsAction
@@ -169,4 +189,5 @@ export type Actions<TValue> =
   | SetLastKeyDownCodeAction
   | MarkAsSubmittedAction
   | MarkAsUnsubmittedAction
+  | AddControlAction<TValue, keyof TValue>
   ;

@@ -1,5 +1,13 @@
 import { Actions } from '../../actions';
-import { AbstractControlState, FormGroupState, FormGroupControls, KeyValue, ValidationErrors } from '../../state';
+import {
+  AbstractControlState,
+  FormGroupState,
+  FormGroupControls,
+  KeyValue,
+  ValidationErrors,
+  createFormControlState,
+  createFormGroupState,
+} from '../../state';
 import { isEmpty } from '../../util';
 import { formControlReducerInternal } from '../../control/reducer';
 import { formGroupReducerInternal } from '../reducer';
@@ -121,4 +129,12 @@ export function childReducer<TValue extends KeyValue>(state: FormGroupState<TVal
   }
 
   return computeGroupState(state.id, controls, state.value, state.errors);
+}
+
+export function createChildState(id: string, childValue: any): AbstractControlState<any> {
+  if (childValue !== null && typeof childValue === 'object') {
+    return createFormGroupState(id, childValue);
+  }
+
+  return createFormControlState(id, childValue);
 }

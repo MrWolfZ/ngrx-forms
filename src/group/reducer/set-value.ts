@@ -7,15 +7,7 @@ import {
   createFormGroupState,
 } from '../../state';
 import { Actions, SetValueAction } from '../../actions';
-import { computeGroupState, callChildReducer, childReducer } from './util';
-
-function createChildState(id: string, childValue: any): AbstractControlState<any> {
-  if (childValue !== null && typeof childValue === 'object') {
-    return createFormGroupState(id, childValue);
-  }
-
-  return createFormControlState(id, childValue);
-}
+import { computeGroupState, callChildReducer, childReducer, createChildState } from './util';
 
 export function setValueReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,
