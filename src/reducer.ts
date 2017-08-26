@@ -333,12 +333,16 @@ function groupReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, ac
     return state;
   }
 
-  const dispatchActionPerChild = (actionCreator: (controlId: string) => Actions<TValue>) =>
-    Object.keys(state.controls)
+  const dispatchActionPerChild = (actionCreator: (controlId: string) => Actions<TValue>) => {
+    let hasChanged = false;
+    const newControls = Object.keys(state.controls)
       .reduce((c, key) => {
         c[key] = callChildReducer(state.controls[key], actionCreator(state.controls[key].id));
+        hasChanged = hasChanged || c[key] !== state.controls[key];
         return c;
       }, {} as Controls<TValue>);
+    return hasChanged ? newControls : state.controls;
+  };
 
   switch (action.type) {
     case SetValueAction.TYPE: {
@@ -422,13 +426,15 @@ function groupReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, ac
     }
 
     case EnableAction.TYPE: {
-      if (state.isEnabled) {
+      const controls = dispatchActionPerChild(controlId => new EnableAction(controlId));
+
+      if (controls === state.controls) {
         return state;
       }
 
       return computeGroupState(
         state.id,
-        dispatchActionPerChild(controlId => new EnableAction(controlId)),
+        controls,
         state.value,
         state.errors,
       );
