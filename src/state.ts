@@ -1,7 +1,7 @@
-import { ValidationErrors } from '@angular/forms';
-
-export type SupportedNgrxFormControlValueTypes = string | number | boolean | null | undefined;
+export type FormControlValueTypes = string | number | boolean | null | undefined;
 export type NgrxFormControlId = string;
+
+export interface ValidationErrors { [key: string]: any; }
 
 export class AbstractControlState<TValue> {
   readonly id: string;
@@ -19,7 +19,7 @@ export class AbstractControlState<TValue> {
   readonly isUnsubmitted: boolean;
 }
 
-export class FormControlState<TValue extends SupportedNgrxFormControlValueTypes> extends AbstractControlState<TValue> {
+export class FormControlState<TValue extends FormControlValueTypes> extends AbstractControlState<TValue> {
   readonly isFocused: boolean;
   readonly isUnfocused: boolean;
   readonly lastKeyDownCode: number;
@@ -30,7 +30,7 @@ export class FormGroupState<TValue extends object> extends AbstractControlState<
   readonly controls: FormGroupControls<TValue>;
 }
 
-export function cast<TValue extends SupportedNgrxFormControlValueTypes>(
+export function cast<TValue extends FormControlValueTypes>(
   state: AbstractControlState<TValue>,
 ): FormControlState<TValue>;
 export function cast<TValue extends object>(
@@ -42,7 +42,7 @@ export function cast<TValue>(
   return state as any;
 }
 
-export function createFormControlState<TValue extends SupportedNgrxFormControlValueTypes>(
+export function createFormControlState<TValue extends FormControlValueTypes>(
   id: NgrxFormControlId,
   value: TValue,
 ): FormControlState<TValue> {

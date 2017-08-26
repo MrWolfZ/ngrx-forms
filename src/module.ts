@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { NgrxFormControlDirective, NgrxFormDirective } from './directive';
+import { NgrxFormControlDirective } from './control/directive';
+import { NgrxFormDirective } from './group/directive';
 import {
   NgrxDefaultValueAccessor,
   NgrxCheckboxControlValueAccessor,

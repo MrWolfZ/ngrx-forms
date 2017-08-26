@@ -10,10 +10,7 @@ import {
   Self,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
-import {
-  NG_VALUE_ACCESSOR,
-  ControlValueAccessor,
-} from '@angular/forms';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -28,14 +25,14 @@ import {
   UnfocusAction,
   SetLastKeyDownCodeAction,
   MarkAsSubmittedAction,
-} from './actions';
-import { FormControlState, FormGroupState, SupportedNgrxFormControlValueTypes } from './state';
-import { selectValueAccessor } from './value-accessors';
+} from '../actions';
+import { FormControlState, FormGroupState, FormControlValueTypes } from '../state';
+import { selectValueAccessor } from '../value-accessors';
 
 @Directive({
   selector: '[ngrxFormControlState]',
 })
-export class NgrxFormControlDirective<TValue extends SupportedNgrxFormControlValueTypes> implements OnInit, OnDestroy {
+export class NgrxFormControlDirective<TValue extends FormControlValueTypes> implements OnInit, OnDestroy {
   @Input() set ngrxFormControlState(newState: FormControlState<TValue>) {
     this.state = newState;
     this.stateSubject$.next(newState);
@@ -135,28 +132,6 @@ export class NgrxFormControlDirective<TValue extends SupportedNgrxFormControlVal
 
     if (event.keyCode !== this.state.lastKeyDownCode) {
       this.actionsSubject.next(new SetLastKeyDownCodeAction(this.state.id, event.keyCode));
-    }
-  }
-}
-
-@Directive({
-  selector: 'form[ngrxFormState]',
-})
-export class NgrxFormDirective<TValue extends { [key: string]: any }> {
-  // tslint:disable-next-line:no-input-rename
-  @Input('ngrxFormState') state: FormGroupState<TValue>;
-
-  constructor(private actionsSubject: ActionsSubject) { }
-
-  @HostListener('submit', ['$event'])
-  onSubmit(event: Event) {
-    if (!this.state) {
-      return;
-    }
-
-    event.preventDefault();
-    if (this.state.isUnsubmitted) {
-      this.actionsSubject.next(new MarkAsSubmittedAction(this.state.id));
     }
   }
 }

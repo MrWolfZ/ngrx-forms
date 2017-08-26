@@ -1,7 +1,8 @@
 export * from './actions';
 export * from './state';
 export { formControlReducer, formGroupReducer } from './reducer';
-export { NgrxFormControlDirective, NgrxFormDirective } from './directive';
+export { NgrxFormControlDirective } from './control/directive';
+export { NgrxFormDirective } from './group/directive';
 
 export {
   NgrxDefaultValueAccessor,
