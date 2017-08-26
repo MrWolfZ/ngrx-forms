@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgrxFormControlDirective } from './control/directive';
 import { NgrxFormDirective } from './group/directive';
@@ -27,11 +26,7 @@ const exportsAndDeclarations = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
+  imports: [],
   declarations: exportsAndDeclarations,
   exports: exportsAndDeclarations,
 })
