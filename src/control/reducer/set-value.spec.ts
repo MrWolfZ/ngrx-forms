@@ -1,4 +1,4 @@
-import { FormControlState, createFormControlState } from '../../state';
+import { createFormControlState } from '../../state';
 import { SetValueAction } from '../../actions';
 import { setValueReducer } from './set-value';
 

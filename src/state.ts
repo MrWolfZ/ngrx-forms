@@ -2,6 +2,7 @@ export type FormControlValueTypes = string | number | boolean | null | undefined
 export type NgrxFormControlId = string;
 
 export interface ValidationErrors { [key: string]: any; }
+export interface KeyValue { [key: string]: any; }
 
 export class AbstractControlState<TValue> {
   readonly id: string;

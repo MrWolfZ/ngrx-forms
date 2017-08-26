@@ -24,9 +24,8 @@ import {
   FocusAction,
   UnfocusAction,
   SetLastKeyDownCodeAction,
-  MarkAsSubmittedAction,
 } from '../actions';
-import { FormControlState, FormGroupState, FormControlValueTypes } from '../state';
+import { FormControlState, FormControlValueTypes } from '../state';
 import { selectValueAccessor } from '../value-accessors';
 
 @Directive({

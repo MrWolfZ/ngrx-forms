@@ -1,4 +1,4 @@
-import { FormControlState, createFormControlState } from '../../state';
+import { createFormControlState } from '../../state';
 import { MarkAsDirtyAction } from '../../actions';
 import { markAsDirtyReducer } from './mark-as-dirty';
 

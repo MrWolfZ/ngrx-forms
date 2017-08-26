@@ -1,4 +1,4 @@
-import { FormControlState, createFormControlState } from '../../state';
+import { createFormControlState } from '../../state';
 import { MarkAsTouchedAction } from '../../actions';
 import { markAsTouchedReducer } from './mark-as-touched';
 

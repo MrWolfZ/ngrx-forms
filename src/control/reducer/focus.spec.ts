@@ -1,4 +1,4 @@
-import { FormControlState, createFormControlState } from '../../state';
+import { createFormControlState } from '../../state';
 import { FocusAction } from '../../actions';
 import { focusReducer } from './focus';
 

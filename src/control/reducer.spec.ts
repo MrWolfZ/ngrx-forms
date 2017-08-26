@@ -1,5 +1,6 @@
 import { ActionReducer } from '@ngrx/store';
 
+// tslint:disable-next-line:no-unused-variable FormControlState is used as a Generic
 import { FormControlState, createFormControlState } from '../state';
 import {
   SetValueAction,

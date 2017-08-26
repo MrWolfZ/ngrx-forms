@@ -1,4 +1,4 @@
-import { FormControlState, createFormControlState } from '../../state';
+import { createFormControlState } from '../../state';
 import { DisableAction } from '../../actions';
 import { disableReducer } from './disable';
 

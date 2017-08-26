@@ -1,4 +1,4 @@
-import { FormControlState, createFormControlState } from '../../state';
+import { createFormControlState } from '../../state';
 import { MarkAsPristineAction } from '../../actions';
 import { markAsPristineReducer } from './mark-as-pristine';
 

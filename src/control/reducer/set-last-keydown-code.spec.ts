@@ -1,4 +1,4 @@
-import { FormControlState, createFormControlState } from '../../state';
+import { createFormControlState } from '../../state';
 import { SetLastKeyDownCodeAction } from '../../actions';
 import { setLastKeydownCodeReducer } from './set-last-keydown-code';
 

@@ -1,4 +1,4 @@
-import { FormControlState, createFormControlState } from '../../state';
+import { createFormControlState } from '../../state';
 import { SetErrorsAction } from '../../actions';
 import { setErrorsReducer } from './set-errors';
 

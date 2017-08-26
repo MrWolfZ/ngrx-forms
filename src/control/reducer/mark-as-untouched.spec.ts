@@ -1,4 +1,4 @@
-import { FormControlState, createFormControlState } from '../../state';
+import { createFormControlState } from '../../state';
 import { MarkAsUntouchedAction } from '../../actions';
 import { markAsUntouchedReducer } from './mark-as-untouched';
 

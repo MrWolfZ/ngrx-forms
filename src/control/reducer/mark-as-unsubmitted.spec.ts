@@ -1,4 +1,4 @@
-import { FormControlState, createFormControlState } from '../../state';
+import { createFormControlState } from '../../state';
 import { MarkAsUnsubmittedAction } from '../../actions';
 import { markAsUnsubmittedReducer } from './mark-as-unsubmitted';
 
