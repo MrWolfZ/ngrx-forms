@@ -12,7 +12,10 @@ import { isEmpty } from '../../util';
 import { formControlReducerInternal } from '../../control/reducer';
 import { formGroupReducerInternal } from '../reducer';
 
-function getFormGroupValue<TValue extends { [key: string]: any }>(controls: FormGroupControls<TValue>, originalValue: TValue): TValue {
+export function getFormGroupValue<TValue extends { [key: string]: any }>(
+  controls: FormGroupControls<TValue>,
+  originalValue: TValue,
+): TValue {
   let hasChanged = Object.keys(originalValue).length !== Object.keys(controls).length;
   const newValue = Object.keys(controls).reduce((res, key) => {
     hasChanged = hasChanged || originalValue[key] !== controls[key].value;
@@ -23,7 +26,7 @@ function getFormGroupValue<TValue extends { [key: string]: any }>(controls: Form
   return hasChanged ? newValue : originalValue;
 }
 
-function getFormGroupErrors<TValue extends object>(
+export function getFormGroupErrors<TValue extends object>(
   controls: FormGroupControls<TValue>,
   originalErrors: ValidationErrors,
 ): ValidationErrors {
@@ -78,7 +81,7 @@ export function computeGroupState<TValue extends KeyValue>(
   };
 }
 
-function isGroupState(state: AbstractControlState<any>): boolean {
+export function isGroupState(state: AbstractControlState<any>): boolean {
   return state.hasOwnProperty('controls');
 }
 
