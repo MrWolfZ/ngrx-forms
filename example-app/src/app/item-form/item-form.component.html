@@ -3,7 +3,8 @@
       (submit)="onSubmit()">
   <div class="first-row">
     <md-select placeholder="Category"
-               [ngrxFormControlState]="formState.controls.category">
+               [ngrxFormControlState]="formState.controls.category"
+               [ngrxEnableFocusTracking]="true">
       <md-option value="Private">Private</md-option>
       <md-option value="Work">Work</md-option>
     </md-select>
@@ -12,7 +13,9 @@
              mdInput
              id="priority"
              placeholder="Priority"
-             [ngrxFormControlState]="metaState.controls.priority">
+             [ngrxFormControlState]="metaState.controls.priority"
+             [ngrxEnableFocusTracking]="true"
+             [ngrxEnableLastKeydownCodeTracking]="true">
 
       <md-error *ngIf="metaState.controls.priority.errors.required">
         A priority is required
@@ -29,7 +32,9 @@
              placeholder="Due date"
              [ngrxFormControlState]="metaState.controls.duedate"
              [convertViewValue]="convertDateViewValue"
-             [convertModelValue]="convertDateModelValue">
+             [convertModelValue]="convertDateModelValue"
+             [ngrxEnableFocusTracking]="true"
+             [ngrxEnableLastKeydownCodeTracking]="true">
 
       <button mdSuffix
               [mdDatepickerToggle]="picker"></button>
@@ -46,7 +51,9 @@
              mdInput
              id="text"
              placeholder="Text"
-             [ngrxFormControlState]="formState.controls.text">
+             [ngrxFormControlState]="formState.controls.text"
+             [ngrxEnableFocusTracking]="true"
+             [ngrxEnableLastKeydownCodeTracking]="true">
 
       <md-error *ngIf="formState.controls.text.errors.required">
         A text is required

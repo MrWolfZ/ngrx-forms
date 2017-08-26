@@ -33,9 +33,16 @@ import { selectValueAccessor } from '../value-accessors';
 })
 export class NgrxFormControlDirective<TValue extends FormControlValueTypes> implements OnInit, OnDestroy {
   @Input() set ngrxFormControlState(newState: FormControlState<TValue>) {
+    if (!newState) {
+      throw new Error('The control state must not be undefined!');
+    }
+
     this.state = newState;
     this.stateSubject$.next(newState);
   }
+
+  @Input() ngrxEnableFocusTracking = false;
+  @Input() ngrxEnableLastKeydownCodeTracking = false;
 
   // automatically apply the attribute that's used by the CDK to set initial focus
   @HostBinding('attr.cdk-focus-region-start') get focusRegionStartAttr() {
@@ -113,7 +120,7 @@ export class NgrxFormControlDirective<TValue extends FormControlValueTypes> impl
   @HostListener('focusin')
   @HostListener('focusout')
   onFocusChange() {
-    if (!this.state) {
+    if (!this.ngrxEnableFocusTracking) {
       return;
     }
 
@@ -125,7 +132,7 @@ export class NgrxFormControlDirective<TValue extends FormControlValueTypes> impl
 
   @HostListener('keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
-    if (!this.state) {
+    if (!this.ngrxEnableLastKeydownCodeTracking) {
       return;
     }
 
