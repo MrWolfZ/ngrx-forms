@@ -1,10 +1,12 @@
+export interface MetaFormValue {
+  readonly priority: number;
+  readonly duedate: string;
+}
+
 export interface ItemFormValue {
   readonly category: 'Private' | 'Work';
   readonly text: string;
-  readonly meta: {
-    readonly priority: number;
-    readonly duedate: string;
-  };
+  readonly meta: MetaFormValue;
 }
 
 export const initialItemFormValue: ItemFormValue = {
@@ -16,11 +18,11 @@ export const initialItemFormValue: ItemFormValue = {
   },
 };
 
-export function textValidator(text: string) {
+export function validateText(text: string) {
   return !text ? { required: true } : {};
 }
 
-export function priorityValidator(priority: number) {
+export function validatePriority(priority: number) {
   if (priority === null || priority === undefined) {
     return { required: true };
   }
@@ -32,6 +34,6 @@ export function priorityValidator(priority: number) {
   return {};
 }
 
-export function duedateValidator(duedate: string) {
+export function validateDuedate(duedate: string) {
   return !duedate ? { required: true } : {};
 }
