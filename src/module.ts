@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { NgrxFormControlDirective } from './control/directive';
 import { NgrxFormDirective } from './group/directive';
