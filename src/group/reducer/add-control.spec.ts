@@ -4,10 +4,6 @@ import { addControlReducer } from './add-control';
 
 describe('form group addControlReducer', () => {
   const FORM_CONTROL_ID = 'test ID';
-  const FORM_CONTROL_INNER_ID = FORM_CONTROL_ID + '.inner';
-  const FORM_CONTROL_INNER2_ID = FORM_CONTROL_ID + '.inner2';
-  const FORM_CONTROL_INNER3_ID = FORM_CONTROL_ID + '.inner3';
-  const FORM_CONTROL_INNER4_ID = FORM_CONTROL_INNER3_ID + '.inner4';
   interface FormGroupValue { inner: string; inner2?: string; inner3?: { inner4: string }; }
   const INITIAL_FORM_CONTROL_VALUE: FormGroupValue = { inner: '' };
   const INITIAL_STATE = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);

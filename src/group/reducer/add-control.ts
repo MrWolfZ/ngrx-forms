@@ -15,7 +15,7 @@ export function addControlReducer<TValue extends KeyValue>(
   }
 
   if (state.controls.hasOwnProperty(action.payload.name)) {
-    throw new Error(`Group '${state.id}' already has child control ${action.payload.name}!`); // `;
+    throw new Error(`Group '${state.id}' already has child control '${action.payload.name}'!`); // `;
   }
 
   const controls = Object.assign({}, state.controls, {

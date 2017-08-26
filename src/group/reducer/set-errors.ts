@@ -1,7 +1,7 @@
 import { FormGroupState, KeyValue } from '../../state';
 import { Actions, SetErrorsAction } from '../../actions';
 import { computeGroupState, childReducer } from './util';
-import { isEmpty, deepEquals } from '../../util';
+import { deepEquals } from '../../util';
 
 export function setErrorsReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,
