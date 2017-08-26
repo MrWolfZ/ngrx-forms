@@ -175,6 +175,24 @@ export class AddControlAction<TValue, TControlKey extends keyof TValue> implemen
   }
 }
 
+export class RemoveControlAction<TValue> implements Action {
+  static readonly TYPE = 'ngrx/forms/REMOVE_CONTROL';
+  readonly type = RemoveControlAction.TYPE;
+  readonly controlId: NgrxFormControlId;
+
+  readonly payload: {
+    readonly name: keyof TValue;
+  };
+
+  constructor(
+    controlId: string,
+    name: keyof TValue,
+  ) {
+    this.controlId = controlId;
+    this.payload = { name };
+  }
+}
+
 export type Actions<TValue> =
   | SetValueAction<TValue>
   | SetErrorsAction
@@ -190,4 +208,5 @@ export type Actions<TValue> =
   | MarkAsSubmittedAction
   | MarkAsUnsubmittedAction
   | AddControlAction<TValue, keyof TValue>
+  | RemoveControlAction<TValue>
   ;
