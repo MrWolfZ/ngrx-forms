@@ -13,6 +13,8 @@ import {
   FocusAction,
   UnfocusAction,
   SetLastKeyDownCodeAction,
+  AddControlAction,
+  RemoveControlAction,
 } from '../actions';
 import { formGroupReducerInternal } from './reducer';
 
@@ -162,6 +164,22 @@ describe('form group reducer', () => {
       const state = { ...INITIAL_STATE, isSubmitted: true, isUnsubmitted: false };
       const resultState = formGroupReducerInternal(state, new MarkAsUnsubmittedAction(FORM_CONTROL_ID));
       expect(resultState).not.toBe(INITIAL_STATE);
+    });
+  });
+
+  describe(AddControlAction.name, () => {
+    it('should update state', () => {
+      const action = new AddControlAction<FormGroupValue, 'inner2'>(FORM_CONTROL_ID, 'inner2', '');
+      const resultState = formGroupReducerInternal<FormGroupValue>(INITIAL_STATE, action);
+      expect(resultState).not.toBe(INITIAL_STATE);
+    });
+  });
+
+  describe(RemoveControlAction.name, () => {
+    it('should update state', () => {
+      const action = new RemoveControlAction<FormGroupValue>(FORM_CONTROL_ID, 'inner2');
+      const resultState = formGroupReducerInternal<FormGroupValue>(INITIAL_STATE_FULL, action);
+      expect(resultState).not.toBe(INITIAL_STATE_FULL);
     });
   });
 });

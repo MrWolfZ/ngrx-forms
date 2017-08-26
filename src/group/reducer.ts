@@ -13,6 +13,8 @@ import { markAsTouchedReducer } from './reducer/mark-as-touched';
 import { markAsUntouchedReducer } from './reducer/mark-as-untouched';
 import { markAsSubmittedReducer } from './reducer/mark-as-submitted';
 import { markAsUnsubmittedReducer } from './reducer/mark-as-unsubmitted';
+import { addControlReducer } from './reducer/add-control';
+import { removeControlReducer } from './reducer/remove-control';
 
 export function formGroupReducerInternal<TValue extends KeyValue>(state: FormGroupState<TValue>, action: Actions<TValue>) {
   switch (action.type) {
@@ -32,6 +34,8 @@ export function formGroupReducerInternal<TValue extends KeyValue>(state: FormGro
   state = markAsUntouchedReducer(state, action);
   state = markAsSubmittedReducer(state, action);
   state = markAsUnsubmittedReducer(state, action);
+  state = addControlReducer(state, action);
+  state = removeControlReducer(state, action);
 
   return state;
 }
