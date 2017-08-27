@@ -152,7 +152,7 @@ Form controls in ngrx-forms are represented as plain state objects. Control stat
 export type FormControlValueTypes = string | number | boolean | null | undefined;
 export interface ValidationErrors { [key: string]: any; }
 
-export class AbstractControlState<TValue> {
+export interface AbstractControlState<TValue> {
   id: string;
   value: TValue;
   isValid: boolean;
@@ -168,7 +168,7 @@ export class AbstractControlState<TValue> {
   isUnsubmitted: boolean;
 }
 
-export class FormControlState<TValue extends FormControlValueTypes> extends AbstractControlState<TValue> {
+export interface FormControlState<TValue extends FormControlValueTypes> extends AbstractControlState<TValue> {
   isFocused: boolean;
   isUnfocused: boolean;
   lastKeyDownCode: number;
@@ -199,7 +199,7 @@ Groups are collections of controls. Just like controls groups are represented as
 ```typescript
 export interface KeyValue { [key: string]: any; }
 export type FormGroupControls<TValue> = {[controlId in keyof TValue]: AbstractControlState<TValue[controlId]> };
-export class FormGroupState<TValue extends KeyValue> extends AbstractControlState<TValue> {
+export interface FormGroupState<TValue extends KeyValue> extends AbstractControlState<TValue> {
   controls: FormGroupControls<TValue>;
 }
 ```
