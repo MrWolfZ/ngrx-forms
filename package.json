@@ -28,7 +28,9 @@
   "keywords": [
     "angular",
     "javascript",
-    "typescript"
+    "typescript",
+    "ngrx",
+    "redux"
   ],
   "license": "MIT",
   "peerDependencies": {
