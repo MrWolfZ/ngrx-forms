@@ -21,8 +21,7 @@
       true,
       "element",
       [
-        "cmp-prefix1",
-        "cmp-prefix2"
+        "ngrx"
       ],
       "kebab-case"
     ],
