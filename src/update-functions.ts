@@ -75,62 +75,84 @@ function abstractControlReducer<TValue>(state: AbstractControlState<TValue>, act
   return isGroupState(state) ? formGroupReducer(state as any, action) as any : formControlReducer(state as any, action);
 }
 
-export function setValue<TValue extends FormControlValueTypes>(value: TValue): ProjectFn<FormControlState<TValue>>;
-export function setValue<TValue extends KeyValue>(value: TValue): ProjectFn<FormGroupState<TValue>>;
-export function setValue<TValue>(value: TValue) {
-  return (state: AbstractControlState<TValue>) => abstractControlReducer(state, new SetValueAction(state.id, value));
+function ensureState<TValue>(state: AbstractControlState<TValue>) {
+  if (!state) {
+    throw new Error('state must not be undefined!');
+  }
+
+  return state;
 }
 
-export function validate<TValue extends FormControlValueTypes>(validatorFn: (value: TValue) => ValidationErrors): ProjectFn<FormControlState<TValue>>;
-export function validate<TValue extends KeyValue>(validatorFn: (value: TValue) => ValidationErrors): ProjectFn<FormGroupState<TValue>>;
-export function validate<TValue>(validatorFn: (value: TValue) => ValidationErrors) {
-  return (state: AbstractControlState<TValue>) => abstractControlReducer(state, new SetErrorsAction(state.id, validatorFn(state.value)));
+// TODO: enable all overloads once conditional mapped types are implemented (https://github.com/Microsoft/TypeScript/issues/12424)
+
+// export function setValue<TValue extends FormControlValueTypes>(value: TValue): ProjectFn<FormControlState<TValue>>;
+// export function setValue<TValue extends KeyValue>(value: TValue): ProjectFn<FormGroupState<TValue>>;
+export function setValue<TValue>(value: TValue): ProjectFn<AbstractControlState<TValue>>;
+export function setValue<TValue>(value: TValue, state: AbstractControlState<TValue>): AbstractControlState<TValue>;
+export function setValue<TValue>(value: TValue, state?: AbstractControlState<TValue>) {
+  if (!!state) {
+    return abstractControlReducer(state, new SetValueAction(state.id, value));
+  }
+
+  return (s: AbstractControlState<TValue>) => setValue(value, ensureState(s));
 }
 
-export function enable<TValue extends FormControlValueTypes>(state: FormControlState<TValue>): FormControlState<TValue>;
-export function enable<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
+// export function validate<TValue extends FormControlValueTypes>(validatorFn: (value: TValue) => ValidationErrors): ProjectFn<FormControlState<TValue>>;
+// export function validate<TValue extends KeyValue>(validatorFn: (value: TValue) => ValidationErrors): ProjectFn<FormGroupState<TValue>>;
+export function validate<TValue>(validatorFn: (value: TValue) => ValidationErrors): ProjectFn<AbstractControlState<TValue>>;
+export function validate<TValue>(validatorFn: (value: TValue) => ValidationErrors, state: AbstractControlState<TValue>): AbstractControlState<TValue>;
+export function validate<TValue>(validatorFn: (value: TValue) => ValidationErrors, state?: AbstractControlState<TValue>) {
+  if (!!state) {
+    return abstractControlReducer(state, new SetErrorsAction(state.id, validatorFn(state.value)));
+  }
+
+  return (s: AbstractControlState<TValue>) => validate(validatorFn, ensureState(s));
+}
+
+// export function enable<TValue extends FormControlValueTypes>(state: FormControlState<TValue>): FormControlState<TValue>;
+// export function enable<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
 export function enable<TValue>(state: AbstractControlState<TValue>) {
   return abstractControlReducer(state, new EnableAction(state.id));
 }
 
-export function disable<TValue extends FormControlValueTypes>(state: FormControlState<TValue>): FormControlState<TValue>;
-export function disable<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
+// export function disable<TValue extends FormControlValueTypes>(state: FormControlState<TValue>): FormControlState<TValue>;
+// export function disable<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
 export function disable<TValue>(state: AbstractControlState<TValue>) {
   return abstractControlReducer(state, new DisableAction(state.id));
 }
 
-export function markAsDirty<TValue extends FormControlValueTypes>(state: FormControlState<TValue>): FormControlState<TValue>;
-export function markAsDirty<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
+// export function markAsDirty<TValue extends FormControlValueTypes>(state: FormControlState<TValue>): FormControlState<TValue>;
+// export function markAsDirty<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
 export function markAsDirty<TValue>(state: AbstractControlState<TValue>) {
   return abstractControlReducer(state, new MarkAsDirtyAction(state.id));
 }
 
-export function markAsPristine<TValue extends FormControlValueTypes>(state: FormControlState<TValue>): FormControlState<TValue>;
-export function markAsPristine<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
+// export function markAsPristine<TValue extends FormControlValueTypes>(state: FormControlState<TValue>): FormControlState<TValue>;
+// export function markAsPristine<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
 export function markAsPristine<TValue>(state: AbstractControlState<TValue>) {
   return abstractControlReducer(state, new MarkAsPristineAction(state.id));
 }
 
-export function markAsTouched<TValue extends FormControlValueTypes>(state: FormControlState<TValue>): FormControlState<TValue>;
-export function markAsTouched<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
+// export function markAsTouched<TValue extends FormControlValueTypes>(state: FormControlState<TValue>): FormControlState<TValue>;
+// export function markAsTouched<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
 export function markAsTouched<TValue>(state: AbstractControlState<TValue>) {
   return abstractControlReducer(state, new MarkAsTouchedAction(state.id));
 }
 
-export function markAsUntouched<TValue extends FormControlValueTypes>(state: FormControlState<TValue>): FormControlState<TValue>;
-export function markAsUntouched<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
+// export function markAsUntouched<TValue extends FormControlValueTypes>(state: FormControlState<TValue>): FormControlState<TValue>;
+// export function markAsUntouched<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
 export function markAsUntouched<TValue>(state: AbstractControlState<TValue>) {
   return abstractControlReducer(state, new MarkAsUntouchedAction(state.id));
 }
 
-export function markAsSubmitted<TValue extends FormControlValueTypes>(state: FormControlState<TValue>): FormControlState<TValue>;
-export function markAsSubmitted<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
+// export function markAsSubmitted<TValue extends FormControlValueTypes>(state: FormControlState<TValue>): FormControlState<TValue>;
+// export function markAsSubmitted<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
 export function markAsSubmitted<TValue>(state: AbstractControlState<TValue>) {
   return abstractControlReducer(state, new MarkAsSubmittedAction(state.id));
 }
 
-export function markAsUnsubmitted<TValue extends FormControlValueTypes>(state: FormControlState<TValue>): FormControlState<TValue>;
-export function markAsUnsubmitted<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
+// export function markAsUnsubmitted<TValue extends FormControlValueTypes>(state: FormControlState<TValue>): FormControlState<TValue>;
+// export function markAsUnsubmitted<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
 export function markAsUnsubmitted<TValue>(state: AbstractControlState<TValue>) {
   return abstractControlReducer(state, new MarkAsUnsubmittedAction(state.id));
 }

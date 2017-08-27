@@ -114,6 +114,15 @@ describe('update functions', () => {
       const resultState = setValue<FormGroupValue>({ inner: 'A' })(INITIAL_STATE);
       expect(resultState).not.toBe(cast(INITIAL_STATE));
     });
+
+    it('should call reducer for controls uncurried', () => {
+      const resultState = setValue('A', INITIAL_STATE.controls.inner);
+      expect(resultState).not.toBe(INITIAL_STATE.controls.inner);
+    });
+
+    it('should throw if curried and no state', () => {
+      expect(() => setValue<string>('')(undefined as any)).toThrowError();
+    });
   });
 
   describe(validate.name, () => {
@@ -127,6 +136,17 @@ describe('update functions', () => {
       const errors = { required: true };
       const resultState = validate<FormGroupValue>(() => errors)(INITIAL_STATE);
       expect(resultState).not.toBe(cast(INITIAL_STATE));
+    });
+
+    it('should call reducer for controls uncurried', () => {
+      const errors = { required: true };
+      const resultState = validate(() => errors, INITIAL_STATE.controls.inner);
+      expect(resultState).not.toBe(INITIAL_STATE.controls.inner);
+    });
+
+    it('should throw if curried and no state', () => {
+      const errors = { required: true };
+      expect(() => validate<string>(() => errors)(undefined as any)).toThrowError();
     });
   });
 

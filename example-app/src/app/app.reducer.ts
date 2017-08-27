@@ -15,10 +15,10 @@ const itemFormReducer = groupUpdateReducer<ItemFormValue>({
     meta: (meta, itemForm) => updateGroup<MetaFormValue>({
       priority: priority => {
         if (itemForm.value.category === 'Private') {
-          return setValue<number>(0)(disable(cast(priority)));
+          return setValue(0, disable(priority));
         }
 
-        return priority.isEnabled ? priority : setValue<number>(1)(enable(cast(priority)));
+        return priority.isEnabled ? priority : setValue(1, enable(priority));
       },
     })(cast(meta)),
   });
