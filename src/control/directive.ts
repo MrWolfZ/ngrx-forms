@@ -15,6 +15,7 @@ import { ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/distinctUntilChanged';
 
@@ -44,6 +45,7 @@ export class NgrxFormControlDirective<TValue extends FormControlValueTypes> impl
   @Input() ngrxEnableFocusTracking = false;
   @Input() ngrxEnableLastKeydownCodeTracking = false;
 
+  // TODO: move this into a separate directive
   // automatically apply the attribute that's used by the CDK to set initial focus
   @HostBinding('attr.cdk-focus-region-start') get focusRegionStartAttr() {
     return this.state && this.state.isFocused ? '' : null;
@@ -58,6 +60,15 @@ export class NgrxFormControlDirective<TValue extends FormControlValueTypes> impl
   // the <any> cast is required due to a mismatch in the typing of lift() between Observable and BehaviorSubject
   private get state$(): Observable<FormControlState<TValue>> { return this.stateSubject$ as any; }
 
+  // we have to store the last reported value since when the action to update the state
+  // is dispatched a new state will be received inside the directive, which in turn would
+  // trigger a view update; however, most input elements move the cursor to the end of the
+  // input when a new value is written programmatically which means whenever the user
+  // types something the cursor is forced to the end of the input; to prevent this
+  // behavior we compare the last reported value with the value to be set and filter out
+  // those values that are equal to the last reported value
+  private lastReportedViewValue: TValue;
+
   constructor(
     private el: ElementRef,
     @Inject(DOCUMENT) private dom: Document,
@@ -71,9 +82,14 @@ export class NgrxFormControlDirective<TValue extends FormControlValueTypes> impl
   @Input() convertModelValue: (value: TValue) => any = value => value;
 
   ngOnInit() {
-    this.valueAccessor.registerOnChange((newValue: any) => {
+    if (!this.state) {
+      throw new Error('The form state must not be undefined!');
+    }
+
+    this.valueAccessor.registerOnChange((newValue: TValue) => {
       newValue = this.convertViewValue(newValue);
       if (newValue !== this.state.value) {
+        this.lastReportedViewValue = newValue;
         this.actionsSubject.next(new SetValueAction(this.state.id, newValue));
       }
     });
@@ -86,14 +102,18 @@ export class NgrxFormControlDirective<TValue extends FormControlValueTypes> impl
 
     this.subscriptions.push(
       this.state$
+        .map(s => ({ id: s.id, value: this.convertModelValue(s.value) }))
+        .distinctUntilChanged((l, r) => l.id === r.id && l.value === r.value)
         .map(s => s.value)
-        .map(this.convertModelValue)
+        .filter(v => v !== this.lastReportedViewValue)
         .subscribe(value => this.valueAccessor.writeValue(value))
     );
 
     if (this.valueAccessor.setDisabledState) {
       this.subscriptions.push(
         this.state$
+          .map(s => ({ id: s.id, isDisabled: s.isDisabled }))
+          .distinctUntilChanged((l, r) => l.id === r.id && l.isDisabled === r.isDisabled)
           .map(s => s.isDisabled)
           .subscribe(isDisabled => this.valueAccessor.setDisabledState!(isDisabled))
       );
@@ -101,8 +121,9 @@ export class NgrxFormControlDirective<TValue extends FormControlValueTypes> impl
 
     this.subscriptions.push(
       this.state$
+        .map(s => ({ id: s.id, isFocused: s.isFocused }))
+        .distinctUntilChanged((l, r) => l.id === r.id && l.isFocused === r.isFocused)
         .map(s => s.isFocused)
-        .distinctUntilChanged()
         .subscribe(isFocused => {
           if (isFocused) {
             this.el.nativeElement.focus();
