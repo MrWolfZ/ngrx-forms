@@ -30,11 +30,6 @@
   border-bottom: 1px solid rgba(0, 0, 0, .12);
 }
 
-.todo-list,
-.done-list {
-  flex: 1;
-}
-
 .todo-list {
   display: flex;
   flex-direction: column;
