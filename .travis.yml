@@ -10,7 +10,7 @@ language: node_js
 node_js:
   - stable
 before_install:
-  - npm i npm@^4 -g
+  - npm i npm@^5 -g
 install:
   - npm install
 script:

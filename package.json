@@ -1,7 +1,7 @@
 {
   "name": "@ngrx/forms",
   "version": "0.1.0",
-  "description": "Proper integration of forms in Angular 4 applications using Ngrx",
+  "description": "Proper integration of forms in Angular 4 applications using ngrx",
   "module": "@ngrx/forms.es5.js",
   "es2015": "@ngrx/forms.js",
   "main": "bundles/forms.umd.js",
