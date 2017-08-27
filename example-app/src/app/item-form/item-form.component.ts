@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ViewChildren, AfterViewInit, QueryList, ChangeDetectionStrategy } from '@angular/core';
 import { MdInputDirective } from '@angular/material';
-import { FormGroupState, AbstractControlState } from '@ngrx/forms';
+import { FormGroupState, AbstractControlState } from 'ngrx-forms';
 
 import { ItemFormValue } from './item-form.state';
 import { TodoItem } from '../app.state';

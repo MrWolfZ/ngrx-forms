@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { FormGroupState } from '@ngrx/forms';
+import { FormGroupState } from 'ngrx-forms';
 import { Observable } from 'rxjs/Observable';
 
 import { RootState, TodoItem } from './app.state';

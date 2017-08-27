@@ -1,5 +1,5 @@
 import { Store } from '@ngrx/store';
-import { FormGroupState, createFormGroupState } from '@ngrx/forms';
+import { FormGroupState, createFormGroupState } from 'ngrx-forms';
 
 import { ItemFormValue, initialItemFormValue } from './item-form/item-form.state';
 

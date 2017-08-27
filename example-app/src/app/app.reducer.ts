@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { groupUpdateReducer, updateGroup, setValue, validate, enable, disable, cast, compose } from '@ngrx/forms';
+import { groupUpdateReducer, updateGroup, setValue, validate, enable, disable, cast, compose } from 'ngrx-forms';
 
 import { AppState, initialState, ITEM_FORM_ID } from './app.state';
 import { Actions, AddTodoItemAction } from './app.actions';

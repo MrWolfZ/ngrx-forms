@@ -6,7 +6,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { HttpModule } from '@angular/http';
 import { MaterialModule, MdNativeDateModule } from '@angular/material';
-import { NgrxFormsModule } from '@ngrx/forms';
+import { NgrxFormsModule } from 'ngrx-forms';
 
 import { reducers } from './app.reducer';
 import { AppComponent } from './app.component';
