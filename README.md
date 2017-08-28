@@ -220,6 +220,67 @@ As you can see most properties are shared with controls via the common base inte
 
 Group states are usually completely independent of the DOM (with the exception of root groups that are associated with a `form` via `NgrxFormDirective`). They are updated by intercepting all actions that change their children (i.e. the group's reducer is the parent reducer of all its child reducers and forwards any actions to all children; if any children change it recomputes the state of the group). A group state can be created via `createFormGroupState`. This function takes an initial value and automatically creates all child controls recursively.
 
+#### Dynamic Form Groups
+
+Sometimes you will have to render a variable number of fields in your form. In such a case you can provide a form value interface that has an index signature and then add and remove controls dynamically. Instead of an index signature you can also use optional fields if the potential members of the form value are statically known. At runtime you can add and remove controls in two ways: 
+
+1) explicitly call the `addControl` and `removeControl` update functions (see the section below)
+2) set the value of the form group via `setValue` which will automatically update the form group based on the value you provide
+
+Below you can find an example of how this would look. Assume that we have an action that provides a variable set of objects which each should be mapped to a group with two form controls.
+
+```typescript
+import { Action } from '@ngrx/store';
+import { FormGroupState, setValue, cast } from 'ngrx-forms';
+
+interface DynamicObject {
+  id: string;
+  someNumber: number;
+  someCheckbox: boolean;
+}
+
+interface DynamicObjectFormValue {
+  someNumber: number;
+  someCheckbox: boolean;
+}
+
+interface DynamicFormValue {
+  [id: string]: DynamicObjectFormValue;
+}
+
+interface SetDynamicObjectsAction extends Action {
+  type: 'SET_DYNAMIC_OBJECTS';
+  objects: DynamicObject[];
+}
+
+interface AppState {
+  someOtherState: string;
+  dynamicForm: FormGroupState<DynamicFormValue>;
+}
+
+export function appReducer(state: AppState, action: Action): AppState {
+  switch (action.type) {
+    case 'SET_DYNAMIC_OBJECTS': {
+      const newFormValue = (action as SetDynamicObjectsAction).objects.reduce((v, obj) => {
+        v[obj.id] = {
+          someNumber: obj.someNumber,
+          someCheckbox: obj.someCheckbox,
+        };
+        return v;
+      }, {} as DynamicFormValue);
+
+      // the `setValue` will add and remove controls as required; existing controls that are still
+      // present get their value updated but are otherwise kept in the same state as before
+      const dynamicForm = cast(setValue(newFormValue, state.dynamicForm));
+      return { ...state, dynamicForm };
+    }
+
+    default:
+      return state;
+  }
+}
+```
+
 ### Updating the State
 
 All states are internally updated by ngrx-forms through dispatching actions. While this is of course also possible for you there exist a set of utility functions that can be used to update states. This is mainly useful to change the state as a result of a different action in your reducer. Note that ngrx-forms is coded in such a way that no state references will change if nothing inside the state changes. It is therefore perfectly safe to repeatedly call any of the functions below and the state will be updated exactly once or not at all if nothing changed. Each function can be imported from `ngrx-forms`. The following table explains each function:
