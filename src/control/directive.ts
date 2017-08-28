@@ -38,6 +38,11 @@ export class NgrxFormControlDirective<TValue extends FormControlValueTypes> impl
       throw new Error('The control state must not be undefined!');
     }
 
+    if (this.state && newState.id !== this.state.id) {
+      this.valueWasReported = false;
+      this.lastReportedViewValue = undefined as any;
+    }
+
     this.state = newState;
     this.stateSubject$.next(newState);
   }
@@ -67,6 +72,7 @@ export class NgrxFormControlDirective<TValue extends FormControlValueTypes> impl
   // types something the cursor is forced to the end of the input; to prevent this
   // behavior we compare the last reported value with the value to be set and filter out
   // those values that are equal to the last reported value
+  private valueWasReported: boolean;
   private lastReportedViewValue: TValue;
 
   constructor(
@@ -89,6 +95,7 @@ export class NgrxFormControlDirective<TValue extends FormControlValueTypes> impl
     this.valueAccessor.registerOnChange((newValue: TValue) => {
       newValue = this.convertViewValue(newValue);
       if (newValue !== this.state.value) {
+        this.valueWasReported = true;
         this.lastReportedViewValue = newValue;
         this.actionsSubject.next(new SetValueAction(this.state.id, newValue));
       }
@@ -105,7 +112,7 @@ export class NgrxFormControlDirective<TValue extends FormControlValueTypes> impl
         .map(s => ({ id: s.id, value: this.convertModelValue(s.value) }))
         .distinctUntilChanged((l, r) => l.id === r.id && l.value === r.value)
         .map(s => s.value)
-        .filter(v => v !== this.lastReportedViewValue)
+        .filter(v => !this.valueWasReported || v !== this.lastReportedViewValue)
         .subscribe(value => this.valueAccessor.writeValue(value))
     );
 

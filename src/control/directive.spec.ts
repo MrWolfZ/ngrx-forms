@@ -64,6 +64,28 @@ describe(NgrxFormControlDirective.name, () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
+  it('should write the value when the state value does not change but the id does', () => {
+    const spy = spyOn(valueAccessor, 'writeValue');
+    directive.ngrxFormControlState = { ...INITIAL_STATE, id: FORM_CONTROL_ID + '1' };
+    expect(spy).toHaveBeenCalledWith(INITIAL_STATE.value);
+  });
+
+  it('should write the value when the state value does not change but the id does after a new view value was reported', () => {
+    const newValue = 'new value';
+    onChange(newValue);
+    const spy = spyOn(valueAccessor, 'writeValue');
+    directive.ngrxFormControlState = { ...INITIAL_STATE, id: FORM_CONTROL_ID + '1', value: newValue };
+    expect(spy).toHaveBeenCalledWith(newValue);
+  });
+
+  it('should write the value when the state value does not change but the id does after an undefined view value was reported', () => {
+    const newValue = undefined as any;
+    onChange(newValue);
+    const spy = spyOn(valueAccessor, 'writeValue');
+    directive.ngrxFormControlState = { ...INITIAL_STATE, id: FORM_CONTROL_ID + '1', value: newValue };
+    expect(spy).toHaveBeenCalledWith(newValue);
+  });
+
   it('should dispatch an action if the view value changes', done => {
     const newValue = 'new value';
     onChange(newValue);
