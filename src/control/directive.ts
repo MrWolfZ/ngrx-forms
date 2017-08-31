@@ -5,7 +5,7 @@ import {
   Inject,
   HostListener,
   HostBinding,
-  OnInit,
+  AfterViewInit,
   OnDestroy,
   Self,
 } from '@angular/core';
@@ -32,7 +32,7 @@ import { selectValueAccessor } from '../value-accessors';
 @Directive({
   selector: '[ngrxFormControlState]',
 })
-export class NgrxFormControlDirective<TValue extends FormControlValueTypes> implements OnInit, OnDestroy {
+export class NgrxFormControlDirective<TValue extends FormControlValueTypes> implements AfterViewInit, OnDestroy {
   @Input() set ngrxFormControlState(newState: FormControlState<TValue>) {
     if (!newState) {
       throw new Error('The control state must not be undefined!');
@@ -87,7 +87,7 @@ export class NgrxFormControlDirective<TValue extends FormControlValueTypes> impl
   @Input() convertViewValue: (value: any) => TValue = value => value;
   @Input() convertModelValue: (value: TValue) => any = value => value;
 
-  ngOnInit() {
+  ngAfterViewInit() {
     if (!this.state) {
       throw new Error('The form state must not be undefined!');
     }

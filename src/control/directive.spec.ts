@@ -36,7 +36,7 @@ describe(NgrxFormControlDirective.name, () => {
     };
     directive = new NgrxFormControlDirective<string>(elementRef, document, actionsSubject, [valueAccessor]);
     directive.ngrxFormControlState = INITIAL_STATE;
-    directive.ngOnInit();
+    directive.ngAfterViewInit();
   });
 
   afterEach(() => {
