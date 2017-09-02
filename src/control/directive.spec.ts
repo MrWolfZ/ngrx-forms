@@ -104,6 +104,16 @@ describe(NgrxFormControlDirective.name, () => {
     });
   });
 
+  it('should write the value when the state changes to the same value that was reported from the view before', () => {
+    const newValue = 'new value';
+    onChange(newValue);
+    directive.ngrxFormControlState = { ...INITIAL_STATE, value: newValue };
+    directive.ngrxFormControlState = INITIAL_STATE;
+    const spy = spyOn(valueAccessor, 'writeValue');
+    directive.ngrxFormControlState = { ...INITIAL_STATE, value: newValue };
+    expect(spy).toHaveBeenCalledWith(newValue);
+  });
+
   // TODO: throwing error on undefined state
   // TODO: value conversion
   // TODO: mark as touched

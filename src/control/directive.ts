@@ -39,8 +39,8 @@ export class NgrxFormControlDirective<TValue extends FormControlValueTypes> impl
     }
 
     if (this.state && newState.id !== this.state.id) {
-      this.valueWasReported = false;
-      this.lastReportedViewValue = undefined as any;
+      this.viewValueIsKnown = false;
+      this.viewValue = undefined as any;
     }
 
     this.state = newState;
@@ -72,8 +72,8 @@ export class NgrxFormControlDirective<TValue extends FormControlValueTypes> impl
   // types something the cursor is forced to the end of the input; to prevent this
   // behavior we compare the last reported value with the value to be set and filter out
   // those values that are equal to the last reported value
-  private valueWasReported: boolean;
-  private lastReportedViewValue: TValue;
+  private viewValueIsKnown: boolean;
+  private viewValue: TValue;
 
   constructor(
     private el: ElementRef,
@@ -95,8 +95,8 @@ export class NgrxFormControlDirective<TValue extends FormControlValueTypes> impl
     this.valueAccessor.registerOnChange((newValue: TValue) => {
       newValue = this.convertViewValue(newValue);
       if (newValue !== this.state.value) {
-        this.valueWasReported = true;
-        this.lastReportedViewValue = newValue;
+        this.viewValueIsKnown = true;
+        this.viewValue = newValue;
         this.actionsSubject.next(new SetValueAction(this.state.id, newValue));
       }
     });
@@ -109,11 +109,13 @@ export class NgrxFormControlDirective<TValue extends FormControlValueTypes> impl
 
     this.subscriptions.push(
       this.state$
-        .map(s => ({ id: s.id, value: this.convertModelValue(s.value) }))
-        .distinctUntilChanged((l, r) => l.id === r.id && l.value === r.value)
-        .map(s => s.value)
-        .filter(v => !this.valueWasReported || v !== this.lastReportedViewValue)
-        .subscribe(value => this.valueAccessor.writeValue(value))
+        .map(s => this.convertModelValue(s.value))
+        .filter(v => !this.viewValueIsKnown || v !== this.viewValue)
+        .subscribe(value => {
+          this.valueAccessor.writeValue(value);
+          this.viewValueIsKnown = true;
+          this.viewValue = value;
+        })
     );
 
     if (this.valueAccessor.setDisabledState) {

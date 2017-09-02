@@ -6,6 +6,7 @@
 #### Bugfixes
 
 * add support for `ngValue` on `option` elements, thereby fixing non-string option values not working for `select` elements
+* fix issue that prevents setting a value via state change if the same value was previously set via the view
 
 <a name="1.0.1"></a>
 ### 1.0.1
