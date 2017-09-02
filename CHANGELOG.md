@@ -1,5 +1,12 @@
 ## Ngrx Forms Changelog
 
+<a name="1.0.2"></a>
+### 1.0.2
+
+#### Bugfixes
+
+* add support for `ngValue` on `option` elements, thereby fixing non-string option values not working for `select` elements
+
 <a name="1.0.1"></a>
 ### 1.0.1
 

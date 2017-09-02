@@ -10,6 +10,7 @@ import {
   NgrxSelectControlValueAccessor,
   NgrxSelectMultipleControlValueAccessor,
   NgrxRadioControlValueAccessor,
+  NgrxSelectOption,
 } from './value-accessors';
 
 const exportsAndDeclarations = [
@@ -22,6 +23,7 @@ const exportsAndDeclarations = [
   NgrxSelectControlValueAccessor,
   NgrxSelectMultipleControlValueAccessor,
   NgrxRadioControlValueAccessor,
+  NgrxSelectOption,
 ];
 
 @NgModule({

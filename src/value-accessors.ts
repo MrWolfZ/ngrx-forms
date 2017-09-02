@@ -2,6 +2,8 @@ import {
   Directive,
   ElementRef,
   Renderer2,
+  Optional,
+  Host,
   forwardRef,
 } from '@angular/core';
 import {
@@ -12,6 +14,7 @@ import {
   SelectControlValueAccessor,
   SelectMultipleControlValueAccessor,
   RadioControlValueAccessor,
+  NgSelectOption,
 } from '@angular/forms';
 
 // tslint:disable:directive-selector
@@ -137,6 +140,19 @@ export class NgrxNumberValueAccessor implements ControlValueAccessor {
   }],
 })
 export class NgrxSelectControlValueAccessor extends SelectControlValueAccessor { }
+
+@Directive({
+  selector: 'option',
+})
+export class NgrxSelectOption extends NgSelectOption {
+  constructor(
+    element: ElementRef,
+    renderer: Renderer2,
+    @Optional() @Host() valueAccessor: NgrxSelectControlValueAccessor,
+  ) {
+    super(element, renderer, valueAccessor);
+  }
+}
 
 @Directive({
   selector: 'select[multiple][ngrxFormControlState]',
