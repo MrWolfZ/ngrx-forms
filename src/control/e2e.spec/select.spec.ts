@@ -6,9 +6,9 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/skip';
 
-import { FormControlState, createFormControlState } from '../state';
-import { SetValueAction } from '../actions';
-import { NgrxFormsModule } from '../module';
+import { FormControlState, createFormControlState } from '../../state';
+import { SetValueAction } from '../../actions';
+import { NgrxFormsModule } from '../../module';
 
 const SELECT_OPTIONS = ['op1', 'op2'];
 
