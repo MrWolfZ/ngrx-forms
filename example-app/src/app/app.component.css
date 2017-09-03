@@ -12,6 +12,10 @@
   width: 500px;
 }
 
+.description {
+  margin-bottom: 20px;
+}
+
 .mat-card.state {
   width: 400px;
   margin-left: 20px;

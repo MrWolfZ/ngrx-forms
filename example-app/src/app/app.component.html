@@ -4,6 +4,11 @@
       <md-card-title>Todos</md-card-title>
     </md-card-header>
     <md-card-content>
+      <div class="description">
+        Notes: <br/>
+        - the "Priority" input is only enabled for the "Work" category<br/>
+        - the "Text" input only updates the state value on "blur" which means there is a delay in updating the validation status as well
+      </div>
       <app-item-form [formState]="formState$ | async"
                      (addTodoItem)="addTodoItem($event)"></app-item-form>
       <md-list>

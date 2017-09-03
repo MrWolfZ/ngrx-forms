@@ -31,8 +31,7 @@
              [mdDatepicker]="picker"
              placeholder="Due date"
              [ngrxFormControlState]="metaState.controls.duedate"
-             [convertViewValue]="convertDateViewValue"
-             [convertModelValue]="convertDateModelValue"
+             [ngrxValueConverter]="dateValueConverter"
              [ngrxEnableFocusTracking]="true"
              [ngrxEnableLastKeydownCodeTracking]="true">
 
@@ -53,6 +52,7 @@
              placeholder="Text"
              #textInput
              [ngrxFormControlState]="formState.controls.text"
+             ngrxUpdateOn="blur"
              [ngrxEnableFocusTracking]="true"
              [ngrxEnableLastKeydownCodeTracking]="true">
 
@@ -70,8 +70,14 @@
         </span>
       </md-error>
 
-      <md-error *ngIf="formState.controls.text.errors.maxLength">
-        The text may be at most 50 characters long
+      <md-error *ngIf="formState.controls.text.errors.maxLength">        
+        <span>
+          The text may be at most 50 characters long
+        </span>
+        <span class="mat-input-hint-spacer"></span>
+        <span>
+          {{textInput.value?.length || 0}} / 50
+        </span>
       </md-error>
     </md-input-container>
     <button md-raised-button

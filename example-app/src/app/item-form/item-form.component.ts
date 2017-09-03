@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ViewChildren, AfterViewInit, QueryList, ChangeDetectionStrategy } from '@angular/core';
 import { MdInputDirective } from '@angular/material';
-import { FormGroupState, AbstractControlState } from 'ngrx-forms';
+import { FormGroupState, AbstractControlState, NgrxValueConverter, NgrxValueConverters } from 'ngrx-forms';
 
 import { ItemFormValue } from './item-form.state';
 import { TodoItem } from '../app.state';
@@ -21,6 +21,19 @@ export class ItemFormComponent implements AfterViewInit {
     return this.formState.controls.meta as FormGroupState<any>;
   }
 
+  dateValueConverter: NgrxValueConverter<Date | null, string | null> = {
+    convertViewToStateValue(value) {
+      if (value === null) {
+        return null;
+      }
+
+      // the value provided by the date picker is in local time but we want UTC so we recreate the date as UTC
+      value = new Date(Date.UTC(value.getFullYear(), value.getMonth(), value.getDate()));
+      return NgrxValueConverters.dateToISOString.convertViewToStateValue(value);
+    },
+    convertStateToViewValue: NgrxValueConverters.dateToISOString.convertStateToViewValue,
+  };
+
   ngAfterViewInit() {
     const isErrorState = (state: AbstractControlState<any>) => state.isInvalid && (state.isDirty || state.isTouched || state.isSubmitted);
 
@@ -32,19 +45,11 @@ export class ItemFormComponent implements AfterViewInit {
     this.inputs.find(i => i.id === 'text')!._isErrorState = () => isErrorState(this.formState.controls.text);
   }
 
-  convertDateViewValue(date: Date | null): string | null {
-    return date && date.toISOString();
-  }
-
-  convertDateModelValue(value: string | null): Date | null {
-    return value ? new Date(value) : null;
-  }
-
   onSubmit() {
     if (this.formState.isInvalid) {
       return;
     }
 
-    this.addTodoItem.emit(this.formState.value);
+    this.addTodoItem.emit(this.formState.value as any);
   }
 }

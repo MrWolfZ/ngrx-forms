@@ -1,24 +1,26 @@
 export interface MetaFormValue {
-  readonly priority: number;
-  readonly duedate: string;
+  readonly priority: number | null;
+  readonly duedate: string | null;
 }
 
 export interface ItemFormValue {
   readonly category: 'Private' | 'Work';
-  readonly text: string;
+  readonly text: string | null;
   readonly meta: MetaFormValue;
 }
 
+const now = new Date();
+const nowUtc = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
 export const initialItemFormValue: ItemFormValue = {
   category: 'Work',
   text: '',
   meta: {
     priority: 1,
-    duedate: new Date().toISOString(),
+    duedate: new Date(nowUtc).toISOString(),
   },
 };
 
-export function validateText(text: string) {
+export function validateText(text: string | null) {
   if (!text) {
     return { required: true };
   }
@@ -30,7 +32,7 @@ export function validateText(text: string) {
   return {};
 }
 
-export function validatePriority(priority: number) {
+export function validatePriority(priority: number | null) {
   if (priority === null || priority === undefined) {
     return { required: true };
   }
@@ -42,6 +44,6 @@ export function validatePriority(priority: number) {
   return {};
 }
 
-export function validateDuedate(duedate: string) {
+export function validateDuedate(duedate: string | null) {
   return !duedate ? { required: true } : {};
 }
