@@ -19,7 +19,15 @@ export const initialItemFormValue: ItemFormValue = {
 };
 
 export function validateText(text: string) {
-  return !text ? { required: true } : {};
+  if (!text) {
+    return { required: true };
+  }
+
+  if (text.length > 50) {
+    return { maxLength: [text.length, 50] };
+  }
+
+  return {};
 }
 
 export function validatePriority(priority: number) {

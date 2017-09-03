@@ -34,3 +34,7 @@ form {
   font-size: 14px;
   margin-top: 8px;
 }
+
+.mat-input-error {
+  display: flex;
+}

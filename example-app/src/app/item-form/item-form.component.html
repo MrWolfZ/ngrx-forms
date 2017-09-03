@@ -51,12 +51,27 @@
              mdInput
              id="text"
              placeholder="Text"
+             #textInput
              [ngrxFormControlState]="formState.controls.text"
              [ngrxEnableFocusTracking]="true"
              [ngrxEnableLastKeydownCodeTracking]="true">
 
+      <md-hint align="end">
+        {{textInput.value?.length || 0}} / 50
+      </md-hint>
+
       <md-error *ngIf="formState.controls.text.errors.required">
-        A text is required
+        <span>
+          A text is required
+        </span>
+        <span class="mat-input-hint-spacer"></span>
+        <span>
+          {{textInput.value?.length || 0}} / 50
+        </span>
+      </md-error>
+
+      <md-error *ngIf="formState.controls.text.errors.maxLength">
+        The text may be at most 50 characters long
       </md-error>
     </md-input-container>
     <button md-raised-button
