@@ -29,6 +29,9 @@ import {
 import { FormControlState, FormControlValueTypes } from '../state';
 import { selectValueAccessor } from '../value-accessors';
 
+const CHANGE = 'change';
+const BLUR = 'blur';
+
 @Directive({
   selector: '[ngrxFormControlState]',
 })
@@ -47,6 +50,7 @@ export class NgrxFormControlDirective<TValue extends FormControlValueTypes> impl
     this.stateSubject$.next(newState);
   }
 
+  @Input() ngrxUpdateOn: typeof CHANGE | typeof BLUR = CHANGE;
   @Input() ngrxEnableFocusTracking = false;
   @Input() ngrxEnableLastKeydownCodeTracking = false;
 
@@ -94,16 +98,21 @@ export class NgrxFormControlDirective<TValue extends FormControlValueTypes> impl
 
     this.valueAccessor.registerOnChange((newValue: TValue) => {
       newValue = this.convertViewValue(newValue);
-      if (newValue !== this.state.value) {
-        this.viewValueIsKnown = true;
-        this.viewValue = newValue;
-        this.actionsSubject.next(new SetValueAction(this.state.id, newValue));
+      this.viewValueIsKnown = true;
+      this.viewValue = newValue;
+
+      if (this.viewValue !== this.state.value && this.ngrxUpdateOn === CHANGE) {
+        this.actionsSubject.next(new SetValueAction(this.state.id, this.viewValue));
       }
     });
 
     this.valueAccessor.registerOnTouched(() => {
       if (!this.state.isTouched) {
         this.actionsSubject.next(new MarkAsTouchedAction(this.state.id));
+      }
+
+      if (this.viewValue !== this.state.value && this.ngrxUpdateOn === BLUR) {
+        this.actionsSubject.next(new SetValueAction(this.state.id, this.viewValue));
       }
     });
 

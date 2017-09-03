@@ -2,7 +2,7 @@ import { ElementRef } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { Action, ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/count';
 
@@ -14,7 +14,7 @@ describe(NgrxFormControlDirective.name, () => {
   let directive: NgrxFormControlDirective<string>;
   let elementRef: ElementRef;
   let document: Document;
-  let actionsSubject: ActionsSubject;
+  let actionsSubject: ReplaySubject<Action>;
   let actions$: Observable<Action>;
   let valueAccessor: ControlValueAccessor;
   let onChange: (value: string) => void;
@@ -26,7 +26,7 @@ describe(NgrxFormControlDirective.name, () => {
   beforeEach(() => {
     elementRef = { nativeElement: { focus: () => void 0, blur: () => void 0 } } as any as ElementRef;
     document = {} as any as Document;
-    actionsSubject = new BehaviorSubject<Action>({ type: '' }) as ActionsSubject;
+    actionsSubject = new ReplaySubject<Action>();
     actions$ = actionsSubject as any; // required due to mismatch of lift() function signature
     valueAccessor = {
       writeValue: () => void 0,
@@ -34,7 +34,7 @@ describe(NgrxFormControlDirective.name, () => {
       registerOnTouched: fn => onTouched = fn,
       setDisabledState: () => void 0,
     };
-    directive = new NgrxFormControlDirective<string>(elementRef, document, actionsSubject, [valueAccessor]);
+    directive = new NgrxFormControlDirective<string>(elementRef, document, actionsSubject as any, [valueAccessor]);
     directive.ngrxFormControlState = INITIAL_STATE;
     directive.ngAfterViewInit();
   });
@@ -112,6 +112,42 @@ describe(NgrxFormControlDirective.name, () => {
     const spy = spyOn(valueAccessor, 'writeValue');
     directive.ngrxFormControlState = { ...INITIAL_STATE, value: newValue };
     expect(spy).toHaveBeenCalledWith(newValue);
+  });
+
+  describe('ngrxUpdateOn "blur"', () => {
+    beforeEach(() => {
+      directive.ngrxFormControlState = { ...INITIAL_STATE, isTouched: true, isUntouched: false };
+      directive.ngrxUpdateOn = 'blur';
+    });
+
+    it('should dispatch an action on blur if the view value has changed with ngrxUpdateOn "blur"', done => {
+      const newValue = 'new value';
+      onChange(newValue);
+      onTouched();
+      actions$.first().subscribe(a => {
+        expect(a).toEqual(new SetValueAction(INITIAL_STATE.id, newValue));
+        done();
+      });
+    });
+
+    it('should not dispatch an action on blur if the view value has not changed with ngrxUpdateOn "blur"', done => {
+      onTouched();
+      actionsSubject.complete();
+      actions$.count().subscribe(c => {
+        expect(c).toEqual(0);
+        done();
+      });
+    });
+
+    it('should not dispatch an action if the view value changes with ngrxUpdateOn "blur"', done => {
+      const newValue = 'new value';
+      onChange(newValue);
+      actionsSubject.complete();
+      actions$.count().subscribe(c => {
+        expect(c).toEqual(0);
+        done();
+      });
+    });
   });
 
   // TODO: throwing error on undefined state

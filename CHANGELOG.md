@@ -1,5 +1,12 @@
 ## Ngrx Forms Changelog
 
+<a name="1.1.0"></a>
+### 1.1.0
+
+#### Features
+
+* add support for controlling when the view value is pushed to the state via `ngrxUpdateOn`
+
 <a name="1.0.2"></a>
 ### 1.0.2
 

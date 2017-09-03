@@ -190,7 +190,11 @@ The following table explains each property.
 |`isFocused`|`isUnfocused`|The `isFocused` flag is set to `true` if the control currently has focus. Note that this feature is opt-in. To enable it you have to add ```[ngrxEnableFocusTracking]="true"``` to your form element.|
 |`lastKeyDownCode`||The `lastKeyDownCode` is set to the key code of the last key that was pressed on the control. Note that this feature is opt-in. To enable it you have to add ```[ngrxEnableLastKeydownCodeTracking]="true"``` to your form element. This feature can be used for example to react to `Enter` key events. Note that this feature is likely to be changed in the near future.|
 
-Control states are associated with a form element via the `NgrxFormControlDirective` (applied with `[ngrxFormControlState]="controlState"`). This directive is reponsible for keeping the view and the state in sync. When the state is changed the update is always immediately sync'ed to the view. Currently this also always happens immediately when the view is changed (e.g. as soon as the value of an `input` changes the state is updated), but there are plans to allow specifying the event on which the sync happens (e.g. `change`, `blur` etc.).
+Control states are associated with a form element via the `NgrxFormControlDirective` (applied with `[ngrxFormControlState]="controlState"`). This directive is reponsible for keeping the view and the state in sync. When the state is changed the update is always immediately sync'ed to the view.
+
+#### `ngrxUpdateOn`
+
+It is possible to control when view values changes are pushed to the state with the `ngrxUpdateOn` attribute. The supported values are `change` (pushed immediately when the view value changes; default) and `blur` (pushed when the form element loses focus).
 
 ### Form Groups
 
