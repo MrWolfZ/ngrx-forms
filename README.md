@@ -413,7 +413,6 @@ As mentioned above ngrx-forms re-uses the `ControlValueAccessor` concept of `@an
 ## <a name="4"></a>4 Open Points
 
 * providing a simple set of common validation functions (e.g. required, min, max, pattern, etc.) and error composition
-* providing option to choose when the view is sync'ed to the state (e.g. `change`, `blur` etc.)
 * proper value conversion for converting values between the view and the state
 * async validation (although already achievable via effects)
 * providing some global configuration options (e.g. enabling focus tracking globally)
