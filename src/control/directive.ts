@@ -43,10 +43,10 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
       throw new Error('The control state must not be undefined!');
     }
 
-    if (this.state && newState.id !== this.state.id) {
+    if (!this.state || newState.id !== this.state.id) {
       this.stateValue = newState.value;
-      const viewValue = this.ngrxValueConverter.convertStateToViewValue(newState.value);
-      this.valueAccessor.writeValue(viewValue);
+      this.viewValue = this.ngrxValueConverter.convertStateToViewValue(this.stateValue);
+      this.valueAccessor.writeValue(this.viewValue);
     }
 
     this.state = newState;
@@ -81,6 +81,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
   // the directive, which in turn would trigger a view update; to prevent this behavior we compare
   // the latest known state value with the value to be set and filter out those values that are equal
   // to the latest known value
+  private viewValue: TViewValue;
   private stateValue: TStateValue;
 
   constructor(
@@ -97,11 +98,18 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
       throw new Error('The form state must not be undefined!');
     }
 
-    this.valueAccessor.registerOnChange((viewValue: TViewValue) => {
-      this.stateValue = this.ngrxValueConverter.convertViewToStateValue(viewValue);
-
-      if (this.stateValue !== this.state.value && this.ngrxUpdateOn === CHANGE) {
+    const dispatchSetValueAction = () => {
+      this.stateValue = this.ngrxValueConverter.convertViewToStateValue(this.viewValue);
+      if (this.stateValue !== this.state.value) {
         this.actionsSubject.next(new SetValueAction(this.state.id, this.stateValue));
+      }
+    };
+
+    this.valueAccessor.registerOnChange((viewValue: TViewValue) => {
+      this.viewValue = viewValue;
+
+      if (this.ngrxUpdateOn === CHANGE) {
+        dispatchSetValueAction();
       }
     });
 
@@ -110,8 +118,8 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
         this.actionsSubject.next(new MarkAsTouchedAction(this.state.id));
       }
 
-      if (this.stateValue !== this.state.value && this.ngrxUpdateOn === BLUR) {
-        this.actionsSubject.next(new SetValueAction(this.state.id, this.stateValue));
+      if (this.ngrxUpdateOn === BLUR) {
+        dispatchSetValueAction();
       }
     });
 
@@ -121,6 +129,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
         .filter(v => v !== this.stateValue)
         .do(value => this.stateValue = value)
         .map(value => this.ngrxValueConverter.convertStateToViewValue(value))
+        .do(value => this.viewValue = value)
         .subscribe(value => this.valueAccessor.writeValue(value))
     );
 

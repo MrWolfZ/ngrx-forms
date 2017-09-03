@@ -149,6 +149,14 @@ describe(NgrxFormControlDirective.name, () => {
         done();
       });
     });
+
+    it('should not write the value when the state value does not change', () => {
+      const newValue = 'new value';
+      onChange(newValue);
+      const spy = spyOn(valueAccessor, 'writeValue');
+      directive.ngrxFormControlState = { ...INITIAL_STATE };
+      expect(spy).not.toHaveBeenCalled();
+    });
   });
 
   describe('value conversion', () => {
