@@ -1,0 +1,17 @@
+export interface NgrxValueConverter<TView, TState> {
+  convertViewToStateValue(value: TView): TState;
+  convertStateToViewValue(value: TState): TView;
+}
+
+export const NgrxValueConverters = {
+  identity<T>() {
+    return {
+      convertViewToStateValue: value => value,
+      convertStateToViewValue: value => value,
+    } as NgrxValueConverter<T, T>;
+  },
+  dateToISOString: {
+    convertViewToStateValue: date => date === null ? null : date.toISOString(),
+    convertStateToViewValue: s => s === null ? null : new Date(Date.parse(s)),
+  } as NgrxValueConverter<Date | null, string | null>,
+};

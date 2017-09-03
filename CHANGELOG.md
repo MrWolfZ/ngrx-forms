@@ -6,6 +6,7 @@
 #### Features
 
 * add support for controlling when the view value is pushed to the state via `ngrxUpdateOn`
+* add support for value conversion via `ngrxValueConverter`
 
 <a name="1.0.2"></a>
 ### 1.0.2

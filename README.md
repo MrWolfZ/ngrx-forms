@@ -196,6 +196,99 @@ Control states are associated with a form element via the `NgrxFormControlDirect
 
 It is possible to control when view values changes are pushed to the state with the `ngrxUpdateOn` attribute. The supported values are `change` (pushed immediately when the view value changes; default) and `blur` (pushed when the form element loses focus).
 
+#### Value Conversion
+
+If you need to use a form element that only supports objects as values (e.g. most custom date picker components) you can provide a value converter via the `ngrxValueConverter` attribute to perform a conversion between view and state values. Value converters are simple objects with two functions:
+
+```typescript
+export interface NgrxValueConverter<TView, TState> {
+  convertViewToStateValue(value: TView): TState;
+  convertStateToViewValue(value: TState): TView;
+}
+```
+
+ngrx-forms ships with a number of pre-made value converters. Currently these are defined as follows:
+
+```typescript
+export const NgrxValueConverters = {
+  identity<T>() {
+    return {
+      convertViewToStateValue: value => value,
+      convertStateToViewValue: value => value,
+    } as NgrxValueConverter<T, T>;
+  },
+  dateToISOString: {
+    convertViewToStateValue: date => date === null ? null : date.toISOString(),
+    convertStateToViewValue: s => s === null ? null : new Date(Date.parse(s)),
+  } as NgrxValueConverter<Date | null, string | null>,
+};
+```
+
+Below you can find a full example on how to use a value converter to work with dates as view values:
+
+```typescript
+import { Action } from '@ngrx/store';
+import { FormGroupState, createFormGroupState, formGroupReducer } from 'ngrx-forms';
+
+export interface MyFormValue {
+  date: string;
+}
+
+const FORM_ID = 'some globally unique string';
+
+const initialFormState = createFormGroupState<MyFormValue>(FORM_ID, {
+  date: new Date(0).toISOString(),
+});
+
+export interface AppState {
+  myForm: FormGroupState<MyFormValue>;
+}
+
+const initialState: AppState = {
+  myForm: initialFormState,
+};
+
+export function appReducer(state = initialState, action: Action): AppState {
+  const myForm = formGroupReducer(state.myForm, action);
+  if (myForm !== state.myForm) {
+    return { ...state, myForm };
+  }
+
+  return state;
+}
+```
+
+```typescript
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { FormGroupState, NgrxValueConverters } from 'ngrx-forms';
+import { Observable } from 'rxjs/Observable';
+
+import { MyFormValue } from './reducer';
+
+@Component({
+  selector: 'my-component',
+  templateUrl: './my-component.html',
+})
+export class MyComponent {
+  formState$: Observable<FormGroupState<MyFormValue>>;
+
+  constructor(private store: Store<AppState>) {
+    this.formState$ = store.select(s => s.myForm);
+  }
+
+  dateValueConverter = NgrxValueConverters.dateToISOString;
+}
+```
+
+```html
+<form novalidate [ngrxFormState]="(formState$ | async)">
+  <input type="date"
+         [ngrxFormControlState]="(formState$ | async).controls.date"
+         [ngrxValueConverter]="dateValueConverter">
+</form>
+```
+
 ### Form Groups
 
 Groups are collections of controls. Just like controls groups are represented as plain state objects. The state of a group is determined almost fully by its child controls (with the exception of `errors` which a group can have by itself). Group states have the following shape: 
@@ -413,7 +506,6 @@ As mentioned above ngrx-forms re-uses the `ControlValueAccessor` concept of `@an
 ## <a name="4"></a>4 Open Points
 
 * providing a simple set of common validation functions (e.g. required, min, max, pattern, etc.) and error composition
-* proper value conversion for converting values between the view and the state
 * async validation (although already achievable via effects)
 * providing some global configuration options (e.g. enabling focus tracking globally)
 * add `isFocused` to groups to track whether any child is focused

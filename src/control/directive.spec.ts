@@ -1,6 +1,6 @@
 import { ElementRef } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { Action, ActionsSubject } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import 'rxjs/add/operator/first';
@@ -9,15 +9,16 @@ import 'rxjs/add/operator/count';
 import { SetValueAction } from '../actions';
 import { createFormControlState } from '../state';
 import { NgrxFormControlDirective } from './directive';
+import { NgrxValueConverters } from './value-converter';
 
 describe(NgrxFormControlDirective.name, () => {
-  let directive: NgrxFormControlDirective<string>;
+  let directive: NgrxFormControlDirective<string | null, any>;
   let elementRef: ElementRef;
   let document: Document;
   let actionsSubject: ReplaySubject<Action>;
   let actions$: Observable<Action>;
   let valueAccessor: ControlValueAccessor;
-  let onChange: (value: string) => void;
+  let onChange: (value: any) => void;
   let onTouched: () => void;
   const FORM_CONTROL_ID = 'test ID';
   const INITIAL_FORM_CONTROL_VALUE = 'value';
@@ -142,6 +143,46 @@ describe(NgrxFormControlDirective.name, () => {
     it('should not dispatch an action if the view value changes with ngrxUpdateOn "blur"', done => {
       const newValue = 'new value';
       onChange(newValue);
+      actionsSubject.complete();
+      actions$.count().subscribe(c => {
+        expect(c).toEqual(0);
+        done();
+      });
+    });
+  });
+
+  describe('value conversion', () => {
+    const VIEW_VALUE = new Date(0);
+    const STATE_VALUE = '1970-01-01T00:00:00.000Z';
+
+    beforeEach(() => {
+      directive.ngrxValueConverter = NgrxValueConverters.dateToISOString;
+    });
+
+    it('should convert the state value when the state changes', () => {
+      const spy = spyOn(valueAccessor, 'writeValue');
+      directive.ngrxFormControlState = { ...INITIAL_STATE, value: STATE_VALUE };
+      expect(spy).toHaveBeenCalledWith(VIEW_VALUE);
+    });
+
+    it('should convert the view value if it changes', done => {
+      onChange(VIEW_VALUE);
+      actions$.first().subscribe(a => {
+        expect(a).toEqual(new SetValueAction(INITIAL_STATE.id, STATE_VALUE));
+        done();
+      });
+    });
+
+    it('should not write the value when the state value does not change with conversion', () => {
+      directive.ngrxFormControlState = { ...INITIAL_STATE, value: STATE_VALUE };
+      const spy = spyOn(valueAccessor, 'writeValue');
+      directive.ngrxFormControlState = { ...INITIAL_STATE, value: STATE_VALUE };
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('should not dispatch an action if the view value is the same as the state with conversion', done => {
+      directive.ngrxFormControlState = { ...INITIAL_STATE, value: STATE_VALUE };
+      onChange(VIEW_VALUE);
       actionsSubject.complete();
       actions$.count().subscribe(c => {
         expect(c).toEqual(0);
