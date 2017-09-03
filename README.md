@@ -194,7 +194,7 @@ Control states are associated with a form element via the `NgrxFormControlDirect
 
 #### `ngrxUpdateOn`
 
-It is possible to control when view values changes are pushed to the state with the `ngrxUpdateOn` attribute. The supported values are `change` (pushed immediately when the view value changes; default) and `blur` (pushed when the form element loses focus).
+It is possible to control when view values changes are pushed to the state with the `ngrxUpdateOn` attribute. The supported values are `change` (pushed immediately when the view value changes; default) and `blur` (pushed when the form element loses focus). Note that by changing the time value changes are pushed to the state you are also changing the time at which validation and other state updates that depend on the value happen.
 
 #### Value Conversion
 
