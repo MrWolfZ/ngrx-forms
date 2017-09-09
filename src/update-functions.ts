@@ -52,10 +52,16 @@ function updateControlsState<TValue extends KeyValue>(updateFns: StateUpdateFns<
   };
 }
 
-export function updateGroup<TValue extends object>(updateFns: StateUpdateFns<TValue>) {
-  return (state: FormGroupState<TValue>) => {
-    const newControls = updateControlsState(updateFns)(state);
-    return newControls !== state.controls ? computeGroupState(state.id, newControls, state.value, state.errors) : state;
+function updateGroupSingle<TValue extends object>(updateFns: StateUpdateFns<TValue>) {
+  return (state: FormGroupState<TValue>): FormGroupState<TValue> => {
+    const newControls = updateControlsState<TValue>(updateFns)(state);
+    return newControls !== state.controls ? computeGroupState<TValue>(state.id, newControls, state.value, state.errors) : state;
+  };
+}
+
+export function updateGroup<TValue extends object>(...updateFnsArr: Array<StateUpdateFns<TValue>>) {
+  return (state: FormGroupState<TValue>): FormGroupState<TValue> => {
+    return updateFnsArr.reduce((s, updateFns) => updateGroupSingle<TValue>(updateFns)(s), state);
   };
 }
 
@@ -67,7 +73,7 @@ export function groupUpdateReducer<TValue extends object>(...updateFnsArr: Array
   return (state: FormGroupState<TValue>, action: Action) =>
     compose<FormGroupState<TValue>>(
       s => formGroupReducer(s, action),
-      ...updateFnsArr.map(updateFns => updateGroup<TValue>(updateFns)),
+      updateGroup<TValue>(...updateFnsArr),
     )(state);
 }
 

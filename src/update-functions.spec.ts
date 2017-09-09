@@ -55,6 +55,20 @@ describe('update functions', () => {
       expect((resultState.controls.inner3 as FormGroupState<NestedValue>).controls.inner4).toBe(expected);
     });
 
+    it('should apply multiple provided function objects one after another', () => {
+      const updatedInner1 = { ...INITIAL_STATE.controls.inner, value: 'A' };
+      const expectedInner1 = { ...INITIAL_STATE.controls.inner, value: 'B' };
+      const expectedInner3 = { ...INITIAL_STATE.controls.inner3, value: { inner4: 'A' } };
+      const resultState = updateGroup<FormGroupValue>({
+        inner: () => updatedInner1,
+        inner3: () => expectedInner3,
+      }, {
+          inner: () => expectedInner1,
+        })(INITIAL_STATE);
+      expect(resultState.controls.inner).toBe(expectedInner1);
+      expect(resultState.controls.inner3).toBe(expectedInner3);
+    });
+
     it('should pass the parent group as the second parameter', () => {
       updateGroup<FormGroupValue>({
         inner3: (c, p) => {
@@ -101,6 +115,20 @@ describe('update functions', () => {
         inner: () => expected,
       })(INITIAL_STATE, new SetValueAction(FORM_CONTROL_INNER_ID, 'B'));
       expect(resultState.controls.inner).toBe(expected);
+    });
+
+    it('should apply multiple provided function objects one after another', () => {
+      const updatedInner1 = { ...INITIAL_STATE.controls.inner, value: 'A' };
+      const expectedInner1 = { ...INITIAL_STATE.controls.inner, value: 'B' };
+      const expectedInner3 = { ...INITIAL_STATE.controls.inner3, value: { inner4: 'A' } };
+      const resultState = groupUpdateReducer<FormGroupValue>({
+        inner: () => updatedInner1,
+        inner3: () => expectedInner3,
+      }, {
+          inner: () => expectedInner1,
+        })(INITIAL_STATE, new SetValueAction(FORM_CONTROL_INNER_ID, 'D'));
+      expect(resultState.controls.inner).toBe(expectedInner1);
+      expect(resultState.controls.inner3).toBe(expectedInner3);
     });
   });
 

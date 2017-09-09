@@ -1,5 +1,12 @@
 ## Ngrx Forms Changelog
 
+<a name="1.1.1"></a>
+### 1.1.1
+
+#### Bugfixes
+
+* change `updateGroups` function to properly accept multiple update function objects as written in the documentation
+
 <a name="1.1.0"></a>
 ### 1.1.0
 
