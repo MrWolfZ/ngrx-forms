@@ -500,7 +500,7 @@ export function appReducer(state = initialState, action: Action): AppState {
 }
 ```
 
-If you need to update the form state based on data not contained in the form state itself you can simply parameterize the form update function. In the following example we validate that `someNumber` is greater than some other number from the state;
+If you need to update the form state based on data not contained in the form state itself you can simply parameterize the form update function. In the following example we validate that `someNumber` is greater than some other number from the state.
 
 ```typescript
 const createMyFormUpdateFunction = (otherNumber: number) => updateGroup<MyFormValue>({
