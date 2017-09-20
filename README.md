@@ -352,6 +352,7 @@ interface SetDynamicObjectsAction extends Action {
 
 interface AppState {
   someOtherState: string;
+  someOtherNumber: number;
   dynamicForm: FormGroupState<DynamicFormValue>;
 }
 
@@ -491,6 +492,43 @@ export function appReducer(state = initialState, action: Action): AppState {
     case 'some action type':
       // modify state
       return state;
+
+    default: {
+      return state;
+    }
+  }
+}
+```
+
+If you need to update the form state based on data not contained in the form state itself you can simply parameterize the form update function. In the following example we validate that `someNumber` is greater than some other number from the state;
+
+```typescript
+const createMyFormUpdateFunction = (otherNumber: number) => updateGroup<MyFormValue>({
+  nested: updateGroup({
+    otherNumber: validate(v => v > otherNumber ? {} : { tooSmall: otherNumber }),
+  }),
+});
+
+export function appReducer(state = initialState, action: Action): AppState {
+  let myForm = formGroupeReducer(state.myForm, action);
+  myForm = createMyFormUpdateFunction(state.someOtherNumber)(myForm);
+  if (myForm !== state.myForm) {
+    state = { ...state, myForm };
+  }
+
+  switch (action.type) {
+    case 'some action type':
+      // modify state
+      return state;
+
+    case 'some action type of an action that changes `someOtherNumber`':
+      // we need to update the form state as well since the parameters changed
+      myForm = createMyFormUpdateFunction(action.someOtherNumber)(state.myForm);
+      return { 
+        ...state, 
+        someOtherNumber: action.someOtherNumber, 
+        myForm,
+      };
 
     default: {
       return state;
