@@ -42,4 +42,39 @@ describe('NgrxValueConverters', () => {
       expect(NgrxValueConverters.dateToISOString.convertStateToViewValue(stateValue)).toEqual(viewValue);
     });
   });
+
+  describe('objectToJSON', () => {
+    const testObject = {
+      a: [1, 2, 3],
+      b: {
+        c: '456'
+      },
+    };
+    const testJSON = '{"a":[1,2,3],"b":{"c":"456"}}';
+
+    it('should return an object when converting a view value', () => {
+      const stateValue = NgrxValueConverters.objectToJSON.convertViewToStateValue(testObject);
+      expect(stateValue).toEqual(testJSON);
+    });
+
+    it('should pass through a "null" view value', () => {
+      const stateValue = NgrxValueConverters.objectToJSON.convertViewToStateValue(null);
+      expect(stateValue).toEqual(null);
+    });
+
+    it('should return a JSON string when converting state value', () => {
+      const viewValue = NgrxValueConverters.objectToJSON.convertStateToViewValue(testJSON);
+      expect(viewValue).toEqual(testObject);
+    });
+
+    it('should pass through a "null" state value', () => {
+      const stateValue = NgrxValueConverters.objectToJSON.convertStateToViewValue(null);
+      expect(stateValue).toEqual(null);
+    });
+
+    it('should return an equal value if converting from view to state and back', () => {
+      const stateValue = NgrxValueConverters.objectToJSON.convertViewToStateValue(testJSON);
+      expect(NgrxValueConverters.objectToJSON.convertStateToViewValue(stateValue)).toEqual(testJSON);
+    });
+  });
 });

@@ -198,7 +198,7 @@ It is possible to control when view values changes are pushed to the state with 
 
 #### Value Conversion
 
-If you need to use a form element that only supports objects as values (e.g. most custom date picker components) you can provide a value converter via the `ngrxValueConverter` attribute to perform a conversion between view and state values. Value converters are simple objects with two functions:
+If you need to use a form element that only supports objects as values (e.g. most custom date picker and tag input components) you can provide a value converter via the `ngrxValueConverter` attribute to perform a conversion between view and state values. Value converters are simple objects with two functions:
 
 ```typescript
 export interface NgrxValueConverter<TView, TState> {
@@ -221,6 +221,10 @@ export const NgrxValueConverters = {
     convertViewToStateValue: date => date === null ? null : date.toISOString(),
     convertStateToViewValue: s => s === null ? null : new Date(Date.parse(s)),
   } as NgrxValueConverter<Date | null, string | null>,
+  objectToJSON: {
+    convertViewToStateValue: value => value === null ? null : JSON.stringify(value),
+    convertStateToViewValue: s => s === null ? null : JSON.parse(s),
+  } as NgrxValueConverter<{} | null, string | null>,
 };
 ```
 
