@@ -41,6 +41,12 @@ describe('NgrxValueConverters', () => {
       const stateValue = NgrxValueConverters.dateToISOString.convertViewToStateValue(viewValue);
       expect(NgrxValueConverters.dateToISOString.convertStateToViewValue(stateValue)).toEqual(viewValue);
     });
+
+    it('should return an equal value if converting from state to view and back', () => {
+      const stateValue = '1970-01-01T00:00:00.000Z';
+      const viewValue = NgrxValueConverters.dateToISOString.convertStateToViewValue(stateValue);
+      expect(NgrxValueConverters.dateToISOString.convertViewToStateValue(viewValue)).toEqual(stateValue);
+    });
   });
 
   describe('objectToJSON', () => {
