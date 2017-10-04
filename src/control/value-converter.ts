@@ -14,4 +14,8 @@ export const NgrxValueConverters = {
     convertViewToStateValue: date => date === null ? null : date.toISOString(),
     convertStateToViewValue: s => s === null ? null : new Date(Date.parse(s)),
   } as NgrxValueConverter<Date | null, string | null>,
+  objectToJSON: {
+    convertViewToStateValue: value => value === null ? null : JSON.stringify(value),
+    convertStateToViewValue: s => s === null ? null : JSON.parse(s),
+  } as NgrxValueConverter<{} | null, string | null>,
 };

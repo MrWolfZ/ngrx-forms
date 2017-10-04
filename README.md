@@ -17,7 +17,7 @@ There is an [example app](https://ngrx-forms-example-app.herokuapp.com/) that sh
 
 ## <a name="1"></a>1 Installation
 ```Shell
-npm install ngrx-forms --save 
+npm install ngrx-forms --save
 ```
 
 This library depends on versions `^4.0.0` of `@angular/core`, `@angular/forms`, and `@ngrx/store`, and version `^5.0.0` of `rxjs`.
@@ -198,7 +198,7 @@ It is possible to control when view values changes are pushed to the state with 
 
 #### Value Conversion
 
-If you need to use a form element that only supports objects as values (e.g. most custom date picker components) you can provide a value converter via the `ngrxValueConverter` attribute to perform a conversion between view and state values. Value converters are simple objects with two functions:
+If you need to use a form element that only supports objects as values (e.g. most custom date picker and tag input components) you can provide a value converter via the `ngrxValueConverter` attribute to perform a conversion between view and state values. Value converters are simple objects with two functions:
 
 ```typescript
 export interface NgrxValueConverter<TView, TState> {
@@ -221,6 +221,10 @@ export const NgrxValueConverters = {
     convertViewToStateValue: date => date === null ? null : date.toISOString(),
     convertStateToViewValue: s => s === null ? null : new Date(Date.parse(s)),
   } as NgrxValueConverter<Date | null, string | null>,
+  objectToJSON: {
+    convertViewToStateValue: value => value === null ? null : JSON.stringify(value),
+    convertStateToViewValue: s => s === null ? null : JSON.parse(s),
+  } as NgrxValueConverter<{} | null, string | null>,
 };
 ```
 
@@ -291,7 +295,7 @@ export class MyComponent {
 
 ### Form Groups
 
-Groups are collections of controls. Just like controls groups are represented as plain state objects. The state of a group is determined almost fully by its child controls (with the exception of `errors` which a group can have by itself). Group states have the following shape: 
+Groups are collections of controls. Just like controls groups are represented as plain state objects. The state of a group is determined almost fully by its child controls (with the exception of `errors` which a group can have by itself). Group states have the following shape:
 
 ```typescript
 export interface KeyValue { [key: string]: any; }
@@ -319,7 +323,7 @@ Group states are usually completely independent of the DOM (with the exception o
 
 #### Dynamic Form Groups
 
-Sometimes you will have to render a variable number of fields in your form. In such a case you can provide a form value interface that has an index signature and then add and remove controls dynamically. Instead of an index signature you can also use optional fields if the potential members of the form value are statically known. At runtime you can add and remove controls in two ways: 
+Sometimes you will have to render a variable number of fields in your form. In such a case you can provide a form value interface that has an index signature and then add and remove controls dynamically. Instead of an index signature you can also use optional fields if the potential members of the form value are statically known. At runtime you can add and remove controls in two ways:
 
 1) explicitly call the `addControl` and `removeControl` update functions (see the section below)
 2) set the value of the form group via `setValue` which will automatically update the form group based on the value you provide
@@ -444,7 +448,7 @@ const updateMyFormGroup = updateGroup<MyFormValue>({
 }, {
   // note that the parent form state is provided as the second argument to update functions;
   // type annotations added for clarity but are inferred correctly otherwise
-  nested: (nested: AbstractControlState<NestedValue>, myForm: FormGroupState<MyFormValue>) => 
+  nested: (nested: AbstractControlState<NestedValue>, myForm: FormGroupState<MyFormValue>) =>
     updateGroup<NestedValue>({
       someNumber: (someNumber: AbstractControlState<number>) => {
         if (myForm.controls.someTextInput.errors.required) {
@@ -454,7 +458,7 @@ const updateMyFormGroup = updateGroup<MyFormValue>({
 
         return someNumber;
       };
-    })(cast(nested)) 
+    })(cast(nested))
     // the `cast` (utility function exported by `ngrx-forms`) helps the type checker to recognize the
     // `nested` state as a group state
 });
@@ -524,9 +528,9 @@ export function appReducer(state = initialState, action: Action): AppState {
     case 'some action type of an action that changes `someOtherNumber`':
       // we need to update the form state as well since the parameters changed
       myForm = createMyFormUpdateFunction(action.someOtherNumber)(state.myForm);
-      return { 
-        ...state, 
-        someOtherNumber: action.someOtherNumber, 
+      return {
+        ...state,
+        someOtherNumber: action.someOtherNumber,
         myForm,
       };
 
@@ -553,9 +557,9 @@ As mentioned above ngrx-forms re-uses the `ControlValueAccessor` concept of `@an
 ## <a name="5"></a>5 Contributing
 
 ### Testing
-The following command runs all unit tests: 
+The following command runs all unit tests:
 ```Shell
-npm test 
+npm test
 ```
 
 ### Building and Packaging
@@ -581,7 +585,7 @@ npm install [path]ngrx-forms-[version].tgz
 To generate the documentation, this library uses [compodoc](https://github.com/compodoc/compodoc):
 ```Shell
 npm run compodoc
-npm run compodoc-serve 
+npm run compodoc-serve
 ```
 -->
 
