@@ -103,16 +103,22 @@ export function setValue<TValue>(value: TValue, state?: AbstractControlState<TVa
   return (s: AbstractControlState<TValue>) => setValue(value, ensureState(s));
 }
 
-// export function validate<TValue extends FormControlValueTypes>(validatorFn: (value: TValue) => ValidationErrors): ProjectFn<FormControlState<TValue>>;
-// export function validate<TValue extends KeyValue>(validatorFn: (value: TValue) => ValidationErrors): ProjectFn<FormGroupState<TValue>>;
-export function validate<TValue>(validatorFn: (value: TValue) => ValidationErrors): ProjectFn<AbstractControlState<TValue>>;
-export function validate<TValue>(validatorFn: (value: TValue) => ValidationErrors, state: AbstractControlState<TValue>): AbstractControlState<TValue>;
-export function validate<TValue>(validatorFn: (value: TValue) => ValidationErrors, state?: AbstractControlState<TValue>) {
+export type ValidationFn<TValue> = (value: TValue) => ValidationErrors;
+export type ValidateParam<TValue> = ValidationFn<TValue> | Array<ValidationFn<TValue>>;
+
+// export function validate<TValue extends FormControlValueTypes>(param: ValidateParam<TValue>): ProjectFn<FormControlState<TValue>>;
+// export function validate<TValue extends KeyValue>(param: ValidateParam<TValue>): ProjectFn<FormGroupState<TValue>>;
+export function validate<TValue>(param: ValidateParam<TValue>): ProjectFn<AbstractControlState<TValue>>;
+export function validate<TValue>(param: ValidateParam<TValue>, state: AbstractControlState<TValue>): AbstractControlState<TValue>;
+export function validate<TValue>(param: ValidateParam<TValue>, state?: AbstractControlState<TValue>) {
   if (!!state) {
-    return abstractControlReducer(state, new SetErrorsAction(state.id, validatorFn(state.value)));
+    param = Array.isArray(param) ? param : [param];
+    const errors = param.reduce((agg, validationFn) => Object.assign(agg, validationFn(state.value)), <ValidationErrors>{});
+
+    return abstractControlReducer(state, new SetErrorsAction(state.id, errors));
   }
 
-  return (s: AbstractControlState<TValue>) => validate(validatorFn, ensureState(s));
+  return (s: AbstractControlState<TValue>) => validate(param, ensureState(s));
 }
 
 // export function enable<TValue extends FormControlValueTypes>(state: FormControlState<TValue>): FormControlState<TValue>;

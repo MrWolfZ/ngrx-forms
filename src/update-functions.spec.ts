@@ -172,6 +172,22 @@ describe('update functions', () => {
       expect(resultState).not.toBe(INITIAL_STATE.controls.inner);
     });
 
+    it('should merge errors from multiple validation functions', () => {
+      const errors1 = { required: true };
+      const errors2 = { min: 1 };
+      const mergedErrors = { required: true, min: 1 };
+      const resultState = validate<string>([() => errors1, () => errors2])(cast(INITIAL_STATE.controls.inner));
+      expect(resultState.errors).toEqual(mergedErrors);
+    });
+
+    it('should merge errors from multiple validation functions in the order they were provided', () => {
+      const errors1 = { min: 1, required: true };
+      const errors2 = { min: 2 };
+      const mergedErrors = { required: true, min: 2 };
+      const resultState = validate<string>([() => errors1, () => errors2])(cast(INITIAL_STATE.controls.inner));
+      expect(resultState.errors).toEqual(mergedErrors);
+    });
+
     it('should throw if curried and no state', () => {
       const errors = { required: true };
       expect(() => validate<string>(() => errors)(undefined as any)).toThrowError();

@@ -390,7 +390,7 @@ All states are internally updated by ngrx-forms through dispatching actions. Whi
 |Function|Description|
 |-|-|
 |`setValue`|This curried function takes a value and returns a function that takes a state and updates the value of the state. Note that setting the value of the group will also update all children including adding and removing children on the fly for added/removed properties. Has an uncurried overload that takes a state directly as the second parameter.|
-|`validate`|This curried function takes a validation function as a parameter and returns a function that takes a state and updates the errors of the state with the result of the provided validation function applied to the state's value. Has an uncurried overload that takes a state directly as the second parameter.|
+|`validate`|This curried function takes either a single validation function or an array of validation functions as a parameter and returns a function that takes a state and updates the errors of the state with the result of the provided validation function applied to the state's value. Has an uncurried overload that takes a state directly as the second parameter.|
 |`enable`|This function takes a state and enables it. For groups this also recursively enables all children.|
 |`disable`|This function takes a state and disables it. For groups this also recursively disables all children.|
 |`markAsDirty`|This function takes a state and marks it as dirty. For groups this also recursively marks all children as dirty.|
@@ -427,10 +427,14 @@ function required(value: any) {
   return !!value ? {} : { required: true };
 }
 
+function min(value: number, minValue: number) {
+  return value >= minValue ? {} : { min: [value, minValue] };
+}
+
 const updateMyFormGroup = updateGroup<MyFormValue>({
   someTextInput: validate(required),
   nested: updateGroup({
-    someNumber: validate(required),
+    someNumber: validate([required, min]),
   }),
 });
 ```
@@ -547,7 +551,7 @@ As mentioned above ngrx-forms re-uses the `ControlValueAccessor` concept of `@an
 
 ## <a name="4"></a>4 Open Points
 
-* providing a simple set of common validation functions (e.g. required, min, max, pattern, etc.) and error composition
+* providing a simple set of common validation functions (e.g. required, min, max, pattern, etc.)
 * add a mechanism to allow attaching custom data to the form state
 * async validation (although already achievable via effects)
 * providing some global configuration options (e.g. enabling focus tracking globally)
