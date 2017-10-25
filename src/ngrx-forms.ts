@@ -16,6 +16,7 @@ export {
   NgrxSelectControlValueAccessor,
   NgrxSelectMultipleControlValueAccessor,
   NgrxRadioControlValueAccessor,
+  NgrxSelectOption,
 } from './value-accessors';
 
 export { NgrxFormsModule } from './module';
