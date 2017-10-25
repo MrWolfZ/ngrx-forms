@@ -60,7 +60,16 @@
       "single"
     ],
     "trailing-comma": [
-      false
+      true,
+      {
+        "multiline": {
+          "objects": "always",
+          "arrays": "always",
+          "functions": "ignore",
+          "typeLiterals": "always"
+        },
+        "esSpecCompliant": true
+      }
     ],
     "arrow-parens": false,
     "member-access": false,
