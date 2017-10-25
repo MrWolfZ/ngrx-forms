@@ -3,6 +3,8 @@ import resolve from 'rollup-plugin-node-resolve';
 // Add here external dependencies that actually you use.
 const globals = {
   '@angular/core': 'ng.core',
+  '@angular/common': 'ng.common',
+  '@angular/platform-browser': 'ng.platform-browser',
   '@angular/forms': 'ng.forms',
   '@ngrx/store': 'ngrx.store',
   'rxjs/Observable': 'Rx',
