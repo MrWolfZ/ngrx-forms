@@ -545,6 +545,22 @@ export function appReducer(state = initialState, action: Action): AppState {
 }
 ```
 
+### Validation
+
+As mentioned in the section about updating the state the `validate` update function takes a function as a parameter that validates the value of a form control or group. `ngrx-forms` provides a set of validation functions out of the box that can be used as arguments to `validate`. Most of these functions take an optional parameter `treatNullAsError` (defaults to `true`) which allows to specify how `null` values should be handled. You can set this parameter to `false` for optional form controls to ensure that validations like `email` or `min` do not wrongly invalidate the overall form state for optional controls.
+
+|Function|Description|
+|-|-|
+|`required`|Requires the value to be non-empty (i.e. non-`null`, non-empty `string` etc.)|
+|`requiredTrue`|Requires the `boolean` value to be `true`|
+|`requiredFalse`|Requires the `boolean` value to be `false`|
+|`min`|Requires the `number` value to be greater than or equal to another number|
+|`max`|Requires the `number` value to be less than or equal to another number|
+|`minLength`|Requires a `string` value to have a minimum length|
+|`maxLength`|Requires a `string` value to have a maximum length|
+|`email`|Performs email validation|
+|`pattern`|Requires a `string` value to match a regular expression|
+
 ### Custom Controls
 
 As mentioned above ngrx-forms re-uses the `ControlValueAccessor` concept of `@angular/forms`. ngrx-forms ships its own variants of all default value accessors (most of which simply inherit the implementation from `@angular/forms`. Most libraries providing custom value accessors should also work with ngrx-forms out of the box as long as they properly export the value accessor. However, in case a library does not do this you may have to write your own value accessor. See the example app for such a custom value accessor (in this case for the `md-select` from `@angular/material` which in version `2.0.0-beta.8` does not properly export the `md-select`'s value accessor).
