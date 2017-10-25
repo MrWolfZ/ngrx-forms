@@ -1,21 +1,22 @@
-import { FormControlState, createFormGroupState } from '../state';
 import {
-  SetValueAction,
-  SetErrorsAction,
+  AddControlAction,
+  DisableAction,
+  EnableAction,
+  FocusAction,
   MarkAsDirtyAction,
   MarkAsPristineAction,
-  EnableAction,
-  DisableAction,
-  MarkAsTouchedAction,
-  MarkAsUntouchedAction,
   MarkAsSubmittedAction,
+  MarkAsTouchedAction,
   MarkAsUnsubmittedAction,
-  FocusAction,
-  UnfocusAction,
-  SetLastKeyDownCodeAction,
-  AddControlAction,
+  MarkAsUntouchedAction,
   RemoveControlAction,
+  SetErrorsAction,
+  SetLastKeyDownCodeAction,
+  SetUserDefinedPropertyAction,
+  SetValueAction,
+  UnfocusAction,
 } from '../actions';
+import { createFormGroupState, FormControlState } from '../state';
 import { formGroupReducerInternal } from './reducer';
 
 describe('form group reducer', () => {
@@ -180,6 +181,14 @@ describe('form group reducer', () => {
       const action = new RemoveControlAction<FormGroupValue>(FORM_CONTROL_ID, 'inner2');
       const resultState = formGroupReducerInternal<FormGroupValue>(INITIAL_STATE_FULL, action);
       expect(resultState).not.toBe(INITIAL_STATE_FULL);
+    });
+  });
+
+  describe(SetUserDefinedPropertyAction.name, () => {
+    it('should update state', () => {
+      const action = new SetUserDefinedPropertyAction(FORM_CONTROL_ID, 'prop', 12);
+      const resultState = formGroupReducerInternal<FormGroupValue>(INITIAL_STATE_FULL, action);
+      expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
 });

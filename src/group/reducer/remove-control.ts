@@ -26,5 +26,6 @@ export function removeControlReducer<TValue extends KeyValue>(
     controls,
     state.value,
     state.errors,
+    state.userDefinedProperties,
   );
 }

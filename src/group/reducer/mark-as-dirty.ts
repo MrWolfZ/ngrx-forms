@@ -25,5 +25,6 @@ export function markAsDirtyReducer<TValue extends KeyValue>(
     controls,
     state.value,
     state.errors,
+    state.userDefinedProperties,
   );
 }

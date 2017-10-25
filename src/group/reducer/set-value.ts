@@ -34,5 +34,5 @@ export function setValueReducer<TValue extends KeyValue>(
       return c;
     }, {} as FormGroupControls<TValue>);
 
-  return computeGroupState(state.id, controls, value, state.errors);
+  return computeGroupState(state.id, controls, value, state.errors, state.userDefinedProperties);
 }

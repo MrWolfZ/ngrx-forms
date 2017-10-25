@@ -23,5 +23,6 @@ export function disableReducer<TValue extends KeyValue>(
     dispatchActionPerChild(state.controls, controlId => new DisableAction(controlId)),
     state.value,
     {},
+    state.userDefinedProperties,
   );
 }

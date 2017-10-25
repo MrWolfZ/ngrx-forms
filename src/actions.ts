@@ -193,6 +193,26 @@ export class RemoveControlAction<TValue> implements Action {
   }
 }
 
+export class SetUserDefinedPropertyAction implements Action {
+  static readonly TYPE = 'ngrx/forms/SET_USER_DEFINED_PROPERTY';
+  readonly type = SetUserDefinedPropertyAction.TYPE;
+  readonly controlId: NgrxFormControlId;
+
+  readonly payload: {
+    readonly name: string;
+    readonly value: any;
+  };
+
+  constructor(
+    controlId: string,
+    name: string,
+    value: any,
+  ) {
+    this.controlId = controlId;
+    this.payload = { name, value };
+  }
+}
+
 export type Actions<TValue> =
   | SetValueAction<TValue>
   | SetErrorsAction
@@ -209,4 +229,5 @@ export type Actions<TValue> =
   | MarkAsUnsubmittedAction
   | AddControlAction<TValue, keyof TValue>
   | RemoveControlAction<TValue>
+  | SetUserDefinedPropertyAction
   ;

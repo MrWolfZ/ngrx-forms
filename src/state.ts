@@ -18,6 +18,7 @@ export class AbstractControlState<TValue> {
   readonly isUntouched: boolean;
   readonly isSubmitted: boolean;
   readonly isUnsubmitted: boolean;
+  readonly userDefinedProperties: KeyValue;
 }
 
 export class FormControlState<TValue extends FormControlValueTypes> extends AbstractControlState<TValue> {
@@ -64,6 +65,7 @@ export function createFormControlState<TValue extends FormControlValueTypes>(
     lastKeyDownCode: -1,
     isSubmitted: false,
     isUnsubmitted: true,
+    userDefinedProperties: {},
   };
 }
 
@@ -98,5 +100,6 @@ export function createFormGroupState<TValue extends KeyValue>(
     controls,
     isSubmitted: false,
     isUnsubmitted: true,
+    userDefinedProperties: {},
   };
 }

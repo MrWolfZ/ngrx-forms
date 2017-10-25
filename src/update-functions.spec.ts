@@ -1,23 +1,24 @@
-import { SetValueAction, MarkAsTouchedAction } from './actions';
-import { FormGroupState, createFormGroupState, cast } from './state';
+import { MarkAsTouchedAction, SetValueAction } from './actions';
+import { cast, createFormGroupState, FormGroupState } from './state';
 import {
-  updateGroup,
-  groupUpdateReducer,
-  setValue,
-  validate,
-  enable,
+  addControl,
   disable,
+  enable,
+  focus,
+  groupUpdateReducer,
   markAsDirty,
   markAsPristine,
-  markAsTouched,
-  markAsUntouched,
   markAsSubmitted,
+  markAsTouched,
   markAsUnsubmitted,
-  focus,
-  unfocus,
-  setLastKeyDownCode,
-  addControl,
+  markAsUntouched,
   removeControl,
+  setLastKeyDownCode,
+  setUserDefinedProperty,
+  setValue,
+  unfocus,
+  updateGroup,
+  validate,
 } from './update-functions';
 
 describe('update functions', () => {
@@ -330,6 +331,18 @@ describe('update functions', () => {
   describe(removeControl.name, () => {
     it('should call reducer for groups', () => {
       const resultState = removeControl<FormGroupValue>('inner3')(INITIAL_STATE);
+      expect(resultState).not.toBe(cast(INITIAL_STATE));
+    });
+  });
+
+  describe(setUserDefinedProperty.name, () => {
+    it('should call reducer for controls', () => {
+      const resultState = setUserDefinedProperty('prop', 12)(cast(INITIAL_STATE.controls.inner));
+      expect(resultState).not.toBe(cast(INITIAL_STATE.controls.inner));
+    });
+
+    it('should call reducer for groups', () => {
+      const resultState = setUserDefinedProperty('prop', 12)(cast(INITIAL_STATE));
       expect(resultState).not.toBe(cast(INITIAL_STATE));
     });
   });

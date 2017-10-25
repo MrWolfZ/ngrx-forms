@@ -1,20 +1,21 @@
 import { Action } from '@ngrx/store';
 
+import { Actions, FocusAction, SetLastKeyDownCodeAction, UnfocusAction } from '../actions';
 import { FormGroupState, KeyValue } from '../state';
-import { Actions, FocusAction, UnfocusAction, SetLastKeyDownCodeAction } from '../actions';
-import { childReducer } from './reducer/util';
-import { setValueReducer } from './reducer/set-value';
-import { setErrorsReducer } from './reducer/set-errors';
-import { enableReducer } from './reducer/enable';
+import { addControlReducer } from './reducer/add-control';
 import { disableReducer } from './reducer/disable';
+import { enableReducer } from './reducer/enable';
 import { markAsDirtyReducer } from './reducer/mark-as-dirty';
 import { markAsPristineReducer } from './reducer/mark-as-pristine';
-import { markAsTouchedReducer } from './reducer/mark-as-touched';
-import { markAsUntouchedReducer } from './reducer/mark-as-untouched';
 import { markAsSubmittedReducer } from './reducer/mark-as-submitted';
+import { markAsTouchedReducer } from './reducer/mark-as-touched';
 import { markAsUnsubmittedReducer } from './reducer/mark-as-unsubmitted';
-import { addControlReducer } from './reducer/add-control';
+import { markAsUntouchedReducer } from './reducer/mark-as-untouched';
 import { removeControlReducer } from './reducer/remove-control';
+import { setErrorsReducer } from './reducer/set-errors';
+import { setUserDefinedPropertyReducer } from './reducer/set-user-defined-property';
+import { setValueReducer } from './reducer/set-value';
+import { childReducer } from './reducer/util';
 
 export function formGroupReducerInternal<TValue extends KeyValue>(state: FormGroupState<TValue>, action: Actions<TValue>) {
   switch (action.type) {
@@ -36,6 +37,7 @@ export function formGroupReducerInternal<TValue extends KeyValue>(state: FormGro
   state = markAsUnsubmittedReducer(state, action);
   state = addControlReducer(state, action);
   state = removeControlReducer(state, action);
+  state = setUserDefinedPropertyReducer(state, action);
 
   return state;
 }
