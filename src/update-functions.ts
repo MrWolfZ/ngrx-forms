@@ -29,7 +29,6 @@ import {
 import { formControlReducer } from './control/reducer';
 import { formGroupReducer } from './group/reducer';
 import { isGroupState, computeGroupState } from './group/reducer/util';
-import { ValidationFn } from './validator';
 
 export type ProjectFn<T> = (t: T) => T;
 export type ProjectFn2<T, K> = (t: T, k: K) => T;
@@ -104,6 +103,7 @@ export function setValue<TValue>(value: TValue, state?: AbstractControlState<TVa
   return (s: AbstractControlState<TValue>) => setValue(value, ensureState(s));
 }
 
+export type ValidationFn<TValue> = (value: TValue) => ValidationErrors;
 export type ValidateParam<TValue> = ValidationFn<TValue> | Array<ValidationFn<TValue>>;
 
 // export function validate<TValue extends FormControlValueTypes>(param: ValidateParam<TValue>): ProjectFn<FormControlState<TValue>>;

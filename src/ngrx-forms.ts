@@ -6,7 +6,7 @@ export { NgrxFormControlDirective } from './control/directive';
 export { NgrxValueConverter, NgrxValueConverters } from './control/value-converter';
 export { NgrxFormDirective } from './group/directive';
 export * from './update-functions';
-export * from './validator';
+export * from './validation';
 
 export {
   NgrxDefaultValueAccessor,
