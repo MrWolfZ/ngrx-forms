@@ -60,7 +60,7 @@ export const NgrxValidation = {
   maxLength,
 
   /**
-   * Validation function that requires a control to match a regex to its value.
+   * Validation function that requires a value to match a regex.
    */
   pattern,
 };

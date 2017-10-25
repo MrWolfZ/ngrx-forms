@@ -1,7 +1,7 @@
 import { ValidationErrors } from '../state';
 
 /**
- * Validation function that requires a control to match a regex to its value.
+ * Validation function that requires a value to match a regex.
  */
 export function pattern(pattern: RegExp, treatNullAsError = true) {
   if (pattern === null || pattern === undefined) {
