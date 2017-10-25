@@ -76,7 +76,7 @@ describe('NgrxValueConverters', () => {
         expectedViewValue: {
           a: [1, 2, 3],
           b: {
-            c: '456'
+            c: '456',
           },
         },
         expectedStateValue: '{"a":[1,2,3],"b":{"c":"456"}}',

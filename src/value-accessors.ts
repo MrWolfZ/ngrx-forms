@@ -30,12 +30,12 @@ import {
     '(input)': '_handleInput($event.target.value)',
     '(blur)': 'onTouched()',
     '(compositionstart)': '_compositionStart()',
-    '(compositionend)': '_compositionEnd($event.target.value)'
+    '(compositionend)': '_compositionEnd($event.target.value)',
   },
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NgrxDefaultValueAccessor),
-    multi: true
+    multi: true,
   }],
 })
 export class NgrxDefaultValueAccessor extends DefaultValueAccessor { }
@@ -49,7 +49,7 @@ export class NgrxDefaultValueAccessor extends DefaultValueAccessor { }
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NgrxCheckboxControlValueAccessor),
-    multi: true
+    multi: true,
   }],
 })
 export class NgrxCheckboxControlValueAccessor extends CheckboxControlValueAccessor { }
@@ -59,12 +59,12 @@ export class NgrxCheckboxControlValueAccessor extends CheckboxControlValueAccess
   host: {
     '(change)': 'onChange($event.target.value)',
     '(input)': 'onChange($event.target.value)',
-    '(blur)': 'onTouched()'
+    '(blur)': 'onTouched()',
   },
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NgrxRangeValueAccessor),
-    multi: true
+    multi: true,
   }],
 })
 export class NgrxRangeValueAccessor implements ControlValueAccessor {
@@ -94,12 +94,12 @@ export class NgrxRangeValueAccessor implements ControlValueAccessor {
   host: {
     '(change)': 'onChange($event.target.value)',
     '(input)': 'onChange($event.target.value)',
-    '(blur)': 'onTouched()'
+    '(blur)': 'onTouched()',
   },
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NgrxNumberValueAccessor),
-    multi: true
+    multi: true,
   }],
 })
 // for some reason @angular/forms does not export the NumberValueAccessor, so we have to copy the implementation here
@@ -136,7 +136,7 @@ export class NgrxNumberValueAccessor implements ControlValueAccessor {
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NgrxSelectControlValueAccessor),
-    multi: true
+    multi: true,
   }],
 })
 export class NgrxSelectControlValueAccessor extends SelectControlValueAccessor { }
@@ -163,7 +163,7 @@ export class NgrxSelectOption extends NgSelectOption {
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NgrxSelectMultipleControlValueAccessor),
-    multi: true
+    multi: true,
   }],
 })
 export class NgrxSelectMultipleControlValueAccessor extends SelectMultipleControlValueAccessor { }
@@ -177,7 +177,7 @@ export class NgrxSelectMultipleControlValueAccessor extends SelectMultipleContro
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NgrxRadioControlValueAccessor),
-    multi: true
+    multi: true,
   }],
 })
 export class NgrxRadioControlValueAccessor extends RadioControlValueAccessor { }
