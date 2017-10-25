@@ -1,13 +1,18 @@
 ## Ngrx Forms Changelog
 
-<a name="1.2.0"></a>
-### 1.2.0
+<a name="2.0.0"></a>
+### 2.0.0
+
+#### Breaking Changes
+
+* remove support for last keydown code tracking on form controls (this feature has been superseded by user defined properties which allow associating any kind of metadata with a control)
 
 #### Features
 
 * add value converter for object to JSON conversion ([2ba37ee](https://github.com/MrWolfZ/ngrx-forms/commit/2ba37ee)) (thanks @tbroadley)
 * add support for error composition by extending `validate` update function to take a single validation function or an array of validation functions ([ba976c5](https://github.com/MrWolfZ/ngrx-forms/commit/ba976c5))
 * add common set of validation functions ([40308d4](https://github.com/MrWolfZ/ngrx-forms/commit/40308d4))
+* add support for user defined properties on form controls and groups ([d9778d2](https://github.com/MrWolfZ/ngrx-forms/commit/d9778d2))
 
 <a name="1.1.1"></a>
 ### 1.1.1
