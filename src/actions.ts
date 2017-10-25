@@ -120,21 +120,6 @@ export class UnfocusAction implements Action {
   }
 }
 
-export class SetLastKeyDownCodeAction implements Action {
-  static readonly TYPE = 'ngrx/forms/SET_LAST_KEY_DOWN_CODE';
-  readonly type = SetLastKeyDownCodeAction.TYPE;
-  readonly controlId: NgrxFormControlId;
-
-  readonly payload: {
-    lastKeyDownCode: number;
-  };
-
-  constructor(controlId: string, lastKeyDownCode: number) {
-    this.controlId = controlId;
-    this.payload = { lastKeyDownCode };
-  }
-}
-
 export class MarkAsSubmittedAction implements Action {
   static readonly TYPE = 'ngrx/forms/MARK_AS_SUBMITTED';
   readonly type = MarkAsSubmittedAction.TYPE;
@@ -193,6 +178,26 @@ export class RemoveControlAction<TValue> implements Action {
   }
 }
 
+export class SetUserDefinedPropertyAction implements Action {
+  static readonly TYPE = 'ngrx/forms/SET_USER_DEFINED_PROPERTY';
+  readonly type = SetUserDefinedPropertyAction.TYPE;
+  readonly controlId: NgrxFormControlId;
+
+  readonly payload: {
+    readonly name: string;
+    readonly value: any;
+  };
+
+  constructor(
+    controlId: string,
+    name: string,
+    value: any,
+  ) {
+    this.controlId = controlId;
+    this.payload = { name, value };
+  }
+}
+
 export type Actions<TValue> =
   | SetValueAction<TValue>
   | SetErrorsAction
@@ -204,9 +209,9 @@ export type Actions<TValue> =
   | MarkAsUntouchedAction
   | FocusAction
   | UnfocusAction
-  | SetLastKeyDownCodeAction
   | MarkAsSubmittedAction
   | MarkAsUnsubmittedAction
   | AddControlAction<TValue, keyof TValue>
   | RemoveControlAction<TValue>
+  | SetUserDefinedPropertyAction
   ;

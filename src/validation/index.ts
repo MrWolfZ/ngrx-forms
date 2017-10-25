@@ -9,6 +9,9 @@ import { pattern } from './pattern';
 import { required } from './required';
 import { requiredFalse } from './requiredFalse';
 import { requiredTrue } from './requiredTrue';
+
+// AOT compilation fails if ValidationErrors is not referenced
+// tslint:disable-next-line:no-unused-variable
 import { ValidationErrors } from '../state';
 
 // optimally, we should export the functions directly from the sub-modules

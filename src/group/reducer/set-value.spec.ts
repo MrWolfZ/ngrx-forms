@@ -141,8 +141,8 @@ describe('form group setValueReducer', () => {
         inner: {
           ...state.controls.inner,
           errors,
-        }
-      }
+        },
+      },
     };
     const resultState = setValueReducer<FormValue>(state, new SetValueAction(id, {}));
     expect(resultState.value).toEqual({});
@@ -162,8 +162,8 @@ describe('form group setValueReducer', () => {
         inner: {
           ...state.controls.inner,
           errors,
-        }
-      }
+        },
+      },
     };
     const resultState = setValueReducer<FormValue>(state, new SetValueAction(id, {}));
     expect(resultState.value).toEqual({});

@@ -1,24 +1,26 @@
 import { ActionReducer } from '@ngrx/store';
 
-// tslint:disable-next-line:no-unused-variable FormControlState is used as a Generic
-import { FormControlState, createFormControlState } from '../state';
 import {
-  SetValueAction,
-  SetErrorsAction,
+  DisableAction,
+  EnableAction,
+  FocusAction,
   MarkAsDirtyAction,
   MarkAsPristineAction,
-  EnableAction,
-  DisableAction,
-  MarkAsTouchedAction,
-  MarkAsUntouchedAction,
-  FocusAction,
-  UnfocusAction,
-  SetLastKeyDownCodeAction,
   MarkAsSubmittedAction,
+  MarkAsTouchedAction,
   MarkAsUnsubmittedAction,
+  MarkAsUntouchedAction,
+  SetErrorsAction,
+  SetUserDefinedPropertyAction,
+  SetValueAction,
+  UnfocusAction,
 } from '../actions';
+
+// tslint:disable-next-line:no-unused-variable
+import { createFormControlState, FormControlState } from '../state';
 import { formControlReducerInternal } from './reducer';
 
+// tslint:disable-next-line:no-unused-variable FormControlState is used as a Generic
 describe('form control reducer', () => {
   const FORM_CONTROL_ID = 'test ID';
   const INITIAL_FORM_CONTROL_VALUE = '';
@@ -106,9 +108,9 @@ describe('form control reducer', () => {
     });
   });
 
-  describe(SetLastKeyDownCodeAction.name, () => {
+  describe(SetUserDefinedPropertyAction.name, () => {
     it('should update state', () => {
-      const resultState = reducer(INITIAL_STATE, new SetLastKeyDownCodeAction(FORM_CONTROL_ID, 12));
+      const resultState = reducer(INITIAL_STATE, new SetUserDefinedPropertyAction(FORM_CONTROL_ID, 'prop', 12));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });

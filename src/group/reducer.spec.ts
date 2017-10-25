@@ -1,21 +1,21 @@
-import { FormControlState, createFormGroupState } from '../state';
 import {
-  SetValueAction,
-  SetErrorsAction,
+  AddControlAction,
+  DisableAction,
+  EnableAction,
+  FocusAction,
   MarkAsDirtyAction,
   MarkAsPristineAction,
-  EnableAction,
-  DisableAction,
-  MarkAsTouchedAction,
-  MarkAsUntouchedAction,
   MarkAsSubmittedAction,
+  MarkAsTouchedAction,
   MarkAsUnsubmittedAction,
-  FocusAction,
-  UnfocusAction,
-  SetLastKeyDownCodeAction,
-  AddControlAction,
+  MarkAsUntouchedAction,
   RemoveControlAction,
+  SetErrorsAction,
+  SetUserDefinedPropertyAction,
+  SetValueAction,
+  UnfocusAction,
 } from '../actions';
+import { createFormGroupState, FormControlState } from '../state';
 import { formGroupReducerInternal } from './reducer';
 
 describe('form group reducer', () => {
@@ -52,12 +52,6 @@ describe('form group reducer', () => {
     const resultState = formGroupReducerInternal(state, new UnfocusAction(FORM_CONTROL_INNER_ID) as any);
     expect((resultState.controls.inner as FormControlState<any>).isFocused).toEqual(false);
     expect((resultState.controls.inner as FormControlState<any>).isUnfocused).toEqual(true);
-  });
-
-  it('should forward set last keydown code actions to children', () => {
-    const code = 12;
-    const resultState = formGroupReducerInternal(INITIAL_STATE, new SetLastKeyDownCodeAction(FORM_CONTROL_INNER_ID, code) as any);
-    expect((resultState.controls.inner as FormControlState<any>).lastKeyDownCode).toEqual(code);
   });
 
   it('should not update state if no child was updated', () => {
@@ -180,6 +174,14 @@ describe('form group reducer', () => {
       const action = new RemoveControlAction<FormGroupValue>(FORM_CONTROL_ID, 'inner2');
       const resultState = formGroupReducerInternal<FormGroupValue>(INITIAL_STATE_FULL, action);
       expect(resultState).not.toBe(INITIAL_STATE_FULL);
+    });
+  });
+
+  describe(SetUserDefinedPropertyAction.name, () => {
+    it('should update state', () => {
+      const action = new SetUserDefinedPropertyAction(FORM_CONTROL_ID, 'prop', 12);
+      const resultState = formGroupReducerInternal<FormGroupValue>(INITIAL_STATE_FULL, action);
+      expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
 });

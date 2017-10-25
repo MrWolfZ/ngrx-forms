@@ -1,32 +1,27 @@
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
+
 import {
+  AfterViewInit,
   Directive,
   ElementRef,
-  Input,
-  Inject,
-  HostListener,
   HostBinding,
-  AfterViewInit,
+  HostListener,
+  Inject,
+  Input,
   OnDestroy,
   Self,
 } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DOCUMENT } from '@angular/platform-browser';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { ActionsSubject } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/do';
 
-import {
-  SetValueAction,
-  MarkAsTouchedAction,
-  FocusAction,
-  UnfocusAction,
-  SetLastKeyDownCodeAction,
-} from '../actions';
+import { FocusAction, MarkAsTouchedAction, SetValueAction, UnfocusAction } from '../actions';
 import { FormControlState, FormControlValueTypes } from '../state';
 import { selectValueAccessor } from '../value-accessors';
 import { NgrxValueConverter, NgrxValueConverters } from './value-converter';
@@ -55,7 +50,6 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
 
   @Input() ngrxUpdateOn: 'change' | 'blur' = CHANGE;
   @Input() ngrxEnableFocusTracking = false;
-  @Input() ngrxEnableLastKeydownCodeTracking = false;
   @Input() ngrxValueConverter: NgrxValueConverter<TViewValue, TStateValue> = NgrxValueConverters.identity<any>();
 
   // TODO: move this into a separate directive
@@ -172,17 +166,6 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     const isControlFocused = this.el.nativeElement === this.dom.activeElement;
     if (isControlFocused !== this.state.isFocused) {
       this.actionsSubject.next(isControlFocused ? new FocusAction(this.state.id) : new UnfocusAction(this.state.id));
-    }
-  }
-
-  @HostListener('keydown', ['$event'])
-  onKeyDown(event: KeyboardEvent) {
-    if (!this.ngrxEnableLastKeydownCodeTracking) {
-      return;
-    }
-
-    if (event.keyCode !== this.state.lastKeyDownCode) {
-      this.actionsSubject.next(new SetLastKeyDownCodeAction(this.state.id, event.keyCode));
     }
   }
 }

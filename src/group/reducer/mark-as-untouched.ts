@@ -23,5 +23,6 @@ export function markAsUntouchedReducer<TValue extends KeyValue>(
     dispatchActionPerChild(state.controls, controlId => new MarkAsUntouchedAction(controlId)),
     state.value,
     state.errors,
+    state.userDefinedProperties,
   );
 }

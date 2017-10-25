@@ -103,8 +103,8 @@ describe('form group setErrorsReducer', () => {
           isValid: false,
           isInvalid: true,
           errors: errors2,
-        }
-      }
+        },
+      },
     };
     const resultState = setErrorsReducer(state, new SetErrorsAction(FORM_CONTROL_ID, errors1));
     expect(resultState.errors).toEqual({ ...errors1, _inner: errors2 });
@@ -116,7 +116,7 @@ describe('form group setErrorsReducer', () => {
       ...INITIAL_STATE,
       isValid: false,
       isInvalid: true,
-      errors: errors1
+      errors: errors1,
     };
     const errors2 = { min: 0 };
     const resultState = setErrorsReducer(state, new SetErrorsAction(FORM_CONTROL_INNER_ID, errors2));

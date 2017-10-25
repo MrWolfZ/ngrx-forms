@@ -150,6 +150,7 @@ Form controls in ngrx-forms are represented as plain state objects. Control stat
 
 ```typescript
 export type FormControlValueTypes = string | number | boolean | null | undefined;
+export interface KeyValue { [key: string]: any; }
 export interface ValidationErrors { [key: string]: any; }
 
 export interface AbstractControlState<TValue> {
@@ -166,12 +167,12 @@ export interface AbstractControlState<TValue> {
   isUntouched: boolean;
   isSubmitted: boolean;
   isUnsubmitted: boolean;
+  userDefinedProperties: KeyValue;
 }
 
 export interface FormControlState<TValue extends FormControlValueTypes> extends AbstractControlState<TValue> {
   isFocused: boolean;
   isUnfocused: boolean;
-  lastKeyDownCode: number;
 }
 ```
 
@@ -188,13 +189,53 @@ The following table explains each property.
 |`isTouched`|`isUntouched`|The `isTouched` flag is set to `true` based on the rules of the underlying `ControlValueAccessor` (usually on `blur` for most form elements).|
 |`isSubmitted`|`isUnsubmitted`|The `isSubmitted` flag is set to `true` if the containing group is submitted.|
 |`isFocused`|`isUnfocused`|The `isFocused` flag is set to `true` if the control currently has focus. Note that this feature is opt-in. To enable it you have to add ```[ngrxEnableFocusTracking]="true"``` to your form element.|
-|`lastKeyDownCode`||The `lastKeyDownCode` is set to the key code of the last key that was pressed on the control. Note that this feature is opt-in. To enable it you have to add ```[ngrxEnableLastKeydownCodeTracking]="true"``` to your form element. This feature can be used for example to react to `Enter` key events. Note that this feature is likely to be changed in the near future.|
+|`userDefinedProperties`||Sometimes it is useful to associate your own metadata with a form control (e.g. if you wanted to count the number of times a control's value has been changed, what keys were pressed on an input, or how often a form has been submitted). While it is possible to store this kind of information outside of `ngrx-forms` in your own state the `userDefinedProperties` allow you to store your own metadata directly in a control's state.|
 
 Control states are associated with a form element via the `NgrxFormControlDirective` (applied with `[ngrxFormControlState]="controlState"`). This directive is reponsible for keeping the view and the state in sync. When the state is changed the update is always immediately sync'ed to the view.
 
 #### `ngrxUpdateOn`
 
 It is possible to control when view values changes are pushed to the state with the `ngrxUpdateOn` attribute. The supported values are `change` (pushed immediately when the view value changes; default) and `blur` (pushed when the form element loses focus). Note that by changing the time value changes are pushed to the state you are also changing the time at which validation and other state updates that depend on the value happen.
+
+#### User Defined Properties
+
+As mentioned in the section about properties of form controls it is possible to store additional metadata on a control. The following is an example of a directive that is applied to all text inputs and tracks whether the `ENTER` key is currently being pressed on the input. This data can then be used for example in an effect to trigger a validation or server call (e.g. for an autocomplete) if the user presses enter by reacting to the custom property changing from `false` to `true`.
+
+```typescript
+import { Directive, HostListener, Input } from '@angular/core';
+import { ActionsSubject } from '@ngrx/store';
+import { FormControlState, SetUserDefinedPropertyAction } from 'ngrx-forms';
+
+export const IS_ENTER_PRESSED_PROPERTY = 'isEnterPressed';
+export const ENTER_KEY_CODE = 13;
+
+@Directive({
+  selector: 'input[type=text][ngrxFormControlState]',
+})
+export class TrackIsEnterPressedDirective {
+  @Input() ngrxFormControlState: FormControlState<string>;
+
+  constructor(private actionsSubject: ActionsSubject) { }
+
+  @HostListener('keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent) {
+    if (event.keyCode !== ENTER_KEY_CODE) {
+      return;
+    }
+
+    this.actionsSubject.next(new SetUserDefinedPropertyAction(this.ngrxFormControlState.id, IS_ENTER_PRESSED_PROPERTY, true));
+  }
+
+  @HostListener('keyup', ['$event'])
+  onKeyUp(event: KeyboardEvent) {
+    if (event.keyCode !== ENTER_KEY_CODE) {
+      return;
+    }
+
+    this.actionsSubject.next(new SetUserDefinedPropertyAction(this.ngrxFormControlState.id, IS_ENTER_PRESSED_PROPERTY, false));
+  }
+}
+```
 
 #### Value Conversion
 
@@ -318,6 +359,7 @@ As you can see most properties are shared with controls via the common base inte
 |`isTouched`|`isUntouched`|The `isTouched` flag is `true` if and only if at least one child control is marked as touched.|
 |`isSubmitted`|`isUnsubmitted`|The `isSubmitted` flag is set to `true` if the group is submitted. This is tracked by the `NgrxFormDirective` (which needs to be applied to a form via `[ngrxFormState]="groupState"`). Note that applying this directive to a form prevents normal form submission since that does not make much sense for ngrx forms.|
 |`controls`||This property contains all child controls of the group. As you may have noticed the type of each child control is `AbstractControlState` which sometimes forces you to cast the state explicitly. It is not possible to improve this typing until [conditional mapped types](https://github.com/Microsoft/TypeScript/issues/12424) are added to TypeScript.|
+|`userDefinedProperties`||`userDefinedProperties` work the same for groups as they do for controls.|
 
 Group states are usually completely independent of the DOM (with the exception of root groups that are associated with a `form` via `NgrxFormDirective`). They are updated by intercepting all actions that change their children (i.e. the group's reducer is the parent reducer of all its child reducers and forwards any actions to all children; if any children change it recomputes the state of the group). A group state can be created via `createFormGroupState`. This function takes an initial value and automatically creates all child controls recursively.
 
@@ -401,9 +443,9 @@ All states are internally updated by ngrx-forms through dispatching actions. Whi
 |`markAsUnsubmitted`|This function takes a state and marks it as unsubmitted. For groups this also recursively marks all children as unsubmitted.|
 |`focus`|This function takes a control state and makes it focused (which will also `.focus()` the form element).|
 |`unfocus`|This function takes a control state and makes it unfocused (which will also `.blur()` the form element).|
-|`setLastKeyDownCode`|This function takes a control state and sets the last keydown code.|
 |`addControl`|This curried function takes a name and a value and returns a function that takes a group state and adds a child control with the given name and value to the state.|
 |`removeControl`|This curried function takes a name and returns a function that takes a group state and removes a child control with the given name from the state.|
+|`setUserDefinedProperty`|This curried function takes a name and a value and returns a function that takes a state and sets the property with the given name to the given value on the state's user defined properties.|
 
 These are very basic functions that perform simple updates on states. The last two functions below contain the real magic that allows easily updating deeply nested form states.
 

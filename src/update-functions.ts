@@ -1,34 +1,34 @@
 import { Action } from '@ngrx/store';
 
 import {
-  SetValueAction,
-  SetErrorsAction,
-  EnableAction,
+  AddControlAction,
   DisableAction,
+  EnableAction,
+  FocusAction,
   MarkAsDirtyAction,
   MarkAsPristineAction,
-  MarkAsTouchedAction,
-  MarkAsUntouchedAction,
   MarkAsSubmittedAction,
+  MarkAsTouchedAction,
   MarkAsUnsubmittedAction,
-  FocusAction,
+  MarkAsUntouchedAction,
+  RemoveControlAction,
+  SetErrorsAction,
+  SetUserDefinedPropertyAction,
+  SetValueAction,
   UnfocusAction,
-  SetLastKeyDownCodeAction,
-  AddControlAction,
-  RemoveControlAction
 } from './actions';
+import { formControlReducer } from './control/reducer';
+import { formGroupReducer } from './group/reducer';
+import { computeGroupState, isGroupState } from './group/reducer/util';
 import {
   AbstractControlState,
   FormControlState,
-  FormGroupState,
+  FormControlValueTypes,
   FormGroupControls,
+  FormGroupState,
   KeyValue,
   ValidationErrors,
-  FormControlValueTypes,
 } from './state';
-import { formControlReducer } from './control/reducer';
-import { formGroupReducer } from './group/reducer';
-import { isGroupState, computeGroupState } from './group/reducer/util';
 
 export type ProjectFn<T> = (t: T) => T;
 export type ProjectFn2<T, K> = (t: T, k: K) => T;
@@ -55,7 +55,7 @@ function updateControlsState<TValue extends KeyValue>(updateFns: StateUpdateFns<
 function updateGroupSingle<TValue extends object>(updateFns: StateUpdateFns<TValue>) {
   return (state: FormGroupState<TValue>): FormGroupState<TValue> => {
     const newControls = updateControlsState<TValue>(updateFns)(state);
-    return newControls !== state.controls ? computeGroupState<TValue>(state.id, newControls, state.value, state.errors) : state;
+    return newControls !== state.controls ? computeGroupState<TValue>(state.id, newControls, state.value, state.errors, state.userDefinedProperties) : state;
   };
 }
 
@@ -177,10 +177,6 @@ export function unfocus<TValue extends FormControlValueTypes>(state: FormControl
   return formControlReducer(state, new UnfocusAction(state.id));
 }
 
-export function setLastKeyDownCode<TValue extends FormControlValueTypes>(code: number) {
-  return (state: FormControlState<TValue>) => formControlReducer(state, new SetLastKeyDownCodeAction(state.id, code));
-}
-
 export function addControl<TValue extends KeyValue, TControlKey extends keyof TValue>(
   name: keyof TValue,
   value: TValue[TControlKey],
@@ -190,4 +186,8 @@ export function addControl<TValue extends KeyValue, TControlKey extends keyof TV
 
 export function removeControl<TValue extends KeyValue>(name: keyof TValue) {
   return (state: FormGroupState<TValue>) => formGroupReducer(state, new RemoveControlAction<TValue>(state.id, name));
+}
+
+export function setUserDefinedProperty<TValue>(name: string, value: any) {
+  return (state: AbstractControlState<TValue>) => abstractControlReducer(state, new SetUserDefinedPropertyAction(state.id, name, value));
 }

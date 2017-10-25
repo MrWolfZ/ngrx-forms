@@ -18,12 +18,12 @@ export class AbstractControlState<TValue> {
   readonly isUntouched: boolean;
   readonly isSubmitted: boolean;
   readonly isUnsubmitted: boolean;
+  readonly userDefinedProperties: KeyValue;
 }
 
 export class FormControlState<TValue extends FormControlValueTypes> extends AbstractControlState<TValue> {
   readonly isFocused: boolean;
   readonly isUnfocused: boolean;
-  readonly lastKeyDownCode: number;
 }
 
 export type FormGroupControls<TValue> = {[controlId in keyof TValue]: AbstractControlState<TValue[controlId]> };
@@ -61,9 +61,9 @@ export function createFormControlState<TValue extends FormControlValueTypes>(
     isDirty: false,
     isTouched: false,
     isUntouched: true,
-    lastKeyDownCode: -1,
     isSubmitted: false,
     isUnsubmitted: true,
+    userDefinedProperties: {},
   };
 }
 
@@ -98,5 +98,6 @@ export function createFormGroupState<TValue extends KeyValue>(
     controls,
     isSubmitted: false,
     isUnsubmitted: true,
+    userDefinedProperties: {},
   };
 }
