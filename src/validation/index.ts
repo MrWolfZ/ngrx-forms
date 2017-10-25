@@ -9,6 +9,7 @@ import { pattern } from './pattern';
 import { required } from './required';
 import { requiredFalse } from './requiredFalse';
 import { requiredTrue } from './requiredTrue';
+import { ValidationErrors } from '../state';
 
 // optimally, we should export the functions directly from the sub-modules
 // and make them accessible to the user through an import from the validation
