@@ -113,7 +113,7 @@ export function validate<TValue>(param: ValidateParam<TValue>, state: AbstractCo
 export function validate<TValue>(param: ValidateParam<TValue>, state?: AbstractControlState<TValue>) {
   if (!!state) {
     param = Array.isArray(param) ? param : [param];
-    const errors = param.reduce((agg, validationFn) => Object.assign(agg, validationFn(state.value)), <ValidationErrors>{});
+    const errors = param.reduce((agg, validationFn) => Object.assign(agg, validationFn(state.value)), {} as ValidationErrors);
 
     return abstractControlReducer(state, new SetErrorsAction(state.id, errors));
   }
