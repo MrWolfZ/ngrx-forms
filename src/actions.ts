@@ -120,21 +120,6 @@ export class UnfocusAction implements Action {
   }
 }
 
-export class SetLastKeyDownCodeAction implements Action {
-  static readonly TYPE = 'ngrx/forms/SET_LAST_KEY_DOWN_CODE';
-  readonly type = SetLastKeyDownCodeAction.TYPE;
-  readonly controlId: NgrxFormControlId;
-
-  readonly payload: {
-    lastKeyDownCode: number;
-  };
-
-  constructor(controlId: string, lastKeyDownCode: number) {
-    this.controlId = controlId;
-    this.payload = { lastKeyDownCode };
-  }
-}
-
 export class MarkAsSubmittedAction implements Action {
   static readonly TYPE = 'ngrx/forms/MARK_AS_SUBMITTED';
   readonly type = MarkAsSubmittedAction.TYPE;
@@ -224,7 +209,6 @@ export type Actions<TValue> =
   | MarkAsUntouchedAction
   | FocusAction
   | UnfocusAction
-  | SetLastKeyDownCodeAction
   | MarkAsSubmittedAction
   | MarkAsUnsubmittedAction
   | AddControlAction<TValue, keyof TValue>

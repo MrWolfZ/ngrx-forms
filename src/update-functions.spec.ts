@@ -13,7 +13,6 @@ import {
   markAsUnsubmitted,
   markAsUntouched,
   removeControl,
-  setLastKeyDownCode,
   setUserDefinedProperty,
   setValue,
   unfocus,
@@ -310,13 +309,6 @@ describe('update functions', () => {
     it('should call reducer for controls', () => {
       const state = { ...INITIAL_STATE.controls.inner, isSubmitted: false, isUnsubmitted: true };
       const resultState = unfocus(cast(state));
-      expect(resultState).not.toBe(cast(INITIAL_STATE.controls.inner));
-    });
-  });
-
-  describe(setLastKeyDownCode.name, () => {
-    it('should call reducer for controls', () => {
-      const resultState = setLastKeyDownCode(12)(cast(INITIAL_STATE.controls.inner));
       expect(resultState).not.toBe(cast(INITIAL_STATE.controls.inner));
     });
   });

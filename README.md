@@ -171,7 +171,6 @@ export interface AbstractControlState<TValue> {
 export interface FormControlState<TValue extends FormControlValueTypes> extends AbstractControlState<TValue> {
   isFocused: boolean;
   isUnfocused: boolean;
-  lastKeyDownCode: number;
 }
 ```
 
@@ -188,7 +187,6 @@ The following table explains each property.
 |`isTouched`|`isUntouched`|The `isTouched` flag is set to `true` based on the rules of the underlying `ControlValueAccessor` (usually on `blur` for most form elements).|
 |`isSubmitted`|`isUnsubmitted`|The `isSubmitted` flag is set to `true` if the containing group is submitted.|
 |`isFocused`|`isUnfocused`|The `isFocused` flag is set to `true` if the control currently has focus. Note that this feature is opt-in. To enable it you have to add ```[ngrxEnableFocusTracking]="true"``` to your form element.|
-|`lastKeyDownCode`||The `lastKeyDownCode` is set to the key code of the last key that was pressed on the control. Note that this feature is opt-in. To enable it you have to add ```[ngrxEnableLastKeydownCodeTracking]="true"``` to your form element. This feature can be used for example to react to `Enter` key events. Note that this feature is likely to be changed in the near future.|
 
 Control states are associated with a form element via the `NgrxFormControlDirective` (applied with `[ngrxFormControlState]="controlState"`). This directive is reponsible for keeping the view and the state in sync. When the state is changed the update is always immediately sync'ed to the view.
 
@@ -401,7 +399,6 @@ All states are internally updated by ngrx-forms through dispatching actions. Whi
 |`markAsUnsubmitted`|This function takes a state and marks it as unsubmitted. For groups this also recursively marks all children as unsubmitted.|
 |`focus`|This function takes a control state and makes it focused (which will also `.focus()` the form element).|
 |`unfocus`|This function takes a control state and makes it unfocused (which will also `.blur()` the form element).|
-|`setLastKeyDownCode`|This function takes a control state and sets the last keydown code.|
 |`addControl`|This curried function takes a name and a value and returns a function that takes a group state and adds a child control with the given name and value to the state.|
 |`removeControl`|This curried function takes a name and returns a function that takes a group state and removes a child control with the given name from the state.|
 

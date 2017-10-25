@@ -11,7 +11,6 @@ import {
   MarkAsUnsubmittedAction,
   MarkAsUntouchedAction,
   SetErrorsAction,
-  SetLastKeyDownCodeAction,
   SetUserDefinedPropertyAction,
   SetValueAction,
   UnfocusAction,
@@ -105,13 +104,6 @@ describe('form control reducer', () => {
     it('should update state', () => {
       const state = { ...INITIAL_STATE, isFocused: true, isUnfocused: false };
       const resultState = reducer(state, new UnfocusAction(FORM_CONTROL_ID));
-      expect(resultState).not.toBe(INITIAL_STATE);
-    });
-  });
-
-  describe(SetLastKeyDownCodeAction.name, () => {
-    it('should update state', () => {
-      const resultState = reducer(INITIAL_STATE, new SetLastKeyDownCodeAction(FORM_CONTROL_ID, 12));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });

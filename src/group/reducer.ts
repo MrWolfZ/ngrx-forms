@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Actions, FocusAction, SetLastKeyDownCodeAction, UnfocusAction } from '../actions';
+import { Actions, FocusAction, UnfocusAction } from '../actions';
 import { FormGroupState, KeyValue } from '../state';
 import { addControlReducer } from './reducer/add-control';
 import { disableReducer } from './reducer/disable';
@@ -21,7 +21,6 @@ export function formGroupReducerInternal<TValue extends KeyValue>(state: FormGro
   switch (action.type) {
     case FocusAction.TYPE:
     case UnfocusAction.TYPE:
-    case SetLastKeyDownCodeAction.TYPE:
       return childReducer(state, action);
   }
 

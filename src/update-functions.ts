@@ -13,7 +13,6 @@ import {
   MarkAsUntouchedAction,
   RemoveControlAction,
   SetErrorsAction,
-  SetLastKeyDownCodeAction,
   SetUserDefinedPropertyAction,
   SetValueAction,
   UnfocusAction,
@@ -176,10 +175,6 @@ export function focus<TValue extends FormControlValueTypes>(state: FormControlSt
 
 export function unfocus<TValue extends FormControlValueTypes>(state: FormControlState<TValue>) {
   return formControlReducer(state, new UnfocusAction(state.id));
-}
-
-export function setLastKeyDownCode<TValue extends FormControlValueTypes>(code: number) {
-  return (state: FormControlState<TValue>) => formControlReducer(state, new SetLastKeyDownCodeAction(state.id, code));
 }
 
 export function addControl<TValue extends KeyValue, TControlKey extends keyof TValue>(

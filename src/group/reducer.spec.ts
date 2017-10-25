@@ -11,7 +11,6 @@ import {
   MarkAsUntouchedAction,
   RemoveControlAction,
   SetErrorsAction,
-  SetLastKeyDownCodeAction,
   SetUserDefinedPropertyAction,
   SetValueAction,
   UnfocusAction,
@@ -53,12 +52,6 @@ describe('form group reducer', () => {
     const resultState = formGroupReducerInternal(state, new UnfocusAction(FORM_CONTROL_INNER_ID) as any);
     expect((resultState.controls.inner as FormControlState<any>).isFocused).toEqual(false);
     expect((resultState.controls.inner as FormControlState<any>).isUnfocused).toEqual(true);
-  });
-
-  it('should forward set last keydown code actions to children', () => {
-    const code = 12;
-    const resultState = formGroupReducerInternal(INITIAL_STATE, new SetLastKeyDownCodeAction(FORM_CONTROL_INNER_ID, code) as any);
-    expect((resultState.controls.inner as FormControlState<any>).lastKeyDownCode).toEqual(code);
   });
 
   it('should not update state if no child was updated', () => {
