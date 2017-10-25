@@ -1,7 +1,9 @@
 import { email } from './email';
-import { max } from './max';
+import { greaterThan } from './greaterThan';
+import { greaterThanOrEqualTo } from './greaterThanOrEqualTo';
+import { lessThan } from './lessThan';
+import { lessThanOrEqualTo } from './lessThanOrEqualTo';
 import { maxLength } from './maxLength';
-import { min } from './min';
 import { minLength } from './minLength';
 import { pattern } from './pattern';
 import { required } from './required';
@@ -35,19 +37,24 @@ export const NgrxValidation = {
   requiredFalse,
 
   /**
-   * Validation function that requires the value to be greater than or equal to a number.
+   * Validation function that requires the value to be less than a number.
    */
-  min,
+  lessThan,
 
   /**
    * Validation function that requires the value to be less than or equal to a number.
    */
-  max,
+  lessThanOrEqualTo,
 
   /**
-   * Validation function that performs email validation.
+   * Validation function that requires the value to be greater than a number.
    */
-  email,
+  greaterThan,
+
+  /**
+   * Validation function that requires the value to be greater than or equal to a number.
+   */
+  greaterThanOrEqualTo,
 
   /**
    * Validation function that requires a value to have a minimum length.
@@ -58,6 +65,11 @@ export const NgrxValidation = {
    * Validation function that requires a value to have a maximum length.
    */
   maxLength,
+
+  /**
+   * Validation function that requires a value to be a valid e-mail address.
+   */
+  email,
 
   /**
    * Validation function that requires a value to match a regex.

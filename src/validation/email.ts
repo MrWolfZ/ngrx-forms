@@ -5,7 +5,7 @@ import { ValidationErrors } from '../state';
 export const NGRX_FORMS_EMAIL_VALIDATION_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
 
 /**
- * Validation function that performs email validation.
+ * Validation function that requires a value to be a valid e-mail address.
  */
 export function email(value: string | null, treatNullAsError = true): ValidationErrors {
   if (value === null && treatNullAsError === false) {
