@@ -6,7 +6,10 @@
     "strict": true,
     "module": "es2015",
     "moduleResolution": "node",
-    "outDir": "dist",
+    "outDir": "../dist/validation",
+    "paths": {
+      "ngrx-forms": ["../dist/forms"]
+    },
     "rootDir": ".",
     "sourceMap": true,
     "inlineSources": true,
@@ -19,13 +22,13 @@
   },
   "files": [
     "public_api.ts",
-    "node_modules/zone.js/dist/zone.js.d.ts"
+    "../node_modules/zone.js/dist/zone.js.d.ts"
   ],
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,
     "annotateForClosureCompiler": true,
-    "strictMetadataEmit": true,
-    "flatModuleOutFile": "forms.js",
-    "flatModuleId": "ngrx-forms"
+    "strictMetadataEmit": false,
+    "flatModuleOutFile": "forms-validation.js",
+    "flatModuleId": "ngrx-forms/validation"
   }
 }

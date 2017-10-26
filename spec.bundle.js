@@ -20,10 +20,11 @@ getTestBed().initTestEnvironment(
   platformBrowserDynamicTesting()
 );
 
-const testContext = require.context('./src/', true, /\.spec\.ts/);
+const coreTestContext = require.context('./src/', true, /\.spec\.ts/);
+const validationTestContext = require.context('./validation/', true, /\.spec\.ts/);
 
 function requireAll(requireContext) {
   return requireContext.keys().map(requireContext);
 }
 
-const modules = requireAll(testContext);
+const modules = requireAll(coreTestContext).concat(requireAll(validationTestContext));

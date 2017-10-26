@@ -1,4 +1,4 @@
-import { ValidationErrors } from '../state';
+import { ValidationErrors } from 'ngrx-forms';
 
 // tslint:disable-next-line:max-line-length
 // this regex is taken from the @angular/forms source code

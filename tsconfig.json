@@ -7,6 +7,9 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "rootDir": ".",
+    "paths": {
+      "ngrx-forms": ["."]
+    },
     "sourceMap": true,
     "inlineSources": true,
     "target": "es5",

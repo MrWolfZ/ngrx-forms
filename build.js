@@ -3,65 +3,119 @@
 const shell = require('shelljs');
 const chalk = require('chalk');
 
-const PACKAGE = `forms`;
-const NPM_DIR = `dist`;
-const MODULES_DIR = `${NPM_DIR}/@ngrx`;
-const BUNDLES_DIR = `${NPM_DIR}/bundles`;
+const DIST_DIR = `dist`;
+const MODULES_DIR = `${DIST_DIR}/@ngrx`;
+const BUNDLES_DIR = `${DIST_DIR}/bundles`;
 
-shell.echo(`Start building...`);
+const PACKAGES = [
+  {
+    name: 'core',
+    dir: '.',
+    modulesDir: '.',
+    bundleFileName: 'forms',
+    moduleFileName: 'forms',
+  },
+  {
+    name: 'validation',
+    dir: './validation',
+    modulesDir: 'forms',
+    bundleFileName: 'forms-validation',
+    moduleFileName: 'validation',
+  },
+];
 
-shell.rm(`-Rf`, `${NPM_DIR}/*`);
+shell.echo(`Cleaning output directory...`);
+shell.rm(`-Rf`, `${DIST_DIR}/*`);
 shell.mkdir(`-p`, `./${MODULES_DIR}`);
 shell.mkdir(`-p`, `./${BUNDLES_DIR}`);
 
-/* TSLint with Codelyzer */
-// https://github.com/palantir/tslint/blob/master/src/configs/recommended.ts
-// https://github.com/mgechev/codelyzer
-shell.echo(`Start TSLint`);
-shell.exec(`tslint -c tslint.json -t stylish --type-check --project . src/**/*.ts`);
-shell.echo(chalk.green(`TSLint completed`));
+for (var pkg of PACKAGES) {
+  shell.echo(`Building package '${pkg.name}'...`);
 
-/* AoT compilation: ES2015 sources */
-shell.echo(`Start AoT compilation`);
-if (shell.exec(`ngc -p tsconfig-build.json`).code !== 0) {
-  shell.echo(chalk.red(`Error: AoT compilation failed`));
-  shell.exit(1);
+  shell.echo(`Starting TSLint...`);
+  if (shell.exec(`tslint -c tslint.json -t stylish --type-check --project . ${pkg.dir}/src/**/*.ts`).code !== 0) {
+    shell.echo(chalk.red(`Error: TSLint failed`));
+    shell.exit(1);
+  }
+  shell.echo(chalk.green(`TSLint completed!`));
+
+  shell.echo(`Starting AoT compilation...`);
+  if (shell.exec(`ngc -p ${pkg.dir}/tsconfig-build.json`).code !== 0) {
+    shell.echo(chalk.red(`Error: AoT compilation failed!`));
+    shell.exit(1);
+  }
+
+  shell.echo(chalk.green(`AoT compilation completed!`));
+
+  shell.echo(`Starting bundling...`);
+  if (shell.exec(`rollup -i ${DIST_DIR}/${pkg.dir}/${pkg.bundleFileName}.js -o ${MODULES_DIR}/${pkg.modulesDir}/${pkg.moduleFileName}.js --sourcemap`, { silent: true }).code !== 0) {
+    shell.echo(chalk.red(`Error: Bundling failed!`));
+    shell.exit(1);
+  }
+
+  if (shell.exec(`node scripts/map-sources -f ${MODULES_DIR}/${pkg.modulesDir}/${pkg.moduleFileName}.js`).code !== 0) {
+    shell.echo(chalk.red(`Error: Bundling failed!`));
+    shell.exit(1);
+  }
+
+  shell.echo(`Downleveling ES2015 to ESM/ES5...`);
+  shell.cp(`${MODULES_DIR}/${pkg.modulesDir}/${pkg.moduleFileName}.js`, `${MODULES_DIR}/${pkg.modulesDir}/${pkg.moduleFileName}.es5.ts`);
+
+  // 2 indicates failure with output still being generated (this command will usually fail because of the --noLib flag)
+  if (![0, 2].includes(shell.exec(`tsc ${MODULES_DIR}/${pkg.modulesDir}/${pkg.moduleFileName}.es5.ts --target es5 --module es2015 --noLib --sourceMap`, { silent: true }).code)) {
+    shell.echo(chalk.red(`Error: Downleveling failed!`));
+    shell.exit(1);
+  }
+
+  if (shell.exec(`node scripts/map-sources -f ${MODULES_DIR}/${pkg.modulesDir}/${pkg.moduleFileName}.es5.js`).code !== 0) {
+    shell.echo(chalk.red(`Error: Downleveling failed!`));
+    shell.exit(1);
+  }
+
+  shell.rm(`-f`, `${MODULES_DIR}/${pkg.modulesDir}/${pkg.moduleFileName}.es5.ts`);
+
+  shell.echo(`Running rollup conversion...`);
+  if (shell.exec(`rollup -c ${pkg.dir}/rollup.config.js --sourcemap`).code !== 0) {
+    shell.echo(chalk.red(`Error: Rollup conversion failed!`));
+    shell.exit(1);
+  }
+
+  if (shell.exec(`node scripts/map-sources -f ${BUNDLES_DIR}/${pkg.bundleFileName}.umd.js`).code !== 0) {
+    shell.echo(chalk.red(`Error: Rollup conversion failed!`));
+    shell.exit(1);
+  }
+
+  shell.echo(`Minifying...`);
+  const pwd = shell.pwd();
+  shell.pushd(BUNDLES_DIR);
+  if (shell.exec(`${pwd}/node_modules/.bin/uglifyjs -c warnings=false --screw-ie8 --comments -o ${pkg.bundleFileName}.umd.min.js --source-map ${pkg.bundleFileName}.umd.min.js.map --source-map-include-sources ${pkg.bundleFileName}.umd.js`).code !== 0) {
+    shell.echo(chalk.red(`Error: Minifying failed!`));
+    shell.exit(1);
+  }
+
+  if (shell.exec(`node ${pwd}/scripts/map-sources -f ${pkg.bundleFileName}.umd.min.js`).code !== 0) {
+    shell.echo(chalk.red(`Error: Minifying failed!`));
+    shell.exit(1);
+  }
+
+  shell.popd();
+
+  shell.echo(chalk.green(`Bundling completed!`));
+
+  shell.rm(`-Rf`, `${DIST_DIR}/${pkg.dir}/*.js`);
+  shell.rm(`-Rf`, `${DIST_DIR}/${pkg.dir}/*.js.map`);
+  shell.rm(`-Rf`, `${DIST_DIR}/${pkg.dir}/src/**/*.js`);
+  shell.rm(`-Rf`, `${DIST_DIR}/${pkg.dir}/src/**/*.js.map`);
+
+  shell.cp(`-Rf`, [`${pkg.dir}/package.json`], `${DIST_DIR}/${pkg.dir}`);
+
+  if (pkg.name !== 'core') {
+    shell.cp(`-Rf`, [`${pkg.dir}/${pkg.name}.d.ts`], DIST_DIR);
+  }
+
+  shell.echo(chalk.green(`Finished building package '${pkg.name}'!`));
 }
-shell.echo(chalk.green(`AoT compilation completed`));
 
-/* Creates bundles: ESM/ES5 and UMD bundles */
-shell.echo(`Start bundling`);
-shell.echo(`Rollup package`);
-shell.exec(`rollup -i ${NPM_DIR}/index.js -o ${MODULES_DIR}/${PACKAGE}.js --sourcemap`, { silent: true });
-shell.exec(`node scripts/map-sources -f ${MODULES_DIR}/${PACKAGE}.js`);
+shell.cp(`-Rf`, [`LICENSE`, `README.md`], `${DIST_DIR}`);
 
-shell.echo(`Downleveling ES2015 to ESM/ES5`);
-shell.cp(`${MODULES_DIR}/${PACKAGE}.js`, `${MODULES_DIR}/${PACKAGE}.es5.ts`);
-shell.exec(`tsc ${MODULES_DIR}/${PACKAGE}.es5.ts --target es5 --module es2015 --noLib --sourceMap`, { silent: true });
-shell.exec(`node scripts/map-sources -f ${MODULES_DIR}/${PACKAGE}.es5.js`);
-shell.rm(`-f`, `${MODULES_DIR}/${PACKAGE}.es5.ts`);
-
-shell.echo(`Run Rollup conversion on package`);
-if (shell.exec(`rollup -c rollup.config.js --sourcemap`).code !== 0) {
-  shell.echo(chalk.red(`Error: Rollup conversion failed`));
-  shell.exit(1);
-}
-shell.exec(`node scripts/map-sources -f ${BUNDLES_DIR}/${PACKAGE}.umd.js`);
-
-shell.echo(`Minifying`);
-shell.cd(`${BUNDLES_DIR}`);
-shell.exec(`uglifyjs -c warnings=false --screw-ie8 --comments -o ${PACKAGE}.umd.min.js --source-map ${PACKAGE}.umd.min.js.map --source-map-include-sources ${PACKAGE}.umd.js`);
-shell.exec(`node ../../scripts/map-sources -f ${PACKAGE}.umd.min.js`);
-shell.cd(`..`);
-shell.cd(`..`);
-
-shell.echo(chalk.green(`Bundling completed`));
-
-shell.rm(`-Rf`, `${NPM_DIR}/*.js`);
-shell.rm(`-Rf`, `${NPM_DIR}/*.js.map`);
-shell.rm(`-Rf`, `${NPM_DIR}/src/**/*.js`);
-shell.rm(`-Rf`, `${NPM_DIR}/src/**/*.js.map`);
-
-shell.cp(`-Rf`, [`package.json`, `LICENSE`, `README.md`], `${NPM_DIR}`);
-
-shell.echo(chalk.green(`End building`));
+shell.echo(chalk.green(`Finished building!`));

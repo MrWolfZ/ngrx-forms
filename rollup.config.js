@@ -10,8 +10,10 @@ const globals = {
   'rxjs/Observable': 'Rx',
   'rxjs/Observer': 'Rx',
   'rxjs/BehaviorSubject': 'Rx',
-  'rxjs/operator/map': 'Rx',
-  'rxjs/operator/distinctUntilChanged': 'Rx',
+  'rxjs/add/operator/distinctUntilChanged': 'Rx',
+  'rxjs/add/operator/do': 'Rx',
+  'rxjs/add/operator/filter': 'Rx',
+  'rxjs/add/operator/map': 'Rx',
 };
 
 export default {

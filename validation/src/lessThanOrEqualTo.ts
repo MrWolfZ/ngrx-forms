@@ -1,4 +1,4 @@
-import { ValidationErrors } from '../state';
+import { ValidationErrors } from 'ngrx-forms';
 
 /**
  * Validation function that requires the value to be less than or equal to a number.

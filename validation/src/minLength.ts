@@ -1,4 +1,4 @@
-import { ValidationErrors } from '../state';
+import { ValidationErrors } from 'ngrx-forms';
 
 /**
  * Validation function that requires a value to have a minimum length.
