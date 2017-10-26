@@ -1,6 +1,6 @@
 import { maxLength } from './max-length';
 
-describe('maxLength', () => {
+describe(maxLength.name, () => {
   it('should throw for null maxLength parameter', () => {
     expect(() => maxLength(null as any)).toThrow();
   });

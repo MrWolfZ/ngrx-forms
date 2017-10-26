@@ -1,6 +1,6 @@
 import { greaterThanOrEqualTo } from './greater-than-or-equal-to';
 
-describe('greaterThanOrEqualTo', () => {
+describe(greaterThanOrEqualTo.name, () => {
   it('should throw for null comparand parameter', () => {
     expect(() => greaterThanOrEqualTo(null as any)).toThrow();
   });

@@ -1,6 +1,6 @@
 import { greaterThan } from './greater-than';
 
-describe('greaterThan', () => {
+describe(greaterThan.name, () => {
   it('should throw for null comparand parameter', () => {
     expect(() => greaterThan(null as any)).toThrow();
   });

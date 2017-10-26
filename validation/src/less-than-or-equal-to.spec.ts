@@ -1,6 +1,6 @@
 import { lessThanOrEqualTo } from './less-than-or-equal-to';
 
-describe('lessThanOrEqualTo', () => {
+describe(lessThanOrEqualTo.name, () => {
   it('should throw for null comparand parameter', () => {
     expect(() => lessThanOrEqualTo(null as any)).toThrow();
   });

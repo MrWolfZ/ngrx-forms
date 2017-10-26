@@ -1,6 +1,6 @@
 import { pattern } from './pattern';
 
-describe('pattern', () => {
+describe(pattern.name, () => {
   it('should throw for null pattern parameter', () => {
     expect(() => pattern(null as any)).toThrow();
   });

@@ -1,6 +1,6 @@
 import { requiredTrue } from './required-true';
 
-describe('requiredTrue', () => {
+describe(requiredTrue.name, () => {
   it('should not return an error for null', () => {
     expect(requiredTrue(null)).toEqual({});
   });

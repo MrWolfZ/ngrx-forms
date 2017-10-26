@@ -1,6 +1,6 @@
 import { equalTo } from './equal-to';
 
-describe('equalTo', () => {
+describe(equalTo.name, () => {
   it('should not return an error if value is equal to comparand', () => {
     expect(equalTo(1)(1)).toEqual({});
   });

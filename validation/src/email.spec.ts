@@ -2,7 +2,7 @@ import { email, NGRX_FORMS_EMAIL_VALIDATION_REGEXP } from './email';
 
 // note that we do not test the validation regex itself, but we
 // assume that it has been tested by the angular team and is correct
-describe('email', () => {
+describe(email.name, () => {
   it('should not return an error for null', () => {
     expect(email(null)).toEqual({});
   });

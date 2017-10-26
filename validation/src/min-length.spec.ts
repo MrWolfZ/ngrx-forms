@@ -1,6 +1,6 @@
 import { minLength } from './min-length';
 
-describe('minLength', () => {
+describe(minLength.name, () => {
   it('should throw for null minLength parameter', () => {
     expect(() => minLength(null as any)).toThrow();
   });

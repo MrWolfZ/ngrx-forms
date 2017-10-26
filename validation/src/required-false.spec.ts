@@ -1,6 +1,6 @@
 import { requiredFalse } from './required-false';
 
-describe('requiredFalse', () => {
+describe(requiredFalse.name, () => {
   it('should not return an error for null', () => {
     expect(requiredFalse(null)).toEqual({});
   });

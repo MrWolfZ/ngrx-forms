@@ -1,6 +1,6 @@
 import { required } from './required';
 
-describe('required', () => {
+describe(required.name, () => {
   it('should return an error for null', () => {
     const value = null;
     expect(required(value)).toEqual({

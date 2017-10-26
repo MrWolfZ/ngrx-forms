@@ -1,6 +1,6 @@
 import { lessThan } from './less-than';
 
-describe('lessThan', () => {
+describe(lessThan.name, () => {
   it('should throw for null comparand parameter', () => {
     expect(() => lessThan(null as any)).toThrow();
   });
