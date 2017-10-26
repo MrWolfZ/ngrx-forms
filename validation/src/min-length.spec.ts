@@ -9,16 +9,8 @@ describe('minLength', () => {
     expect(() => minLength(undefined as any)).toThrow();
   });
 
-  it('should return an error for null if treatNullAsError is true', () => {
-    expect(minLength(2, true)(null)).not.toEqual({});
-  });
-
-  it('should return an error for null if treatNullAsError is true and minLength is 0', () => {
-    expect(minLength(0, true)(null)).not.toEqual({});
-  });
-
-  it('should not return an error for null if treatNullAsError is false', () => {
-    expect(minLength(2, false)(null)).toEqual({});
+  it('should not return an error for null', () => {
+    expect(minLength(2)(null)).toEqual({});
   });
 
   it('should not return an error if value\'s length is greater than minLength', () => {

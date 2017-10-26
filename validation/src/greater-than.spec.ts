@@ -9,12 +9,8 @@ describe('greaterThan', () => {
     expect(() => greaterThan(undefined as any)).toThrow();
   });
 
-  it('should return an error for null if treatNullAsError is true', () => {
-    expect(greaterThan(1, true)(null)).not.toEqual({});
-  });
-
-  it('should not return an error for null if treatNullAsError is false', () => {
-    expect(greaterThan(1, false)(null)).toEqual({});
+  it('should not return an error for null', () => {
+    expect(greaterThan(1)(null)).toEqual({});
   });
 
   it('should not return an error if value is greater than comparand', () => {

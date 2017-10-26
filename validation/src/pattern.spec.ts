@@ -9,12 +9,12 @@ describe('pattern', () => {
     expect(() => pattern(undefined as any)).toThrow();
   });
 
-  it('should return an error for null if treatNullAsError is true', () => {
-    expect(pattern(/a/g, true)(null)).not.toEqual({});
+  it('should not return an error for null', () => {
+    expect(pattern(/a/g)(null)).toEqual({});
   });
 
-  it('should not return an error for null if treatNullAsError is false', () => {
-    expect(pattern(/a/g, false)(null)).toEqual({});
+  it('should not return an error for empty string', () => {
+    expect(pattern(/a/g)('')).toEqual({});
   });
 
   it('should not return an error if value matches pattern', () => {

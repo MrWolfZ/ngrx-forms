@@ -1,10 +1,12 @@
 import { ValidationErrors } from 'ngrx-forms';
 
 /**
- * Validation function that requires the value to be greater than or equal to a number.
+ * Validation function that requires the value to be `false`.
+ * Considers `null` as valid. Combine this function with the `required` validation
+ * function if `null` should be considered invalid.
  */
-export function requiredFalse(value: boolean | null, treatNullAsError = true): ValidationErrors {
-  if (value === null && treatNullAsError === false) {
+export function requiredFalse(value: boolean | null): ValidationErrors {
+  if (value === null) {
     return {};
   }
 

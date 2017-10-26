@@ -9,12 +9,8 @@ describe('maxLength', () => {
     expect(() => maxLength(undefined as any)).toThrow();
   });
 
-  it('should return an error for null if treatNullAsError is true', () => {
-    expect(maxLength(2, true)(null)).not.toEqual({});
-  });
-
-  it('should not return an error for null if treatNullAsError is false', () => {
-    expect(maxLength(2, false)(null)).toEqual({});
+  it('should not return an error for null', () => {
+    expect(maxLength(2)(null)).toEqual({});
   });
 
   it('should return an error if value\'s length is greater than maxLength', () => {

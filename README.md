@@ -589,7 +589,7 @@ export function appReducer(state = initialState, action: Action): AppState {
 
 ### Validation
 
-As mentioned in the section about updating the state the `validate` update function takes a function as a parameter that validates the value of a form control or group. `ngrx-forms` provides a set of validation functions out of the box that can be used as arguments to `validate`. Most of these functions take an optional parameter `treatNullAsError` (defaults to `true`) which allows to specify how `null` values should be handled. You can set this parameter to `false` for optional form controls to ensure that validations like `email` or `min` do not wrongly invalidate the overall form state for optional controls.
+As mentioned in the section about updating the state the `validate` update function takes a function as a parameter that validates the value of a form control or group. `ngrx-forms` provides a set of validation functions out of the box (imported via `ngrx-forms/validation`) that can be used as arguments to `validate`. Most of these functions treat `null` (and for `email` and `pattern` empty strings) as valid to allow for optional form controls. If the control is not optional simply combine the corresponding validation function with the `required` validation function.
 
 |Function|Description|
 |-|-|
@@ -605,6 +605,30 @@ As mentioned in the section about updating the state the `validate` update funct
 |`maxLength`|Requires a `string` value to have a maximum length|
 |`email`|Requires a `string` value to be a valid e-mail address|
 |`pattern`|Requires a `string` value to match a regular expression|
+
+Below you can see an example of how these functions can be used:
+
+```typescript
+import { updateGroup, validate } from 'ngrx-forms';
+import { required, greaterThanOrEqualTo, lessThan } from 'ngrx-forms';
+
+export interface NestedValue {
+  someNumber: number;
+}
+
+export interface MyFormValue {
+  someTextInput: string;
+  someCheckbox: boolean;
+  nested: NestedValue;
+}
+
+const updateMyFormGroup = updateGroup<MyFormValue>({
+  someTextInput: validate(required),
+  nested: updateGroup({
+    someNumber: validate([required, greaterThanOrEqualTo(2), lessThan(10)]),
+  }),
+});
+```
 
 ### Custom Controls
 
