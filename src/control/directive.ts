@@ -12,6 +12,7 @@ import {
   Inject,
   Input,
   OnDestroy,
+  OnInit,
   Self,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -32,20 +33,19 @@ const BLUR = 'blur';
 @Directive({
   selector: '[ngrxFormControlState]',
 })
-export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes, TViewValue = TStateValue> implements AfterViewInit, OnDestroy {
+export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes, TViewValue = TStateValue> implements AfterViewInit, OnInit {
   @Input() set ngrxFormControlState(newState: FormControlState<TStateValue>) {
     if (!newState) {
       throw new Error('The control state must not be undefined!');
     }
 
-    if (!this.state || newState.id !== this.state.id) {
-      this.stateValue = newState.value;
-      this.viewValue = this.ngrxValueConverter.convertStateToViewValue(this.stateValue);
-      this.valueAccessor.writeValue(this.viewValue);
-    }
-
+    const oldState = this.state;
     this.state = newState;
-    this.stateSubject$.next(newState);
+
+    this.updateViewIfControlIdChanged(newState, oldState);
+    this.updateViewIfValueChanged(newState, oldState);
+    this.updateViewIfIsDisabledChanged(newState, oldState);
+    this.updateViewIfIsFocusedChanged(newState, oldState);
   }
 
   @Input() ngrxUpdateOn: 'change' | 'blur' = CHANGE;
@@ -58,14 +58,9 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     return this.state && this.state.isFocused ? '' : null;
   }
 
-  private subscriptions: Subscription[] = [];
+  state: FormControlState<TStateValue>;
 
-  private state: FormControlState<TStateValue>;
-  private stateSubject$ = new BehaviorSubject<FormControlState<TStateValue>>(this.state);
   private valueAccessor: ControlValueAccessor;
-
-  // the <any> cast is required due to a mismatch in the typing of lift() between Observable and BehaviorSubject
-  private get state$(): Observable<FormControlState<TStateValue>> { return this.stateSubject$ as any; }
 
   // we have to store the latest known state value since most input elements don't play nicely with
   // setting the same value again (e.g. input elements move the cursor to the end of the input when
@@ -87,7 +82,54 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     this.valueAccessor = selectValueAccessor(valueAccessors);
   }
 
-  ngAfterViewInit() {
+  updateViewIfControlIdChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue>) {
+    if (oldState && newState.id === oldState.id) {
+      return;
+    }
+
+    this.stateValue = newState.value;
+    this.viewValue = this.ngrxValueConverter.convertStateToViewValue(this.stateValue);
+    this.valueAccessor.writeValue(this.viewValue);
+    if (this.valueAccessor.setDisabledState) {
+      this.valueAccessor.setDisabledState(newState.isDisabled);
+    }
+  }
+
+  updateViewIfValueChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue>) {
+    if (newState.value === this.stateValue) {
+      return;
+    }
+
+    this.stateValue = newState.value;
+    this.viewValue = this.ngrxValueConverter.convertStateToViewValue(newState.value);
+    this.valueAccessor.writeValue(this.viewValue);
+  }
+
+  updateViewIfIsDisabledChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue>) {
+    if (!this.valueAccessor.setDisabledState) {
+      return;
+    }
+
+    if (oldState && newState.isDisabled === oldState.isDisabled) {
+      return;
+    }
+
+    this.valueAccessor.setDisabledState(newState.isDisabled);
+  }
+
+  updateViewIfIsFocusedChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue>) {
+    if (oldState && newState.isFocused === oldState.isFocused) {
+      return;
+    }
+
+    if (newState.isFocused) {
+      this.el.nativeElement.focus();
+    } else {
+      this.el.nativeElement.blur();
+    }
+  }
+
+  ngOnInit() {
     if (!this.state) {
       throw new Error('The form state must not be undefined!');
     }
@@ -116,44 +158,15 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
         dispatchSetValueAction();
       }
     });
-
-    this.subscriptions.push(
-      this.state$
-        .map(s => s.value)
-        .filter(v => v !== this.stateValue)
-        .do(value => this.stateValue = value)
-        .map(value => this.ngrxValueConverter.convertStateToViewValue(value))
-        .do(value => this.viewValue = value)
-        .subscribe(value => this.valueAccessor.writeValue(value))
-    );
-
-    if (this.valueAccessor.setDisabledState) {
-      this.subscriptions.push(
-        this.state$
-          .map(s => ({ id: s.id, isDisabled: s.isDisabled }))
-          .distinctUntilChanged((l, r) => l.id === r.id && l.isDisabled === r.isDisabled)
-          .map(s => s.isDisabled)
-          .subscribe(isDisabled => this.valueAccessor.setDisabledState!(isDisabled))
-      );
-    }
-
-    this.subscriptions.push(
-      this.state$
-        .map(s => ({ id: s.id, isFocused: s.isFocused }))
-        .distinctUntilChanged((l, r) => l.id === r.id && l.isFocused === r.isFocused)
-        .map(s => s.isFocused)
-        .subscribe(isFocused => {
-          if (isFocused) {
-            this.el.nativeElement.focus();
-          } else {
-            this.el.nativeElement.blur();
-          }
-        })
-    );
   }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+  ngAfterViewInit() {
+    // we need to update the view again after it was initialized since some
+    // controls depend on child elements for setting the value (e.g. selects)
+    this.valueAccessor.writeValue(this.viewValue);
+    if (this.valueAccessor.setDisabledState) {
+      this.valueAccessor.setDisabledState(this.state.isDisabled);
+    }
   }
 
   @HostListener('focusin')

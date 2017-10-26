@@ -37,11 +37,7 @@ describe(NgrxFormControlDirective.name, () => {
     };
     directive = new NgrxFormControlDirective<string>(elementRef, document, actionsSubject as any, [valueAccessor]);
     directive.ngrxFormControlState = INITIAL_STATE;
-    directive.ngAfterViewInit();
-  });
-
-  afterEach(() => {
-    directive.ngOnDestroy();
+    directive.ngOnInit();
   });
 
   it('should write the value when the state changes', () => {
