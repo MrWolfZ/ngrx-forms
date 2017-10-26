@@ -105,7 +105,7 @@ export interface NgrxValueConverter<TView, TState> {
 `ngrx-forms` ships with a number of pre-made value converters:
 
 |Converter|Description|
-|-|-|-|
+|-|-|
 |`dateToISOString`|Converts `Date` values to ISO date strings (and vice versa)|
 |`objectToJSON`|Converts any object to a JSON string via `JSON.stringify` (and vice versa via `JSON.parse`)|
 
