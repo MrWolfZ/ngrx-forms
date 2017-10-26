@@ -248,26 +248,12 @@ export interface NgrxValueConverter<TView, TState> {
 }
 ```
 
-ngrx-forms ships with a number of pre-made value converters. Currently these are defined as follows:
+`ngrx-forms` ships with a number of pre-made value converters:
 
-```typescript
-export const NgrxValueConverters = {
-  identity<T>() {
-    return {
-      convertViewToStateValue: value => value,
-      convertStateToViewValue: value => value,
-    } as NgrxValueConverter<T, T>;
-  },
-  dateToISOString: {
-    convertViewToStateValue: date => date === null ? null : date.toISOString(),
-    convertStateToViewValue: s => s === null ? null : new Date(Date.parse(s)),
-  } as NgrxValueConverter<Date | null, string | null>,
-  objectToJSON: {
-    convertViewToStateValue: value => value === null ? null : JSON.stringify(value),
-    convertStateToViewValue: s => s === null ? null : JSON.parse(s),
-  } as NgrxValueConverter<{} | null, string | null>,
-};
-```
+|Converter|Description|
+|-|-|-|
+|`dateToISOString`|Converts `Date` values to ISO date strings (and vice versa)|
+|`objectToJSON`|Converts any object to a JSON string via `JSON.stringify` (and vice versa via `JSON.parse`)|
 
 Below you can find a full example on how to use a value converter to work with dates as view values:
 

@@ -14,6 +14,10 @@
 * add common set of validation functions ([40308d4](https://github.com/MrWolfZ/ngrx-forms/commit/40308d4))
 * add support for user defined properties on form controls and groups ([d9778d2](https://github.com/MrWolfZ/ngrx-forms/commit/d9778d2))
 
+#### Bugfixes
+
+* fix issue that caused bundled library to be larger than required due to external dependencies being included in the bundle (reducing the size by factor 10)
+
 <a name="1.1.1"></a>
 ### 1.1.1
 
