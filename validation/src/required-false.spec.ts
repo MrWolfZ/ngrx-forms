@@ -1,4 +1,4 @@
-import { requiredFalse } from './requiredFalse';
+import { requiredFalse } from './required-false';
 
 describe('requiredFalse', () => {
   it('should return an error for null if treatNullAsError is true', () => {

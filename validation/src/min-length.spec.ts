@@ -1,4 +1,4 @@
-import { minLength } from './minLength';
+import { minLength } from './min-length';
 
 describe('minLength', () => {
   it('should throw for null minLength parameter', () => {

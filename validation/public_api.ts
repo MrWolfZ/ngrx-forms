@@ -6,14 +6,14 @@
  * https://github.com/MrWolfZ/ngrx-forms
  */
 export { email } from './src/email';
-export { equalTo } from './src/equalTo';
-export { greaterThan } from './src/greaterThan';
-export { greaterThanOrEqualTo } from './src/greaterThanOrEqualTo';
-export { lessThan } from './src/lessThan';
-export { lessThanOrEqualTo } from './src/lessThanOrEqualTo';
-export { maxLength } from './src/maxLength';
-export { minLength } from './src/minLength';
+export { equalTo } from './src/equal-to';
+export { greaterThan } from './src/greater-than';
+export { greaterThanOrEqualTo } from './src/greater-than-or-equal-to';
+export { lessThan } from './src/less-than';
+export { lessThanOrEqualTo } from './src/less-than-or-equal-to';
+export { maxLength } from './src/max-length';
+export { minLength } from './src/min-length';
 export { pattern } from './src/pattern';
 export { required } from './src/required';
-export { requiredFalse } from './src/requiredFalse';
-export { requiredTrue } from './src/requiredTrue';
+export { requiredFalse } from './src/required-false';
+export { requiredTrue } from './src/required-true';

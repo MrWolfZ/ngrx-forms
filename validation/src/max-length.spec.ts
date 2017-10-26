@@ -1,4 +1,4 @@
-import { maxLength } from './maxLength';
+import { maxLength } from './max-length';
 
 describe('maxLength', () => {
   it('should throw for null maxLength parameter', () => {

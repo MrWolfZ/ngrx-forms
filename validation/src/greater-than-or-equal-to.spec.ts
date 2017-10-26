@@ -1,4 +1,4 @@
-import { greaterThanOrEqualTo } from './greaterThanOrEqualTo';
+import { greaterThanOrEqualTo } from './greater-than-or-equal-to';
 
 describe('greaterThanOrEqualTo', () => {
   it('should throw for null comparand parameter', () => {

@@ -1,4 +1,4 @@
-import { equalTo } from './equalTo';
+import { equalTo } from './equal-to';
 
 describe('equalTo', () => {
   it('should not return an error if value is equal to comparand', () => {

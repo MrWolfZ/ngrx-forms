@@ -1,4 +1,4 @@
-import { lessThan } from './lessThan';
+import { lessThan } from './less-than';
 
 describe('lessThan', () => {
   it('should throw for null comparand parameter', () => {

@@ -1,4 +1,4 @@
-import { greaterThan } from './greaterThan';
+import { greaterThan } from './greater-than';
 
 describe('greaterThan', () => {
   it('should throw for null comparand parameter', () => {

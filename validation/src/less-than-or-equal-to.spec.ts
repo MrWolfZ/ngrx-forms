@@ -1,4 +1,4 @@
-import { lessThanOrEqualTo } from './lessThanOrEqualTo';
+import { lessThanOrEqualTo } from './less-than-or-equal-to';
 
 describe('lessThanOrEqualTo', () => {
   it('should throw for null comparand parameter', () => {
