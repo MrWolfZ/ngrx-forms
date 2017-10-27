@@ -3,24 +3,10 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 
-import {
-  AfterViewInit,
-  Directive,
-  ElementRef,
-  HostBinding,
-  HostListener,
-  Inject,
-  Input,
-  OnDestroy,
-  OnInit,
-  Self,
-} from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, HostBinding, HostListener, Inject, Input, OnInit, Self } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DOCUMENT } from '@angular/platform-browser';
 import { ActionsSubject } from '@ngrx/store';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
 
 import { FocusAction, MarkAsTouchedAction, SetValueAction, UnfocusAction } from '../actions';
 import { FormControlState, FormControlValueTypes } from '../state';
