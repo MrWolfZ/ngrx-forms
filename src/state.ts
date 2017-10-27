@@ -31,9 +31,16 @@ export class FormGroupState<TValue extends KeyValue> extends AbstractControlStat
   readonly controls: FormGroupControls<TValue>;
 }
 
+export class FormArrayState<TValue> extends AbstractControlState<TValue[]> {
+  readonly controls: Array<AbstractControlState<TValue>>;
+}
+
 export function cast<TValue extends FormControlValueTypes>(
   state: AbstractControlState<TValue>,
 ): FormControlState<TValue>;
+export function cast<TValue extends any[]>(
+  state: AbstractControlState<TValue>,
+): FormArrayState<TValue>;
 export function cast<TValue extends KeyValue>(
   state: AbstractControlState<TValue>,
 ): FormGroupState<TValue>;
@@ -72,6 +79,10 @@ export function createFormGroupState<TValue extends KeyValue>(
   initialValue: TValue,
 ): FormGroupState<TValue> {
   function createState(key: string, value: any) {
+    if (value !== null && Array.isArray(value)) {
+      return createFormArrayState(`${id}.${key}`, value);
+    }
+
     if (value !== null && typeof value === 'object') {
       return createFormGroupState(`${id}.${key}`, value);
     }
@@ -82,6 +93,44 @@ export function createFormGroupState<TValue extends KeyValue>(
   const controls = Object.keys(initialValue)
     .map((key: keyof TValue) => [key, createState(key, initialValue[key])] as [string, AbstractControlState<any>])
     .reduce((res, [controlId, state]) => Object.assign(res, { [controlId]: state }), {} as FormGroupControls<TValue>);
+
+  return {
+    id,
+    value: initialValue,
+    isValid: true,
+    isInvalid: false,
+    isEnabled: true,
+    isDisabled: false,
+    errors: {},
+    isPristine: true,
+    isDirty: false,
+    isTouched: false,
+    isUntouched: true,
+    controls,
+    isSubmitted: false,
+    isUnsubmitted: true,
+    userDefinedProperties: {},
+  };
+}
+
+export function createFormArrayState<TValue>(
+  id: NgrxFormControlId,
+  initialValue: TValue[],
+): FormArrayState<TValue> {
+  function createState(index: number, value: any) {
+    if (value !== null && Array.isArray(value)) {
+      return createFormArrayState(`${id}.${index}`, value);
+    }
+
+    if (value !== null && typeof value === 'object') {
+      return createFormGroupState(`${id}.${index}`, value);
+    }
+
+    return createFormControlState(`${id}.${index}`, value);
+  }
+
+  const controls = initialValue
+    .map((value, i) => createState(i, value) as AbstractControlState<TValue>);
 
   return {
     id,
