@@ -1,5 +1,5 @@
-import { FormGroupState, createFormGroupState } from '../../state';
 import { SetValueAction } from '../../actions';
+import { cast, createFormGroupState } from '../../state';
 import { setValueReducer } from './set-value';
 
 describe('form group setValueReducer', () => {
@@ -7,7 +7,9 @@ describe('form group setValueReducer', () => {
   const FORM_CONTROL_INNER_ID = FORM_CONTROL_ID + '.inner';
   const FORM_CONTROL_INNER3_ID = FORM_CONTROL_ID + '.inner3';
   const FORM_CONTROL_INNER4_ID = FORM_CONTROL_INNER3_ID + '.inner4';
-  interface FormGroupValue { inner: string; inner2?: string; inner3?: { inner4: string }; }
+  const FORM_CONTROL_INNER5_ID = FORM_CONTROL_ID + '.inner5';
+  const FORM_CONTROL_INNER5_0_ID = FORM_CONTROL_ID + '.inner5.0';
+  interface FormGroupValue { inner: string; inner2?: string; inner3?: { inner4: string }; inner5?: string[]; }
   const INITIAL_FORM_CONTROL_VALUE: FormGroupValue = { inner: '' };
   const INITIAL_STATE = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
 
@@ -48,6 +50,13 @@ describe('form group setValueReducer', () => {
     const resultState = setValueReducer<FormGroupValue>(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, value));
     expect(resultState.value).toEqual(value);
     expect(resultState.controls.inner3.value).toEqual(value.inner3);
+  });
+
+  it('should create child states on demand for array children', () => {
+    const value = { inner: 'A', inner5: ['C'] };
+    const resultState = setValueReducer<FormGroupValue>(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, value));
+    expect(resultState.value).toEqual(value);
+    expect(resultState.controls.inner5.value).toEqual(value.inner5);
   });
 
   it('should create child states on demand for null children', () => {
@@ -98,6 +107,16 @@ describe('form group setValueReducer', () => {
     expect(resultState.value.inner3).toEqual(value);
   });
 
+  it('should aggregate child values for array children', () => {
+    let resultState = setValueReducer<FormGroupValue>(
+      INITIAL_STATE,
+      new SetValueAction(FORM_CONTROL_ID, { inner: 'A', inner5: ['C'] }),
+    );
+    const value = ['D'];
+    resultState = setValueReducer(resultState, new SetValueAction(FORM_CONTROL_INNER5_ID, value) as any);
+    expect(resultState.value.inner5).toEqual(value);
+  });
+
   it('should mark state as dirty if group child value is updated', () => {
     let resultState = setValueReducer<FormGroupValue>(
       INITIAL_STATE,
@@ -109,7 +128,18 @@ describe('form group setValueReducer', () => {
     expect(resultState.controls.inner3.isDirty).toEqual(true);
   });
 
-  it('should aggregate nested child values', () => {
+  it('should mark state as dirty if array child value is updated', () => {
+    let resultState = setValueReducer<FormGroupValue>(
+      INITIAL_STATE,
+      new SetValueAction(FORM_CONTROL_ID, { inner: 'A', inner5: ['C'] }),
+    );
+    const value = ['D'];
+    resultState = setValueReducer(resultState, new SetValueAction(FORM_CONTROL_INNER5_ID, value) as any);
+    expect(resultState.isDirty).toEqual(true);
+    expect(resultState.controls.inner5.isDirty).toEqual(true);
+  });
+
+  it('should aggregate nested child values in groups', () => {
     let resultState = setValueReducer<FormGroupValue>(
       INITIAL_STATE,
       new SetValueAction(FORM_CONTROL_ID, { inner: 'A', inner3: { inner4: 'C' } }),
@@ -119,7 +149,17 @@ describe('form group setValueReducer', () => {
     expect(resultState.value.inner3!.inner4).toEqual(value);
   });
 
-  it('should mark state as dirty if nested child value is updated', () => {
+  it('should aggregate nested child values in arrays', () => {
+    let resultState = setValueReducer<FormGroupValue>(
+      INITIAL_STATE,
+      new SetValueAction(FORM_CONTROL_ID, { inner: 'A', inner5: ['C'] }),
+    );
+    const value = 'D';
+    resultState = setValueReducer(resultState, new SetValueAction(FORM_CONTROL_INNER5_0_ID, value) as any);
+    expect(resultState.value.inner5![0]).toEqual(value);
+  });
+
+  it('should mark state as dirty if nested child value in group is updated', () => {
     let resultState = setValueReducer<FormGroupValue>(
       INITIAL_STATE,
       new SetValueAction(FORM_CONTROL_ID, { inner: 'A', inner3: { inner4: 'C' } }),
@@ -127,7 +167,18 @@ describe('form group setValueReducer', () => {
     const value = 'D';
     resultState = setValueReducer(resultState, new SetValueAction(FORM_CONTROL_INNER4_ID, value) as any);
     expect(resultState.isDirty).toEqual(true);
-    expect((resultState.controls.inner3 as FormGroupState<any>).controls.inner4.isDirty).toEqual(true);
+    expect(cast(resultState.controls.inner3)!.controls.inner4.isDirty).toEqual(true);
+  });
+
+  it('should mark state as dirty if nested child value in array is updated', () => {
+    let resultState = setValueReducer<FormGroupValue>(
+      INITIAL_STATE,
+      new SetValueAction(FORM_CONTROL_ID, { inner: 'A', inner5: ['C'] }),
+    );
+    const value = 'D';
+    resultState = setValueReducer(resultState, new SetValueAction(FORM_CONTROL_INNER5_0_ID, value) as any);
+    expect(resultState.isDirty).toEqual(true);
+    expect(cast(resultState.controls.inner5)!.controls[0].isDirty).toEqual(true);
   });
 
   it('should remove child errors on demand when value is empty', () => {
@@ -137,6 +188,9 @@ describe('form group setValueReducer', () => {
     let state = createFormGroupState<FormValue>(id, { inner: 5 });
     state = {
       ...state,
+      errors: {
+        _inner: errors,
+      },
       controls: {
         inner: {
           ...state.controls.inner,
@@ -157,7 +211,10 @@ describe('form group setValueReducer', () => {
     let state = createFormGroupState<FormValue>(id, { inner: 5 });
     state = {
       ...state,
-      errors,
+      errors: {
+        _inner: errors,
+        ...errors,
+      },
       controls: {
         inner: {
           ...state.controls.inner,

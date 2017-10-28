@@ -134,6 +134,10 @@ describe('state', () => {
       expect(INITIAL_STATE.value).toBe(INITIAL_VALUE);
     });
 
+    it('should set the correct value for empty arrays', () => {
+      expect(createFormArrayState<string>(FORM_CONTROL_ID, []).value).toEqual([]);
+    });
+
     it('should mark control as valid', () => {
       expect(INITIAL_STATE.isValid).toBe(true);
       expect(INITIAL_STATE.isInvalid).toBe(false);
@@ -201,6 +205,12 @@ describe('state', () => {
       const controls2 = cast(initialState.controls[1]).controls;
       expect(controls2).toBeDefined();
       expect(Array.isArray(controls2)).toBe(false);
+    });
+
+    it('should create empty children array for empty value array', () => {
+      const initialValue = [] as string[];
+      const initialState = createFormArrayState<string>(FORM_CONTROL_ID, initialValue);
+      expect(initialState.controls).toEqual([]);
     });
   });
 });

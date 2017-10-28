@@ -7,9 +7,11 @@ describe('form group setErrorsReducer', () => {
   const FORM_CONTROL_INNER_ID = FORM_CONTROL_ID + '.inner';
   const FORM_CONTROL_INNER3_ID = FORM_CONTROL_ID + '.inner3';
   const FORM_CONTROL_INNER4_ID = FORM_CONTROL_INNER3_ID + '.inner4';
-  interface FormGroupValue { inner: string; inner2?: string; inner3?: { inner4: string }; }
+  const FORM_CONTROL_INNER5_ID = FORM_CONTROL_ID + '.inner5';
+  const FORM_CONTROL_INNER5_0_ID = FORM_CONTROL_ID + '.inner5.0';
+  interface FormGroupValue { inner: string; inner2?: string; inner3?: { inner4: string }; inner5?: string[]; }
   const INITIAL_FORM_CONTROL_VALUE: FormGroupValue = { inner: '' };
-  const INITIAL_FORM_CONTROL_VALUE_FULL: FormGroupValue = { inner: '', inner2: '', inner3: { inner4: '' } };
+  const INITIAL_FORM_CONTROL_VALUE_FULL: FormGroupValue = { inner: '', inner2: '', inner3: { inner4: '' }, inner5: [''] };
   const INITIAL_STATE = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
   const INITIAL_STATE_FULL = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE_FULL);
 
@@ -69,10 +71,26 @@ describe('form group setErrorsReducer', () => {
     expect(resultState.isInvalid).toEqual(true);
   });
 
-  it('should aggregate nested child errors', () => {
+  it('should aggregate child errors for array children', () => {
+    const errors = { required: true };
+    const resultState = setErrorsReducer(INITIAL_STATE_FULL, new SetErrorsAction(FORM_CONTROL_INNER5_ID, errors));
+    expect(resultState.errors).toEqual({ _inner5: errors });
+    expect(resultState.isValid).toEqual(false);
+    expect(resultState.isInvalid).toEqual(true);
+  });
+
+  it('should aggregate nested child errors for group', () => {
     const errors = { required: true };
     const resultState = setErrorsReducer(INITIAL_STATE_FULL, new SetErrorsAction(FORM_CONTROL_INNER4_ID, errors));
     expect(resultState.errors).toEqual({ _inner3: { _inner4: errors } });
+    expect(resultState.isValid).toEqual(false);
+    expect(resultState.isInvalid).toEqual(true);
+  });
+
+  it('should aggregate nested child errors for array', () => {
+    const errors = { required: true };
+    const resultState = setErrorsReducer(INITIAL_STATE_FULL, new SetErrorsAction(FORM_CONTROL_INNER5_0_ID, errors));
+    expect(resultState.errors).toEqual({ _inner5: { _0: errors } });
     expect(resultState.isValid).toEqual(false);
     expect(resultState.isInvalid).toEqual(true);
   });

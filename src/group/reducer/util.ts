@@ -1,15 +1,8 @@
 import { Actions } from '../../actions';
-import {
-  AbstractControlState,
-  FormGroupState,
-  FormGroupControls,
-  KeyValue,
-  ValidationErrors,
-  createFormControlState,
-  createFormGroupState,
-} from '../../state';
-import { isEmpty } from '../../util';
+import { formArrayReducerInternal } from '../../array/reducer';
 import { formControlReducerInternal } from '../../control/reducer';
+import { AbstractControlState, FormGroupControls, FormGroupState, KeyValue, ValidationErrors } from '../../state';
+import { isEmpty } from '../../util';
 import { formGroupReducerInternal } from '../reducer';
 
 export function getFormGroupValue<TValue extends { [key: string]: any }>(
@@ -36,7 +29,7 @@ export function getFormGroupErrors<TValue extends object>(
       .filter(key => !key.startsWith('_'))
       .reduce((res, key) => Object.assign(res, { [key]: originalErrors[key] }), {});
 
-  const newErrors = Object.keys(controls).reduce((res, key) => {
+  const newErrors = Object.keys(controls).reduce((res, key: any) => {
     const controlErrors = controls[key].errors;
     hasChanged = hasChanged || originalErrors['_' + key] !== controlErrors;
     if (!isEmpty(controlErrors)) {
@@ -83,6 +76,10 @@ export function computeGroupState<TValue extends KeyValue>(
   };
 }
 
+export function isArrayState(state: AbstractControlState<any>): boolean {
+  return state.hasOwnProperty('controls') && Array.isArray((state as any).controls);
+}
+
 export function isGroupState(state: AbstractControlState<any>): boolean {
   return state.hasOwnProperty('controls');
 }
@@ -91,6 +88,10 @@ export function callChildReducer(
   state: AbstractControlState<any>,
   action: Actions<any>,
 ): AbstractControlState<any> {
+  if (isArrayState(state)) {
+    return formArrayReducerInternal(state as any, action as any);
+  }
+
   if (isGroupState(state)) {
     return formGroupReducerInternal(state as any, action);
   }
@@ -134,12 +135,4 @@ export function childReducer<TValue extends KeyValue>(state: FormGroupState<TVal
   }
 
   return computeGroupState(state.id, controls, state.value, state.errors, state.userDefinedProperties);
-}
-
-export function createChildState(id: string, childValue: any): AbstractControlState<any> {
-  if (childValue !== null && typeof childValue === 'object') {
-    return createFormGroupState(id, childValue);
-  }
-
-  return createFormControlState(id, childValue);
 }

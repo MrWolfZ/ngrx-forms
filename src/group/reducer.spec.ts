@@ -15,7 +15,7 @@ import {
   SetValueAction,
   UnfocusAction,
 } from '../actions';
-import { createFormGroupState, FormControlState } from '../state';
+import { cast, createFormGroupState } from '../state';
 import { formGroupReducerInternal } from './reducer';
 
 describe('form group reducer', () => {
@@ -34,8 +34,8 @@ describe('form group reducer', () => {
 
   it('should forward focus actions to children', () => {
     const resultState = formGroupReducerInternal(INITIAL_STATE, new FocusAction(FORM_CONTROL_INNER_ID) as any);
-    expect((resultState.controls.inner as FormControlState<any>).isFocused).toEqual(true);
-    expect((resultState.controls.inner as FormControlState<any>).isUnfocused).toEqual(false);
+    expect(cast(resultState.controls.inner).isFocused).toEqual(true);
+    expect(cast(resultState.controls.inner).isUnfocused).toEqual(false);
   });
 
   it('should forward unfocus actions to children', () => {
@@ -50,8 +50,8 @@ describe('form group reducer', () => {
       },
     };
     const resultState = formGroupReducerInternal(state, new UnfocusAction(FORM_CONTROL_INNER_ID) as any);
-    expect((resultState.controls.inner as FormControlState<any>).isFocused).toEqual(false);
-    expect((resultState.controls.inner as FormControlState<any>).isUnfocused).toEqual(true);
+    expect(cast(resultState.controls.inner).isFocused).toEqual(false);
+    expect(cast(resultState.controls.inner).isUnfocused).toEqual(true);
   });
 
   it('should not update state if no child was updated', () => {
