@@ -40,7 +40,7 @@ export function isArrayState(state: AbstractControlState<any>): state is FormArr
 }
 
 export function isGroupState(state: AbstractControlState<any>): state is FormGroupState<any> {
-  return state.hasOwnProperty('controls');
+  return state.hasOwnProperty('controls') && !Array.isArray((state as any).controls);
 }
 
 export function cast<TValue extends FormControlValueTypes>(

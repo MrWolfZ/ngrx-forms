@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { Actions } from '../actions';
-import { FormControlState, FormControlValueTypes } from '../state';
+import { FormControlState, FormControlValueTypes, isArrayState, isGroupState } from '../state';
 import { disableReducer } from './reducer/disable';
 import { enableReducer } from './reducer/enable';
 import { focusReducer } from './reducer/focus';
@@ -20,6 +20,10 @@ export function formControlReducerInternal<TValue extends FormControlValueTypes>
   state: FormControlState<TValue>,
   action: Actions<TValue>,
 ): FormControlState<TValue> {
+  if (isGroupState(state) || isArrayState(state)) {
+    throw new Error('State must be control state');
+  }
+
   if (action.controlId !== state.id) {
     return state;
   }

@@ -72,6 +72,10 @@ describe('form array reducer', () => {
     expect(() => formArrayReducerInternal(INITIAL_STATE, new MarkAsDirtyAction(FORM_CONTROL_ID))).not.toThrowError();
   });
 
+  it('should throw if state is not an array state', () => {
+    expect(() => formArrayReducerInternal(INITIAL_STATE.controls[0] as any, new MarkAsDirtyAction(FORM_CONTROL_ID))).toThrowError();
+  });
+
   describe(SetValueAction.name, () => {
     it('should update state', () => {
       const resultState = formArrayReducerInternal(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, ['A']));

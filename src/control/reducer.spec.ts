@@ -33,6 +33,10 @@ describe('form control reducer', () => {
     expect(resultState).toBe(INITIAL_STATE);
   });
 
+  it('should throw if state is not a control state', () => {
+    expect(() => reducer({ controls: [] } as any, new MarkAsDirtyAction(FORM_CONTROL_ID))).toThrowError();
+  });
+
   describe(SetValueAction.name, () => {
     it('should update state', () => {
       const resultState = reducer(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, 'A'));

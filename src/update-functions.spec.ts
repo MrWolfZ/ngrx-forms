@@ -24,12 +24,12 @@ describe('update functions', () => {
   const FORM_CONTROL_ID = 'test ID';
   const FORM_CONTROL_INNER_ID = FORM_CONTROL_ID + '.inner';
   interface NestedValue { inner4: string; }
-  interface FormGroupValue { inner: string; inner2?: string; inner3?: NestedValue; }
-  const INITIAL_FORM_CONTROL_VALUE: FormGroupValue = { inner: '', inner3: { inner4: '' } };
+  interface FormGroupValue { inner: string; inner2?: string; inner3?: NestedValue; inner5: string[]; }
+  const INITIAL_FORM_CONTROL_VALUE: FormGroupValue = { inner: '', inner3: { inner4: '' }, inner5: [''] };
   const INITIAL_STATE = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
 
   describe(updateGroup.name, () => {
-    it('should apply the provided functions to direct control children', () => {
+    it('should apply the provided functions to control children', () => {
       const expected = { ...INITIAL_STATE.controls.inner, value: 'A' };
       const resultState = updateGroup<FormGroupValue>({
         inner: () => expected,
@@ -43,16 +43,6 @@ describe('update functions', () => {
         inner3: () => expected,
       })(INITIAL_STATE);
       expect(resultState.controls.inner3).toBe(expected);
-    });
-
-    it('should apply the provided functions to nested children', () => {
-      const expected = { ...(INITIAL_STATE.controls.inner3 as FormGroupState<NestedValue>).controls.inner4, value: 'A' };
-      const resultState = updateGroup<FormGroupValue>({
-        inner3: updateGroup<NestedValue>({
-          inner4: () => expected,
-        }),
-      })(INITIAL_STATE);
-      expect((resultState.controls.inner3 as FormGroupState<NestedValue>).controls.inner4).toBe(expected);
     });
 
     it('should apply multiple provided function objects one after another', () => {
@@ -80,7 +70,7 @@ describe('update functions', () => {
   });
 
   describe(groupUpdateReducer.name, () => {
-    it('should apply the action and the provided functions to direct control children', () => {
+    it('should apply the action and the provided functions to control children', () => {
       const value = 'A';
       const resultState = groupUpdateReducer<FormGroupValue>({
         inner: s => ({ ...s, value }),
@@ -139,13 +129,28 @@ describe('update functions', () => {
     });
 
     it('should call reducer for groups', () => {
-      const resultState = setValue<FormGroupValue>({ inner: 'A' })(INITIAL_STATE);
+      const resultState = setValue<FormGroupValue>({ inner: 'A', inner5: INITIAL_STATE.value.inner5 })(INITIAL_STATE);
       expect(resultState).not.toBe(cast(INITIAL_STATE));
+    });
+
+    it('should call reducer for arrays', () => {
+      const resultState = setValue<string[]>(['A'])(INITIAL_STATE.controls.inner5);
+      expect(resultState).not.toBe(cast(INITIAL_STATE.controls.inner5));
     });
 
     it('should call reducer for controls uncurried', () => {
       const resultState = setValue('A', INITIAL_STATE.controls.inner);
       expect(resultState).not.toBe(INITIAL_STATE.controls.inner);
+    });
+
+    it('should call reducer for groups uncurried', () => {
+      const resultState = setValue({ inner: 'A', inner5: INITIAL_STATE.value.inner5 }, INITIAL_STATE);
+      expect(resultState).not.toBe(INITIAL_STATE);
+    });
+
+    it('should call reducer for arrays uncurried', () => {
+      const resultState = setValue(['A'], INITIAL_STATE.controls.inner5);
+      expect(resultState).not.toBe(INITIAL_STATE.controls.inner5);
     });
 
     it('should throw if curried and no state', () => {
@@ -166,10 +171,28 @@ describe('update functions', () => {
       expect(resultState).not.toBe(cast(INITIAL_STATE));
     });
 
+    it('should call reducer for arrays', () => {
+      const errors = { required: true };
+      const resultState = validate<string[]>(() => errors)(INITIAL_STATE.controls.inner5);
+      expect(resultState).not.toBe(cast(INITIAL_STATE.controls.inner5));
+    });
+
     it('should call reducer for controls uncurried', () => {
       const errors = { required: true };
       const resultState = validate(() => errors, INITIAL_STATE.controls.inner);
       expect(resultState).not.toBe(INITIAL_STATE.controls.inner);
+    });
+
+    it('should call reducer for groups uncurried', () => {
+      const errors = { required: true };
+      const resultState = validate(() => errors, INITIAL_STATE);
+      expect(resultState).not.toBe(INITIAL_STATE);
+    });
+
+    it('should call reducer for arrays uncurried', () => {
+      const errors = { required: true };
+      const resultState = validate(() => errors, INITIAL_STATE.controls.inner5);
+      expect(resultState).not.toBe(INITIAL_STATE.controls.inner5);
     });
 
     it('should merge errors from multiple validation functions', () => {
@@ -206,6 +229,12 @@ describe('update functions', () => {
       const resultState = enable(state);
       expect(resultState).not.toBe(cast(INITIAL_STATE));
     });
+
+    it('should call reducer for arrays', () => {
+      const state = { ...INITIAL_STATE.controls.inner5, isEnabled: false, isDisabled: true };
+      const resultState = enable(state);
+      expect(resultState).not.toBe(cast(INITIAL_STATE.controls.inner5));
+    });
   });
 
   describe(disable.name, () => {
@@ -218,6 +247,11 @@ describe('update functions', () => {
       const resultState = disable(INITIAL_STATE);
       expect(resultState).not.toBe(cast(INITIAL_STATE));
     });
+
+    it('should call reducer for arrays', () => {
+      const resultState = disable(cast(INITIAL_STATE.controls.inner5));
+      expect(resultState).not.toBe(cast(INITIAL_STATE.controls.inner5));
+    });
   });
 
   describe(markAsDirty.name, () => {
@@ -229,6 +263,11 @@ describe('update functions', () => {
     it('should call reducer for groups', () => {
       const resultState = markAsDirty(INITIAL_STATE);
       expect(resultState).not.toBe(cast(INITIAL_STATE));
+    });
+
+    it('should call reducer for arrays', () => {
+      const resultState = markAsDirty(cast(INITIAL_STATE.controls.inner5));
+      expect(resultState).not.toBe(cast(INITIAL_STATE.controls.inner5));
     });
   });
 
@@ -244,6 +283,12 @@ describe('update functions', () => {
       const resultState = markAsPristine(state);
       expect(resultState).not.toBe(cast(INITIAL_STATE));
     });
+
+    it('should call reducer for arrays', () => {
+      const state = { ...INITIAL_STATE.controls.inner5, isDirty: false, isPristine: true };
+      const resultState = markAsPristine(cast(state));
+      expect(resultState).not.toBe(cast(INITIAL_STATE.controls.inner5));
+    });
   });
 
   describe(markAsTouched.name, () => {
@@ -255,6 +300,11 @@ describe('update functions', () => {
     it('should call reducer for groups', () => {
       const resultState = markAsTouched(INITIAL_STATE);
       expect(resultState).not.toBe(cast(INITIAL_STATE));
+    });
+
+    it('should call reducer for arrays', () => {
+      const resultState = markAsTouched(cast(INITIAL_STATE.controls.inner5));
+      expect(resultState).not.toBe(cast(INITIAL_STATE.controls.inner5));
     });
   });
 
@@ -270,6 +320,12 @@ describe('update functions', () => {
       const resultState = markAsUntouched(state);
       expect(resultState).not.toBe(cast(INITIAL_STATE));
     });
+
+    it('should call reducer for arrays', () => {
+      const state = { ...INITIAL_STATE.controls.inner5, isTouched: false, isUntouched: true };
+      const resultState = markAsUntouched(cast(state));
+      expect(resultState).not.toBe(cast(INITIAL_STATE.controls.inner5));
+    });
   });
 
   describe(markAsSubmitted.name, () => {
@@ -281,6 +337,11 @@ describe('update functions', () => {
     it('should call reducer for groups', () => {
       const resultState = markAsSubmitted(INITIAL_STATE);
       expect(resultState).not.toBe(cast(INITIAL_STATE));
+    });
+
+    it('should call reducer for arrays', () => {
+      const resultState = markAsSubmitted(cast(INITIAL_STATE.controls.inner5));
+      expect(resultState).not.toBe(cast(INITIAL_STATE.controls.inner5));
     });
   });
 
@@ -295,6 +356,12 @@ describe('update functions', () => {
       const state = { ...INITIAL_STATE, isSubmitted: false, isUnsubmitted: true };
       const resultState = markAsUnsubmitted(state);
       expect(resultState).not.toBe(cast(INITIAL_STATE));
+    });
+
+    it('should call reducer for arrays', () => {
+      const state = { ...INITIAL_STATE.controls.inner5, isSubmitted: false, isUnsubmitted: true };
+      const resultState = markAsUnsubmitted(cast(state));
+      expect(resultState).not.toBe(cast(INITIAL_STATE.controls.inner5));
     });
   });
 
@@ -336,6 +403,11 @@ describe('update functions', () => {
     it('should call reducer for groups', () => {
       const resultState = setUserDefinedProperty('prop', 12)(cast(INITIAL_STATE));
       expect(resultState).not.toBe(cast(INITIAL_STATE));
+    });
+
+    it('should call reducer for arrays', () => {
+      const resultState = setUserDefinedProperty('prop', 12)(cast(INITIAL_STATE.controls.inner5));
+      expect(resultState).not.toBe(cast(INITIAL_STATE.controls.inner5));
     });
   });
 });

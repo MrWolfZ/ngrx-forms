@@ -86,6 +86,10 @@ describe('form group reducer', () => {
     expect(() => formGroupReducerInternal(state, new SetValueAction(FORM_CONTROL_INNER_ID, new Date()))).toThrowError();
   });
 
+  it('should throw if state is not a group state', () => {
+    expect(() => formGroupReducerInternal(INITIAL_STATE.controls.inner as any, new MarkAsDirtyAction(FORM_CONTROL_ID))).toThrowError();
+  });
+
   describe(SetValueAction.name, () => {
     it('should update state', () => {
       const resultState = formGroupReducerInternal(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, { inner: 'A' }));

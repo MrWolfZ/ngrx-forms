@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { Actions, FocusAction, UnfocusAction } from '../actions';
-import { FormArrayState } from '../state';
+import { FormArrayState, isArrayState } from '../state';
 import { disableReducer } from './reducer/disable';
 import { enableReducer } from './reducer/enable';
 import { markAsDirtyReducer } from './reducer/mark-as-dirty';
@@ -16,6 +16,10 @@ import { setValueReducer } from './reducer/set-value';
 import { childReducer } from './reducer/util';
 
 export function formArrayReducerInternal<TValue>(state: FormArrayState<TValue>, action: Actions<TValue[]>) {
+  if (!isArrayState(state)) {
+    throw new Error('State must be array state');
+  }
+
   switch (action.type) {
     case FocusAction.TYPE:
     case UnfocusAction.TYPE:

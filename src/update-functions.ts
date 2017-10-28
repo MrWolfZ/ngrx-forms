@@ -17,6 +17,7 @@ import {
   SetValueAction,
   UnfocusAction,
 } from './actions';
+import { formArrayReducer } from './array/reducer';
 import { formControlReducer } from './control/reducer';
 import { formGroupReducer } from './group/reducer';
 import { computeGroupState } from './group/reducer/util';
@@ -26,6 +27,7 @@ import {
   FormControlValueTypes,
   FormGroupControls,
   FormGroupState,
+  isArrayState,
   isGroupState,
   KeyValue,
   ValidationErrors,
@@ -79,7 +81,15 @@ export function groupUpdateReducer<TValue extends object>(...updateFnsArr: Array
 }
 
 function abstractControlReducer<TValue>(state: AbstractControlState<TValue>, action: Action): AbstractControlState<TValue> {
-  return isGroupState(state) ? formGroupReducer(state as any, action) as any : formControlReducer(state as any, action);
+  if (isArrayState(state)) {
+    return formArrayReducer(state, action as any) as any;
+  }
+
+  if (isGroupState(state)) {
+    return formGroupReducer(state, action);
+  }
+
+  return formControlReducer(state as any, action) as any;
 }
 
 function ensureState<TValue>(state: AbstractControlState<TValue>) {
