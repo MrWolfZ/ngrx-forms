@@ -1,7 +1,15 @@
 import { Actions } from '../../actions';
 import { formArrayReducerInternal } from '../../array/reducer';
 import { formControlReducerInternal } from '../../control/reducer';
-import { AbstractControlState, FormGroupControls, FormGroupState, KeyValue, ValidationErrors } from '../../state';
+import {
+  AbstractControlState,
+  FormGroupControls,
+  FormGroupState,
+  isArrayState,
+  isGroupState,
+  KeyValue,
+  ValidationErrors,
+} from '../../state';
 import { isEmpty } from '../../util';
 import { formGroupReducerInternal } from '../reducer';
 
@@ -74,14 +82,6 @@ export function computeGroupState<TValue extends KeyValue>(
     controls,
     userDefinedProperties,
   };
-}
-
-export function isArrayState(state: AbstractControlState<any>): boolean {
-  return state.hasOwnProperty('controls') && Array.isArray((state as any).controls);
-}
-
-export function isGroupState(state: AbstractControlState<any>): boolean {
-  return state.hasOwnProperty('controls');
 }
 
 export function callChildReducer(

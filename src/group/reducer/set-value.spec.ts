@@ -1,18 +1,18 @@
 import { SetValueAction } from '../../actions';
 import { cast, createFormGroupState } from '../../state';
 import { setValueReducer } from './set-value';
+import {
+  FORM_CONTROL_ID,
+  FORM_CONTROL_INNER3_ID,
+  FORM_CONTROL_INNER4_ID,
+  FORM_CONTROL_INNER5_0_ID,
+  FORM_CONTROL_INNER5_ID,
+  FORM_CONTROL_INNER_ID,
+  FormGroupValue,
+  INITIAL_STATE,
+} from './test-util';
 
-describe('form group setValueReducer', () => {
-  const FORM_CONTROL_ID = 'test ID';
-  const FORM_CONTROL_INNER_ID = FORM_CONTROL_ID + '.inner';
-  const FORM_CONTROL_INNER3_ID = FORM_CONTROL_ID + '.inner3';
-  const FORM_CONTROL_INNER4_ID = FORM_CONTROL_INNER3_ID + '.inner4';
-  const FORM_CONTROL_INNER5_ID = FORM_CONTROL_ID + '.inner5';
-  const FORM_CONTROL_INNER5_0_ID = FORM_CONTROL_ID + '.inner5.0';
-  interface FormGroupValue { inner: string; inner2?: string; inner3?: { inner4: string }; inner5?: string[]; }
-  const INITIAL_FORM_CONTROL_VALUE: FormGroupValue = { inner: '' };
-  const INITIAL_STATE = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
-
+describe(`form group ${setValueReducer.name}`, () => {
   it('should update state value if different', () => {
     const value = { inner: 'A' };
     const resultState = setValueReducer(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, value));

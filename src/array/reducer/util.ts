@@ -1,7 +1,7 @@
 import { Actions } from '../../actions';
 import { formControlReducerInternal } from '../../control/reducer';
 import { formGroupReducerInternal } from '../../group/reducer';
-import { AbstractControlState, FormArrayState, FormGroupControls, KeyValue, ValidationErrors } from '../../state';
+import { AbstractControlState, FormArrayState, isArrayState, isGroupState, KeyValue, ValidationErrors } from '../../state';
 import { isEmpty } from '../../util';
 import { formArrayReducerInternal } from '../reducer';
 
@@ -75,24 +75,16 @@ export function computeArrayState<TValue>(
   };
 }
 
-export function isArrayState(state: AbstractControlState<any>): boolean {
-  return state.hasOwnProperty('controls') && Array.isArray((state as any).controls);
-}
-
-export function isGroupState(state: AbstractControlState<any>): boolean {
-  return state.hasOwnProperty('controls');
-}
-
 export function callChildReducer(
   state: AbstractControlState<any>,
   action: Actions<any>,
 ): AbstractControlState<any> {
   if (isArrayState(state)) {
-    return formArrayReducerInternal(state as any, action as any);
+    return formArrayReducerInternal(state, action as any);
   }
 
   if (isGroupState(state)) {
-    return formGroupReducerInternal(state as any, action);
+    return formGroupReducerInternal(state, action);
   }
 
   return formControlReducerInternal(state as any, action);
@@ -114,7 +106,7 @@ export function dispatchActionPerChild<TValue>(
 
 function callChildReducers<TValue>(
   controls: Array<AbstractControlState<TValue>>,
-  action: Actions<TValue>,
+  action: Actions<TValue[]>,
 ): Array<AbstractControlState<TValue>> {
   let hasChanged = false;
   const newControls = controls
@@ -126,7 +118,7 @@ function callChildReducers<TValue>(
   return hasChanged ? newControls : controls;
 }
 
-export function childReducer<TValue>(state: FormArrayState<TValue>, action: Actions<TValue>) {
+export function childReducer<TValue>(state: FormArrayState<TValue>, action: Actions<TValue[]>) {
   const controls = callChildReducers(state.controls, action);
 
   if (state.controls === controls) {

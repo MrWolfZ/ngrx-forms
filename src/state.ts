@@ -35,6 +35,14 @@ export class FormArrayState<TValue> extends AbstractControlState<TValue[]> {
   readonly controls: Array<AbstractControlState<TValue>>;
 }
 
+export function isArrayState(state: AbstractControlState<any>): state is FormArrayState<any> {
+  return state.hasOwnProperty('controls') && Array.isArray((state as any).controls);
+}
+
+export function isGroupState(state: AbstractControlState<any>): state is FormGroupState<any> {
+  return state.hasOwnProperty('controls');
+}
+
 export function cast<TValue extends FormControlValueTypes>(
   state: AbstractControlState<TValue>,
 ): FormControlState<TValue>;

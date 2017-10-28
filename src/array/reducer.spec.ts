@@ -16,7 +16,7 @@ import {
 import { cast, createFormArrayState } from '../state';
 import { formArrayReducerInternal } from './reducer';
 
-describe('form group reducer', () => {
+describe('form array reducer', () => {
   const FORM_CONTROL_ID = 'test ID';
   const FORM_CONTROL_0_ID = FORM_CONTROL_ID + '.0';
   type FormArrayValue = string[];

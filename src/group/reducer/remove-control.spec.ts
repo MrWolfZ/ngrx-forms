@@ -1,15 +1,9 @@
-import { createFormGroupState } from '../../state';
 import { RemoveControlAction } from '../../actions';
+import { createFormGroupState } from '../../state';
 import { removeControlReducer } from './remove-control';
+import { FORM_CONTROL_ID, FormGroupValue, INITIAL_STATE, INITIAL_STATE_FULL } from './test-util';
 
-describe('form group removeControlReducer', () => {
-  const FORM_CONTROL_ID = 'test ID';
-  interface FormGroupValue { inner: string; inner2?: string; inner3?: { inner4: string }; inner5?: string[]; }
-  const INITIAL_FORM_CONTROL_VALUE: FormGroupValue = { inner: '' };
-  const INITIAL_FORM_CONTROL_VALUE_FULL: FormGroupValue = { inner: '', inner2: '', inner3: { inner4: '' }, inner5: [''] };
-  const INITIAL_STATE = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
-  const INITIAL_STATE_FULL = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE_FULL);
-
+describe(`form group ${removeControlReducer.name}`, () => {
   it('should remove child state', () => {
     const action = new RemoveControlAction<FormGroupValue>(FORM_CONTROL_ID, 'inner2');
     const resultState = removeControlReducer<FormGroupValue>(INITIAL_STATE_FULL, action);
@@ -48,7 +42,7 @@ describe('form group removeControlReducer', () => {
         },
       },
     };
-    const action = new RemoveControlAction<FormValue>(FORM_CONTROL_ID, 'inner');
+    const action = new RemoveControlAction<FormValue>(id, 'inner');
     const resultState = removeControlReducer<FormValue>(state, action);
     expect(resultState.value).toEqual({});
     expect(resultState.errors).toEqual({});
@@ -73,7 +67,7 @@ describe('form group removeControlReducer', () => {
         },
       },
     };
-    const action = new RemoveControlAction<FormValue>(FORM_CONTROL_ID, 'inner');
+    const action = new RemoveControlAction<FormValue>(id, 'inner');
     const resultState = removeControlReducer<FormValue>(state, action);
     expect(resultState.value).toEqual({});
     expect(resultState.errors).toEqual(errors);
