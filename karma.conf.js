@@ -60,6 +60,16 @@ module.exports = function (config) {
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ['spec'],
 
+    specReporter: {
+      maxLogLines: 10,
+      suppressErrorSummary: true,
+      suppressFailed: false,
+      suppressPassed: true,
+      suppressSkipped: true,
+      showSpecTiming: false,
+      failFast: false
+    },
+
     // web server port
     port: 9876,
 
