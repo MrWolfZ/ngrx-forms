@@ -1,6 +1,6 @@
 ## Form Groups
 
-Groups are collections of controls. Just like controls groups are represented as plain state objects. The state of a group is determined almost fully by its child controls (with the exception of `errors` which a group can have by itself). Group states have the following shape:
+Groups are collections of named controls. Just like controls groups are represented as plain state objects. The state of a group is determined almost fully by its child controls (with the exception of `errors` which a group can have by itself). Group states have the following shape:
 
 ```typescript
 export interface KeyValue { [key: string]: any; }
