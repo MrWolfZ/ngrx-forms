@@ -1,6 +1,6 @@
-import { FormArrayState, KeyValue } from '../../state';
 import { Actions, MarkAsSubmittedAction } from '../../actions';
-import { computeArrayState, dispatchActionPerChild, childReducer } from './util';
+import { FormArrayState } from '../../state';
+import { childReducer, computeArrayState, dispatchActionPerChild } from './util';
 
 export function markAsSubmittedReducer<TValue>(
   state: FormArrayState<TValue>,

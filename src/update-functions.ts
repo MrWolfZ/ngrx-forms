@@ -19,13 +19,14 @@ import {
 } from './actions';
 import { formControlReducer } from './control/reducer';
 import { formGroupReducer } from './group/reducer';
-import { computeGroupState, isGroupState } from './group/reducer/util';
+import { computeGroupState } from './group/reducer/util';
 import {
   AbstractControlState,
   FormControlState,
   FormControlValueTypes,
   FormGroupControls,
   FormGroupState,
+  isGroupState,
   KeyValue,
   ValidationErrors,
 } from './state';

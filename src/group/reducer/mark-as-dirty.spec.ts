@@ -1,5 +1,5 @@
 import { MarkAsDirtyAction } from '../../actions';
-import { cast, FormGroupState } from '../../state';
+import { cast } from '../../state';
 import { markAsDirtyReducer } from './mark-as-dirty';
 import {
   FORM_CONTROL_ID,

@@ -1,13 +1,4 @@
-import {
-  AbstractControlState,
-  createFormGroupState,
-  FormArrayState,
-  FormControlState,
-  FormGroupControls,
-  FormGroupState,
-  isArrayState,
-  isGroupState,
-} from '../../state';
+import { AbstractControlState, createFormGroupState, FormGroupControls, isArrayState, isGroupState } from '../../state';
 
 export const FORM_CONTROL_ID = 'test ID';
 export const FORM_CONTROL_INNER_ID = FORM_CONTROL_ID + '.inner';
