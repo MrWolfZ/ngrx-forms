@@ -18,11 +18,13 @@ import {
   UnfocusAction,
 } from './actions';
 import { formArrayReducer } from './array/reducer';
+import { computeArrayState } from './array/reducer/util';
 import { formControlReducer } from './control/reducer';
 import { formGroupReducer } from './group/reducer';
 import { computeGroupState } from './group/reducer/util';
 import {
   AbstractControlState,
+  FormArrayState,
   FormControlState,
   FormControlValueTypes,
   FormGroupControls,
@@ -38,7 +40,7 @@ export type ProjectFn2<T, K> = (t: T, k: K) => T;
 export type StateUpdateFns<TValue extends KeyValue> =
   {[controlId in keyof TValue]?: ProjectFn2<AbstractControlState<TValue[controlId]>, FormGroupState<TValue>> };
 
-function updateControlsState<TValue extends KeyValue>(updateFns: StateUpdateFns<TValue>) {
+function updateGroupControlsState<TValue extends KeyValue>(updateFns: StateUpdateFns<TValue>) {
   return (state: FormGroupState<TValue>) => {
     let hasChanged = false;
     const newControls = Object.keys(state.controls).reduce((res, key) => {
@@ -55,16 +57,41 @@ function updateControlsState<TValue extends KeyValue>(updateFns: StateUpdateFns<
   };
 }
 
-function updateGroupSingle<TValue extends object>(updateFns: StateUpdateFns<TValue>) {
+function updateGroupSingle<TValue extends KeyValue>(updateFns: StateUpdateFns<TValue>) {
   return (state: FormGroupState<TValue>): FormGroupState<TValue> => {
-    const newControls = updateControlsState<TValue>(updateFns)(state);
+    const newControls = updateGroupControlsState<TValue>(updateFns)(state);
     return newControls !== state.controls ? computeGroupState<TValue>(state.id, newControls, state.value, state.errors, state.userDefinedProperties) : state;
   };
 }
 
-export function updateGroup<TValue extends object>(...updateFnsArr: Array<StateUpdateFns<TValue>>) {
+export function updateGroup<TValue extends KeyValue>(...updateFnsArr: Array<StateUpdateFns<TValue>>) {
   return (state: FormGroupState<TValue>): FormGroupState<TValue> => {
     return updateFnsArr.reduce((s, updateFns) => updateGroupSingle<TValue>(updateFns)(s), state);
+  };
+}
+
+function updateArrayControlsState<TValue>(updateFn: ProjectFn2<AbstractControlState<TValue>, FormArrayState<TValue>>) {
+  return (state: FormArrayState<TValue>) => {
+    let hasChanged = false;
+    const newControls = state.controls.map(control => {
+      const newControl = updateFn(control, state);
+      hasChanged = hasChanged || newControl !== control;
+      return newControl;
+    });
+    return hasChanged ? newControls : state.controls;
+  };
+}
+
+function updateArraySingle<TValue>(updateFn: ProjectFn2<AbstractControlState<TValue>, FormArrayState<TValue>>) {
+  return (state: FormArrayState<TValue>): FormArrayState<TValue> => {
+    const newControls = updateArrayControlsState<TValue>(updateFn)(state);
+    return newControls !== state.controls ? computeArrayState<TValue>(state.id, newControls, state.value, state.errors, state.userDefinedProperties) : state;
+  };
+}
+
+export function updateArray<TValue>(...updateFnArr: Array<ProjectFn2<AbstractControlState<TValue>, FormArrayState<TValue>>>) {
+  return (state: FormArrayState<TValue>): FormArrayState<TValue> => {
+    return updateFnArr.reduce((s, updateFn) => updateArraySingle<TValue>(updateFn)(s), state);
   };
 }
 
@@ -72,7 +99,7 @@ export function compose<T>(...fns: Array<(t: T) => T>) {
   return (t: T) => fns.reduce((res, f) => f(res), t);
 }
 
-export function groupUpdateReducer<TValue extends object>(...updateFnsArr: Array<StateUpdateFns<TValue>>) {
+export function groupUpdateReducer<TValue extends KeyValue>(...updateFnsArr: Array<StateUpdateFns<TValue>>) {
   return (state: FormGroupState<TValue>, action: Action) =>
     compose<FormGroupState<TValue>>(
       s => formGroupReducer(s, action),

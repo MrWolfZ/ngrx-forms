@@ -4,29 +4,32 @@ All states are internally updated by ngrx-forms through dispatching actions. Whi
 
 |Function|Description|
 |-|-|
-|`setValue`|This curried function takes a value and returns a function that takes a state and updates the value of the state. Note that setting the value of the group will also update all children including adding and removing children on the fly for added/removed properties. Has an uncurried overload that takes a state directly as the second parameter.|
+|`setValue`|This curried function takes a value and returns a function that takes a state and updates the value of the state. Note that setting the value of a group or array will also update all children including adding and removing children on the fly for added/removed properties/items. Has an uncurried overload that takes a state directly as the second parameter.|
 |`validate`|This curried function takes either a single validation function or an array of validation functions as a parameter and returns a function that takes a state and updates the errors of the state with the result of the provided validation function applied to the state's value. Has an uncurried overload that takes a state directly as the second parameter.|
-|`enable`|This function takes a state and enables it. For groups this also recursively enables all children.|
-|`disable`|This function takes a state and disables it. For groups this also recursively disables all children.|
-|`markAsDirty`|This function takes a state and marks it as dirty. For groups this also recursively marks all children as dirty.|
-|`markAsPristine`|This function takes a state and marks it as pristine. For groups this also recursively marks all children as pristine.|
-|`markAsTouched`|This function takes a state and marks it as touched. For groups this also recursively marks all children as touched.|
-|`markAsUntouched`|This function takes a state and marks it as untouched. For groups this also recursively marks all children as untouched.|
-|`markAsSubmitted`|This function takes a state and marks it as submitted. For groups this also recursively marks all children as submitted.|
-|`markAsUnsubmitted`|This function takes a state and marks it as unsubmitted. For groups this also recursively marks all children as unsubmitted.|
+|`enable`|This function takes a state and enables it. For groups and arrays this also recursively enables all children.|
+|`disable`|This function takes a state and disables it. For groups and arrays this also recursively disables all children.|
+|`markAsDirty`|This function takes a state and marks it as dirty. For groups and arrays this also recursively marks all children as dirty.|
+|`markAsPristine`|This function takes a state and marks it as pristine. For groups and arrays this also recursively marks all children as pristine.|
+|`markAsTouched`|This function takes a state and marks it as touched. For groups and arrays this also recursively marks all children as touched.|
+|`markAsUntouched`|This function takes a state and marks it as untouched. For groups and arrays this also recursively marks all children as untouched.|
+|`markAsSubmitted`|This function takes a state and marks it as submitted. For groups and arrays this also recursively marks all children as submitted.|
+|`markAsUnsubmitted`|This function takes a state and marks it as unsubmitted. For groups and arrays this also recursively marks all children as unsubmitted.|
 |`focus`|This function takes a control state and makes it focused (which will also `.focus()` the form element).|
 |`unfocus`|This function takes a control state and makes it unfocused (which will also `.blur()` the form element).|
 |`addControl`|This curried function takes a name and a value and returns a function that takes a group state and adds a child control with the given name and value to the state.|
 |`removeControl`|This curried function takes a name and returns a function that takes a group state and removes a child control with the given name from the state.|
 |`setUserDefinedProperty`|This curried function takes a name and a value and returns a function that takes a state and sets the property with the given name to the given value on the state's user defined properties.|
 
-These are very basic functions that perform simple updates on states. The last two functions below contain the real magic that allows easily updating deeply nested form states.
+These are the basic functions that perform simple updates on states. The functions below contain the real magic that allows easily updating deeply nested form states.
+
+`updateArray`:  
+This curried function takes an update function and returns a function that takes an array state, applies the provided update function to each element and recomputes the state of the array afterwards. As with all the functions above this function does not change the reference of the array if the update function does not change any children. See the section below for an example of how this function can be used.
 
 `updateGroup`:  
 This curried function takes a partial object in the shape of the group's value where each key contains an update function for that child and returns a function that takes a group state, applies all the provided update functions recursively and recomputes the state of the group afterwards. As with all the functions above this function does not change the reference of the group if none of the child update functions change any children. The best example of how this can be used is simple validation:
 
 ```typescript
-import { updateGroup, validate } from 'ngrx-forms';
+import { updateArray, updateGroup, validate } from 'ngrx-forms';
 
 export interface NestedValue {
   someNumber: number;
@@ -36,6 +39,7 @@ export interface MyFormValue {
   someTextInput: string;
   someCheckbox: boolean;
   nested: NestedValue;
+  someNumbers: number[];
 }
 
 function required(value: any) {
@@ -51,6 +55,7 @@ const updateMyFormGroup = updateGroup<MyFormValue>({
   nested: updateGroup({
     someNumber: validate([required, min]),
   }),
+  someNumbers: updateArray(validate(min)),
 });
 ```
 

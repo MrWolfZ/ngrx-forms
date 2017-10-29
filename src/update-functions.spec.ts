@@ -1,5 +1,5 @@
 import { MarkAsTouchedAction, SetValueAction } from './actions';
-import { cast, createFormGroupState, FormGroupState } from './state';
+import { cast, createFormArrayState, createFormGroupState, FormGroupState } from './state';
 import {
   addControl,
   disable,
@@ -16,6 +16,7 @@ import {
   setUserDefinedProperty,
   setValue,
   unfocus,
+  updateArray,
   updateGroup,
   validate,
 } from './update-functions';
@@ -27,6 +28,57 @@ describe('update functions', () => {
   interface FormGroupValue { inner: string; inner2?: string; inner3?: NestedValue; inner5: string[]; }
   const INITIAL_FORM_CONTROL_VALUE: FormGroupValue = { inner: '', inner3: { inner4: '' }, inner5: [''] };
   const INITIAL_STATE = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
+
+  describe(updateArray.name, () => {
+    it('should apply the provided functions to control children', () => {
+      const state = createFormArrayState(FORM_CONTROL_ID, ['']);
+      const expected = { ...state.controls[0], value: 'A' };
+      const resultState = updateArray<typeof expected.value>(() => expected)(state);
+      expect(resultState.controls[0]).toBe(expected);
+    });
+
+    it('should apply the provided functions to all control children', () => {
+      const state = createFormArrayState(FORM_CONTROL_ID, ['', '']);
+      const expected = { ...state.controls[0], value: 'A' };
+      const resultState = updateArray<typeof expected.value>(() => expected)(state);
+      expect(resultState.controls[0]).toBe(expected);
+      expect(resultState.controls[1]).toBe(expected);
+    });
+
+    it('should apply the provided functions to group children', () => {
+      const state = createFormArrayState(FORM_CONTROL_ID, [{ inner: '' }]);
+      const expected = { ...state.controls[0], value: { inner: 'A' } };
+      const resultState = updateArray<typeof expected.value>(() => expected)(state);
+      expect(resultState.controls[0]).toBe(expected);
+    });
+
+    it('should apply the provided functions to array children', () => {
+      const state = createFormArrayState(FORM_CONTROL_ID, [['']]);
+      const expected = { ...state.controls[0], value: ['A'] };
+      const resultState = updateArray<typeof expected.value>(() => expected)(state);
+      expect(resultState.controls[0]).toBe(expected);
+    });
+
+    it('should apply multiple provided functions one after another', () => {
+      const state = createFormArrayState(FORM_CONTROL_ID, ['A', 'B', 'C']);
+      const expected1 = { ...state.controls[0], value: 'D' };
+      const expected2 = { ...state.controls[1], value: 'E' };
+      const expected3 = { ...state.controls[2], value: 'F' };
+      let resultState = updateArray<typeof expected1.value>(s => s.value === 'A' ? expected1 : s.value === 'B' ? expected3 : s)(state);
+      resultState = updateArray<typeof expected1.value>(s => s.value === 'F' ? expected2 : s.value === 'C' ? expected3 : s)(resultState);
+      expect(resultState.controls[0]).toBe(expected1);
+      expect(resultState.controls[1]).toBe(expected2);
+      expect(resultState.controls[2]).toBe(expected3);
+    });
+
+    it('should pass the parent array as the second parameter', () => {
+      const state = createFormArrayState(FORM_CONTROL_ID, ['', '']);
+      updateArray<typeof state.value[0]>((c, p) => {
+        expect(p).toBe(state);
+        return c;
+      })(state);
+    });
+  });
 
   describe(updateGroup.name, () => {
     it('should apply the provided functions to control children', () => {
@@ -43,6 +95,14 @@ describe('update functions', () => {
         inner3: () => expected,
       })(INITIAL_STATE);
       expect(resultState.controls.inner3).toBe(expected);
+    });
+
+    it('should apply the provided functions to array children', () => {
+      const expected = { ...INITIAL_STATE.controls.inner5, value: ['A'] };
+      const resultState = updateGroup<FormGroupValue>({
+        inner5: () => expected,
+      })(INITIAL_STATE);
+      expect(resultState.controls.inner5).toBe(expected);
     });
 
     it('should apply multiple provided function objects one after another', () => {
