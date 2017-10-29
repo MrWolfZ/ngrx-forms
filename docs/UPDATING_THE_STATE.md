@@ -91,11 +91,11 @@ const updateMyFormGroup = updateGroup<MyFormValue>({
 });
 ```
 
-`groupUpdateReducer`:  
+`createFormGroupReducerWithUpdate`:  
 This curried function combines a `formGroupReducer` and the `updateGroup` function by taking update objects of the same shape as `updateGroup` and returns a reducer which first calls the `formGroupReducer` and afterwards applies all update functions by calling `updateGroup`. Combining all we have seen so far our final reducer would therefore look something like this:
 
 ```typescript
-const myFormReducer = groupUpdateReducer<MyFormValue>({
+const myFormReducer = createFormGroupReducerWithUpdate<MyFormValue>({
   someTextInput: validate(required),
   nested: updateGroup({
     someNumber: validate([required, min(2)]),

@@ -5,7 +5,7 @@ import {
   disable,
   enable,
   focus,
-  groupUpdateReducer,
+  createFormGroupReducerWithUpdate,
   markAsDirty,
   markAsPristine,
   markAsSubmitted,
@@ -129,10 +129,10 @@ describe('update functions', () => {
     });
   });
 
-  describe(groupUpdateReducer.name, () => {
+  describe(createFormGroupReducerWithUpdate.name, () => {
     it('should apply the action and the provided functions to control children', () => {
       const value = 'A';
-      const resultState = groupUpdateReducer<FormGroupValue>({
+      const resultState = createFormGroupReducerWithUpdate<FormGroupValue>({
         inner: s => ({ ...s, value }),
       })(INITIAL_STATE, new MarkAsTouchedAction(FORM_CONTROL_ID));
       expect(resultState.controls.inner.isTouched).toBe(true);
@@ -141,7 +141,7 @@ describe('update functions', () => {
 
     it('should apply the action and the provided functions to group children', () => {
       const value = { inner4: 'A' };
-      const resultState = groupUpdateReducer<FormGroupValue>({
+      const resultState = createFormGroupReducerWithUpdate<FormGroupValue>({
         inner3: s => ({ ...s, value }),
       })(INITIAL_STATE, new MarkAsTouchedAction(FORM_CONTROL_ID));
       expect(resultState.controls.inner3.isTouched).toBe(true);
@@ -150,7 +150,7 @@ describe('update functions', () => {
 
     it('should apply the action and the provided functions to nested children', () => {
       const value = 'A';
-      const resultState = groupUpdateReducer<FormGroupValue>({
+      const resultState = createFormGroupReducerWithUpdate<FormGroupValue>({
         inner3: updateGroup<NestedValue>({
           inner4: s => ({ ...s, value }),
         }),
@@ -161,7 +161,7 @@ describe('update functions', () => {
 
     it('should first apply the action and then the provided functions', () => {
       const expected = { ...INITIAL_STATE.controls.inner, value: 'A' };
-      const resultState = groupUpdateReducer<FormGroupValue>({
+      const resultState = createFormGroupReducerWithUpdate<FormGroupValue>({
         inner: () => expected,
       })(INITIAL_STATE, new SetValueAction(FORM_CONTROL_INNER_ID, 'B'));
       expect(resultState.controls.inner).toBe(expected);
@@ -171,7 +171,7 @@ describe('update functions', () => {
       const updatedInner1 = { ...INITIAL_STATE.controls.inner, value: 'A' };
       const expectedInner1 = { ...INITIAL_STATE.controls.inner, value: 'B' };
       const expectedInner3 = { ...INITIAL_STATE.controls.inner3, value: { inner4: 'A' } };
-      const resultState = groupUpdateReducer<FormGroupValue>({
+      const resultState = createFormGroupReducerWithUpdate<FormGroupValue>({
         inner: () => updatedInner1,
         inner3: () => expectedInner3,
       }, {

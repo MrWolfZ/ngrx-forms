@@ -99,12 +99,11 @@ export function compose<T>(...fns: Array<(t: T) => T>) {
   return (t: T) => fns.reduce((res, f) => f(res), t);
 }
 
-export function groupUpdateReducer<TValue extends KeyValue>(...updateFnsArr: Array<StateUpdateFns<TValue>>) {
-  return (state: FormGroupState<TValue>, action: Action) =>
-    compose<FormGroupState<TValue>>(
-      s => formGroupReducer(s, action),
-      updateGroup<TValue>(...updateFnsArr),
-    )(state);
+export function createFormGroupReducerWithUpdate<TValue extends KeyValue>(...updateFnsArr: Array<StateUpdateFns<TValue>>) {
+  return (state: FormGroupState<TValue>, action: Action) => {
+    state = formGroupReducer(state, action);
+    return updateGroup<TValue>(...updateFnsArr)(state);
+  };
 }
 
 function abstractControlReducer<TValue>(state: AbstractControlState<TValue>, action: Action): AbstractControlState<TValue> {
