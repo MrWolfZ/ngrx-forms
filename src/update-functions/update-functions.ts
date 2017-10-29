@@ -16,12 +16,12 @@ import {
   SetUserDefinedPropertyAction,
   SetValueAction,
   UnfocusAction,
-} from './actions';
-import { formArrayReducer } from './array/reducer';
-import { computeArrayState } from './array/reducer/util';
-import { formControlReducer } from './control/reducer';
-import { formGroupReducer } from './group/reducer';
-import { computeGroupState } from './group/reducer/util';
+} from '../actions';
+import { formArrayReducer } from '../array/reducer';
+import { computeArrayState } from '../array/reducer/util';
+import { formControlReducer } from '../control/reducer';
+import { formGroupReducer } from '../group/reducer';
+import { computeGroupState } from '../group/reducer/util';
 import {
   AbstractControlState,
   FormArrayState,
@@ -33,7 +33,7 @@ import {
   isGroupState,
   KeyValue,
   ValidationErrors,
-} from './state';
+} from '../state';
 
 export type ProjectFn<T> = (t: T) => T;
 export type ProjectFn2<T, K> = (t: T, k: K) => T;
