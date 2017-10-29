@@ -20,7 +20,7 @@ There is an [example app](https://ngrx-forms-example-app.herokuapp.com/) that sh
 npm install ngrx-forms --save
 ```
 
-This library depends on versions `^4.0.0` of `@angular/core`, `@angular/forms`, and `@ngrx/store`, and version `^5.0.0` of `rxjs`.
+This library has a peer dependency on versions `^4.0.0` of `@angular/core`, `@angular/common`, `@angular/forms`, `@angular/platform-browser`, and `@ngrx/store`.
 
 ## 2 Design Principles
 This library is written to be as functional and as pure as possible. Most of the heavy lifting is done in pure reducer functions with the directives being only a thin layer to connect the form states to the DOM.
