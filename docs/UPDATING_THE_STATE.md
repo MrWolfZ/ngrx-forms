@@ -69,8 +69,9 @@ In addition, the `updateGroup` function allows specifying as many update functio
 const updateMyFormGroup = updateGroup<MyFormValue>({
   someTextInput: validate(required),
   nested: updateGroup({
-    someNumber: validate(required),
+    someNumber: validate([required, min(2)]),
   }),
+  someNumbers: updateArray(validate(min(3))),
 }, {
   // note that the parent form state is provided as the second argument to update functions;
   // type annotations added for clarity but are inferred correctly otherwise
@@ -97,8 +98,9 @@ This curried function combines a `formGroupReducer` and the `updateGroup` functi
 const myFormReducer = groupUpdateReducer<MyFormValue>({
   someTextInput: validate(required),
   nested: updateGroup({
-    someNumber: validate(required),
+    someNumber: validate([required, min(2)]),
   }),
+  someNumbers: updateArray(validate(min(3))),
 }, {
   nested: (nested, myForm) =>
     updateGroup<NestedValue>({
