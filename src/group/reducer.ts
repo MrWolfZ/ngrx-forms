@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { Actions, FocusAction, UnfocusAction } from '../actions';
-import { FormGroupState, KeyValue } from '../state';
+import { FormGroupState, KeyValue, isGroupState } from '../state';
 import { addControlReducer } from './reducer/add-control';
 import { disableReducer } from './reducer/disable';
 import { enableReducer } from './reducer/enable';
@@ -18,6 +18,10 @@ import { setValueReducer } from './reducer/set-value';
 import { childReducer } from './reducer/util';
 
 export function formGroupReducerInternal<TValue extends KeyValue>(state: FormGroupState<TValue>, action: Actions<TValue>) {
+  if (!isGroupState(state)) {
+    throw new Error('State must be group state');
+  }
+
   switch (action.type) {
     case FocusAction.TYPE:
     case UnfocusAction.TYPE:

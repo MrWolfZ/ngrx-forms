@@ -1,6 +1,6 @@
-import { FormGroupState, FormGroupControls, KeyValue } from '../../state';
 import { Actions, SetValueAction } from '../../actions';
-import { computeGroupState, callChildReducer, childReducer, createChildState } from './util';
+import { createChildState, FormGroupControls, FormGroupState, KeyValue } from '../../state';
+import { callChildReducer, childReducer, computeGroupState } from './util';
 
 export function setValueReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,

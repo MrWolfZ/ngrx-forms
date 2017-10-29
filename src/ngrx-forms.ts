@@ -2,6 +2,7 @@ export * from './actions';
 export * from './state';
 export { formControlReducer } from './control/reducer';
 export { formGroupReducer } from './group/reducer';
+export { formArrayReducer } from './array/reducer';
 export { NgrxFormControlDirective } from './control/directive';
 export { NgrxValueConverter, NgrxValueConverters } from './control/value-converter';
 export { NgrxFormDirective } from './group/directive';
