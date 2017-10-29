@@ -7,13 +7,6 @@ const globals = {
   '@angular/platform-browser': 'ng.platform-browser',
   '@angular/forms': 'ng.forms',
   '@ngrx/store': 'ngrx.store',
-  'rxjs/Observable': 'Rx',
-  'rxjs/Observer': 'Rx',
-  'rxjs/BehaviorSubject': 'Rx',
-  'rxjs/add/operator/distinctUntilChanged': 'Rx',
-  'rxjs/add/operator/do': 'Rx',
-  'rxjs/add/operator/filter': 'Rx',
-  'rxjs/add/operator/map': 'Rx',
 };
 
 export default {
