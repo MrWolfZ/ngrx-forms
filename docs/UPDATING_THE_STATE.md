@@ -46,16 +46,18 @@ function required(value: any) {
   return !!value ? {} : { required: true };
 }
 
-function min(value: number, minValue: number) {
-  return value >= minValue ? {} : { min: [value, minValue] };
+function min(minValue: number) {
+  return (value: number) => {
+    return value >= minValue ? {} : { min: [value, minValue] };
+  };
 }
 
 const updateMyFormGroup = updateGroup<MyFormValue>({
   someTextInput: validate(required),
   nested: updateGroup({
-    someNumber: validate([required, min]),
+    someNumber: validate([required, min(2)]),
   }),
-  someNumbers: updateArray(validate(min)),
+  someNumbers: updateArray(validate(min(3))),
 });
 ```
 
