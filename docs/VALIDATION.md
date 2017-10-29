@@ -21,7 +21,7 @@ Below you can see an example of how these functions can be used:
 
 ```typescript
 import { updateGroup, validate } from 'ngrx-forms';
-import { required, greaterThanOrEqualTo, lessThan } from 'ngrx-forms';
+import { required, greaterThanOrEqualTo, lessThan } from 'ngrx-forms/validation';
 
 export interface NestedValue {
   someNumber: number;
