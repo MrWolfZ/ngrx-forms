@@ -1,6 +1,7 @@
 export * from './update-array';
 export * from './update-group';
 export * from './set-value';
+export * from './set-errors';
 export * from './validate';
 export * from './enable';
 export * from './disable';
