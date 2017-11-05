@@ -1,5 +1,6 @@
 export * from './update-array';
 export * from './update-group';
+export * from './update-recursive';
 export * from './set-value';
 export * from './set-errors';
 export * from './validate';

@@ -23,10 +23,10 @@ All states are internally updated by ngrx-forms through dispatching actions. Whi
 
 These are the basic functions that perform simple updates on states. The functions below contain the real magic that allows easily updating deeply nested form states.
 
-`updateArray`:  
+#### `updateArray`
 This curried function takes an update function and returns a function that takes an array state, applies the provided update function to each element and recomputes the state of the array afterwards. As with all the functions above this function does not change the reference of the array if the update function does not change any children. See the section below for an example of how this function can be used.
 
-`updateGroup`:  
+#### `updateGroup`
 This curried function takes a partial object in the shape of the group's value where each key contains an update function for that child and returns a function that takes a group state, applies all the provided update functions recursively and recomputes the state of the group afterwards. As with all the functions above this function does not change the reference of the group if none of the child update functions change any children. The best example of how this can be used is simple validation:
 
 ```typescript
@@ -92,10 +92,29 @@ const updateMyFormGroup = updateGroup<MyFormValue>({
 });
 ```
 
-`createFormGroupReducerWithUpdate`:  
+#### `createFormGroupReducerWithUpdate`
 This curried function combines a `formGroupReducer` and the `updateGroup` function by taking update objects of the same shape as `updateGroup` and returns a reducer which first calls the `formGroupReducer` and afterwards applies all update functions by calling `updateGroup`. Combining all we have seen so far our final reducer would therefore look something like this:
 
 ```typescript
+export interface AppState {
+  myForm: FormGroupState<MyFormValue>;
+}
+
+const FORM_ID = 'some globally unique string';
+
+const initialFormState = createFormGroupState<MyFormValue>(FORM_ID, {
+  someTextInput: '',
+  someCheckbox: false,
+  nested: {
+    someNumber: 0,
+  },
+  someNumbers: [],
+});
+
+const initialState: AppState = {
+  myForm: initialFormState,
+};
+
 const myFormReducer = createFormGroupReducerWithUpdate<MyFormValue>({
   someTextInput: validate(required),
   nested: updateGroup({
@@ -162,6 +181,43 @@ export function appReducer(state = initialState, action: Action): AppState {
         someOtherNumber: action.someOtherNumber,
         myForm,
       };
+
+    default: {
+      return state;
+    }
+  }
+}
+```
+
+#### `updateRecursive`
+Sometimes it is useful to apply an update function to all controls in a group or array recursively. This curried function takes an update function and returns a function that takes any state and applies the provided update function to all its children, its children's children etc. and finally to the state itself. This means when the update function is called for a certain state all of its children will have already been updated. The provided update function takes 2 parameters, the state to update and its parent state. For the top-level state the state itself is passed as the second parameter.
+
+Below you can find an example of how this function can be used. In this example we want to block all form inputs temporarily (e.g. while submitting the form). This can be done by disabling the form state at the root. However, when we unblock all inputs we want their enabled/disabled state to be reset to what it was before blocking the inputs. This could be done by simply storing a complete copy of the state (which might take a lot of space depending on the size of the form state). However, the example below uses a different method. We use the `setUserDefinedProperty` update function to store the enabled/disabled state before blocking the inputs and later restore them to the state they were in.
+
+```typescript
+import { updateRecursive, setUserDefinedProperty, enable, disable, cast } from 'ngrx-forms';
+
+export function appReducer(state = initialState, action: Action): AppState {
+  switch (action.type) {
+    case 'BLOCK_INPUTS': {
+      let myForm = updateRecursive<MyFormValue>(s => setUserDefinedProperty('wasDisabled', s.isDisabled)(s))(state.myForm);
+      myForm = disable(myForm);
+
+      return {
+        ...state,
+        myForm: cast(myForm),
+      };
+    }
+
+    case 'UNBLOCK_INPUTS': {
+      let myForm = enable(state.myForm);
+      myForm = updateRecursive<MyFormValue>(s => s.userDefinedProperties.wasDisabled ? disable(s) : s)(myForm);
+
+      return {
+        ...state,
+        myForm: cast(myForm),
+      };
+    }
 
     default: {
       return state;

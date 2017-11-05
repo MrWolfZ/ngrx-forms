@@ -12,6 +12,10 @@ The following sections will explain and showcase the different features of `ngrx
 * [Form Arrays](FORM_ARRAYS.md#form-arrays)
   * [Dynamic Form Arrays](FORM_ARRAYS.md#dynamic-form-arrays)
 * [Updating the State](UPDATING_THE_STATE.md#updating-the-state)
+  * [`updateArray`](UPDATING_THE_STATE.md#updatearray)
+  * [`updateGroup`](UPDATING_THE_STATE.md#updategroup)
+  * [`createFormGroupReducerWithUpdate`](UPDATING_THE_STATE.md#createformgroupreducerwithupdate)
+  * [`updateRecursive`](UPDATING_THE_STATE.md#updaterecursive)
 * [Validation](VALIDATION.md#validation)
 * [Custom Controls](CUSTOM_CONTROLS.md#custom-controls)
 
