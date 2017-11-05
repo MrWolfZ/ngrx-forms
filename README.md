@@ -35,13 +35,11 @@ You can find a detailed user guide [here](docs/USER_GUIDE.md).
 
 ## 4 Open Points
 
-* providing a simple set of common validation functions (e.g. required, min, max, pattern, etc.)
-* add a mechanism to allow attaching custom data to the form state
-* async validation (although already achievable via effects)
 * providing some global configuration options (e.g. enabling focus tracking globally)
-* add `isFocused` to groups to track whether any child is focused
+* add `isSomeChildFocused` to groups to track whether any child is focused
 * some more tests for directives
 * tests for example application
+* multiple example apps to showcase more scenarios
 
 ## 5 Contributing
 
