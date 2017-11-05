@@ -66,11 +66,13 @@ export function computeGroupState<TValue extends KeyValue>(
   const isEnabled = Object.keys(controls).some(key => controls[key].isEnabled);
   const isTouched = Object.keys(controls).some(key => controls[key].isTouched);
   const isSubmitted = Object.keys(controls).some(key => controls[key].isSubmitted);
+  const isValidationPending = pendingValidations.length > 0 || Object.keys(controls).some(key => controls[key].isValidationPending);
   return {
     id,
     value,
     errors,
     pendingValidations,
+    isValidationPending,
     isValid,
     isInvalid: !isValid,
     isDirty,

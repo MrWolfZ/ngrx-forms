@@ -13,6 +13,8 @@ export interface AbstractControlState<TValue> {
   isValid: boolean;
   isInvalid: boolean;
   errors: ValidationErrors;
+  pendingValidations: string[];
+  isValidationPending: boolean;
   isEnabled: boolean;
   isDisabled: boolean;
   isDirty: boolean;
@@ -38,6 +40,8 @@ The following table explains each property.
 |`value`||The value of the form control. Controls only support values of type `string`, `number`, `boolean`, `null`, and `undefined` to keep the state string serializable.|
 |`isValid`|`isInvalid`|The `isValid` flag is `true` if the control does not have any errors.|
 |`errors`||The errors of the control. This property always has a value. If the control has no errors the property is set to `{}`.|
+|`pendingValidations`||The names of all asynchronous validation errors currently being validated for the control.|
+|`isValidationPending`||The `isValidationPending` flag indicates whether the control is currently being asynchronously validated (i.e. this is `true` if and only if `pendingValidations` is not empty).|
 |`isEnabled`|`isDisabled`|The `isEnabled` flag indicates whether the control is enabled. When `isEnabled` is `false` the `errors` are always `{}` (i.e. the control is always valid if disabled).|
 |`isDirty`|`isPristine`|The `isDirty` flag is set to `true` as soon as the value of the control changes for the first time.|
 |`isTouched`|`isUntouched`|The `isTouched` flag is set to `true` based on the rules of the underlying `FormViewAdapter` (usually on `blur` for most form elements).|

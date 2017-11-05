@@ -57,11 +57,13 @@ export function computeArrayState<TValue>(
   const isEnabled = controls.some(state => state.isEnabled);
   const isTouched = controls.some(state => state.isTouched);
   const isSubmitted = controls.some(state => state.isSubmitted);
+  const isValidationPending = pendingValidations.length > 0 || controls.some(state => state.isValidationPending);
   return {
     id,
     value,
     errors,
     pendingValidations,
+    isValidationPending,
     isValid,
     isInvalid: !isValid,
     isDirty,
