@@ -21,6 +21,9 @@ function updateArraySingle<TValue>(updateFn: ProjectFn2<AbstractControlState<TVa
   };
 }
 
+/*
+ * Returns a function that applies all given update functions one after another to the given form array state.
+ */
 export function updateArray<TValue>(...updateFnArr: Array<ProjectFn2<AbstractControlState<TValue>, FormArrayState<TValue>>>) {
   return (state: FormArrayState<TValue>): FormArrayState<TValue> => {
     return updateFnArr.reduce((s, updateFn) => updateArraySingle<TValue>(updateFn)(s), state);

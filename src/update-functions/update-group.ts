@@ -32,12 +32,19 @@ function updateGroupSingle<TValue extends KeyValue>(updateFns: StateUpdateFns<TV
   };
 }
 
+/*
+ * Returns a function that applies all given update function objects one after another to the given form group state.
+ */
 export function updateGroup<TValue extends KeyValue>(...updateFnsArr: Array<StateUpdateFns<TValue>>) {
   return (state: FormGroupState<TValue>): FormGroupState<TValue> => {
     return updateFnsArr.reduce((s, updateFns) => updateGroupSingle<TValue>(updateFns)(s), state);
   };
 }
 
+/*
+ * Returns a reducer function that first updates a given state with an action and afterwards applies
+ * all given update function objects one after another to the resulting form group state.
+ */
 export function createFormGroupReducerWithUpdate<TValue extends KeyValue>(...updateFnsArr: Array<StateUpdateFns<TValue>>) {
   return (state: FormGroupState<TValue>, action: Action) => {
     state = formGroupReducer(state, action);
