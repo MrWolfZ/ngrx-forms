@@ -9,6 +9,7 @@ import {
   MarkAsUnsubmittedAction,
   MarkAsUntouchedAction,
   ResetAction,
+  SetAsyncErrorAction,
   SetErrorsAction,
   SetUserDefinedPropertyAction,
   SetValueAction,
@@ -42,6 +43,15 @@ describe('form control reducer', () => {
     it('should update state', () => {
       const errors = { required: true };
       const resultState = formControlReducerInternal(INITIAL_STATE, new SetErrorsAction(FORM_CONTROL_ID, errors));
+      expect(resultState).not.toBe(INITIAL_STATE);
+    });
+  });
+
+  describe(SetAsyncErrorAction.name, () => {
+    it('should update state', () => {
+      const name = 'required';
+      const value = true;
+      const resultState = formControlReducerInternal(INITIAL_STATE, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
