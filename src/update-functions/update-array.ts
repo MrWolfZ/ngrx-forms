@@ -17,7 +17,9 @@ function updateArrayControlsState<TValue>(updateFn: ProjectFn2<AbstractControlSt
 function updateArraySingle<TValue>(updateFn: ProjectFn2<AbstractControlState<TValue>, FormArrayState<TValue>>) {
   return (state: FormArrayState<TValue>): FormArrayState<TValue> => {
     const newControls = updateArrayControlsState<TValue>(updateFn)(state);
-    return newControls !== state.controls ? computeArrayState<TValue>(state.id, newControls, state.value, state.errors, state.userDefinedProperties) : state;
+    return newControls !== state.controls
+      ? computeArrayState<TValue>(state.id, newControls, state.value, state.errors, state.pendingValidations, state.userDefinedProperties)
+      : state;
   };
 }
 

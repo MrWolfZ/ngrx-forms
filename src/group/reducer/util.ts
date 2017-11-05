@@ -56,8 +56,9 @@ export function computeGroupState<TValue extends KeyValue>(
   controls: FormGroupControls<TValue>,
   value: TValue,
   errors: ValidationErrors,
+  pendingValidations: string[],
   userDefinedProperties: KeyValue,
-) {
+): FormGroupState<TValue> {
   value = getFormGroupValue<TValue>(controls, value);
   errors = getFormGroupErrors(controls, errors);
   const isValid = isEmpty(errors);
@@ -69,6 +70,7 @@ export function computeGroupState<TValue extends KeyValue>(
     id,
     value,
     errors,
+    pendingValidations,
     isValid,
     isInvalid: !isValid,
     isDirty,
@@ -134,5 +136,5 @@ export function childReducer<TValue extends KeyValue>(state: FormGroupState<TVal
     return state;
   }
 
-  return computeGroupState(state.id, controls, state.value, state.errors, state.userDefinedProperties);
+  return computeGroupState(state.id, controls, state.value, state.errors, state.pendingValidations, state.userDefinedProperties);
 }

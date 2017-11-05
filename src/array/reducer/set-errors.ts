@@ -42,5 +42,5 @@ export function setErrorsReducer<TValue>(
 
   const newErrors = Object.assign(childErrors, action.payload.errors);
 
-  return computeArrayState(state.id, state.controls, state.value, newErrors, state.userDefinedProperties);
+  return computeArrayState(state.id, state.controls, state.value, newErrors, state.pendingValidations, state.userDefinedProperties);
 }

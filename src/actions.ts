@@ -40,6 +40,69 @@ export class SetErrorsAction implements Action {
   }
 }
 
+export class SetAsyncErrorAction implements Action {
+  static readonly TYPE = 'ngrx/forms/SET_ASYNC_ERROR';
+  readonly type = SetAsyncErrorAction.TYPE;
+  readonly controlId: NgrxFormControlId;
+
+  readonly payload: {
+    readonly name: string;
+    readonly value: any;
+  };
+
+  constructor(
+    controlId: string,
+    name: string,
+    value: any,
+  ) {
+    this.controlId = controlId;
+    this.payload = {
+      name,
+      value,
+    };
+  }
+}
+
+export class ClearAsyncErrorAction implements Action {
+  static readonly TYPE = 'ngrx/forms/CLEAR_ASYNC_ERROR';
+  readonly type = ClearAsyncErrorAction.TYPE;
+  readonly controlId: NgrxFormControlId;
+
+  readonly payload: {
+    readonly name: string;
+  };
+
+  constructor(
+    controlId: string,
+    name: string,
+  ) {
+    this.controlId = controlId;
+    this.payload = {
+      name,
+    };
+  }
+}
+
+export class StartAsyncValidationAction implements Action {
+  static readonly TYPE = 'ngrx/forms/START_ASYNC_VALIDATION';
+  readonly type = StartAsyncValidationAction.TYPE;
+  readonly controlId: NgrxFormControlId;
+
+  readonly payload: {
+    readonly name: string;
+  };
+
+  constructor(
+    controlId: string,
+    name: string,
+  ) {
+    this.controlId = controlId;
+    this.payload = {
+      name,
+    };
+  }
+}
+
 export class MarkAsDirtyAction implements Action {
   static readonly TYPE = 'ngrx/forms/MARK_AS_DIRTY';
   readonly type = MarkAsDirtyAction.TYPE;
@@ -211,6 +274,9 @@ export class ResetAction implements Action {
 export type Actions<TValue> =
   | SetValueAction<TValue>
   | SetErrorsAction
+  | SetAsyncErrorAction
+  | ClearAsyncErrorAction
+  | StartAsyncValidationAction
   | MarkAsDirtyAction
   | MarkAsPristineAction
   | EnableAction

@@ -47,8 +47,9 @@ export function computeArrayState<TValue>(
   controls: Array<AbstractControlState<TValue>>,
   value: TValue[],
   errors: ValidationErrors,
+  pendingValidations: string[],
   userDefinedProperties: KeyValue,
-) {
+): FormArrayState<TValue> {
   value = getFormArrayValue<TValue>(controls, value);
   errors = getFormArrayErrors(controls, errors);
   const isValid = isEmpty(errors);
@@ -60,6 +61,7 @@ export function computeArrayState<TValue>(
     id,
     value,
     errors,
+    pendingValidations,
     isValid,
     isInvalid: !isValid,
     isDirty,
@@ -125,5 +127,5 @@ export function childReducer<TValue>(state: FormArrayState<TValue>, action: Acti
     return state;
   }
 
-  return computeArrayState(state.id, controls, state.value, state.errors, state.userDefinedProperties);
+  return computeArrayState(state.id, controls, state.value, state.errors, state.pendingValidations, state.userDefinedProperties);
 }

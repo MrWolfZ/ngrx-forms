@@ -42,5 +42,5 @@ export function setErrorsReducer<TValue extends KeyValue>(
 
   const newErrors = Object.assign(childErrors, action.payload.errors);
 
-  return computeGroupState(state.id, state.controls, state.value, newErrors, state.userDefinedProperties);
+  return computeGroupState(state.id, state.controls, state.value, newErrors, state.pendingValidations, state.userDefinedProperties);
 }

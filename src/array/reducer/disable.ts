@@ -23,6 +23,7 @@ export function disableReducer<TValue>(
     dispatchActionPerChild(state.controls, controlId => new DisableAction(controlId)),
     state.value,
     {},
+    state.pendingValidations,
     state.userDefinedProperties,
   );
 }
