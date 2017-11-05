@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { Actions } from '../actions';
 import { FormControlState, FormControlValueTypes, isArrayState, isGroupState } from '../state';
+import { clearAsyncErrorReducer } from './reducer/clear-async-error';
 import { disableReducer } from './reducer/disable';
 import { enableReducer } from './reducer/enable';
 import { focusReducer } from './reducer/focus';
@@ -35,6 +36,7 @@ export function formControlReducerInternal<TValue extends FormControlValueTypes>
   state = setErrorsReducer(state, action);
   state = startAsyncValidationReducer(state, action);
   state = setAsyncErrorReducer(state, action);
+  state = clearAsyncErrorReducer(state, action);
   state = enableReducer(state, action);
   state = disableReducer(state, action);
   state = focusReducer(state, action);
