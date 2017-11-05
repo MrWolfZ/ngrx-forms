@@ -15,12 +15,8 @@ export function setErrorsReducer<TValue>(
     return childReducer(state, action);
   }
 
-  if (!action.payload.errors) {
-    throw new Error(`Control errors must be an object; got ${JSON.stringify(action.payload.errors)}`); // `;
-  }
-
-  if (Object.keys(action.payload.errors).some(key => key.startsWith('_'))) {
-    throw new Error(`Control errors must not use underscore as a prefix; got ${JSON.stringify(action.payload.errors)}`); // `;
+  if (state.isDisabled) {
+    return state;
   }
 
   if (state.errors === action.payload.errors) {
@@ -31,16 +27,24 @@ export function setErrorsReducer<TValue>(
     return state;
   }
 
-  if (state.isDisabled) {
-    return state;
+  if (!action.payload.errors || typeof action.payload.errors !== 'object' || Array.isArray(action.payload.errors)) {
+    throw new Error(`Control errors must be an object; got ${action.payload.errors}`); // `;
   }
 
-  const childErrors =
+  if (Object.keys(action.payload.errors).some(key => key.startsWith('_'))) {
+    throw new Error(`Control errors must not use underscore as a prefix; got ${JSON.stringify(action.payload.errors)}`); // `;
+  }
+
+  if (Object.keys(action.payload.errors).some(key => key.startsWith('$'))) {
+    throw new Error(`Control errors must not use $ as a prefix; got ${JSON.stringify(action.payload.errors)}`); // `;
+  }
+
+  const childAndAsyncErrors =
     Object.keys(state.errors)
-      .filter(key => key.startsWith('_'))
+      .filter(key => key.startsWith('_') || key.startsWith('$'))
       .reduce((res, key) => Object.assign(res, { [key]: state.errors[key] }), {});
 
-  const newErrors = Object.assign(childErrors, action.payload.errors);
+  const newErrors = Object.assign(childAndAsyncErrors, action.payload.errors);
 
   return computeArrayState(state.id, state.controls, state.value, newErrors, state.pendingValidations, state.userDefinedProperties);
 }

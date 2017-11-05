@@ -47,8 +47,19 @@ describe(`form group ${setErrorsReducer.name}`, () => {
     expect(resultState).toBe(INITIAL_STATE);
   });
 
+  it('should keep async errors', () => {
+    const syncErrors = { required: true };
+    const asyncErrors = { $required: true };
+    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: asyncErrors };
+    const resultState = setErrorsReducer(state, new SetErrorsAction(FORM_CONTROL_ID, syncErrors));
+    expect(resultState.errors).toEqual({ ...asyncErrors, ...syncErrors });
+  });
+
   it('should throw if trying to set invalid error value', () => {
     expect(() => setErrorsReducer(INITIAL_STATE, new SetErrorsAction(FORM_CONTROL_ID, null as any))).toThrowError();
+    expect(() => setErrorsReducer(INITIAL_STATE, new SetErrorsAction(FORM_CONTROL_ID, 1 as any))).toThrowError();
+    expect(() => setErrorsReducer(INITIAL_STATE, new SetErrorsAction(FORM_CONTROL_ID, [] as any))).toThrowError();
+    expect(() => setErrorsReducer(INITIAL_STATE, new SetErrorsAction(FORM_CONTROL_ID, { $required: true }))).toThrowError();
     expect(() => setErrorsReducer(INITIAL_STATE, new SetErrorsAction(FORM_CONTROL_ID, { _inner: true }))).toThrowError();
   });
 

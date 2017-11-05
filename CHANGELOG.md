@@ -9,6 +9,7 @@
 * rename `groupUpdateReducer` to `createFormGroupReducerWithUpdate` in order to make it clearer that the function itself is not a reducer
 * remove erroneously exposed function `createChildState` from public API
 * change `option` element `value` bindings to work correctly for all primitive data types thereby removing the need for `ngValue` bindings
+* trying to set an error with a key prefixed with `$` will now throw an error since the `$` prefix is used to mark async errors
 
 #### Features
 
