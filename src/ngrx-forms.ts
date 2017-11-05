@@ -1,5 +1,21 @@
 export * from './actions';
-export * from './state';
+export {
+  FormControlValueTypes,
+  NgrxFormControlId,
+  ValidationErrors,
+  KeyValue,
+  AbstractControlState,
+  FormControlState,
+  FormGroupControls,
+  FormGroupState,
+  FormArrayState,
+  isArrayState,
+  isGroupState,
+  cast,
+  createFormControlState,
+  createFormGroupState,
+  createFormArrayState,
+} from './state';
 export { formControlReducer } from './control/reducer';
 export { formGroupReducer } from './group/reducer';
 export { formArrayReducer } from './array/reducer';
