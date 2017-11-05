@@ -29,4 +29,11 @@ describe('form control disableReducer', () => {
     expect(resultState.isInvalid).toEqual(false);
     expect(resultState.errors).toEqual({});
   });
+
+  it('should clear all pending validations', () => {
+    const state = { ...INITIAL_STATE, pendingValidations: ['required'], isValidationPending: true };
+    const resultState = disableReducer(state, new DisableAction(FORM_CONTROL_ID));
+    expect(resultState.pendingValidations).toEqual([]);
+    expect(resultState.isValidationPending).toBe(false);
+  });
 });

@@ -14,22 +14,26 @@ export function setAsyncErrorReducer<TValue extends FormControlValueTypes>(
     return state;
   }
 
-  const name = '$' + action.payload.name;
-
-  if (state.errors[name] === action.payload.value) {
+  if (state.pendingValidations.indexOf(action.payload.name) < 0) {
     return state;
   }
+
+  const name = '$' + action.payload.name;
+  let value = action.payload.value;
 
   if (deepEquals(state.errors[name], action.payload.value)) {
-    return state;
+    value = state.errors[name];
   }
 
-  const errors = { ...state.errors, [name]: action.payload.value };
+  const errors = { ...state.errors, [name]: value };
+  const pendingValidations = state.pendingValidations.filter(v => v !== action.payload.name);
 
   return {
     ...state,
     isValid: false,
     isInvalid: true,
     errors,
+    pendingValidations,
+    isValidationPending: pendingValidations.length > 0,
   };
 }

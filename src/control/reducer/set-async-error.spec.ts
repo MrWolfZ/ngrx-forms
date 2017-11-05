@@ -12,32 +12,64 @@ describe(`form control ${setAsyncErrorReducer.name}`, () => {
   it('should update state with error', () => {
     const name = 'required';
     const value = true;
-    const resultState = setAsyncErrorReducer(INITIAL_STATE, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+    const state = { ...INITIAL_STATE, pendingValidations: [name], isValidationPending: true };
+    const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
     expect(resultState.errors).toEqual({ ['$' + name]: value });
     expect(resultState.isValid).toBe(false);
     expect(resultState.isInvalid).toBe(true);
   });
 
-  it('should not update state if errors are same', () => {
+  it('should remove the validation from pending validations if validation is the last pending', () => {
     const name = 'required';
     const value = true;
-    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { ['$' + name]: value } };
+    const state = { ...INITIAL_STATE, pendingValidations: [name], isValidationPending: true };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
-    expect(resultState).toBe(state);
+    expect(resultState.pendingValidations).toEqual([]);
+    expect(resultState.isValidationPending).toBe(false);
   });
 
-  it('should not update state if errors are equal', () => {
+  it('should remove the validation from pending validations if validation is not the last pending', () => {
     const name = 'required';
-    const value = { [name]: true };
-    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { ['$' + name]: value } };
+    const name2 = 'min';
+    const value = true;
+    const state = { ...INITIAL_STATE, pendingValidations: [name, name2], isValidationPending: true };
+    const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+    expect(resultState.pendingValidations).toEqual([name2]);
+    expect(resultState.isValidationPending).toBe(true);
+  });
+
+  it('should remove pending validation without changing the error if error value is the same', () => {
+    const name = 'required';
+    const value = true;
+    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { ['$' + name]: value }, pendingValidations: [name], isValidationPending: true };
+    const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+    expect(resultState.errors['$' + name]).toBe(value);
+    expect(resultState.pendingValidations).toEqual([]);
+    expect(resultState.isValidationPending).toBe(false);
+  });
+
+  it('should remove pending validation without changing the error if error value is equal', () => {
+    const name = 'required';
+    const value = { field: true };
+    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { ['$' + name]: value }, pendingValidations: [name], isValidationPending: true };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, { ...value }));
-    expect(resultState).toBe(state);
+    expect(resultState.errors['$' + name]).toBe(value);
+    expect(resultState.pendingValidations).toEqual([]);
+    expect(resultState.isValidationPending).toBe(false);
   });
 
   it('should not update state if control is disabled', () => {
     const name = 'required';
     const value = true;
     const state = { ...INITIAL_STATE, isEnabled: false, isDisabled: true };
+    const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+    expect(resultState).toBe(state);
+  });
+
+  it('should not update state if no matching pending validation is found', () => {
+    const name = 'required';
+    const value = true;
+    const state = { ...INITIAL_STATE, pendingValidations: ['min'], isValidationPending: true };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
     expect(resultState).toBe(state);
   });

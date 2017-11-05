@@ -13,6 +13,7 @@ import {
   SetErrorsAction,
   SetUserDefinedPropertyAction,
   SetValueAction,
+  StartAsyncValidationAction,
   UnfocusAction,
 } from '../actions';
 import { createFormControlState } from '../state';
@@ -47,11 +48,20 @@ describe('form control reducer', () => {
     });
   });
 
+  describe(StartAsyncValidationAction.name, () => {
+    it('should update state', () => {
+      const name = 'required';
+      const resultState = reducer(INITIAL_STATE, new StartAsyncValidationAction(FORM_CONTROL_ID, name));
+      expect(resultState).not.toBe(INITIAL_STATE);
+    });
+  });
+
   describe(SetAsyncErrorAction.name, () => {
     it('should update state', () => {
       const name = 'required';
       const value = true;
-      const resultState = formControlReducerInternal(INITIAL_STATE, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+      const state = { ...INITIAL_STATE, pendingValidations: [name], isValidationPending: true };
+      const resultState = formControlReducerInternal(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });

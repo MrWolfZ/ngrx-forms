@@ -16,6 +16,7 @@ import { setAsyncErrorReducer } from './reducer/set-async-error';
 import { setErrorsReducer } from './reducer/set-errors';
 import { setUserDefinedPropertyReducer } from './reducer/set-user-defined-property';
 import { setValueReducer } from './reducer/set-value';
+import { startAsyncValidationReducer } from './reducer/start-async-validation';
 import { unfocusReducer } from './reducer/unfocus';
 
 export function formControlReducerInternal<TValue extends FormControlValueTypes>(
@@ -32,6 +33,7 @@ export function formControlReducerInternal<TValue extends FormControlValueTypes>
 
   state = setValueReducer(state, action);
   state = setErrorsReducer(state, action);
+  state = startAsyncValidationReducer(state, action);
   state = setAsyncErrorReducer(state, action);
   state = enableReducer(state, action);
   state = disableReducer(state, action);

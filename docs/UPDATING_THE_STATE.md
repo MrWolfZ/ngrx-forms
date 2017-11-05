@@ -4,11 +4,11 @@ All states are internally updated by ngrx-forms through dispatching actions. Whi
 
 |Function|Description|
 |-|-|
-|`setValue`|This curried function takes a value and returns a function that takes a state and updates the value of the state. Note that setting the value of a group or array will also update all children including adding and removing children on the fly for added/removed properties/items. Has an uncurried overload that takes a state directly as the second parameter.|
+|`setValue`|This curried function takes a value and returns a function that takes a state and updates the value of the state. Note that setting the value of a group or array will also update all children including adding and removing children on the fly for added/removed properties/items. Setting the value of a control to a new value will also mark that control as dirty. Has an uncurried overload that takes a state directly as the second parameter.|
 |`validate`|This curried function takes either a single validation function or an array of validation functions as a parameter and returns a function that takes a state and updates the errors of the state with the result of the provided validation function applied to the state's value. Has an uncurried overload that takes a state directly as the second parameter.|
 |`setErrors`|This curried function takes either a single error object or an array of error objects as a parameter and returns a function that takes a state and updates the errors of the state. Has an uncurried overload that takes a state directly as the second parameter.|
 |`enable`|This function takes a state and enables it. For groups and arrays this also recursively enables all children.|
-|`disable`|This function takes a state and disables it. For groups and arrays this also recursively disables all children.|
+|`disable`|This function takes a state and disables it. For groups and arrays this also recursively disables all children. Disabling a control will clear all of its errors (i.e. making it always valid) and will remove all pending validations (thereby effectively cancelling those validations).|
 |`markAsDirty`|This function takes a state and marks it as dirty. For groups and arrays this also recursively marks all children as dirty.|
 |`markAsPristine`|This function takes a state and marks it as pristine. For groups and arrays this also recursively marks all children as pristine.|
 |`markAsTouched`|This function takes a state and marks it as touched. For groups and arrays this also recursively marks all children as touched.|
