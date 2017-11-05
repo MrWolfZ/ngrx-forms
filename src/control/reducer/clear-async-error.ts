@@ -1,6 +1,6 @@
-import { FormControlState, FormControlValueTypes } from '../../state';
 import { Actions, ClearAsyncErrorAction } from '../../actions';
-import { isEmpty, deepEquals } from '../../util';
+import { FormControlState, FormControlValueTypes } from '../../state';
+import { isEmpty } from '../../util';
 
 export function clearAsyncErrorReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,

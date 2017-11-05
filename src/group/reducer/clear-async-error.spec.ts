@@ -1,6 +1,6 @@
 import { ClearAsyncErrorAction } from '../../actions';
 import { clearAsyncErrorReducer } from './clear-async-error';
-import { FORM_CONTROL_ID, INITIAL_STATE, INITIAL_STATE_FULL, FORM_CONTROL_INNER_ID, FORM_CONTROL_INNER3_ID } from './test-util';
+import { FORM_CONTROL_ID, FORM_CONTROL_INNER_ID, INITIAL_STATE, INITIAL_STATE_FULL } from './test-util';
 
 describe(`form group ${clearAsyncErrorReducer.name}`, () => {
   it('should skip any action of the wrong type', () => expect(clearAsyncErrorReducer(INITIAL_STATE, { type: '' } as any)).toBe(INITIAL_STATE));
@@ -235,7 +235,6 @@ describe(`form group ${clearAsyncErrorReducer.name}`, () => {
 
   it('should mark state as validation pending if child control is validation pending', () => {
     const name = 'required';
-    const value = true;
     const state = {
       ...INITIAL_STATE,
       pendingValidations: [name],
@@ -255,7 +254,6 @@ describe(`form group ${clearAsyncErrorReducer.name}`, () => {
 
   it('should mark state as validation pending if child group is validation pending', () => {
     const name = 'required';
-    const value = true;
     const state = {
       ...INITIAL_STATE_FULL,
       pendingValidations: [name],
@@ -276,7 +274,6 @@ describe(`form group ${clearAsyncErrorReducer.name}`, () => {
 
   it('should mark state as validation pending if child array is validation pending', () => {
     const name = 'required';
-    const value = true;
     const state = {
       ...INITIAL_STATE_FULL,
       pendingValidations: [name],

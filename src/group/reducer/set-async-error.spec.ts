@@ -208,7 +208,6 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
         },
       },
     };
-    const errors2 = { min: 0 };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_INNER_ID, name2, value2));
     expect(resultState.errors).toEqual({ ['$' + name1]: value1, _inner: { ['$' + name2]: value2 } });
   });

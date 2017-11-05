@@ -236,7 +236,6 @@ describe(`form array ${clearAsyncErrorReducer.name}`, () => {
 
   it('should mark state as validation pending if child control is validation pending', () => {
     const name = 'required';
-    const value = true;
     const state = {
       ...INITIAL_STATE,
       pendingValidations: [name],
@@ -256,7 +255,6 @@ describe(`form array ${clearAsyncErrorReducer.name}`, () => {
 
   it('should mark state as validation pending if child group is validation pending', () => {
     const name = 'required';
-    const value = true;
     const state = {
       ...INITIAL_STATE_NESTED_GROUP,
       pendingValidations: [name],
@@ -276,7 +274,6 @@ describe(`form array ${clearAsyncErrorReducer.name}`, () => {
 
   it('should mark state as validation pending if child array is validation pending', () => {
     const name = 'required';
-    const value = true;
     const state = {
       ...INITIAL_STATE_NESTED_ARRAY,
       pendingValidations: [name],
