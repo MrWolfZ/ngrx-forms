@@ -30,10 +30,13 @@ export function getFormArrayErrors<TValue>(
 
   const newErrors = controls.reduce((res, state, i) => {
     const controlErrors = state.errors;
-    hasChanged = hasChanged || originalErrors['_' + i] !== controlErrors;
     if (!isEmpty(controlErrors)) {
+      hasChanged = hasChanged || originalErrors['_' + i] !== controlErrors;
       res['_' + i] = controlErrors;
+    } else {
+      hasChanged = hasChanged || originalErrors.hasOwnProperty('_' + i);
     }
+
     return res;
   }, groupErrors as ValidationErrors);
 

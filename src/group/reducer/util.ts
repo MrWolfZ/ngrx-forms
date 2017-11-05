@@ -39,10 +39,13 @@ export function getFormGroupErrors<TValue extends object>(
 
   const newErrors = Object.keys(controls).reduce((res, key: any) => {
     const controlErrors = controls[key].errors;
-    hasChanged = hasChanged || originalErrors['_' + key] !== controlErrors;
     if (!isEmpty(controlErrors)) {
+      hasChanged = hasChanged || originalErrors['_' + key] !== controlErrors;
       res['_' + key] = controls[key].errors;
+    } else {
+      hasChanged = hasChanged || originalErrors.hasOwnProperty('_' + key);
     }
+
     return res;
   }, groupErrors as ValidationErrors);
 
