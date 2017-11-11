@@ -1,36 +1,47 @@
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { EffectsModule } from '@ngrx/effects';
+import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { EffectsModule } from '@ngrx/effects';
-import { HttpModule } from '@angular/http';
-import { MaterialModule, MdNativeDateModule } from '@angular/material';
-import { NgrxFormsModule } from 'ngrx-forms';
 
-import { reducers } from './app.reducer';
-import { AppComponent } from './app.component';
-import { ItemFormComponent } from './item-form/item-form.component';
-import { NgrxMdSelectValueAccessor } from './md-select-value-accessor';
+import { environment } from '../environments/environment';
+import { AppComponent } from './component';
+import { LayoutModule } from './layout/layout.module';
+import { MaterialModule } from './material';
+import { reducers } from './reducer';
+import { routes } from './routes';
+import { SharedModule } from './shared/shared.module';
+import { CustomRouterStateSerializer } from './shared/utils';
+
+export const COMPONENTS = [
+  AppComponent,
+];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ItemFormComponent,
-    NgrxMdSelectValueAccessor,
-  ],
   imports: [
+    CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
-    MdNativeDateModule,
-    NgrxFormsModule,
-    HttpModule,
+    SharedModule,
+    HttpClientModule,
+    RouterModule.forRoot(routes, { useHash: true }),
     StoreModule.forRoot(reducers),
-    StoreDevtoolsModule.instrument({ maxAge: 30 }),
+    StoreRouterConnectingModule,
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([]),
+    LayoutModule.forRoot(),
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  declarations: COMPONENTS,
+  exports: COMPONENTS,
+  providers: [
+    { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

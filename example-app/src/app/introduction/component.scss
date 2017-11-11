@@ -1,0 +1,15 @@
+@import '../../styles/shared';
+
+:host {
+  @extend .page;
+}
+
+.mat-card {
+  width: 800px;
+}
+
+.mat-card-title {
+  font-size: 1.4em;
+  font-weight: bold;
+  margin-left: -8px;
+}

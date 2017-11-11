@@ -1,0 +1,25 @@
+<mat-card>
+  <mat-card-content>    
+    <mat-tab-group>
+      <mat-tab label="Example">
+        <div class="form">
+          <ng-content></ng-content>
+        </div>
+      </mat-tab>
+      <mat-tab label="reducer.ts">
+        <pre><code [innerHtml]="formattedReducerCode"></code></pre>
+      </mat-tab>
+      <mat-tab label="component.ts">
+        <pre><code [innerHtml]="formattedComponentCode"></code></pre>
+      </mat-tab>
+      <mat-tab label="component.html">
+        <pre><code [innerHtml]="formattedComponentHtml"></code></pre>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>
+<mat-card class="form-state">
+  <mat-card-content>
+    <pre><code [innerHtml]="formattedFormState"></code></pre>
+  </mat-card-content>
+</mat-card>

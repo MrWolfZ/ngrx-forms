@@ -1,0 +1,11 @@
+<a mat-list-item
+   [routerLink]="routerLink">
+  <span mat-line>
+    <ng-content></ng-content>
+  </span>
+  <span mat-line
+        *ngIf="hint"
+        class="hint">
+    {{ hint }}
+  </span>
+</a>

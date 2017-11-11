@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  height: 100%;
+
+  >mat-card {
+    max-width: 700px;
+    overflow: auto;
+  }
+}
+
+.form-state {
+  margin-left: 20px;
+}
+
+.form {
+  padding: 20px;
+}

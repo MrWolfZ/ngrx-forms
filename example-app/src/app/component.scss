@@ -33,29 +33,3 @@
 .mat-list-item:not(:last-child) {
   border-bottom: 1px solid rgba(0, 0, 0, .12);
 }
-
-.todo-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.list-item {
-  display: flex;
-  width: 100%;
-}
-
-.list-item .category {
-  flex: 1;
-}
-
-.list-item .text {
-  flex: 3;
-}
-
-.list-item .priority {
-  flex: 1;
-}
-
-.list-item .duedate {
-  flex: 1;
-}

@@ -1,0 +1,14 @@
+<ngf-form-example reducerCode="
+const data: string = '1';
+const data2 = data + '2';
+"
+                  componentCode="
+const data: string = '1';
+const data2 = data + '2';
+"
+                   componentHtml="
+<form></form>
+"
+                  [formState]="formState$ | async">
+  example
+</ngf-form-example>
