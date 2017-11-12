@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { Actions, FocusAction, UnfocusAction } from '../actions';
-import { FormGroupState, KeyValue, isGroupState } from '../state';
+import { FormGroupState, isGroupState, KeyValue } from '../state';
 import { addControlReducer } from './reducer/add-control';
 import { disableReducer } from './reducer/disable';
 import { enableReducer } from './reducer/enable';
