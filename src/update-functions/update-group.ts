@@ -32,7 +32,7 @@ function updateGroupSingle<TValue extends KeyValue>(updateFns: StateUpdateFns<TV
   };
 }
 
-/*
+/**
  * Returns a function that applies all given update function objects one after another to the given form group state.
  */
 export function updateGroup<TValue extends KeyValue>(...updateFnsArr: Array<StateUpdateFns<TValue>>) {
@@ -41,7 +41,7 @@ export function updateGroup<TValue extends KeyValue>(...updateFnsArr: Array<Stat
   };
 }
 
-/*
+/**
  * Returns a reducer function that first updates a given state with an action and afterwards applies
  * all given update function objects one after another to the resulting form group state.
  */

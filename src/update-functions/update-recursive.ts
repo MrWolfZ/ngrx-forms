@@ -21,7 +21,7 @@ function updateRecursiveSingle(parent: AbstractControlState<any>, updateFn: Proj
   };
 }
 
-/*
+/**
  * Returns a function that applies all given update functions one after another to the given form state recursively.
  */
 export function updateRecursive<TValue>(...updateFnArr: Array<ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>>) {

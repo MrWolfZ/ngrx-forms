@@ -5,12 +5,12 @@ import { abstractControlReducer, ensureState, ProjectFn } from './util';
 // export function setErrors<TValue extends FormControlValueTypes>(param: ValidationErrors | ValidationErrors[]): ProjectFn<FormControlState<TValue>>;
 // export function setErrors<TValue extends KeyValue>(param: ValidationErrors | ValidationErrors[]): ProjectFn<FormGroupState<TValue>>;
 
-/*
+/**
  * Returns a function that sets the errors of a given form state.
  */
 export function setErrors<TValue>(param: ValidationErrors | ValidationErrors[]): ProjectFn<AbstractControlState<TValue>>;
 
-/*
+/**
  * Sets the errors of a given form state.
  */
 export function setErrors<TValue>(param: ValidationErrors | ValidationErrors[], state: AbstractControlState<TValue>): AbstractControlState<TValue>;

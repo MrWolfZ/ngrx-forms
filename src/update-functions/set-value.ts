@@ -5,12 +5,12 @@ import { abstractControlReducer, ensureState, ProjectFn } from './util';
 // export function setValue<TValue extends FormControlValueTypes>(value: TValue): ProjectFn<FormControlState<TValue>>;
 // export function setValue<TValue extends KeyValue>(value: TValue): ProjectFn<FormGroupState<TValue>>;
 
-/*
+/**
  * Returns a function that sets the value of a given form state.
  */
 export function setValue<TValue>(value: TValue): ProjectFn<AbstractControlState<TValue>>;
 
-/*
+/**
  * Sets the value of a given form state.
  */
 export function setValue<TValue>(value: TValue, state: AbstractControlState<TValue>): AbstractControlState<TValue>;

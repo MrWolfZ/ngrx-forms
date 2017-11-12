@@ -8,12 +8,12 @@ export type ValidateParam<TValue> = ValidationFn<TValue> | Array<ValidationFn<TV
 // export function validate<TValue extends FormControlValueTypes>(param: ValidateParam<TValue>): ProjectFn<FormControlState<TValue>>;
 // export function validate<TValue extends KeyValue>(param: ValidateParam<TValue>): ProjectFn<FormGroupState<TValue>>;
 
-/*
+/**
  * Returns a function that sets the errors of a given form state to the result of applying the given validation function(s) to the form state's value.
  */
 export function validate<TValue>(param: ValidateParam<TValue>): ProjectFn<AbstractControlState<TValue>>;
 
-/*
+/**
  * Sets the errors of a given form state to the result of applying the given validation function(s) to the form state's value.
  */
 export function validate<TValue>(param: ValidateParam<TValue>, state: AbstractControlState<TValue>): AbstractControlState<TValue>;
