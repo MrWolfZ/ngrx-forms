@@ -15,6 +15,6 @@ export class SimpleFormPageComponent {
   formState$: Observable<FormGroupState<SimpleFormValue>>;
 
   constructor(store: Store<State>) {
-    this.formState$ = store.select(s => s.simpleForm);
+    this.formState$ = store.select(s => s.simpleForm.formState);
   }
 }

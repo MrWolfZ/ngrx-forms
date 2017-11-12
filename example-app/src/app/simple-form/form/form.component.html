@@ -1,0 +1,89 @@
+<form [ngrxFormState]="formState">
+  <div>
+    <label>First Name</label>
+    <div>
+      <input name="firstName"
+             type="text"
+             placeholder="First Name"
+             [ngrxFormControlState]="formState.controls.firstName" />
+    </div>
+  </div>
+  <div>
+    <label>Last Name</label>
+    <div>
+      <input name="lastName"
+             type="text"
+             placeholder="Last Name"
+             [ngrxFormControlState]="formState.controls.lastName" />
+    </div>
+  </div>
+  <div>
+    <label>Email</label>
+    <div>
+      <input name="email"
+             type="email"
+             placeholder="Email"
+             [ngrxFormControlState]="formState.controls.email" />
+    </div>
+  </div>
+  <!-- <div>
+    <label>Sex</label>
+    <div>
+      <label>
+        <input name="sex"
+               type="radio"
+               value="male"
+               [ngrxFormControlState]="formState.controls.sex" /> Male
+      </label>
+      <label>
+        <input name="sex"
+               type="radio"
+               value="female"
+               [ngrxFormControlState]="formState.controls.sex" /> Female
+      </label>
+    </div>
+  </div> -->
+  <div>
+    <label>Favorite Color</label>
+    <div>
+      <select name="favoriteColor"
+              [ngrxFormControlState]="formState.controls.favoriteColor">
+        <option value=""></option>
+        <option value="ff0000">Red</option>
+        <option value="00ff00">Green</option>
+        <option value="0000ff">Blue</option>
+      </select>
+    </div>
+  </div>
+  <div>
+    <label htmlFor="employed">Employed</label>
+    <div>
+      <input name="employed"
+             id="employed"
+             type="checkbox"
+             [ngrxFormControlState]="formState.controls.employed" />
+    </div>
+  </div>
+  <div>
+    <label>Notes</label>
+    <div>
+      <textarea name="notes"
+                [ngrxFormControlState]="formState.controls.notes">
+      </textarea>
+    </div>
+  </div>
+  <div class="buttons">
+    <div></div>
+    <div>
+      <button type="submit"
+              [disabled]="formState.isInvalid && formState.isSubmitted">
+        Submit
+      </button>
+      <button type="button"
+              [disabled]="formState.isPristine"
+              (click)="reset()">
+        Reset
+      </button>
+    </div>
+  </div>
+</form>

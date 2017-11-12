@@ -1,0 +1,34 @@
+form {
+  >div:not(.buttons) {
+    display: flex;
+    padding: 5px;
+
+    >label {
+      flex: 1;
+      float: right;
+      display: flex;
+      justify-content: flex-end;
+      margin-right: 10px;
+      font-weight: bold;
+      line-height: 21px;
+    }
+
+    >div {
+      flex: 4;
+    }
+  }
+
+  >.buttons {
+    display: flex;
+    padding: 5px;
+
+    >div:nth-child(1) {
+      flex: 1;
+      margin-right: 10px;
+    }
+
+    >div:nth-child(2) {
+      flex: 4;
+    }
+  }
+}
