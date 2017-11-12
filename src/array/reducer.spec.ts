@@ -8,6 +8,7 @@ import {
   MarkAsTouchedAction,
   MarkAsUnsubmittedAction,
   MarkAsUntouchedAction,
+  ResetAction,
   SetErrorsAction,
   SetUserDefinedPropertyAction,
   SetValueAction,
@@ -155,6 +156,15 @@ describe('form array reducer', () => {
     it('should update state', () => {
       const action = new SetUserDefinedPropertyAction(FORM_CONTROL_ID, 'prop', 12);
       const resultState = formArrayReducerInternal<string>(INITIAL_STATE, action);
+      expect(resultState).not.toBe(INITIAL_STATE);
+    });
+  });
+
+  describe(ResetAction.name, () => {
+    it('should update state', () => {
+      const action = new ResetAction(FORM_CONTROL_ID);
+      const state = { ...INITIAL_STATE, isSubmitted: true, isUnsubmitted: false };
+      const resultState = formArrayReducerInternal<string>(state, action);
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });

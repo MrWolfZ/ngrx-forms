@@ -31,6 +31,7 @@ import {
   NgrxSelectOption,
   NgrxValueConverters,
   removeControl,
+  reset,
   setErrors,
   setUserDefinedProperty,
   setValue,
@@ -62,6 +63,7 @@ describe('ngrx-forms', () => {
   it('should export markAsUnsubmitted', () => expect(markAsUnsubmitted).toBeDefined());
   it('should export markAsUntouched', () => expect(markAsUntouched).toBeDefined());
   it('should export removeControl', () => expect(removeControl).toBeDefined());
+  it('should export reset', () => expect(reset).toBeDefined());
   it('should export setErrors', () => expect(setErrors).toBeDefined());
   it('should export setUserDefinedProperty', () => expect(setUserDefinedProperty).toBeDefined());
   it('should export setValue', () => expect(setValue).toBeDefined());

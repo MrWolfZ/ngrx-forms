@@ -15,6 +15,7 @@ All states are internally updated by ngrx-forms through dispatching actions. Whi
 |`markAsUntouched`|This function takes a state and marks it as untouched. For groups and arrays this also recursively marks all children as untouched.|
 |`markAsSubmitted`|This function takes a state and marks it as submitted. For groups and arrays this also recursively marks all children as submitted.|
 |`markAsUnsubmitted`|This function takes a state and marks it as unsubmitted. For groups and arrays this also recursively marks all children as unsubmitted.|
+|`reset`|This function takes a state and marks it as pristine, untouched, and unsubmitted. For groups and arrays this also recursively marks all children as pristine, untouched, and unsubmitted.|
 |`focus`|This function takes a control state and makes it focused (which will also `.focus()` the form element).|
 |`unfocus`|This function takes a control state and makes it unfocused (which will also `.blur()` the form element).|
 |`addControl`|This curried function takes a name and a value and returns a function that takes a group state and adds a child control with the given name and value to the state.|

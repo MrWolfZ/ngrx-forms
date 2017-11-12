@@ -10,6 +10,7 @@ import {
   MarkAsTouchedAction,
   MarkAsUnsubmittedAction,
   MarkAsUntouchedAction,
+  ResetAction,
   SetErrorsAction,
   SetUserDefinedPropertyAction,
   SetValueAction,
@@ -130,6 +131,14 @@ describe('form control reducer', () => {
     it('should update state', () => {
       const state = { ...INITIAL_STATE, isSubmitted: true, isUnsubmitted: false };
       const resultState = reducer(state, new MarkAsUnsubmittedAction(FORM_CONTROL_ID));
+      expect(resultState).not.toBe(INITIAL_STATE);
+    });
+  });
+
+  describe(ResetAction.name, () => {
+    it('should update state', () => {
+      const state = { ...INITIAL_STATE, isSubmitted: true, isUnsubmitted: false };
+      const resultState = reducer(state, new ResetAction(FORM_CONTROL_ID));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });

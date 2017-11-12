@@ -198,6 +198,16 @@ export class SetUserDefinedPropertyAction implements Action {
   }
 }
 
+export class ResetAction implements Action {
+  static readonly TYPE = 'ngrx/forms/RESET';
+  readonly type = ResetAction.TYPE;
+  readonly controlId: NgrxFormControlId;
+
+  constructor(controlId: string) {
+    this.controlId = controlId;
+  }
+}
+
 export type Actions<TValue> =
   | SetValueAction<TValue>
   | SetErrorsAction
@@ -214,4 +224,5 @@ export type Actions<TValue> =
   | AddControlAction<TValue, keyof TValue>
   | RemoveControlAction<TValue>
   | SetUserDefinedPropertyAction
+  | ResetAction
   ;

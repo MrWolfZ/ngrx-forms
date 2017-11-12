@@ -14,6 +14,7 @@ import {
   SetUserDefinedPropertyAction,
   SetValueAction,
   UnfocusAction,
+  ResetAction,
 } from '../actions';
 import { cast, createFormGroupState } from '../state';
 import { formGroupReducerInternal } from './reducer';
@@ -185,6 +186,15 @@ describe('form group reducer', () => {
     it('should update state', () => {
       const action = new SetUserDefinedPropertyAction(FORM_CONTROL_ID, 'prop', 12);
       const resultState = formGroupReducerInternal<FormGroupValue>(INITIAL_STATE_FULL, action);
+      expect(resultState).not.toBe(INITIAL_STATE);
+    });
+  });
+
+  describe(ResetAction.name, () => {
+    it('should update state', () => {
+      const action = new ResetAction(FORM_CONTROL_ID);
+      const state = { ...INITIAL_STATE, isSubmitted: true, isUnsubmitted: false };
+      const resultState = formGroupReducerInternal<FormGroupValue>(state, action);
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });

@@ -11,6 +11,7 @@ import { markAsSubmittedReducer } from './reducer/mark-as-submitted';
 import { markAsTouchedReducer } from './reducer/mark-as-touched';
 import { markAsUnsubmittedReducer } from './reducer/mark-as-unsubmitted';
 import { markAsUntouchedReducer } from './reducer/mark-as-untouched';
+import { resetReducer } from './reducer/reset';
 import { setErrorsReducer } from './reducer/set-errors';
 import { setUserDefinedPropertyReducer } from './reducer/set-user-defined-property';
 import { setValueReducer } from './reducer/set-value';
@@ -41,6 +42,7 @@ export function formControlReducerInternal<TValue extends FormControlValueTypes>
   state = markAsSubmittedReducer(state, action);
   state = markAsUnsubmittedReducer(state, action);
   state = setUserDefinedPropertyReducer(state, action);
+  state = resetReducer(state, action);
 
   return state;
 }

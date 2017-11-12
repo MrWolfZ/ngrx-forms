@@ -17,5 +17,6 @@ export * from './unfocus';
 export * from './add-control';
 export * from './remove-control';
 export * from './set-user-defined-property';
+export * from './reset';
 
 export { compose, ProjectFn2 } from './util';

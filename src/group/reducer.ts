@@ -12,6 +12,7 @@ import { markAsTouchedReducer } from './reducer/mark-as-touched';
 import { markAsUnsubmittedReducer } from './reducer/mark-as-unsubmitted';
 import { markAsUntouchedReducer } from './reducer/mark-as-untouched';
 import { removeControlReducer } from './reducer/remove-control';
+import { resetReducer } from './reducer/reset';
 import { setErrorsReducer } from './reducer/set-errors';
 import { setUserDefinedPropertyReducer } from './reducer/set-user-defined-property';
 import { setValueReducer } from './reducer/set-value';
@@ -41,6 +42,7 @@ export function formGroupReducerInternal<TValue extends KeyValue>(state: FormGro
   state = addControlReducer(state, action);
   state = removeControlReducer(state, action);
   state = setUserDefinedPropertyReducer(state, action);
+  state = resetReducer(state, action);
 
   return state;
 }
