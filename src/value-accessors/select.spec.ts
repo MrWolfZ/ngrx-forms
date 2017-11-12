@@ -1,0 +1,286 @@
+import { Component, getDebugNode } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { NgrxSelectControlValueAccessor, NgrxSelectOption } from './select';
+
+const OPTION1_VALUE = 'op1';
+const OPTION2_VALUE = 'op2';
+
+@Component({
+  // tslint:disable-next-line:component-selector
+  selector: 'select-test',
+  template: `
+<select ngrxFormControlState>
+  <option value="op1">op1</option>
+  <option value="op2" selected>op2</option>
+</select>
+
+<select ngrxFormControlState>
+  <option *ngFor="let o of stringOptions; trackBy: trackByIndex" [value]="o">{{o}}</option>
+</select>
+
+<select ngrxFormControlState>
+  <option *ngFor="let o of numberOptions; trackBy: trackByIndex" [value]="o">{{o}}</option>
+</select>
+
+<select ngrxFormControlState>
+  <option *ngFor="let o of booleanOptions; trackBy: trackByIndex" [value]="o">{{o}}</option>
+</select>
+`,
+})
+export class SelectTestComponent {
+  stringOptions = ['op1', 'op2'];
+  numberOptions = [1, 2];
+  booleanOptions = [true, false];
+  trackByIndex = (index: number) => index;
+}
+
+describe(NgrxSelectControlValueAccessor.name, () => {
+  let component: SelectTestComponent;
+  let fixture: ComponentFixture<SelectTestComponent>;
+  let valueAccessor: NgrxSelectControlValueAccessor;
+  let element: HTMLSelectElement;
+  let option1: HTMLOptionElement;
+  let option2: HTMLOptionElement;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        NgrxSelectControlValueAccessor,
+        NgrxSelectOption,
+        SelectTestComponent,
+      ],
+    }).compileComponents();
+  }));
+
+  describe('static options', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(SelectTestComponent);
+      component = fixture.componentInstance;
+      const nativeElement = fixture.nativeElement as HTMLElement;
+      element = nativeElement.querySelector('select') as HTMLSelectElement;
+      option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
+      option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
+      valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectControlValueAccessor);
+      fixture.detectChanges();
+    });
+
+    it('should attach the value accessor', () => expect(valueAccessor).toBeDefined());
+
+    it('should mark the option as selected if same value is written', () => {
+      valueAccessor.writeValue(OPTION1_VALUE);
+      expect(option1.selected).toBe(true);
+    });
+
+    it('should mark the option as unselected if different value is written', () => {
+      valueAccessor.writeValue(OPTION1_VALUE);
+      expect(option2.selected).toBe(false);
+    });
+
+    it('should call the registered function whenever the value changes', () => {
+      const spy = jasmine.createSpy('fn');
+      valueAccessor.registerOnChange(spy);
+      element.value = '0';
+      element.dispatchEvent(new Event('change'));
+      expect(spy).toHaveBeenCalledWith(OPTION1_VALUE);
+    });
+
+    it('should call the registered function whenever the input is blurred', () => {
+      const spy = jasmine.createSpy('fn');
+      valueAccessor.registerOnTouched(spy);
+      element.dispatchEvent(new Event('blur'));
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should disable the input', () => {
+      valueAccessor.setDisabledState(true);
+      expect(element.disabled).toBe(true);
+    });
+
+    it('should enable the input', () => {
+      element.disabled = true;
+      valueAccessor.setDisabledState(false);
+      expect(element.disabled).toBe(false);
+    });
+  });
+
+  describe('dynamic string options', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(SelectTestComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+      const nativeElement = fixture.nativeElement as HTMLElement;
+      element = nativeElement.querySelectorAll('select')[1] as HTMLSelectElement;
+      option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
+      option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
+      valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectControlValueAccessor);
+      valueAccessor.writeValue(component.stringOptions[1]);
+    });
+
+    it('should mark the option as selected if same value is written', () => {
+      valueAccessor.writeValue(component.stringOptions[0]);
+      expect(option1.selected).toBe(true);
+    });
+
+    it('should mark the option as unselected if different value is written', () => {
+      valueAccessor.writeValue(component.stringOptions[0]);
+      expect(option2.selected).toBe(false);
+    });
+
+    it('should call the registered function whenever the value changes', () => {
+      const spy = jasmine.createSpy('fn');
+      valueAccessor.registerOnChange(spy);
+      element.selectedIndex = 0;
+      element.dispatchEvent(new Event('change'));
+      expect(spy).toHaveBeenCalledWith(component.stringOptions[0]);
+    });
+
+    it('should call the registered function whenever the selected option\'s value changes', () => {
+      const spy = jasmine.createSpy('fn');
+      valueAccessor.registerOnChange(spy);
+      const newValue = 'new value';
+      component.stringOptions[1] = newValue;
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalledWith(newValue);
+    });
+
+    it('should create new options dynamically', () => {
+      const spy = jasmine.createSpy('fn');
+      valueAccessor.registerOnChange(spy);
+      const newValue = 'op3';
+      component.stringOptions.push(newValue);
+      fixture.detectChanges();
+      element.selectedIndex = 2;
+      element.dispatchEvent(new Event('change'));
+      expect(spy).toHaveBeenCalledWith(newValue);
+    });
+
+    it('should remove options dynamically', () => {
+      const spy = jasmine.createSpy('fn');
+      valueAccessor.registerOnChange(spy);
+      component.stringOptions.pop();
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalledWith(null);
+    });
+  });
+
+  describe('dynamic number options', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(SelectTestComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+      const nativeElement = fixture.nativeElement as HTMLElement;
+      element = nativeElement.querySelectorAll('select')[2] as HTMLSelectElement;
+      option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
+      option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
+      valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectControlValueAccessor);
+      valueAccessor.writeValue(component.numberOptions[1]);
+    });
+
+    it('should mark the option as selected if same value is written', () => {
+      valueAccessor.writeValue(component.numberOptions[0]);
+      expect(option1.selected).toBe(true);
+    });
+
+    it('should mark the option as unselected if different value is written', () => {
+      valueAccessor.writeValue(component.numberOptions[0]);
+      expect(option2.selected).toBe(false);
+    });
+
+    it('should call the registered function whenever the value changes', () => {
+      const spy = jasmine.createSpy('fn');
+      valueAccessor.registerOnChange(spy);
+      element.selectedIndex = 0;
+      element.dispatchEvent(new Event('change'));
+      expect(spy).toHaveBeenCalledWith(component.numberOptions[0]);
+    });
+
+    it('should call the registered function whenever the selected option\'s value changes', () => {
+      const spy = jasmine.createSpy('fn');
+      valueAccessor.registerOnChange(spy);
+      const newValue = 3;
+      component.numberOptions[1] = newValue;
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalledWith(newValue);
+    });
+
+    it('should create new options dynamically', () => {
+      const spy = jasmine.createSpy('fn');
+      valueAccessor.registerOnChange(spy);
+      const newValue = 3;
+      component.numberOptions.push(newValue);
+      fixture.detectChanges();
+      element.selectedIndex = 2;
+      element.dispatchEvent(new Event('change'));
+      expect(spy).toHaveBeenCalledWith(newValue);
+    });
+
+    it('should remove options dynamically', () => {
+      const spy = jasmine.createSpy('fn');
+      valueAccessor.registerOnChange(spy);
+      component.numberOptions.pop();
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalledWith(null);
+    });
+  });
+
+  describe('dynamic boolean options', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(SelectTestComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+      const nativeElement = fixture.nativeElement as HTMLElement;
+      element = nativeElement.querySelectorAll('select')[3] as HTMLSelectElement;
+      option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
+      option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
+      valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectControlValueAccessor);
+      valueAccessor.writeValue(component.booleanOptions[1]);
+    });
+
+    it('should mark the option as selected if same value is written', () => {
+      valueAccessor.writeValue(component.booleanOptions[0]);
+      expect(option1.selected).toBe(true);
+    });
+
+    it('should mark the option as unselected if different value is written', () => {
+      valueAccessor.writeValue(component.booleanOptions[0]);
+      expect(option2.selected).toBe(false);
+    });
+
+    it('should call the registered function whenever the value changes', () => {
+      const spy = jasmine.createSpy('fn');
+      valueAccessor.registerOnChange(spy);
+      element.selectedIndex = 0;
+      element.dispatchEvent(new Event('change'));
+      expect(spy).toHaveBeenCalledWith(component.booleanOptions[0]);
+    });
+
+    it('should call the registered function whenever the selected option\'s value changes', () => {
+      const spy = jasmine.createSpy('fn');
+      valueAccessor.registerOnChange(spy);
+      const newValue = true;
+      component.booleanOptions[1] = newValue;
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalledWith(newValue);
+    });
+
+    it('should create new options dynamically', () => {
+      const spy = jasmine.createSpy('fn');
+      valueAccessor.registerOnChange(spy);
+      const newValue = true;
+      component.booleanOptions.push(newValue);
+      fixture.detectChanges();
+      element.selectedIndex = 2;
+      element.dispatchEvent(new Event('change'));
+      expect(spy).toHaveBeenCalledWith(newValue);
+    });
+
+    it('should remove options dynamically', () => {
+      const spy = jasmine.createSpy('fn');
+      valueAccessor.registerOnChange(spy);
+      component.booleanOptions.pop();
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalledWith(null);
+    });
+  });
+});

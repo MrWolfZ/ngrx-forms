@@ -30,6 +30,8 @@ describe(SelectComponent.name, () => {
   let actionsSubject: ActionsSubject;
   let actions$: Observable<Action>;
   let element: HTMLSelectElement;
+  let option1: HTMLOptionElement;
+  let option2: HTMLOptionElement;
   const FORM_CONTROL_ID = 'test ID';
   const INITIAL_FORM_CONTROL_VALUE = SELECT_OPTIONS[1];
   const INITIAL_STATE = createFormControlState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
@@ -51,22 +53,24 @@ describe(SelectComponent.name, () => {
     fixture = TestBed.createComponent(SelectComponent);
     component = fixture.componentInstance;
     component.state = INITIAL_STATE;
-    element = (fixture.nativeElement as HTMLElement).querySelector('select') as HTMLSelectElement;
-    valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectControlValueAccessor);
     fixture.detectChanges();
+    const nativeElement = fixture.nativeElement as HTMLElement;
+    element = nativeElement.querySelector('select') as HTMLSelectElement;
+    option1 = nativeElement.querySelectorAll('option')[0] as HTMLOptionElement;
+    option2 = nativeElement.querySelectorAll('option')[1] as HTMLOptionElement;
+    valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectControlValueAccessor);
   });
 
   it('should select the correct option initially', () => {
-    expect(valueAccessor.value).toBe(INITIAL_FORM_CONTROL_VALUE);
+    expect(option2.selected).toBe(true);
   });
 
   it('should trigger a SetValueAction with the selected value when an option is selected', done => {
-    const newValue = SELECT_OPTIONS[0];
-    element.value = newValue;
+    element.selectedIndex = 0;
     element.dispatchEvent(new Event('change'));
     actions$.first().subscribe(a => {
       expect(a.type).toBe(SetValueAction.TYPE);
-      expect((a as SetValueAction<string>).payload.value).toBe(newValue);
+      expect((a as SetValueAction<string>).payload.value).toBe(SELECT_OPTIONS[0]);
       done();
     });
   });
@@ -77,7 +81,7 @@ const SELECT_NUMBER_OPTIONS = [1, 2];
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'select-test',
-  template: '<select [ngrxFormControlState]="state"><option *ngFor="let o of options" [ngValue]="o">{{o}}</option></select>',
+  template: '<select [ngrxFormControlState]="state"><option *ngFor="let o of options" [value]="o">{{o}}</option></select>',
 })
 export class NgValueSelectComponent {
   @Input() state: FormControlState<number>;
@@ -91,6 +95,8 @@ describe(NgValueSelectComponent.name, () => {
   let actionsSubject: ActionsSubject;
   let actions$: Observable<Action>;
   let element: HTMLSelectElement;
+  let option1: HTMLOptionElement;
+  let option2: HTMLOptionElement;
   const FORM_CONTROL_ID = 'test ID';
   const INITIAL_FORM_CONTROL_VALUE = SELECT_NUMBER_OPTIONS[1];
   const INITIAL_STATE = createFormControlState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
@@ -112,22 +118,24 @@ describe(NgValueSelectComponent.name, () => {
     fixture = TestBed.createComponent(NgValueSelectComponent);
     component = fixture.componentInstance;
     component.state = INITIAL_STATE;
-    element = (fixture.nativeElement as HTMLElement).querySelector('select') as HTMLSelectElement;
-    valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectControlValueAccessor);
     fixture.detectChanges();
+    const nativeElement = fixture.nativeElement as HTMLElement;
+    element = nativeElement.querySelector('select') as HTMLSelectElement;
+    option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
+    option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
+    valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectControlValueAccessor);
   });
 
   it('should select the correct option initially', () => {
-    expect(valueAccessor.value).toBe(INITIAL_FORM_CONTROL_VALUE);
+    expect(option2.selected).toBe(true);
   });
 
   it('should trigger a SetValueAction with the selected value when an option is selected', done => {
-    const newValue = SELECT_NUMBER_OPTIONS[0];
     element.selectedIndex = 0;
     element.dispatchEvent(new Event('change'));
     actions$.first().subscribe(a => {
       expect(a.type).toBe(SetValueAction.TYPE);
-      expect((a as SetValueAction<number>).payload.value).toBe(newValue);
+      expect((a as SetValueAction<number>).payload.value).toBe(SELECT_NUMBER_OPTIONS[0]);
       done();
     });
   });
