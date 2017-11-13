@@ -1,7 +1,7 @@
 import { Component, getDebugNode } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NgrxRadioControlValueAccessor } from './radio';
+import { NgrxRadioViewAdapter } from './radio';
 
 const OPTION1_VALUE = 'op1';
 const OPTION2_VALUE = 'op2';
@@ -16,16 +16,16 @@ const OPTION2_VALUE = 'op2';
 })
 export class RadioTestComponent { }
 
-describe(NgrxRadioControlValueAccessor.name, () => {
+describe(NgrxRadioViewAdapter.name, () => {
   let component: RadioTestComponent;
   let fixture: ComponentFixture<RadioTestComponent>;
-  let valueAccessor: NgrxRadioControlValueAccessor;
+  let valueAccessor: NgrxRadioViewAdapter;
   let element: HTMLInputElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        NgrxRadioControlValueAccessor,
+        NgrxRadioViewAdapter,
         RadioTestComponent,
       ],
     }).compileComponents();
@@ -35,7 +35,7 @@ describe(NgrxRadioControlValueAccessor.name, () => {
     fixture = TestBed.createComponent(RadioTestComponent);
     component = fixture.componentInstance;
     element = (fixture.nativeElement as HTMLElement).querySelector('input') as HTMLInputElement;
-    valueAccessor = getDebugNode(element)!.injector.get(NgrxRadioControlValueAccessor);
+    valueAccessor = getDebugNode(element)!.injector.get(NgrxRadioViewAdapter);
     fixture.detectChanges();
   });
 

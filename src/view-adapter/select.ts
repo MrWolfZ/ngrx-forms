@@ -18,11 +18,11 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, SelectMultipleControlValueAcce
   selector: 'select:not([multiple])[ngrxFormControlState]',
   providers: [{
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => NgrxSelectControlValueAccessor),
+    useExisting: forwardRef(() => NgrxSelectViewAdapter),
     multi: true,
   }],
 })
-export class NgrxSelectControlValueAccessor implements ControlValueAccessor {
+export class NgrxSelectViewAdapter implements ControlValueAccessor {
   private optionMap: { [id: string]: any } = {};
   private idCounter = 0;
   private selectedId: string | null = null;
@@ -95,7 +95,7 @@ export class NgrxSelectControlValueAccessor implements ControlValueAccessor {
   }
 }
 
-const NULL_VALUE_ACCESSOR: NgrxSelectControlValueAccessor = {
+const NULL_VALUE_ACCESSOR: NgrxSelectViewAdapter = {
   createOptionId: () => '',
   deregisterOption: () => void 0,
   updateOptionValue: () => void 0,
@@ -111,7 +111,7 @@ export class NgrxSelectOption implements OnInit, OnDestroy {
   constructor(
     private element: ElementRef,
     private renderer: Renderer2,
-    @Host() @Optional() private valueAccessor: NgrxSelectControlValueAccessor,
+    @Host() @Optional() private valueAccessor: NgrxSelectViewAdapter,
   ) {
     this.valueAccessor = valueAccessor || NULL_VALUE_ACCESSOR;
     this.id = this.valueAccessor.createOptionId();
@@ -140,8 +140,8 @@ export class NgrxSelectOption implements OnInit, OnDestroy {
   },
   providers: [{
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => NgrxSelectMultipleControlValueAccessor),
+    useExisting: forwardRef(() => NgrxSelectMultipleViewAdapter),
     multi: true,
   }],
 })
-export class NgrxSelectMultipleControlValueAccessor extends SelectMultipleControlValueAccessor { }
+export class NgrxSelectMultipleViewAdapter extends SelectMultipleControlValueAccessor { }

@@ -9,11 +9,11 @@ import { FormControlState } from '../state';
   selector: 'input[type=radio][ngrxFormControlState]',
   providers: [{
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => NgrxRadioControlValueAccessor),
+    useExisting: forwardRef(() => NgrxRadioViewAdapter),
     multi: true,
   }],
 })
-export class NgrxRadioControlValueAccessor implements ControlValueAccessor {
+export class NgrxRadioViewAdapter implements ControlValueAccessor {
   @Input() set value(val: any) {
     if (val !== this.latestValue) {
       this.latestValue = val;

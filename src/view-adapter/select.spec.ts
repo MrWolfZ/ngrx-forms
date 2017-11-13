@@ -1,10 +1,9 @@
 import { Component, getDebugNode } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NgrxSelectControlValueAccessor, NgrxSelectOption } from './select';
+import { NgrxSelectOption, NgrxSelectViewAdapter } from './select';
 
 const OPTION1_VALUE = 'op1';
-const OPTION2_VALUE = 'op2';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -35,10 +34,10 @@ export class SelectTestComponent {
   trackByIndex = (index: number) => index;
 }
 
-describe(NgrxSelectControlValueAccessor.name, () => {
+describe(NgrxSelectViewAdapter.name, () => {
   let component: SelectTestComponent;
   let fixture: ComponentFixture<SelectTestComponent>;
-  let valueAccessor: NgrxSelectControlValueAccessor;
+  let valueAccessor: NgrxSelectViewAdapter;
   let element: HTMLSelectElement;
   let option1: HTMLOptionElement;
   let option2: HTMLOptionElement;
@@ -46,7 +45,7 @@ describe(NgrxSelectControlValueAccessor.name, () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        NgrxSelectControlValueAccessor,
+        NgrxSelectViewAdapter,
         NgrxSelectOption,
         SelectTestComponent,
       ],
@@ -61,7 +60,7 @@ describe(NgrxSelectControlValueAccessor.name, () => {
       element = nativeElement.querySelector('select') as HTMLSelectElement;
       option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
       option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
-      valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectControlValueAccessor);
+      valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
       fixture.detectChanges();
     });
 
@@ -113,7 +112,7 @@ describe(NgrxSelectControlValueAccessor.name, () => {
       element = nativeElement.querySelectorAll('select')[1] as HTMLSelectElement;
       option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
       option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
-      valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectControlValueAccessor);
+      valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
       valueAccessor.writeValue(component.stringOptions[1]);
     });
 
@@ -173,7 +172,7 @@ describe(NgrxSelectControlValueAccessor.name, () => {
       element = nativeElement.querySelectorAll('select')[2] as HTMLSelectElement;
       option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
       option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
-      valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectControlValueAccessor);
+      valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
       valueAccessor.writeValue(component.numberOptions[1]);
     });
 
@@ -233,7 +232,7 @@ describe(NgrxSelectControlValueAccessor.name, () => {
       element = nativeElement.querySelectorAll('select')[3] as HTMLSelectElement;
       option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
       option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
-      valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectControlValueAccessor);
+      valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
       valueAccessor.writeValue(component.booleanOptions[1]);
     });
 

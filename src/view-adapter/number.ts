@@ -7,7 +7,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 // tslint:disable:triple-equals
 
 @Directive({
-  selector: 'input[type=range][ngrxFormControlState]',
+  selector: 'input[type=number][ngrxFormControlState]',
   host: {
     '(change)': 'onChange($event.target.value)',
     '(input)': 'onChange($event.target.value)',
@@ -15,19 +15,22 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   },
   providers: [{
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => NgrxRangeValueAccessor),
+    useExisting: forwardRef(() => NgrxNumberViewAdapter),
     multi: true,
   }],
 })
-export class NgrxRangeValueAccessor implements ControlValueAccessor {
+// for some reason @angular/forms does not export the NumberValueAccessor, so we have to copy the implementation here
+export class NgrxNumberViewAdapter implements ControlValueAccessor {
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
 
   onChange = (_: any) => void 0 as any;
   onTouched = () => void 0 as any;
 
-  writeValue(value: any): void {
-    this.renderer.setProperty(this.elementRef.nativeElement, 'value', parseFloat(value));
+  writeValue(value: number): void {
+    // The value needs to be normalized for IE9, otherwise it is set to 'null' when null
+    const normalizedValue = value == null ? '' : value;
+    this.renderer.setProperty(this.elementRef.nativeElement, 'value', normalizedValue);
   }
 
   registerOnChange(fn: (_: number | null) => void): void {

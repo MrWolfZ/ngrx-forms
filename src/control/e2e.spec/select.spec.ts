@@ -9,7 +9,7 @@ import 'rxjs/add/operator/skip';
 import { FormControlState, createFormControlState } from '../../state';
 import { SetValueAction } from '../../actions';
 import { NgrxFormsModule } from '../../module';
-import { NgrxSelectControlValueAccessor } from '../../value-accessors';
+import { NgrxSelectViewAdapter } from '../../view-adapter';
 
 const SELECT_OPTIONS = ['op1', 'op2'];
 
@@ -26,7 +26,7 @@ export class SelectComponent {
 describe(SelectComponent.name, () => {
   let component: SelectComponent;
   let fixture: ComponentFixture<SelectComponent>;
-  let valueAccessor: NgrxSelectControlValueAccessor;
+  let valueAccessor: NgrxSelectViewAdapter;
   let actionsSubject: ActionsSubject;
   let actions$: Observable<Action>;
   let element: HTMLSelectElement;
@@ -58,7 +58,7 @@ describe(SelectComponent.name, () => {
     element = nativeElement.querySelector('select') as HTMLSelectElement;
     option1 = nativeElement.querySelectorAll('option')[0] as HTMLOptionElement;
     option2 = nativeElement.querySelectorAll('option')[1] as HTMLOptionElement;
-    valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectControlValueAccessor);
+    valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
   });
 
   it('should select the correct option initially', () => {
@@ -91,7 +91,7 @@ export class NgValueSelectComponent {
 describe(NgValueSelectComponent.name, () => {
   let component: NgValueSelectComponent;
   let fixture: ComponentFixture<NgValueSelectComponent>;
-  let valueAccessor: NgrxSelectControlValueAccessor;
+  let valueAccessor: NgrxSelectViewAdapter;
   let actionsSubject: ActionsSubject;
   let actions$: Observable<Action>;
   let element: HTMLSelectElement;
@@ -123,7 +123,7 @@ describe(NgValueSelectComponent.name, () => {
     element = nativeElement.querySelector('select') as HTMLSelectElement;
     option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
     option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
-    valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectControlValueAccessor);
+    valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
   });
 
   it('should select the correct option initially', () => {

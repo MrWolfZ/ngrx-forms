@@ -3,26 +3,26 @@ import { NgModule } from '@angular/core';
 import { NgrxFormControlDirective } from './control/directive';
 import { NgrxFormDirective } from './group/directive';
 import {
-  NgrxDefaultValueAccessor,
-  NgrxCheckboxControlValueAccessor,
-  NgrxNumberValueAccessor,
-  NgrxRangeValueAccessor,
-  NgrxSelectControlValueAccessor,
-  NgrxSelectMultipleControlValueAccessor,
-  NgrxRadioControlValueAccessor,
+  NgrxDefaultViewAdapter,
+  NgrxCheckboxViewAdapter,
+  NgrxNumberViewAdapter,
+  NgrxRangeViewAdapter,
+  NgrxSelectViewAdapter,
+  NgrxSelectMultipleViewAdapter,
+  NgrxRadioViewAdapter,
   NgrxSelectOption,
-} from './value-accessors';
+} from './view-adapter';
 
 const exportsAndDeclarations = [
   NgrxFormControlDirective,
   NgrxFormDirective,
-  NgrxDefaultValueAccessor,
-  NgrxCheckboxControlValueAccessor,
-  NgrxNumberValueAccessor,
-  NgrxRangeValueAccessor,
-  NgrxSelectControlValueAccessor,
-  NgrxSelectMultipleControlValueAccessor,
-  NgrxRadioControlValueAccessor,
+  NgrxDefaultViewAdapter,
+  NgrxCheckboxViewAdapter,
+  NgrxNumberViewAdapter,
+  NgrxRangeViewAdapter,
+  NgrxSelectViewAdapter,
+  NgrxSelectMultipleViewAdapter,
+  NgrxRadioViewAdapter,
   NgrxSelectOption,
 ];
 

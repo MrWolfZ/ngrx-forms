@@ -5,7 +5,7 @@ import { ActionsSubject } from '@ngrx/store';
 
 import { FocusAction, MarkAsTouchedAction, SetValueAction, UnfocusAction } from '../actions';
 import { FormControlState, FormControlValueTypes } from '../state';
-import { selectValueAccessor } from '../value-accessors';
+import { selectValueAccessor } from '../view-adapter';
 import { NgrxValueConverter, NgrxValueConverters } from './value-converter';
 
 const CHANGE = 'change';

@@ -18,16 +18,16 @@ import {
   markAsTouched,
   markAsUnsubmitted,
   markAsUntouched,
-  NgrxCheckboxControlValueAccessor,
-  NgrxDefaultValueAccessor,
+  NgrxCheckboxViewAdapter,
+  NgrxDefaultViewAdapter,
   NgrxFormControlDirective,
   NgrxFormDirective,
   NgrxFormsModule,
-  NgrxNumberValueAccessor,
-  NgrxRadioControlValueAccessor,
-  NgrxRangeValueAccessor,
-  NgrxSelectControlValueAccessor,
-  NgrxSelectMultipleControlValueAccessor,
+  NgrxNumberViewAdapter,
+  NgrxRadioViewAdapter,
+  NgrxRangeViewAdapter,
+  NgrxSelectViewAdapter,
+  NgrxSelectMultipleViewAdapter,
   NgrxSelectOption,
   NgrxValueConverters,
   removeControl,
@@ -75,13 +75,13 @@ describe('ngrx-forms', () => {
   it('should export NgrxFormControlDirective', () => expect(NgrxFormControlDirective).toBeDefined());
   it('should export NgrxValueConverters', () => expect(NgrxValueConverters).toBeDefined());
   it('should export NgrxFormDirective', () => expect(NgrxFormDirective).toBeDefined());
-  it('should export NgrxDefaultValueAccessor', () => expect(NgrxDefaultValueAccessor).toBeDefined());
-  it('should export NgrxCheckboxControlValueAccessor', () => expect(NgrxCheckboxControlValueAccessor).toBeDefined());
-  it('should export NgrxNumberValueAccessor', () => expect(NgrxNumberValueAccessor).toBeDefined());
-  it('should export NgrxRangeValueAccessor', () => expect(NgrxRangeValueAccessor).toBeDefined());
-  it('should export NgrxSelectControlValueAccessor', () => expect(NgrxSelectControlValueAccessor).toBeDefined());
-  it('should export NgrxSelectMultipleControlValueAccessor', () => expect(NgrxSelectMultipleControlValueAccessor).toBeDefined());
-  it('should export NgrxRadioControlValueAccessor', () => expect(NgrxRadioControlValueAccessor).toBeDefined());
+  it('should export NgrxDefaultViewAdapter', () => expect(NgrxDefaultViewAdapter).toBeDefined());
+  it('should export NgrxCheckboxViewAdapter', () => expect(NgrxCheckboxViewAdapter).toBeDefined());
+  it('should export NgrxNumberViewAdapter', () => expect(NgrxNumberViewAdapter).toBeDefined());
+  it('should export NgrxRangeViewAdapter', () => expect(NgrxRangeViewAdapter).toBeDefined());
+  it('should export NgrxSelectViewAdapter', () => expect(NgrxSelectViewAdapter).toBeDefined());
+  it('should export NgrxSelectMultipleViewAdapter', () => expect(NgrxSelectMultipleViewAdapter).toBeDefined());
+  it('should export NgrxRadioViewAdapter', () => expect(NgrxRadioViewAdapter).toBeDefined());
   it('should export NgrxSelectOption', () => expect(NgrxSelectOption).toBeDefined());
   it('should export NgrxFormsModule', () => expect(NgrxFormsModule).toBeDefined());
 });

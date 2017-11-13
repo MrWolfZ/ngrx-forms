@@ -1,26 +1,26 @@
 import { ControlValueAccessor } from '@angular/forms';
 
-import { NgrxCheckboxControlValueAccessor } from './checkbox';
-import { NgrxDefaultValueAccessor } from './default';
-import { NgrxNumberValueAccessor } from './number';
-import { NgrxRadioControlValueAccessor } from './radio';
-import { NgrxRangeValueAccessor } from './range';
-import { NgrxSelectControlValueAccessor, NgrxSelectMultipleControlValueAccessor } from './select';
+import { NgrxCheckboxViewAdapter } from './checkbox';
+import { NgrxDefaultViewAdapter } from './default';
+import { NgrxNumberViewAdapter } from './number';
+import { NgrxRadioViewAdapter } from './radio';
+import { NgrxRangeViewAdapter } from './range';
+import { NgrxSelectViewAdapter, NgrxSelectMultipleViewAdapter } from './select';
 
-export { NgrxCheckboxControlValueAccessor } from './checkbox';
-export { NgrxDefaultValueAccessor } from './default';
-export { NgrxNumberValueAccessor } from './number';
-export { NgrxRadioControlValueAccessor } from './radio';
-export { NgrxRangeValueAccessor } from './range';
-export { NgrxSelectControlValueAccessor, NgrxSelectMultipleControlValueAccessor, NgrxSelectOption } from './select';
+export { NgrxCheckboxViewAdapter } from './checkbox';
+export { NgrxDefaultViewAdapter } from './default';
+export { NgrxNumberViewAdapter } from './number';
+export { NgrxRadioViewAdapter } from './radio';
+export { NgrxRangeViewAdapter } from './range';
+export { NgrxSelectViewAdapter, NgrxSelectMultipleViewAdapter, NgrxSelectOption } from './select';
 
 const BUILTIN_ACCESSORS = [
-  NgrxCheckboxControlValueAccessor,
-  NgrxRangeValueAccessor,
-  NgrxNumberValueAccessor,
-  NgrxSelectControlValueAccessor,
-  NgrxSelectMultipleControlValueAccessor,
-  NgrxRadioControlValueAccessor,
+  NgrxCheckboxViewAdapter,
+  NgrxRangeViewAdapter,
+  NgrxNumberViewAdapter,
+  NgrxSelectViewAdapter,
+  NgrxSelectMultipleViewAdapter,
+  NgrxRadioViewAdapter,
 ];
 
 export function isBuiltInAccessor(valueAccessor: ControlValueAccessor): boolean {
@@ -36,7 +36,7 @@ export function selectValueAccessor(valueAccessors: ControlValueAccessor[]): Con
   let builtinAccessor: ControlValueAccessor | undefined;
   let customAccessor: ControlValueAccessor | undefined;
   valueAccessors.forEach((v: ControlValueAccessor) => {
-    if (v.constructor === NgrxDefaultValueAccessor) {
+    if (v.constructor === NgrxDefaultViewAdapter) {
       defaultAccessor = v;
     } else if (isBuiltInAccessor(v)) {
       if (builtinAccessor) {

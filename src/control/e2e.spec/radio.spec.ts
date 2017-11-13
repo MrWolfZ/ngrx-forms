@@ -1,13 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, Input, getDebugNode } from '@angular/core';
-import { ActionsSubject, Action } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 import 'rxjs';
 
-import { FormControlState, createFormControlState } from '../../state';
+import { Component, Input } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Action, ActionsSubject } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+
 import { SetValueAction } from '../../actions';
 import { NgrxFormsModule } from '../../module';
+import { createFormControlState, FormControlState } from '../../state';
 
 const RADIO_OPTIONS = ['op1', 'op2'];
 

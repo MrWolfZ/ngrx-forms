@@ -13,8 +13,8 @@ import { CheckboxControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
   },
   providers: [{
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => NgrxCheckboxControlValueAccessor),
+    useExisting: forwardRef(() => NgrxCheckboxViewAdapter),
     multi: true,
   }],
 })
-export class NgrxCheckboxControlValueAccessor extends CheckboxControlValueAccessor { }
+export class NgrxCheckboxViewAdapter extends CheckboxControlValueAccessor { }

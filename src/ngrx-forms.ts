@@ -25,14 +25,14 @@ export { NgrxFormDirective } from './group/directive';
 export * from './update-functions';
 
 export {
-  NgrxDefaultValueAccessor,
-  NgrxCheckboxControlValueAccessor,
-  NgrxNumberValueAccessor,
-  NgrxRangeValueAccessor,
-  NgrxSelectControlValueAccessor,
-  NgrxSelectMultipleControlValueAccessor,
-  NgrxRadioControlValueAccessor,
+  NgrxDefaultViewAdapter,
+  NgrxCheckboxViewAdapter,
+  NgrxNumberViewAdapter,
+  NgrxRangeViewAdapter,
+  NgrxSelectViewAdapter,
+  NgrxSelectMultipleViewAdapter,
+  NgrxRadioViewAdapter,
   NgrxSelectOption,
-} from './value-accessors';
+} from './view-adapter';
 
 export { NgrxFormsModule } from './module';
