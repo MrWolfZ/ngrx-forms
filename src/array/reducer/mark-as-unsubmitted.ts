@@ -23,6 +23,7 @@ export function markAsUnsubmittedReducer<TValue>(
     dispatchActionPerChild(state.controls, controlId => new MarkAsUnsubmittedAction(controlId)),
     state.value,
     state.errors,
+    state.pendingValidations,
     state.userDefinedProperties,
   );
 }

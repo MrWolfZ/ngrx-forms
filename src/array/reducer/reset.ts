@@ -23,6 +23,7 @@ export function resetReducer<TValue>(
     dispatchActionPerChild(state.controls, controlId => new ResetAction(controlId)),
     state.value,
     state.errors,
+    state.pendingValidations,
     state.userDefinedProperties,
   );
 }

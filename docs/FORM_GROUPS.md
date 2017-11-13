@@ -17,7 +17,9 @@ As you can see most properties are shared with controls via the common base inte
 |`id`||The unique ID of the group.|
 |`value`||The aggregated value of the group. The value is computed by aggregating the values of all children.|
 |`isValid`|`isInvalid`|The `isValid` flag is `true` if the group does not have any errors itself and none of its children have any errors.|
-|`errors`||The errors of the group. This property is computed by merging the errors of the control with the errors of all children where the child errors are a property of the `errors` object prefixed with an underscore (e.g. `{ groupError: true, _child: { childError: true } }`). If neither the group nor any children have errors the property is set to `{}`.|
+|`errors`||The errors of the group. This property is computed by merging the errors of the group with the errors of all children where the child errors are a property of the `errors` object prefixed with an underscore (e.g. `{ groupError: true, _child: { childError: true } }`). If neither the group nor any children have errors the property is set to `{}`.|
+|`pendingValidations`||The names of all asynchronous validation errors currently being validated for the group.|
+|`isValidationPending`||The `isValidationPending` flag indicates whether the group or any of its children are currently being asynchronously validated.|
 |`isEnabled`|`isDisabled`|The `isEnabled` flag is `true` if and only if at least one child control is enabled.|
 |`isDirty`|`isPristine`|The `isDirty` flag is `true` if and only if at least one child control is marked as dirty.|
 |`isTouched`|`isUntouched`|The `isTouched` flag is `true` if and only if at least one child control is marked as touched.|

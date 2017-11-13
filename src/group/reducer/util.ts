@@ -39,10 +39,13 @@ export function getFormGroupErrors<TValue extends object>(
 
   const newErrors = Object.keys(controls).reduce((res, key: any) => {
     const controlErrors = controls[key].errors;
-    hasChanged = hasChanged || originalErrors['_' + key] !== controlErrors;
     if (!isEmpty(controlErrors)) {
+      hasChanged = hasChanged || originalErrors['_' + key] !== controlErrors;
       res['_' + key] = controls[key].errors;
+    } else {
+      hasChanged = hasChanged || originalErrors.hasOwnProperty('_' + key);
     }
+
     return res;
   }, groupErrors as ValidationErrors);
 
@@ -56,8 +59,9 @@ export function computeGroupState<TValue extends KeyValue>(
   controls: FormGroupControls<TValue>,
   value: TValue,
   errors: ValidationErrors,
+  pendingValidations: string[],
   userDefinedProperties: KeyValue,
-) {
+): FormGroupState<TValue> {
   value = getFormGroupValue<TValue>(controls, value);
   errors = getFormGroupErrors(controls, errors);
   const isValid = isEmpty(errors);
@@ -65,10 +69,13 @@ export function computeGroupState<TValue extends KeyValue>(
   const isEnabled = Object.keys(controls).some(key => controls[key].isEnabled);
   const isTouched = Object.keys(controls).some(key => controls[key].isTouched);
   const isSubmitted = Object.keys(controls).some(key => controls[key].isSubmitted);
+  const isValidationPending = pendingValidations.length > 0 || Object.keys(controls).some(key => controls[key].isValidationPending);
   return {
     id,
     value,
     errors,
+    pendingValidations,
+    isValidationPending,
     isValid,
     isInvalid: !isValid,
     isDirty,
@@ -134,5 +141,5 @@ export function childReducer<TValue extends KeyValue>(state: FormGroupState<TVal
     return state;
   }
 
-  return computeGroupState(state.id, controls, state.value, state.errors, state.userDefinedProperties);
+  return computeGroupState(state.id, controls, state.value, state.errors, state.pendingValidations, state.userDefinedProperties);
 }

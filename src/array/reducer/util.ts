@@ -30,10 +30,13 @@ export function getFormArrayErrors<TValue>(
 
   const newErrors = controls.reduce((res, state, i) => {
     const controlErrors = state.errors;
-    hasChanged = hasChanged || originalErrors['_' + i] !== controlErrors;
     if (!isEmpty(controlErrors)) {
+      hasChanged = hasChanged || originalErrors['_' + i] !== controlErrors;
       res['_' + i] = controlErrors;
+    } else {
+      hasChanged = hasChanged || originalErrors.hasOwnProperty('_' + i);
     }
+
     return res;
   }, groupErrors as ValidationErrors);
 
@@ -47,8 +50,9 @@ export function computeArrayState<TValue>(
   controls: Array<AbstractControlState<TValue>>,
   value: TValue[],
   errors: ValidationErrors,
+  pendingValidations: string[],
   userDefinedProperties: KeyValue,
-) {
+): FormArrayState<TValue> {
   value = getFormArrayValue<TValue>(controls, value);
   errors = getFormArrayErrors(controls, errors);
   const isValid = isEmpty(errors);
@@ -56,10 +60,13 @@ export function computeArrayState<TValue>(
   const isEnabled = controls.some(state => state.isEnabled);
   const isTouched = controls.some(state => state.isTouched);
   const isSubmitted = controls.some(state => state.isSubmitted);
+  const isValidationPending = pendingValidations.length > 0 || controls.some(state => state.isValidationPending);
   return {
     id,
     value,
     errors,
+    pendingValidations,
+    isValidationPending,
     isValid,
     isInvalid: !isValid,
     isDirty,
@@ -125,5 +132,5 @@ export function childReducer<TValue>(state: FormArrayState<TValue>, action: Acti
     return state;
   }
 
-  return computeArrayState(state.id, controls, state.value, state.errors, state.userDefinedProperties);
+  return computeArrayState(state.id, controls, state.value, state.errors, state.pendingValidations, state.userDefinedProperties);
 }

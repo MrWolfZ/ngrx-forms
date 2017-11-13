@@ -25,6 +25,7 @@ export function enableReducer<TValue>(
     controls,
     state.value,
     state.errors,
+    state.pendingValidations,
     state.userDefinedProperties,
   );
 }

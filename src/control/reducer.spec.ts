@@ -1,4 +1,5 @@
 import {
+  ClearAsyncErrorAction,
   DisableAction,
   EnableAction,
   FocusAction,
@@ -9,9 +10,11 @@ import {
   MarkAsUnsubmittedAction,
   MarkAsUntouchedAction,
   ResetAction,
+  SetAsyncErrorAction,
   SetErrorsAction,
   SetUserDefinedPropertyAction,
   SetValueAction,
+  StartAsyncValidationAction,
   UnfocusAction,
 } from '../actions';
 import { createFormControlState } from '../state';
@@ -42,6 +45,41 @@ describe('form control reducer', () => {
     it('should update state', () => {
       const errors = { required: true };
       const resultState = formControlReducerInternal(INITIAL_STATE, new SetErrorsAction(FORM_CONTROL_ID, errors));
+      expect(resultState).not.toBe(INITIAL_STATE);
+    });
+  });
+
+  describe(StartAsyncValidationAction.name, () => {
+    it('should update state', () => {
+      const name = 'required';
+      const resultState = formControlReducerInternal(INITIAL_STATE, new StartAsyncValidationAction(FORM_CONTROL_ID, name));
+      expect(resultState).not.toBe(INITIAL_STATE);
+    });
+  });
+
+  describe(SetAsyncErrorAction.name, () => {
+    it('should update state', () => {
+      const name = 'required';
+      const value = true;
+      const state = { ...INITIAL_STATE, pendingValidations: [name], isValidationPending: true };
+      const resultState = formControlReducerInternal(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+      expect(resultState).not.toBe(INITIAL_STATE);
+    });
+  });
+
+  describe(ClearAsyncErrorAction.name, () => {
+    it('should update state', () => {
+      const name = 'required';
+      const state = {
+        ...INITIAL_STATE,
+        isValid: false,
+        isInvalid: true,
+        errors: { ['$' + name]: true },
+        pendingValidations: [name],
+        isValidationPending: true,
+      };
+
+      const resultState = formControlReducerInternal(state, new ClearAsyncErrorAction(FORM_CONTROL_ID, name));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });

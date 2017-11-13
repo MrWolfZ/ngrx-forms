@@ -16,6 +16,8 @@ As you can see most properties are shared with controls via the common base inte
 |`value`||The aggregated value of the array. The value is computed by aggregating the values of all children and is itself an array.|
 |`isValid`|`isInvalid`|The `isValid` flag is `true` if the array does not have any errors itself and none of its children have any errors.|
 |`errors`||The errors of the array. This property is computed by merging the errors of the control with the errors of all children where the child errors are a property of the `errors` object prefixed with an underscore (e.g. `{ arrayError: true, _0: { childError: true } }`). If neither the array nor any children have errors the property is set to `{}`.|
+|`pendingValidations`||The names of all asynchronous validation errors currently being validated for the array.|
+|`isValidationPending`||The `isValidationPending` flag indicates whether the array or any of its children are currently being asynchronously validated.|
 |`isEnabled`|`isDisabled`|The `isEnabled` flag is `true` if and only if at least one child control is enabled.|
 |`isDirty`|`isPristine`|The `isDirty` flag is `true` if and only if at least one child control is marked as dirty.|
 |`isTouched`|`isUntouched`|The `isTouched` flag is `true` if and only if at least one child control is marked as touched.|

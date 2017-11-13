@@ -33,6 +33,13 @@ describe(`form group ${disableReducer.name}`, () => {
     expect(resultState.errors).toEqual({});
   });
 
+  it('should clear all pending validations', () => {
+    const state = { ...INITIAL_STATE, pendingValidations: ['required'], isValidationPending: true };
+    const resultState = disableReducer(state, new DisableAction(FORM_CONTROL_ID));
+    expect(resultState.pendingValidations).toEqual([]);
+    expect(resultState.isValidationPending).toBe(false);
+  });
+
   it('should disable control children', () => {
     const resultState = disableReducer(INITIAL_STATE, new DisableAction(FORM_CONTROL_ID));
     expect(resultState.controls.inner.isEnabled).toBe(false);

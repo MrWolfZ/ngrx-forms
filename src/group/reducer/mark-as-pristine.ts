@@ -23,6 +23,7 @@ export function markAsPristineReducer<TValue extends KeyValue>(
     dispatchActionPerChild(state.controls, controlId => new MarkAsPristineAction(controlId)),
     state.value,
     state.errors,
+    state.pendingValidations,
     state.userDefinedProperties,
   );
 }

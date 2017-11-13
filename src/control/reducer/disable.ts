@@ -20,5 +20,7 @@ export function disableReducer<TValue extends FormControlValueTypes>(
     isValid: true,
     isInvalid: false,
     errors: {},
+    pendingValidations: [],
+    isValidationPending: false,
   };
 }

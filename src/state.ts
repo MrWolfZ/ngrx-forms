@@ -10,6 +10,8 @@ export class AbstractControlState<TValue> {
   readonly isValid: boolean;
   readonly isInvalid: boolean;
   readonly errors: ValidationErrors;
+  readonly pendingValidations: string[];
+  readonly isValidationPending: boolean;
   readonly isDirty: boolean;
   readonly isPristine: boolean;
   readonly isEnabled: boolean;
@@ -90,6 +92,8 @@ export function createFormControlState<TValue extends FormControlValueTypes>(
     isFocused: false,
     isUnfocused: true,
     errors: {},
+    pendingValidations: [],
+    isValidationPending: false,
     isPristine: true,
     isDirty: false,
     isTouched: false,
@@ -116,6 +120,8 @@ export function createFormGroupState<TValue extends KeyValue>(
     isEnabled: true,
     isDisabled: false,
     errors: {},
+    pendingValidations: [],
+    isValidationPending: false,
     isPristine: true,
     isDirty: false,
     isTouched: false,
@@ -142,6 +148,8 @@ export function createFormArrayState<TValue>(
     isEnabled: true,
     isDisabled: false,
     errors: {},
+    pendingValidations: [],
+    isValidationPending: false,
     isPristine: true,
     isDirty: false,
     isTouched: false,

@@ -28,7 +28,9 @@ function updateGroupControlsState<TValue extends KeyValue>(updateFns: StateUpdat
 function updateGroupSingle<TValue extends KeyValue>(updateFns: StateUpdateFns<TValue>) {
   return (state: FormGroupState<TValue>): FormGroupState<TValue> => {
     const newControls = updateGroupControlsState<TValue>(updateFns)(state);
-    return newControls !== state.controls ? computeGroupState<TValue>(state.id, newControls, state.value, state.errors, state.userDefinedProperties) : state;
+    return newControls !== state.controls
+      ? computeGroupState<TValue>(state.id, newControls, state.value, state.errors, state.pendingValidations, state.userDefinedProperties)
+      : state;
   };
 }
 
