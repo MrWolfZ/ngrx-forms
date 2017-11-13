@@ -25,6 +25,8 @@ export { NgrxFormDirective } from './group/directive';
 export * from './update-functions';
 
 export {
+  FormViewAdapter,
+  NGRX_FORM_VIEW_ADAPTER,
   NgrxDefaultViewAdapter,
   NgrxCheckboxViewAdapter,
   NgrxNumberViewAdapter,

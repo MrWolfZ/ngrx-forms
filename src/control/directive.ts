@@ -1,11 +1,11 @@
-import { AfterViewInit, Directive, ElementRef, HostBinding, HostListener, Inject, Input, OnInit, Self } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, HostBinding, HostListener, Inject, Input, OnInit, Self, Optional } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DOCUMENT } from '@angular/platform-browser';
 import { ActionsSubject } from '@ngrx/store';
 
 import { FocusAction, MarkAsTouchedAction, SetValueAction, UnfocusAction } from '../actions';
 import { FormControlState, FormControlValueTypes } from '../state';
-import { selectValueAccessor } from '../view-adapter';
+import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER, selectViewAdapter } from '../view-adapter';
 import { NgrxValueConverter, NgrxValueConverters } from './value-converter';
 
 const CHANGE = 'change';
@@ -41,7 +41,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
 
   state: FormControlState<TStateValue>;
 
-  private valueAccessor: ControlValueAccessor;
+  private viewAdapter: FormViewAdapter;
 
   // we have to store the latest known state value since most input elements don't play nicely with
   // setting the same value again (e.g. input elements move the cursor to the end of the input when
@@ -58,9 +58,19 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     private el: ElementRef,
     @Inject(DOCUMENT) private dom: Document,
     private actionsSubject: ActionsSubject,
-    @Self() @Inject(NG_VALUE_ACCESSOR) valueAccessors: ControlValueAccessor[],
+    @Self() @Optional() @Inject(NGRX_FORM_VIEW_ADAPTER) viewAdapters: FormViewAdapter[],
+    @Self() @Optional() @Inject(NG_VALUE_ACCESSOR) valueAccessors: ControlValueAccessor[],
   ) {
-    this.valueAccessor = selectValueAccessor(valueAccessors);
+    viewAdapters = viewAdapters || [];
+    valueAccessors = valueAccessors || [];
+
+    if (valueAccessors.length > 1) {
+      throw new Error('More than one custom control value accessor matches!');
+    }
+
+    this.viewAdapter = valueAccessors.length > 0
+      ? new ControlValueAccessorAdapter(valueAccessors[0])
+      : selectViewAdapter(viewAdapters);
   }
 
   updateViewIfControlIdChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue>) {
@@ -70,9 +80,9 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
 
     this.stateValue = newState.value;
     this.viewValue = this.ngrxValueConverter.convertStateToViewValue(this.stateValue);
-    this.valueAccessor.writeValue(this.viewValue);
-    if (this.valueAccessor.setDisabledState) {
-      this.valueAccessor.setDisabledState(newState.isDisabled);
+    this.viewAdapter.setViewValue(this.viewValue);
+    if (this.viewAdapter.setIsDisabled) {
+      this.viewAdapter.setIsDisabled(newState.isDisabled);
     }
   }
 
@@ -83,11 +93,11 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
 
     this.stateValue = newState.value;
     this.viewValue = this.ngrxValueConverter.convertStateToViewValue(newState.value);
-    this.valueAccessor.writeValue(this.viewValue);
+    this.viewAdapter.setViewValue(this.viewValue);
   }
 
   updateViewIfIsDisabledChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue>) {
-    if (!this.valueAccessor.setDisabledState) {
+    if (!this.viewAdapter.setIsDisabled) {
       return;
     }
 
@@ -95,7 +105,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
       return;
     }
 
-    this.valueAccessor.setDisabledState(newState.isDisabled);
+    this.viewAdapter.setIsDisabled(newState.isDisabled);
   }
 
   updateViewIfIsFocusedChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue>) {
@@ -122,7 +132,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
       }
     };
 
-    this.valueAccessor.registerOnChange((viewValue: TViewValue) => {
+    this.viewAdapter.setOnChangeCallback((viewValue: TViewValue) => {
       this.viewValue = viewValue;
 
       if (this.ngrxUpdateOn === CHANGE) {
@@ -130,7 +140,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
       }
     });
 
-    this.valueAccessor.registerOnTouched(() => {
+    this.viewAdapter.setOnTouchedCallback(() => {
       if (!this.state.isTouched) {
         this.actionsSubject.next(new MarkAsTouchedAction(this.state.id));
       }
@@ -144,9 +154,9 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
   ngAfterViewInit() {
     // we need to update the view again after it was initialized since some
     // controls depend on child elements for setting the value (e.g. selects)
-    this.valueAccessor.writeValue(this.viewValue);
-    if (this.valueAccessor.setDisabledState) {
-      this.valueAccessor.setDisabledState(this.state.isDisabled);
+    this.viewAdapter.setViewValue(this.viewValue);
+    if (this.viewAdapter.setIsDisabled) {
+      this.viewAdapter.setIsDisabled(this.state.isDisabled);
     }
   }
 
@@ -160,6 +170,27 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     const isControlFocused = this.el.nativeElement === this.dom.activeElement;
     if (isControlFocused !== this.state.isFocused) {
       this.actionsSubject.next(isControlFocused ? new FocusAction(this.state.id) : new UnfocusAction(this.state.id));
+    }
+  }
+}
+
+class ControlValueAccessorAdapter implements FormViewAdapter {
+  constructor(private valueAccessor: ControlValueAccessor) { }
+
+  setViewValue(value: any): void {
+    this.valueAccessor.writeValue(value);
+  }
+
+  setOnChangeCallback(fn: (value: any) => void): void {
+    this.valueAccessor.registerOnChange(fn);
+  }
+  setOnTouchedCallback(fn: () => void): void {
+    this.valueAccessor.registerOnTouched(fn);
+  }
+
+  setIsDisabled(isDisabled: boolean) {
+    if (this.valueAccessor.setDisabledState) {
+      this.valueAccessor.setDisabledState(isDisabled);
     }
   }
 }

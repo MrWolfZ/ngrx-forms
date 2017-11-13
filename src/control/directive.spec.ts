@@ -1,13 +1,14 @@
+import 'rxjs/add/operator/count';
+import 'rxjs/add/operator/first';
+
 import { ElementRef } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import 'rxjs/add/operator/first';
-import 'rxjs/add/operator/count';
 
 import { SetValueAction } from '../actions';
 import { createFormControlState } from '../state';
+import { FormViewAdapter } from '../view-adapter';
 import { NgrxFormControlDirective } from './directive';
 import { NgrxValueConverters } from './value-converter';
 
@@ -17,7 +18,7 @@ describe(NgrxFormControlDirective.name, () => {
   let document: Document;
   let actionsSubject: ReplaySubject<Action>;
   let actions$: Observable<Action>;
-  let valueAccessor: ControlValueAccessor;
+  let viewAdapter: FormViewAdapter;
   let onChange: (value: any) => void;
   let onTouched: () => void;
   const FORM_CONTROL_ID = 'test ID';
@@ -29,26 +30,26 @@ describe(NgrxFormControlDirective.name, () => {
     document = {} as any as Document;
     actionsSubject = new ReplaySubject<Action>();
     actions$ = actionsSubject as any; // required due to mismatch of lift() function signature
-    valueAccessor = {
-      writeValue: () => void 0,
-      registerOnChange: fn => onChange = fn,
-      registerOnTouched: fn => onTouched = fn,
-      setDisabledState: () => void 0,
+    viewAdapter = {
+      setViewValue: () => void 0,
+      setOnChangeCallback: fn => onChange = fn,
+      setOnTouchedCallback: fn => onTouched = fn,
+      setIsDisabled: () => void 0,
     };
-    directive = new NgrxFormControlDirective<string>(elementRef, document, actionsSubject as any, [valueAccessor]);
+    directive = new NgrxFormControlDirective<string>(elementRef, document, actionsSubject as any, [viewAdapter], []);
     directive.ngrxFormControlState = INITIAL_STATE;
     directive.ngOnInit();
   });
 
   it('should write the value when the state changes', () => {
     const newValue = 'new value';
-    const spy = spyOn(valueAccessor, 'writeValue');
+    const spy = spyOn(viewAdapter, 'setViewValue');
     directive.ngrxFormControlState = { ...INITIAL_STATE, value: newValue };
     expect(spy).toHaveBeenCalledWith(newValue);
   });
 
   it('should not write the value when the state value does not change', () => {
-    const spy = spyOn(valueAccessor, 'writeValue');
+    const spy = spyOn(viewAdapter, 'setViewValue');
     directive.ngrxFormControlState = INITIAL_STATE;
     expect(spy).not.toHaveBeenCalled();
   });
@@ -56,13 +57,13 @@ describe(NgrxFormControlDirective.name, () => {
   it('should not write the value when the state value is the same as the view value', () => {
     const newValue = 'new value';
     onChange(newValue);
-    const spy = spyOn(valueAccessor, 'writeValue');
+    const spy = spyOn(viewAdapter, 'setViewValue');
     directive.ngrxFormControlState = { ...INITIAL_STATE, value: newValue };
     expect(spy).not.toHaveBeenCalled();
   });
 
   it('should write the value when the state value does not change but the id does', () => {
-    const spy = spyOn(valueAccessor, 'writeValue');
+    const spy = spyOn(viewAdapter, 'setViewValue');
     directive.ngrxFormControlState = { ...INITIAL_STATE, id: FORM_CONTROL_ID + '1' };
     expect(spy).toHaveBeenCalledWith(INITIAL_STATE.value);
   });
@@ -70,7 +71,7 @@ describe(NgrxFormControlDirective.name, () => {
   it('should write the value when the state value does not change but the id does after a new view value was reported', () => {
     const newValue = 'new value';
     onChange(newValue);
-    const spy = spyOn(valueAccessor, 'writeValue');
+    const spy = spyOn(viewAdapter, 'setViewValue');
     directive.ngrxFormControlState = { ...INITIAL_STATE, id: FORM_CONTROL_ID + '1', value: newValue };
     expect(spy).toHaveBeenCalledWith(newValue);
   });
@@ -78,7 +79,7 @@ describe(NgrxFormControlDirective.name, () => {
   it('should write the value when the state value does not change but the id does after an undefined view value was reported', () => {
     const newValue = undefined as any;
     onChange(newValue);
-    const spy = spyOn(valueAccessor, 'writeValue');
+    const spy = spyOn(viewAdapter, 'setViewValue');
     directive.ngrxFormControlState = { ...INITIAL_STATE, id: FORM_CONTROL_ID + '1', value: newValue };
     expect(spy).toHaveBeenCalledWith(newValue);
   });
@@ -106,7 +107,7 @@ describe(NgrxFormControlDirective.name, () => {
     onChange(newValue);
     directive.ngrxFormControlState = { ...INITIAL_STATE, value: newValue };
     directive.ngrxFormControlState = INITIAL_STATE;
-    const spy = spyOn(valueAccessor, 'writeValue');
+    const spy = spyOn(viewAdapter, 'setViewValue');
     directive.ngrxFormControlState = { ...INITIAL_STATE, value: newValue };
     expect(spy).toHaveBeenCalledWith(newValue);
   });
@@ -149,7 +150,7 @@ describe(NgrxFormControlDirective.name, () => {
     it('should not write the value when the state value does not change', () => {
       const newValue = 'new value';
       onChange(newValue);
-      const spy = spyOn(valueAccessor, 'writeValue');
+      const spy = spyOn(viewAdapter, 'setViewValue');
       directive.ngrxFormControlState = { ...INITIAL_STATE };
       expect(spy).not.toHaveBeenCalled();
     });
@@ -164,7 +165,7 @@ describe(NgrxFormControlDirective.name, () => {
     });
 
     it('should convert the state value when the state changes', () => {
-      const spy = spyOn(valueAccessor, 'writeValue');
+      const spy = spyOn(viewAdapter, 'setViewValue');
       directive.ngrxFormControlState = { ...INITIAL_STATE, value: STATE_VALUE };
       expect(spy).toHaveBeenCalledWith(VIEW_VALUE);
     });
@@ -179,7 +180,7 @@ describe(NgrxFormControlDirective.name, () => {
 
     it('should not write the value when the state value does not change with conversion', () => {
       directive.ngrxFormControlState = { ...INITIAL_STATE, value: STATE_VALUE };
-      const spy = spyOn(valueAccessor, 'writeValue');
+      const spy = spyOn(viewAdapter, 'setViewValue');
       directive.ngrxFormControlState = { ...INITIAL_STATE, value: STATE_VALUE };
       expect(spy).not.toHaveBeenCalled();
     });

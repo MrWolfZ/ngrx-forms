@@ -10,19 +10,20 @@ import {
   Optional,
   Renderer2,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, SelectMultipleControlValueAccessor } from '@angular/forms';
+
+import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
 
 // tslint:disable:directive-class-suffix
 
 @Directive({
   selector: 'select:not([multiple])[ngrxFormControlState]',
   providers: [{
-    provide: NG_VALUE_ACCESSOR,
+    provide: NGRX_FORM_VIEW_ADAPTER,
     useExisting: forwardRef(() => NgrxSelectViewAdapter),
     multi: true,
   }],
 })
-export class NgrxSelectViewAdapter implements ControlValueAccessor {
+export class NgrxSelectViewAdapter implements FormViewAdapter {
   private optionMap: { [id: string]: any } = {};
   private idCounter = 0;
   private selectedId: string | null = null;
@@ -34,7 +35,7 @@ export class NgrxSelectViewAdapter implements ControlValueAccessor {
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
 
-  writeValue(value: any) {
+  setViewValue(value: any) {
     this.selectedId = this.getOptionId(value);
     if (this.selectedId === null) {
       this.renderer.setProperty(this.elementRef.nativeElement, 'selectedIndex', -1);
@@ -50,15 +51,15 @@ export class NgrxSelectViewAdapter implements ControlValueAccessor {
     this.onChangeFn(value);
   }
 
-  registerOnChange(fn: (value: any) => void) {
+  setOnChangeCallback(fn: (value: any) => void) {
     this.onChangeFn = fn;
   }
 
-  registerOnTouched(fn: () => void) {
+  setOnTouchedCallback(fn: () => void) {
     this.onTouched = fn;
   }
 
-  setDisabledState(isDisabled: boolean) {
+  setIsDisabled(isDisabled: boolean) {
     this.renderer.setProperty(this.elementRef.nativeElement, 'disabled', isDisabled);
   }
 
@@ -95,7 +96,7 @@ export class NgrxSelectViewAdapter implements ControlValueAccessor {
   }
 }
 
-const NULL_VALUE_ACCESSOR: NgrxSelectViewAdapter = {
+const NULL_VIEW_ADAPTER: NgrxSelectViewAdapter = {
   createOptionId: () => '',
   deregisterOption: () => void 0,
   updateOptionValue: () => void 0,
@@ -111,15 +112,15 @@ export class NgrxSelectOption implements OnInit, OnDestroy {
   constructor(
     private element: ElementRef,
     private renderer: Renderer2,
-    @Host() @Optional() private valueAccessor: NgrxSelectViewAdapter,
+    @Host() @Optional() private viewAdapter: NgrxSelectViewAdapter,
   ) {
-    this.valueAccessor = valueAccessor || NULL_VALUE_ACCESSOR;
-    this.id = this.valueAccessor.createOptionId();
+    this.viewAdapter = viewAdapter || NULL_VIEW_ADAPTER;
+    this.id = this.viewAdapter.createOptionId();
   }
 
   @Input('value')
   set value(value: any) {
-    this.valueAccessor.updateOptionValue(this.id, value);
+    this.viewAdapter.updateOptionValue(this.id, value);
   }
 
   ngOnInit() {
@@ -127,21 +128,6 @@ export class NgrxSelectOption implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.valueAccessor.deregisterOption(this.id);
+    this.viewAdapter.deregisterOption(this.id);
   }
 }
-
-@Directive({
-  selector: 'select[multiple][ngrxFormControlState]',
-  // tslint:disable-next-line:use-host-property-decorator
-  host: {
-    '(change)': 'onChange($event.target)',
-    '(blur)': 'onTouched()',
-  },
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => NgrxSelectMultipleViewAdapter),
-    multi: true,
-  }],
-})
-export class NgrxSelectMultipleViewAdapter extends SelectMultipleControlValueAccessor { }

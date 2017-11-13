@@ -1,20 +1,22 @@
-import { ControlValueAccessor } from '@angular/forms';
-
 import { NgrxCheckboxViewAdapter } from './checkbox';
 import { NgrxDefaultViewAdapter } from './default';
 import { NgrxNumberViewAdapter } from './number';
 import { NgrxRadioViewAdapter } from './radio';
 import { NgrxRangeViewAdapter } from './range';
-import { NgrxSelectViewAdapter, NgrxSelectMultipleViewAdapter } from './select';
+import { NgrxSelectViewAdapter } from './select';
+import { NgrxSelectMultipleViewAdapter } from './select-multiple';
+import { FormViewAdapter } from './view-adapter';
 
+export { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
 export { NgrxCheckboxViewAdapter } from './checkbox';
 export { NgrxDefaultViewAdapter } from './default';
 export { NgrxNumberViewAdapter } from './number';
 export { NgrxRadioViewAdapter } from './radio';
 export { NgrxRangeViewAdapter } from './range';
-export { NgrxSelectViewAdapter, NgrxSelectMultipleViewAdapter, NgrxSelectOption } from './select';
+export { NgrxSelectViewAdapter, NgrxSelectOption } from './select';
+export { NgrxSelectMultipleViewAdapter, NgrxSelectMultipleOption } from './select-multiple';
 
-const BUILTIN_ACCESSORS = [
+const BUILTIN_ADAPTERS = [
   NgrxCheckboxViewAdapter,
   NgrxRangeViewAdapter,
   NgrxNumberViewAdapter,
@@ -23,47 +25,47 @@ const BUILTIN_ACCESSORS = [
   NgrxRadioViewAdapter,
 ];
 
-export function isBuiltInAccessor(valueAccessor: ControlValueAccessor): boolean {
-  return BUILTIN_ACCESSORS.some(a => valueAccessor.constructor === a);
+export function isBuiltInViewAdapter(viewAdapter: FormViewAdapter): boolean {
+  return BUILTIN_ADAPTERS.some(a => viewAdapter.constructor === a);
 }
 
-export function selectValueAccessor(valueAccessors: ControlValueAccessor[]): ControlValueAccessor {
-  if (!valueAccessors) {
-    throw new Error('No value accessor matches!');
+export function selectViewAdapter(viewAdapters: FormViewAdapter[]): FormViewAdapter {
+  if (!viewAdapters) {
+    throw new Error('No view adapter matches!');
   }
 
-  let defaultAccessor: ControlValueAccessor | undefined;
-  let builtinAccessor: ControlValueAccessor | undefined;
-  let customAccessor: ControlValueAccessor | undefined;
-  valueAccessors.forEach((v: ControlValueAccessor) => {
+  let defaultAdapter: FormViewAdapter | undefined;
+  let builtinAdapter: FormViewAdapter | undefined;
+  let customAdapter: FormViewAdapter | undefined;
+  viewAdapters.forEach((v: FormViewAdapter) => {
     if (v.constructor === NgrxDefaultViewAdapter) {
-      defaultAccessor = v;
-    } else if (isBuiltInAccessor(v)) {
-      if (builtinAccessor) {
-        throw new Error('More than one built-in value accessor matches!');
+      defaultAdapter = v;
+    } else if (isBuiltInViewAdapter(v)) {
+      if (builtinAdapter) {
+        throw new Error('More than one built-in view adapter matches!');
       }
 
-      builtinAccessor = v;
+      builtinAdapter = v;
     } else {
-      if (customAccessor) {
-        throw new Error('More than one custom value accessor matches!');
+      if (customAdapter) {
+        throw new Error('More than one custom view adapter matches!');
       }
 
-      customAccessor = v;
+      customAdapter = v;
     }
   });
 
-  if (customAccessor) {
-    return customAccessor;
+  if (customAdapter) {
+    return customAdapter;
   }
 
-  if (builtinAccessor) {
-    return builtinAccessor;
+  if (builtinAdapter) {
+    return builtinAdapter;
   }
 
-  if (defaultAccessor) {
-    return defaultAccessor;
+  if (defaultAdapter) {
+    return defaultAdapter;
   }
 
-  throw new Error('No valid value accessor!');
+  throw new Error('No valid view adapter!');
 }

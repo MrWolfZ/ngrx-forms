@@ -26,7 +26,7 @@ export class SelectComponent {
 describe(SelectComponent.name, () => {
   let component: SelectComponent;
   let fixture: ComponentFixture<SelectComponent>;
-  let valueAccessor: NgrxSelectViewAdapter;
+  let viewAdapter: NgrxSelectViewAdapter;
   let actionsSubject: ActionsSubject;
   let actions$: Observable<Action>;
   let element: HTMLSelectElement;
@@ -58,7 +58,7 @@ describe(SelectComponent.name, () => {
     element = nativeElement.querySelector('select') as HTMLSelectElement;
     option1 = nativeElement.querySelectorAll('option')[0] as HTMLOptionElement;
     option2 = nativeElement.querySelectorAll('option')[1] as HTMLOptionElement;
-    valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
+    viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
   });
 
   it('should select the correct option initially', () => {
@@ -83,15 +83,15 @@ const SELECT_NUMBER_OPTIONS = [1, 2];
   selector: 'select-test',
   template: '<select [ngrxFormControlState]="state"><option *ngFor="let o of options" [value]="o">{{o}}</option></select>',
 })
-export class NgValueSelectComponent {
+export class NumberSelectComponent {
   @Input() state: FormControlState<number>;
   options = SELECT_NUMBER_OPTIONS;
 }
 
-describe(NgValueSelectComponent.name, () => {
-  let component: NgValueSelectComponent;
-  let fixture: ComponentFixture<NgValueSelectComponent>;
-  let valueAccessor: NgrxSelectViewAdapter;
+describe(NumberSelectComponent.name, () => {
+  let component: NumberSelectComponent;
+  let fixture: ComponentFixture<NumberSelectComponent>;
+  let viewAdapter: NgrxSelectViewAdapter;
   let actionsSubject: ActionsSubject;
   let actions$: Observable<Action>;
   let element: HTMLSelectElement;
@@ -109,13 +109,13 @@ describe(NgValueSelectComponent.name, () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NgrxFormsModule],
-      declarations: [NgValueSelectComponent],
+      declarations: [NumberSelectComponent],
       providers: [{ provide: ActionsSubject, useValue: actionsSubject }],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NgValueSelectComponent);
+    fixture = TestBed.createComponent(NumberSelectComponent);
     component = fixture.componentInstance;
     component.state = INITIAL_STATE;
     fixture.detectChanges();
@@ -123,7 +123,7 @@ describe(NgValueSelectComponent.name, () => {
     element = nativeElement.querySelector('select') as HTMLSelectElement;
     option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
     option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
-    valueAccessor = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
+    viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
   });
 
   it('should select the correct option initially', () => {
