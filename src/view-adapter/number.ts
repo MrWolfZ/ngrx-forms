@@ -1,45 +1,55 @@
-import { Directive, ElementRef, forwardRef, Renderer2 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Directive, ElementRef, forwardRef, HostListener, Input, Renderer2 } from '@angular/core';
 
-// tslint:disable:directive-selector
-// tslint:disable:use-host-property-decorator
+import { FormControlState } from '../state';
+import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
+
 // tslint:disable:directive-class-suffix
-// tslint:disable:triple-equals
 
 @Directive({
   selector: 'input[type=number][ngrxFormControlState]',
-  host: {
-    '(change)': 'onChange($event.target.value)',
-    '(input)': 'onChange($event.target.value)',
-    '(blur)': 'onTouched()',
-  },
   providers: [{
-    provide: NG_VALUE_ACCESSOR,
+    provide: NGRX_FORM_VIEW_ADAPTER,
     useExisting: forwardRef(() => NgrxNumberViewAdapter),
     multi: true,
   }],
 })
 // for some reason @angular/forms does not export the NumberValueAccessor, so we have to copy the implementation here
-export class NgrxNumberViewAdapter implements ControlValueAccessor {
+export class NgrxNumberViewAdapter implements FormViewAdapter {
+  onChange: (value: any) => void = () => void 0;
+
+  @HostListener('blur')
+  onTouched: () => void = () => void 0
+
+  @Input() set ngrxFormControlState(value: FormControlState<any>) {
+    if (value.id !== this.elementRef.nativeElement.id) {
+      this.renderer.setProperty(this.elementRef.nativeElement, 'id', value.id);
+    }
+  }
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
 
-  onChange = (_: any) => void 0 as any;
-  onTouched = () => void 0 as any;
-
-  writeValue(value: number): void {
+  setViewValue(value: any): void {
     // The value needs to be normalized for IE9, otherwise it is set to 'null' when null
-    const normalizedValue = value == null ? '' : value;
+    const normalizedValue = value === null ? '' : value;
     this.renderer.setProperty(this.elementRef.nativeElement, 'value', normalizedValue);
   }
 
-  registerOnChange(fn: (_: number | null) => void): void {
-    this.onChange = (value) => { fn(value == '' ? null : parseFloat(value)); };
+  setOnChangeCallback(fn: (value: any) => void): void {
+    this.onChange = fn;
   }
 
-  registerOnTouched(fn: () => void): void { this.onTouched = fn; }
+  setOnTouchedCallback(fn: () => void): void {
+    this.onTouched = fn;
+  }
 
-  setDisabledState(isDisabled: boolean): void {
+  setIsDisabled(isDisabled: boolean): void {
     this.renderer.setProperty(this.elementRef.nativeElement, 'disabled', isDisabled);
+  }
+
+  @HostListener('change', ['$event'])
+  @HostListener('input', ['$event'])
+  handleInput(event: UIEvent): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.onChange(value === '' ? null : parseFloat(value));
   }
 }
