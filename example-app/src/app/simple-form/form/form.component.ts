@@ -1,12 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import {
-  FormGroupState,
-  MarkAsPristineAction,
-  MarkAsUnsubmittedAction,
-  MarkAsUntouchedAction,
-  SetValueAction,
-} from 'ngrx-forms';
+import { FormGroupState, ResetAction, SetValueAction } from 'ngrx-forms';
 
 import { INITIAL_STATE, SimpleFormValue } from '../reducer';
 
@@ -23,9 +17,6 @@ export class FormComponent {
 
   reset() {
     this.actionsSubject.next(new SetValueAction(INITIAL_STATE.id, INITIAL_STATE.value));
-    // this.actionsSubject.next(new ResetAction(INITIAL_STATE.id));
-    this.actionsSubject.next(new MarkAsPristineAction(INITIAL_STATE.id));
-    this.actionsSubject.next(new MarkAsUntouchedAction(INITIAL_STATE.id));
-    this.actionsSubject.next(new MarkAsUnsubmittedAction(INITIAL_STATE.id));
+    this.actionsSubject.next(new ResetAction(INITIAL_STATE.id));
   }
 }
