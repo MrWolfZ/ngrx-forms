@@ -143,6 +143,15 @@ describe(NgrxSelectViewAdapter.name, () => {
       expect(spy).toHaveBeenCalledWith(newValue);
     });
 
+    it('should not call the registered function whenever an unselected option\'s value changes', () => {
+      const spy = jasmine.createSpy('fn');
+      viewAdapter.setOnChangeCallback(spy);
+      const newValue = 'new value';
+      component.stringOptions[0] = newValue;
+      fixture.detectChanges();
+      expect(spy).not.toHaveBeenCalled();
+    });
+
     it('should create new options dynamically', () => {
       const spy = jasmine.createSpy('fn');
       viewAdapter.setOnChangeCallback(spy);
@@ -201,6 +210,15 @@ describe(NgrxSelectViewAdapter.name, () => {
       component.numberOptions[1] = newValue;
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledWith(newValue);
+    });
+
+    it('should not call the registered function whenever an unselected option\'s value changes', () => {
+      const spy = jasmine.createSpy('fn');
+      viewAdapter.setOnChangeCallback(spy);
+      const newValue = 3;
+      component.numberOptions[0] = newValue;
+      fixture.detectChanges();
+      expect(spy).not.toHaveBeenCalled();
     });
 
     it('should create new options dynamically', () => {

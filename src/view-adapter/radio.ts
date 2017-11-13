@@ -1,23 +1,25 @@
-import { Directive, ElementRef, forwardRef, HostListener, Input, Renderer2 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Directive, ElementRef, forwardRef, HostListener, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 
 import { FormControlState } from '../state';
+import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
 
 // tslint:disable:directive-class-suffix
 
 @Directive({
   selector: 'input[type=radio][ngrxFormControlState]',
   providers: [{
-    provide: NG_VALUE_ACCESSOR,
+    provide: NGRX_FORM_VIEW_ADAPTER,
     useExisting: forwardRef(() => NgrxRadioViewAdapter),
     multi: true,
   }],
 })
-export class NgrxRadioViewAdapter implements ControlValueAccessor {
+export class NgrxRadioViewAdapter implements FormViewAdapter, OnInit, OnDestroy {
   @Input() set value(val: any) {
     if (val !== this.latestValue) {
       this.latestValue = val;
-      this.onChange();
+      if (this.isChecked) {
+        this.onChange();
+      }
     }
   }
 
@@ -41,20 +43,31 @@ export class NgrxRadioViewAdapter implements ControlValueAccessor {
     private elementRef: ElementRef,
   ) { }
 
-  writeValue(value: any): void {
+  ngOnInit() {
+    this.isChecked = (this.elementRef.nativeElement as HTMLInputElement).checked;
+  }
+
+  setViewValue(value: any): void {
     this.isChecked = value === this.latestValue;
     this.renderer.setProperty(this.elementRef.nativeElement, 'checked', this.isChecked);
   }
 
-  registerOnChange(fn: (_: any) => void): void {
+  setOnChangeCallback(fn: (_: any) => void): void {
     this.onChange = () => fn(this.latestValue);
   }
 
-  registerOnTouched(fn: () => void): void {
+  setOnTouchedCallback(fn: () => void): void {
     this.onTouched = fn;
   }
 
-  setDisabledState(isDisabled: boolean): void {
+  setIsDisabled(isDisabled: boolean): void {
     this.renderer.setProperty(this.elementRef.nativeElement, 'disabled', isDisabled);
+  }
+
+  ngOnDestroy() {
+    if (this.isChecked) {
+      this.latestValue = null;
+      this.onChange();
+    }
   }
 }
