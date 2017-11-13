@@ -13,7 +13,6 @@ import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
     multi: true,
   }],
 })
-// for some reason @angular/forms does not export the NumberValueAccessor, so we have to copy the implementation here
 export class NgrxNumberViewAdapter implements FormViewAdapter {
   onChange: (value: any) => void = () => void 0;
 
