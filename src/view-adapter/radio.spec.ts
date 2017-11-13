@@ -10,14 +10,14 @@ const OPTION2_VALUE = 'op2';
   // tslint:disable-next-line:component-selector
   selector: 'radio-test',
   template: `
-<input name="static" type="radio" value="op1" ngrxFormControlState />
-<input name="static" type="radio" value="op2" checked="checked" ngrxFormControlState />
+<input type="radio" value="op1" ngrxFormControlState />
+<input type="radio" value="op2" checked="checked" ngrxFormControlState />
 
-<input name="string" type="radio" *ngFor="let o of stringOptions; trackBy: trackByIndex" [value]="o" ngrxFormControlState />
+<input type="radio" *ngFor="let o of stringOptions; trackBy: trackByIndex" [value]="o" ngrxFormControlState />
 
-<input name="number" type="radio" *ngFor="let o of numberOptions; trackBy: trackByIndex" [value]="o" ngrxFormControlState />
+<input type="radio" *ngFor="let o of numberOptions; trackBy: trackByIndex" [value]="o" ngrxFormControlState />
 
-<input name="boolean" type="radio" *ngFor="let o of booleanOptions; trackBy: trackByIndex" [value]="o" ngrxFormControlState />
+<input type="radio" *ngFor="let o of booleanOptions; trackBy: trackByIndex" [value]="o" ngrxFormControlState />
 `,
 })
 export class RadioTestComponent {
@@ -48,12 +48,31 @@ describe(NgrxRadioViewAdapter.name, () => {
     beforeEach(() => {
       fixture = TestBed.createComponent(RadioTestComponent);
       component = fixture.componentInstance;
-      element1 = (fixture.nativeElement as HTMLElement).querySelector('input') as HTMLInputElement;
+      fixture.detectChanges();
+      element1 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[0] as HTMLInputElement;
+      element2 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[1] as HTMLInputElement;
       viewAdapter1 = getDebugNode(element1)!.injector.get(NgrxRadioViewAdapter);
+      viewAdapter2 = getDebugNode(element2)!.injector.get(NgrxRadioViewAdapter);
+      viewAdapter1.ngrxFormControlState = { id: 'static' } as any;
+      viewAdapter2.ngrxFormControlState = { id: 'static' } as any;
       fixture.detectChanges();
     });
 
     it('should attach the view adapter', () => expect(viewAdapter1).toBeDefined());
+
+    it('should set the name of the elements', () => {
+      expect(element1.name).toBe('static');
+      expect(element2.name).toBe('static');
+    });
+
+    it('should set the name of the elements when the state\'s ID changes', () => {
+      const newId = 'new ID';
+      viewAdapter1.ngrxFormControlState = { id: newId } as any;
+      viewAdapter2.ngrxFormControlState = { id: newId } as any;
+      fixture.detectChanges();
+      expect(element1.name).toBe(newId);
+      expect(element2.name).toBe(newId);
+    });
 
     it('should mark the option as checked if same value is written', () => {
       viewAdapter1.setViewValue(OPTION1_VALUE);
@@ -104,6 +123,8 @@ describe(NgrxRadioViewAdapter.name, () => {
       viewAdapter2 = getDebugNode(element2)!.injector.get(NgrxRadioViewAdapter);
       viewAdapter1.setViewValue(component.stringOptions[1]);
       viewAdapter2.setViewValue(component.stringOptions[1]);
+      viewAdapter1.ngrxFormControlState = { id: 'string' } as any;
+      viewAdapter2.ngrxFormControlState = { id: 'string' } as any;
     });
 
     it('should mark the option as checked if same value is written', () => {
@@ -184,6 +205,8 @@ describe(NgrxRadioViewAdapter.name, () => {
       viewAdapter2 = getDebugNode(element2)!.injector.get(NgrxRadioViewAdapter);
       viewAdapter1.setViewValue(component.numberOptions[1]);
       viewAdapter2.setViewValue(component.numberOptions[1]);
+      viewAdapter1.ngrxFormControlState = { id: 'number' } as any;
+      viewAdapter2.ngrxFormControlState = { id: 'number' } as any;
     });
 
     it('should mark the option as checked if same value is written', () => {
@@ -264,6 +287,8 @@ describe(NgrxRadioViewAdapter.name, () => {
       viewAdapter2 = getDebugNode(element2)!.injector.get(NgrxRadioViewAdapter);
       viewAdapter1.setViewValue(component.booleanOptions[1]);
       viewAdapter2.setViewValue(component.booleanOptions[1]);
+      viewAdapter1.ngrxFormControlState = { id: 'boolean' } as any;
+      viewAdapter2.ngrxFormControlState = { id: 'boolean' } as any;
     });
 
     it('should mark the option as checked if same value is written', () => {
