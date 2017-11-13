@@ -52,10 +52,15 @@ describe(NgrxDefaultViewAdapter.name, () => {
     expect(element.id).toBe(newId);
   });
 
-  it('should set the inputs value', () => {
+  it('should set the input\'s value', () => {
     const newValue = 'new value';
     viewAdapter.setViewValue(newValue);
     expect(element.value).toBe(newValue);
+  });
+
+  it('should set the input\'s value to empty string if null', () => {
+    viewAdapter.setViewValue(null);
+    expect(element.value).toBe('');
   });
 
   it('should call the registered function whenever the value changes', () => {
