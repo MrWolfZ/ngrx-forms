@@ -68,7 +68,7 @@ describe(NgrxDefaultViewAdapter.name, () => {
     viewAdapter.setOnChangeCallback(spy);
     const newValue = 'new value';
     element.value = newValue;
-    element.dispatchEvent(new Event('change'));
+    element.dispatchEvent(new Event('input'));
     expect(spy).toHaveBeenCalledWith(newValue);
   });
 

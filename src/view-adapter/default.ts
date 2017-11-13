@@ -58,7 +58,7 @@ export class NgrxDefaultViewAdapter implements FormViewAdapter {
     this.renderer.setProperty(this.elementRef.nativeElement, 'disabled', isDisabled);
   }
 
-  @HostListener('change', ['$event'])
+  @HostListener('input', ['$event'])
   handleInput(event: UIEvent): void {
     if (this.isCompositionSupported && this.isComposing) {
       return;
