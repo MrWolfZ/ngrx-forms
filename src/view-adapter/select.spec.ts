@@ -104,6 +104,8 @@ describe(NgrxSelectViewAdapter.name, () => {
   });
 
   describe('dynamic string options', () => {
+    const TEST_ID = 'test ID';
+
     beforeEach(() => {
       fixture = TestBed.createComponent(SelectTestComponent);
       component = fixture.componentInstance;
@@ -114,6 +116,19 @@ describe(NgrxSelectViewAdapter.name, () => {
       option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
       viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
       viewAdapter.setViewValue(component.stringOptions[1]);
+      viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
+      fixture.detectChanges();
+    });
+
+    it('should set the ID of the element to the ID of the state', () => {
+      expect(element.id).toBe(TEST_ID);
+    });
+
+    it('should set the ID of the element if the ID of the state changes', () => {
+      const newId = 'new ID';
+      viewAdapter.ngrxFormControlState = { id: newId } as any;
+      fixture.detectChanges();
+      expect(element.id).toBe(newId);
     });
 
     it('should mark the option as selected if same value is written', () => {

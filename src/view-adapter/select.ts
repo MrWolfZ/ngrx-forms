@@ -11,6 +11,7 @@ import {
   Renderer2,
 } from '@angular/core';
 
+import { FormControlState } from '../state';
 import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
 
 // tslint:disable:directive-class-suffix
@@ -32,6 +33,12 @@ export class NgrxSelectViewAdapter implements FormViewAdapter {
 
   @HostListener('blur')
   onTouched: () => void = () => void 0
+
+  @Input() set ngrxFormControlState(value: FormControlState<any>) {
+    if (value.id !== this.elementRef.nativeElement.id) {
+      this.renderer.setProperty(this.elementRef.nativeElement, 'id', value.id);
+    }
+  }
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
 
