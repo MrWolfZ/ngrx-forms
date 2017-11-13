@@ -17,5 +17,6 @@ The following sections will explain and showcase the different features of `ngrx
   * [`createFormGroupReducerWithUpdate`](UPDATING_THE_STATE.md#createformgroupreducerwithupdate)
   * [`updateRecursive`](UPDATING_THE_STATE.md#updaterecursive)
 * [Validation](VALIDATION.md#validation)
+  * [Asynchronous Validation](VALIDATION.md#asynchronous-validation)
 * [Custom Controls](CUSTOM_CONTROLS.md#custom-controls)
 
