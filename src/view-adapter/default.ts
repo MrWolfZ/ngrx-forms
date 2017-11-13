@@ -1,6 +1,7 @@
-import { Directive, ElementRef, forwardRef, HostListener, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, forwardRef, HostListener, Input, Renderer2 } from '@angular/core';
 import { ɵgetDOM as getDOM } from '@angular/platform-browser';
 
+import { FormControlState } from '../state';
 import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
 
 /**
@@ -28,6 +29,12 @@ export class NgrxDefaultViewAdapter implements FormViewAdapter {
   @HostListener('blur')
   onTouched: () => void = () => void 0
 
+  @Input() set ngrxFormControlState(value: FormControlState<any>) {
+    if (value.id !== this.elementRef.nativeElement.id) {
+      this.renderer.setProperty(this.elementRef.nativeElement, 'id', value.id);
+    }
+  }
+
   /** Whether the user is creating a composition string (IME events). */
   private isComposing = false;
   private isCompositionSupported = !isAndroid();
@@ -51,13 +58,13 @@ export class NgrxDefaultViewAdapter implements FormViewAdapter {
     this.renderer.setProperty(this.elementRef.nativeElement, 'disabled', isDisabled);
   }
 
-  @HostListener('change')
-  handleInput(value: any): void {
+  @HostListener('change', ['$event'])
+  handleInput(event: UIEvent): void {
     if (this.isCompositionSupported && this.isComposing) {
       return;
     }
 
-    this.onChange(value);
+    this.onChange((event.target as HTMLInputElement).value);
   }
 
   @HostListener('compositionstart')
