@@ -40,7 +40,7 @@ The following table explains each property.
 |`errors`||The errors of the control. This property always has a value. If the control has no errors the property is set to `{}`.|
 |`isEnabled`|`isDisabled`|The `isEnabled` flag indicates whether the control is enabled. When `isEnabled` is `false` the `errors` are always `{}` (i.e. the control is always valid if disabled).|
 |`isDirty`|`isPristine`|The `isDirty` flag is set to `true` as soon as the value of the control changes for the first time.|
-|`isTouched`|`isUntouched`|The `isTouched` flag is set to `true` based on the rules of the underlying `ControlValueAccessor` (usually on `blur` for most form elements).|
+|`isTouched`|`isUntouched`|The `isTouched` flag is set to `true` based on the rules of the underlying `FormViewAdapter` (usually on `blur` for most form elements).|
 |`isSubmitted`|`isUnsubmitted`|The `isSubmitted` flag is set to `true` if the containing group is submitted.|
 |`isFocused`|`isUnfocused`|The `isFocused` flag is set to `true` if the control currently has focus. Note that this feature is opt-in. To enable it you have to add ```[ngrxEnableFocusTracking]="true"``` to your form element.|
 |`userDefinedProperties`||Sometimes it is useful to associate your own metadata with a form control (e.g. if you wanted to count the number of times a control's value has been changed, what keys were pressed on an input, or how often a form has been submitted). While it is possible to store this kind of information outside of `ngrx-forms` in your own state the `userDefinedProperties` allow you to store your own metadata directly in a control's state.|
