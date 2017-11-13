@@ -1,20 +1,50 @@
-import { Directive, forwardRef } from '@angular/core';
-import { CheckboxControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Directive, ElementRef, forwardRef, HostListener, Input, Renderer2 } from '@angular/core';
 
-// tslint:disable:directive-selector
-// tslint:disable:use-host-property-decorator
+import { FormControlState } from '../state';
+import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
+
 // tslint:disable:directive-class-suffix
 
 @Directive({
   selector: 'input[type=checkbox][ngrxFormControlState]',
-  host: {
-    '(change)': 'onChange($event.target.checked)',
-    '(blur)': 'onTouched()',
-  },
   providers: [{
-    provide: NG_VALUE_ACCESSOR,
+    provide: NGRX_FORM_VIEW_ADAPTER,
     useExisting: forwardRef(() => NgrxCheckboxViewAdapter),
     multi: true,
   }],
 })
-export class NgrxCheckboxViewAdapter extends CheckboxControlValueAccessor { }
+export class NgrxCheckboxViewAdapter implements FormViewAdapter {
+  onChange: (value: any) => void = () => void 0;
+
+  @HostListener('blur')
+  onTouched: () => void = () => void 0
+
+  @Input() set ngrxFormControlState(value: FormControlState<any>) {
+    if (value.id !== this.elementRef.nativeElement.id) {
+      this.renderer.setProperty(this.elementRef.nativeElement, 'id', value.id);
+    }
+  }
+
+  constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
+
+  setViewValue(value: any): void {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'checked', value);
+  }
+
+  setOnChangeCallback(fn: (value: any) => void): void {
+    this.onChange = fn;
+  }
+
+  setOnTouchedCallback(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setIsDisabled(isDisabled: boolean): void {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'disabled', isDisabled);
+  }
+
+  @HostListener('change', ['$event'])
+  handleInput(event: UIEvent): void {
+    this.onChange((event.target as HTMLInputElement).checked);
+  }
+}
