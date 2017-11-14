@@ -1,0 +1,33 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { StoreModule } from '@ngrx/store';
+import { NgrxFormsModule } from 'ngrx-forms';
+
+import { MaterialModule } from '../material';
+import { SharedModule } from '../shared/shared.module';
+import { AsyncValidationPageComponent } from './async-validation.component';
+import { AsyncValidationFormComponent } from './form/form.component';
+import { reducers } from './async-validation.reducer';
+
+export const COMPONENTS = [
+  AsyncValidationPageComponent,
+  AsyncValidationFormComponent,
+];
+
+@NgModule({
+  imports: [
+    CommonModule,
+    MaterialModule,
+    NgrxFormsModule,
+    SharedModule,
+    RouterModule.forChild([
+      { path: '', component: AsyncValidationPageComponent },
+    ]),
+
+    StoreModule.forFeature('asyncValidation', reducers),
+  ],
+  declarations: COMPONENTS,
+  exports: COMPONENTS,
+})
+export class AsyncValidationModule { }

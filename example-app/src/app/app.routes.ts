@@ -14,4 +14,8 @@ export const routes: Routes = [
     path: 'syncValidation',
     loadChildren: './sync-validation/sync-validation.module#SyncValidationModule',
   },
+  {
+    path: 'asyncValidation',
+    loadChildren: './async-validation/async-validation.module#AsyncValidationModule',
+  },
 ];
