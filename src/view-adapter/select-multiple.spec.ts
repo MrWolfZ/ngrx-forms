@@ -1,4 +1,4 @@
-import { Component, getDebugNode } from '@angular/core';
+import { Component, getDebugNode, Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgrxSelectMultipleOption, NgrxSelectMultipleViewAdapter } from './select-multiple';
@@ -331,5 +331,21 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledWith(component.booleanOptions);
     });
+  });
+});
+
+describe(NgrxSelectMultipleOption.name, () => {
+  let viewAdapter: NgrxSelectMultipleViewAdapter;
+  let option: NgrxSelectMultipleOption;
+  let renderer: Renderer2;
+
+  beforeEach(() => {
+    renderer = jasmine.createSpyObj('renderer2', ['setProperty']);
+    viewAdapter = new NgrxSelectMultipleViewAdapter(renderer, {} as any);
+    option = new NgrxSelectMultipleOption({} as any, renderer, viewAdapter);
+  });
+
+  it('should work if option is created without view adapter', () => {
+    expect(new NgrxSelectMultipleOption({} as any, {} as any, undefined)).toBeDefined();
   });
 });

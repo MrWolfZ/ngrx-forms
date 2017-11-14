@@ -114,12 +114,14 @@ const NULL_VIEW_ADAPTER: NgrxSelectViewAdapter = {
   selector: 'option',
 })
 export class NgrxSelectOption implements OnInit, OnDestroy {
+  private viewAdapter: NgrxSelectViewAdapter;
+
   id: string;
 
   constructor(
     private element: ElementRef,
     private renderer: Renderer2,
-    @Host() @Optional() private viewAdapter: NgrxSelectViewAdapter,
+    @Host() @Optional() viewAdapter: NgrxSelectViewAdapter | undefined,
   ) {
     this.viewAdapter = viewAdapter || NULL_VIEW_ADAPTER;
     this.id = this.viewAdapter.createOptionId();

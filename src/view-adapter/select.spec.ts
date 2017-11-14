@@ -1,4 +1,4 @@
-import { Component, getDebugNode } from '@angular/core';
+import { Component, getDebugNode, Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgrxSelectOption, NgrxSelectViewAdapter } from './select';
@@ -314,5 +314,21 @@ describe(NgrxSelectViewAdapter.name, () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledWith(null);
     });
+  });
+});
+
+describe(NgrxSelectOption.name, () => {
+  let viewAdapter: NgrxSelectViewAdapter;
+  let option: NgrxSelectOption;
+  let renderer: Renderer2;
+
+  beforeEach(() => {
+    renderer = jasmine.createSpyObj('renderer2', ['setProperty']);
+    viewAdapter = new NgrxSelectViewAdapter(renderer, {} as any);
+    option = new NgrxSelectOption({} as any, renderer, viewAdapter);
+  });
+
+  it('should work if option is created without view adapter', () => {
+    expect(new NgrxSelectOption({} as any, {} as any, undefined)).toBeDefined();
   });
 });

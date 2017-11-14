@@ -17,11 +17,6 @@ import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
 
 @Directive({
   selector: 'select[multiple][ngrxFormControlState]',
-  // tslint:disable-next-line:use-host-property-decorator
-  host: {
-    '(change)': 'onChange($event.target)',
-    '(blur)': 'onTouched()',
-  },
   providers: [{
     provide: NGRX_FORM_VIEW_ADAPTER,
     useExisting: forwardRef(() => NgrxSelectMultipleViewAdapter),
@@ -109,7 +104,7 @@ export class NgrxSelectMultipleViewAdapter implements FormViewAdapter {
 }
 
 const NULL_VIEW_ADAPTER: NgrxSelectMultipleViewAdapter = {
-  createOptionId: () => '',
+  registerOption: () => '',
   deregisterOption: () => void 0,
   updateOptionValue: () => void 0,
 } as any;
@@ -119,12 +114,14 @@ const NULL_VIEW_ADAPTER: NgrxSelectMultipleViewAdapter = {
   selector: 'option',
 })
 export class NgrxSelectMultipleOption implements OnInit, OnDestroy {
+  private viewAdapter: NgrxSelectMultipleViewAdapter;
+
   id: string;
 
   constructor(
     private element: ElementRef,
     private renderer: Renderer2,
-    @Host() @Optional() private viewAdapter: NgrxSelectMultipleViewAdapter,
+    @Host() @Optional() viewAdapter: NgrxSelectMultipleViewAdapter | undefined,
   ) {
     this.viewAdapter = viewAdapter || NULL_VIEW_ADAPTER;
     this.id = this.viewAdapter.registerOption(this);
