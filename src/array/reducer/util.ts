@@ -69,16 +69,16 @@ export function computeArrayState<TValue>(
     isValidationPending,
     isValid,
     isInvalid: !isValid,
-    isDirty,
-    isPristine: !isDirty,
     isEnabled,
     isDisabled: !isEnabled,
+    isDirty,
+    isPristine: !isDirty,
     isTouched,
     isUntouched: !isTouched,
     isSubmitted,
     isUnsubmitted: !isSubmitted,
-    controls,
     userDefinedProperties,
+    controls,
   };
 }
 

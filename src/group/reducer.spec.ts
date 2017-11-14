@@ -80,6 +80,13 @@ describe('form group reducer', () => {
     expect(() => formGroupReducerInternal(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_ID))).not.toThrowError();
   });
 
+  it('should preserve the order of properties when stringified', () => {
+    const expected = JSON.stringify(INITIAL_STATE_FULL);
+    let state = formGroupReducerInternal(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_ID));
+    state = formGroupReducerInternal(state, new MarkAsPristineAction(FORM_CONTROL_ID));
+    expect(JSON.stringify(state)).toEqual(expected);
+  });
+
   it('should throw if trying to set a date as value', () => {
     const state = createFormGroupState<any>(FORM_CONTROL_ID, {});
     expect(() => formGroupReducerInternal(state, new SetValueAction(FORM_CONTROL_ID, new Date()))).toThrowError();

@@ -76,6 +76,13 @@ describe('form array reducer', () => {
     expect(() => formArrayReducerInternal(INITIAL_STATE, new MarkAsDirtyAction(FORM_CONTROL_ID))).not.toThrowError();
   });
 
+  it('should preserve the order of properties when stringified', () => {
+    const expected = JSON.stringify(INITIAL_STATE);
+    let state = formArrayReducerInternal(INITIAL_STATE, new MarkAsDirtyAction(FORM_CONTROL_ID));
+    state = formArrayReducerInternal(state, new MarkAsPristineAction(FORM_CONTROL_ID));
+    expect(JSON.stringify(state)).toEqual(expected);
+  });
+
   it('should throw if state is not an array state', () => {
     expect(() => formArrayReducerInternal(INITIAL_STATE.controls[0] as any, new MarkAsDirtyAction(FORM_CONTROL_ID))).toThrowError();
   });
