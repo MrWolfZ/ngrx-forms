@@ -48,40 +48,5 @@ export class AppComponent {
       hint: 'A form that uses third party form controls',
       label: 'Material UI Simple Form',
     },
-    {
-      path: '/single/default',
-      hint: 'How to use a text, password or email input with ngrx-forms',
-      label: 'Text Input',
-    },
-    {
-      path: '/single/checkbox',
-      hint: 'How to use a checkbox input with ngrx-forms',
-      label: 'Checkbox',
-    },
-    {
-      path: '/single/radio',
-      hint: 'How to use a radio input with ngrx-forms',
-      label: 'Radio',
-    },
-    {
-      path: '/single/number',
-      hint: 'How to use a number input with ngrx-forms',
-      label: 'Number',
-    },
-    {
-      path: '/single/range',
-      hint: 'How to use a range input with ngrx-forms',
-      label: 'Range',
-    },
-    {
-      path: '/single/select',
-      hint: 'How to use a select input with ngrx-forms',
-      label: 'Select',
-    },
-    {
-      path: '/single/selectMultiple',
-      hint: 'How to use a multi-select input with ngrx-forms',
-      label: 'Multi-Select',
-    },
   ];
 }
