@@ -114,14 +114,12 @@ const NULL_VIEW_ADAPTER: NgrxSelectMultipleViewAdapter = {
   selector: 'option',
 })
 export class NgrxSelectMultipleOption implements OnInit, OnDestroy {
-  private viewAdapter: NgrxSelectMultipleViewAdapter;
-
   id: string;
 
   constructor(
     private element: ElementRef,
     private renderer: Renderer2,
-    @Host() @Optional() viewAdapter: NgrxSelectMultipleViewAdapter | undefined,
+    @Host() @Optional() private viewAdapter: NgrxSelectMultipleViewAdapter,
   ) {
     this.viewAdapter = viewAdapter || NULL_VIEW_ADAPTER;
     this.id = this.viewAdapter.registerOption(this);
