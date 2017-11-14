@@ -49,7 +49,7 @@ The following table explains each property.
 |`isFocused`|`isUnfocused`|The `isFocused` flag is set to `true` if the control currently has focus. Note that this feature is opt-in. To enable it you have to add ```[ngrxEnableFocusTracking]="true"``` to your form element.|
 |`userDefinedProperties`||Sometimes it is useful to associate your own metadata with a form control (e.g. if you wanted to count the number of times a control's value has been changed, what keys were pressed on an input, or how often a form has been submitted). While it is possible to store this kind of information outside of `ngrx-forms` in your own state the `userDefinedProperties` allow you to store your own metadata directly in a control's state.|
 
-Control states are associated with a form element via the `NgrxFormControlDirective` (applied with `[ngrxFormControlState]="controlState"`). This directive is reponsible for keeping the view and the state in sync. When the state is changed the update is always immediately sync'ed to the view.
+Control states are associated with a form element via the `NgrxFormControlDirective` (applied with `[ngrxFormControlState]="controlState"`). This directive is reponsible for keeping the view and the state in sync. When the state is changed the update is always immediately sync'ed to the view. Additionally the `id` of the HTML element is set to the ID of the form control.
 
 #### `ngrxUpdateOn`
 
