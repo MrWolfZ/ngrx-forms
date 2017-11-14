@@ -22,4 +22,8 @@ export const routes: Routes = [
     path: 'array',
     loadChildren: './array/array.module#ArrayModule',
   },
+  {
+    path: 'dynamic',
+    loadChildren: './dynamic/dynamic.module#DynamicModule',
+  },
 ];
