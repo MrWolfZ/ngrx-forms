@@ -34,4 +34,8 @@ export const routes: Routes = [
     path: 'recursiveUpdate',
     loadChildren: './recursive-update/recursive-update.module#RecursiveUpdateModule',
   },
+  {
+    path: 'material',
+    loadChildren: './material-example/material.module#MaterialExampleModule',
+  },
 ];
