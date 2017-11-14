@@ -20,7 +20,29 @@ export {
 export { formControlReducer } from './control/reducer';
 export { formGroupReducer } from './group/reducer';
 export { formArrayReducer } from './array/reducer';
-export * from './update-functions';
+
+export * from './update-function/update-array';
+export * from './update-function/update-group';
+export * from './update-function/update-recursive';
+export * from './update-function/set-value';
+export * from './update-function/set-errors';
+export * from './update-function/validate';
+export * from './update-function/enable';
+export * from './update-function/disable';
+export * from './update-function/mark-as-dirty';
+export * from './update-function/mark-as-pristine';
+export * from './update-function/mark-as-touched';
+export * from './update-function/mark-as-untouched';
+export * from './update-function/mark-as-submitted';
+export * from './update-function/mark-as-unsubmitted';
+export * from './update-function/focus';
+export * from './update-function/unfocus';
+export * from './update-function/add-control';
+export * from './update-function/remove-control';
+export * from './update-function/set-user-defined-property';
+export * from './update-function/reset';
+
+export { compose, ProjectFn2 } from './update-function/util';
 
 export { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter/view-adapter';
 export { NgrxCheckboxViewAdapter } from './view-adapter/checkbox';

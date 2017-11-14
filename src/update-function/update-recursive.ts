@@ -1,5 +1,6 @@
 import { AbstractControlState, isArrayState, isGroupState } from '../state';
-import { updateArray, updateGroup } from './';
+import { updateArray } from './update-array';
+import { updateGroup } from './update-group';
 import { ProjectFn2 } from './util';
 
 function updateRecursiveSingle(parent: AbstractControlState<any>, updateFn: ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>) {
