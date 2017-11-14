@@ -26,4 +26,8 @@ export const routes: Routes = [
     path: 'dynamic',
     loadChildren: './dynamic/dynamic.module#DynamicModule',
   },
+  {
+    path: 'valueConversion',
+    loadChildren: './value-conversion/value-conversion.module#ValueConversionModule',
+  },
 ];
