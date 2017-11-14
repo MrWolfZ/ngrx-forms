@@ -7,12 +7,12 @@ import { NgrxFormsModule } from 'ngrx-forms';
 import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
 import { SimpleFormPageComponent } from './simple-form.component';
-import { FormComponent } from './form/form.component';
+import { SimpleFormComponent } from './form/form.component';
 import { reducers } from './simple-form.reducer';
 
 export const COMPONENTS = [
   SimpleFormPageComponent,
-  FormComponent,
+  SimpleFormComponent,
 ];
 
 @NgModule({

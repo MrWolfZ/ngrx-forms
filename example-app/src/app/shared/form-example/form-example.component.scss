@@ -3,13 +3,23 @@
   height: 100%;
 
   >mat-card {
-    max-width: 700px;
-    overflow: auto;
+    min-width: 400px;
+    max-width: 688px;
+
+    /deep/ .mat-tab-body-content {
+      max-width: 640px;
+    }
+
+    /deep/ .mat-card-content,
+    /deep/ .mat-tab-group {
+      height: 100%;
+    }
   }
 }
 
 .form-state {
   margin-left: 20px;
+  overflow: auto;
 }
 
 .form {

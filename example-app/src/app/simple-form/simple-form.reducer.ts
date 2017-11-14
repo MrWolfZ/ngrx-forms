@@ -32,5 +32,7 @@ export const INITIAL_STATE = createFormGroupState<SimpleFormValue>(FORM_ID, {
 });
 
 export const reducers = {
-  formState: (s = INITIAL_STATE, a: Action) => formGroupReducer(s, a),
+  formState(s = INITIAL_STATE, a: Action) {
+    return formGroupReducer(s, a);
+  },
 };

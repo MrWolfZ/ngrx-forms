@@ -1,14 +1,9 @@
-<ngf-form-example reducerCode="
-const data: string = '1';
-const data2 = data + '2';
-"
-                  componentCode="
-const data: string = '1';
-const data2 = data + '2';
-"
-                  componentHtml="
-<form></form>
-"
+<ngf-form-example [reducerCode]="reducerCode"
+                  [componentCode]="componentCode"
+                  [componentHtml]="componentHtml"
                   [formState]="formState$ | async">
+  This example shows a basic form without any extras like validation.
+  <br />
+  <br />
   <ngf-simple-form-example [formState]="formState$ | async"></ngf-simple-form-example>
 </ngf-form-example>

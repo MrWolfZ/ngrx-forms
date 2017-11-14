@@ -10,7 +10,7 @@ import { INITIAL_STATE, SimpleFormValue } from '../simple-form.reducer';
   styleUrls: ['./form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FormComponent {
+export class SimpleFormComponent {
   @Input() formState: FormGroupState<SimpleFormValue>;
 
   constructor(private actionsSubject: ActionsSubject) { }
