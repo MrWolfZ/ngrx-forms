@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 
 import { MaterialModule } from '../material';
-import { FormExampleComponent } from './form-example/component';
+import { FormExampleComponent } from './form-example/form-example.component';
 
 export const COMPONENTS = [
   FormExampleComponent,

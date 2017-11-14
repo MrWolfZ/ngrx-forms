@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'ngf-nav-item',
-  templateUrl: './component.html',
-  styleUrls: ['./component.scss'],
+  templateUrl: './nav-item.component.html',
+  styleUrls: ['./nav-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavItemComponent {

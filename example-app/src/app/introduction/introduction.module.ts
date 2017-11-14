@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { MaterialModule } from '../material';
-import { IntroductionPageComponent } from './component';
+import { IntroductionPageComponent } from './introduction.component';
 
 export const COMPONENTS = [
   IntroductionPageComponent,

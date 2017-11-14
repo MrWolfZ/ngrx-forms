@@ -3,12 +3,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroupState } from 'ngrx-forms';
 import { Observable } from 'rxjs/Rx';
 
-import { SimpleFormValue, State } from './reducer';
+import { SimpleFormValue, State } from './simple-form.reducer';
 
 @Component({
   selector: 'ngf-simple-form',
-  templateUrl: './component.html',
-  styleUrls: ['./component.scss'],
+  templateUrl: './simple-form.component.html',
+  styleUrls: ['./simple-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SimpleFormPageComponent {

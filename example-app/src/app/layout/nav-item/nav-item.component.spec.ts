@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NavItemComponent } from './component';
+import { NavItemComponent } from './nav-item.component';
 
 describe(NavItemComponent.name, () => {
   let component: NavItemComponent;

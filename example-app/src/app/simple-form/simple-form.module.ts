@@ -1,15 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { NgrxFormsModule } from 'ngrx-forms';
 
 import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
-import { SimpleFormPageComponent } from './component';
+import { SimpleFormPageComponent } from './simple-form.component';
 import { FormComponent } from './form/form.component';
-import { reducers } from './reducer';
+import { reducers } from './simple-form.reducer';
 
 export const COMPONENTS = [
   SimpleFormPageComponent,
@@ -20,7 +19,6 @@ export const COMPONENTS = [
   imports: [
     CommonModule,
     MaterialModule,
-    FormsModule,
     NgrxFormsModule,
     SharedModule,
     RouterModule.forChild([

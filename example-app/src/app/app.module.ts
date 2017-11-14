@@ -10,11 +10,11 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { environment } from '../environments/environment';
-import { AppComponent } from './component';
+import { AppComponent } from './app.component';
+import { reducers } from './app.reducer';
+import { routes } from './app.routes';
 import { LayoutModule } from './layout/layout.module';
 import { MaterialModule } from './material';
-import { reducers } from './reducer';
-import { routes } from './routes';
 import { SharedModule } from './shared/shared.module';
 import { CustomRouterStateSerializer } from './shared/utils';
 

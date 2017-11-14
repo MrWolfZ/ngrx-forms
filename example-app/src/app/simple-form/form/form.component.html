@@ -80,7 +80,7 @@
         Submit
       </button>
       <button type="button"
-              [disabled]="formState.isPristine"
+              [disabled]="formState.isPristine && formState.isUntouched && formState.isUnsubmitted"
               (click)="reset()">
         Reset
       </button>

@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { MaterialModule } from '../material';
-import { LayoutComponent } from './layout/component';
-import { NavItemComponent } from './nav-item/component';
-import { SidenavComponent } from './sidenav/component';
+import { LayoutComponent } from './layout/layout.component';
+import { NavItemComponent } from './nav-item/nav-item.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
 
 export const COMPONENTS = [
   LayoutComponent,

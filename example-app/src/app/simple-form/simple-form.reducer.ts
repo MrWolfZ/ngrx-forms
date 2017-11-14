@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { createFormGroupState, formGroupReducer, FormGroupState } from 'ngrx-forms';
 
-import { State as RootState } from '../reducer';
+import { State as RootState } from '../app.reducer';
 
 export interface SimpleFormValue {
   firstName: string;

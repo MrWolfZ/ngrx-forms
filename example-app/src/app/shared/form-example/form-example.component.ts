@@ -7,8 +7,8 @@ import { FormGroupState } from 'ngrx-forms';
 
 @Component({
   selector: 'ngf-form-example',
-  templateUrl: './component.html',
-  styleUrls: ['./component.scss'],
+  templateUrl: './form-example.component.html',
+  styleUrls: ['./form-example.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormExampleComponent {
