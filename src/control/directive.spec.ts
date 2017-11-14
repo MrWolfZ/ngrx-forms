@@ -8,7 +8,7 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { SetValueAction } from '../actions';
 import { createFormControlState } from '../state';
-import { FormViewAdapter } from '../view-adapter';
+import { FormViewAdapter } from '../view-adapter/view-adapter';
 import { NgrxFormControlDirective } from './directive';
 import { NgrxValueConverters } from './value-converter';
 

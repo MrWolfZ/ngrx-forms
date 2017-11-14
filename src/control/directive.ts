@@ -1,11 +1,23 @@
-import { AfterViewInit, Directive, ElementRef, HostBinding, HostListener, Inject, Input, OnInit, Self, Optional } from '@angular/core';
+import {
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  Inject,
+  Input,
+  OnInit,
+  Optional,
+  Self,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DOCUMENT } from '@angular/platform-browser';
 import { ActionsSubject } from '@ngrx/store';
 
 import { FocusAction, MarkAsTouchedAction, SetValueAction, UnfocusAction } from '../actions';
 import { FormControlState, FormControlValueTypes } from '../state';
-import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER, selectViewAdapter } from '../view-adapter';
+import { selectViewAdapter } from '../view-adapter/util';
+import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from '../view-adapter/view-adapter';
 import { NgrxValueConverter, NgrxValueConverters } from './value-converter';
 
 const CHANGE = 'change';

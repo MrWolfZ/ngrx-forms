@@ -1,15 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, Input, getDebugNode } from '@angular/core';
-import { ActionsSubject, Action } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/skip';
 
-import { FormControlState, createFormControlState } from '../../state';
+import { Component, Input } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Action, ActionsSubject } from '@ngrx/store';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+
 import { SetValueAction } from '../../actions';
 import { NgrxFormsModule } from '../../module';
-import { NgrxSelectViewAdapter } from '../../view-adapter';
+import { createFormControlState, FormControlState } from '../../state';
 
 const SELECT_OPTIONS = ['op1', 'op2'];
 
@@ -26,7 +26,6 @@ export class SelectComponent {
 describe(SelectComponent.name, () => {
   let component: SelectComponent;
   let fixture: ComponentFixture<SelectComponent>;
-  let viewAdapter: NgrxSelectViewAdapter;
   let actionsSubject: ActionsSubject;
   let actions$: Observable<Action>;
   let element: HTMLSelectElement;
@@ -58,7 +57,6 @@ describe(SelectComponent.name, () => {
     element = nativeElement.querySelector('select') as HTMLSelectElement;
     option1 = nativeElement.querySelectorAll('option')[0] as HTMLOptionElement;
     option2 = nativeElement.querySelectorAll('option')[1] as HTMLOptionElement;
-    viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
   });
 
   it('should select the correct option initially', () => {
@@ -91,7 +89,6 @@ export class NumberSelectComponent {
 describe(NumberSelectComponent.name, () => {
   let component: NumberSelectComponent;
   let fixture: ComponentFixture<NumberSelectComponent>;
-  let viewAdapter: NgrxSelectViewAdapter;
   let actionsSubject: ActionsSubject;
   let actions$: Observable<Action>;
   let element: HTMLSelectElement;
@@ -123,7 +120,6 @@ describe(NumberSelectComponent.name, () => {
     element = nativeElement.querySelector('select') as HTMLSelectElement;
     option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
     option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
-    viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
   });
 
   it('should select the correct option initially', () => {
