@@ -51,6 +51,7 @@ export function simpleFormReducer(s = INITIAL_STATE, a: Action) {
 })
 export class SimpleFormComponent {
   @Input() formState: FormGroupState<SimpleFormValue>;
+  submittedValue: SimpleFormValue;
 
   constructor(private actionsSubject: ActionsSubject) { }
 
@@ -58,16 +59,20 @@ export class SimpleFormComponent {
     this.actionsSubject.next(new SetValueAction(INITIAL_STATE.id, INITIAL_STATE.value));
     this.actionsSubject.next(new ResetAction(INITIAL_STATE.id));
   }
+
+  submit() {
+    this.submittedValue = this.formState.value;
+  }
 }
   `;
 
   componentHtml = `
-<form [ngrxFormState]="formState">
+<form [ngrxFormState]="formState"
+      (submit)="submit()">
   <div>
     <label>First Name</label>
     <div>
-      <input name="firstName"
-             type="text"
+      <input type="text"
              placeholder="First Name"
              [ngrxFormControlState]="formState.controls.firstName" />
     </div>
@@ -75,8 +80,7 @@ export class SimpleFormComponent {
   <div>
     <label>Last Name</label>
     <div>
-      <input name="lastName"
-             type="text"
+      <input type="text"
              placeholder="Last Name"
              [ngrxFormControlState]="formState.controls.lastName" />
     </div>
@@ -84,8 +88,7 @@ export class SimpleFormComponent {
   <div>
     <label>Email</label>
     <div>
-      <input name="email"
-             type="email"
+      <input type="email"
              placeholder="Email"
              [ngrxFormControlState]="formState.controls.email" />
     </div>
@@ -94,14 +97,12 @@ export class SimpleFormComponent {
     <label>Sex</label>
     <div>
       <label>
-        <input name="sex"
-               type="radio"
+        <input type="radio"
                value="male"
                [ngrxFormControlState]="formState.controls.sex" /> Male
       </label>
       <label>
-        <input name="sex"
-               type="radio"
+        <input type="radio"
                value="female"
                [ngrxFormControlState]="formState.controls.sex" /> Female
       </label>
@@ -110,8 +111,7 @@ export class SimpleFormComponent {
   <div>
     <label>Favorite Color</label>
     <div>
-      <select name="favoriteColor"
-              [ngrxFormControlState]="formState.controls.favoriteColor">
+      <select [ngrxFormControlState]="formState.controls.favoriteColor">
         <option value=""></option>
         <option value="ff0000">Red</option>
         <option value="00ff00">Green</option>
@@ -120,27 +120,23 @@ export class SimpleFormComponent {
     </div>
   </div>
   <div>
-    <label htmlFor="employed">Employed</label>
+    <label>Employed</label>
     <div>
-      <input name="employed"
-             id="employed"
-             type="checkbox"
+      <input type="checkbox"
              [ngrxFormControlState]="formState.controls.employed" />
     </div>
   </div>
   <div>
     <label>Notes</label>
     <div>
-      <textarea name="notes"
-                [ngrxFormControlState]="formState.controls.notes">
+      <textarea [ngrxFormControlState]="formState.controls.notes">
       </textarea>
     </div>
   </div>
   <div class="buttons">
     <div></div>
     <div>
-      <button type="submit"
-              [disabled]="formState.isInvalid && formState.isSubmitted">
+      <button type="submit">
         Submit
       </button>
       <button type="button"
@@ -153,6 +149,12 @@ export class SimpleFormComponent {
     </div>
   </div>
 </form>
+<br />
+<div *ngIf="formState.isSubmitted">
+  The form was submitted with the following value:
+  <br />
+  <pre>{{ submittedValue | json }}</pre>
+</div>
   `;
 
   constructor(store: Store<State>) {

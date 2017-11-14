@@ -1,9 +1,9 @@
-<form [ngrxFormState]="formState">
+<form [ngrxFormState]="formState"
+      (submit)="submit()">
   <div>
     <label>First Name</label>
     <div>
-      <input name="firstName"
-             type="text"
+      <input type="text"
              placeholder="First Name"
              [ngrxFormControlState]="formState.controls.firstName" />
     </div>
@@ -11,8 +11,7 @@
   <div>
     <label>Last Name</label>
     <div>
-      <input name="lastName"
-             type="text"
+      <input type="text"
              placeholder="Last Name"
              [ngrxFormControlState]="formState.controls.lastName" />
     </div>
@@ -20,8 +19,7 @@
   <div>
     <label>Email</label>
     <div>
-      <input name="email"
-             type="email"
+      <input type="email"
              placeholder="Email"
              [ngrxFormControlState]="formState.controls.email" />
     </div>
@@ -30,14 +28,12 @@
     <label>Sex</label>
     <div>
       <label>
-        <input name="sex"
-               type="radio"
+        <input type="radio"
                value="male"
                [ngrxFormControlState]="formState.controls.sex" /> Male
       </label>
       <label>
-        <input name="sex"
-               type="radio"
+        <input type="radio"
                value="female"
                [ngrxFormControlState]="formState.controls.sex" /> Female
       </label>
@@ -46,8 +42,7 @@
   <div>
     <label>Favorite Color</label>
     <div>
-      <select name="favoriteColor"
-              [ngrxFormControlState]="formState.controls.favoriteColor">
+      <select [ngrxFormControlState]="formState.controls.favoriteColor">
         <option value=""></option>
         <option value="ff0000">Red</option>
         <option value="00ff00">Green</option>
@@ -56,34 +51,38 @@
     </div>
   </div>
   <div>
-    <label htmlFor="employed">Employed</label>
+    <label>Employed</label>
     <div>
-      <input name="employed"
-             id="employed"
-             type="checkbox"
+      <input type="checkbox"
              [ngrxFormControlState]="formState.controls.employed" />
     </div>
   </div>
   <div>
     <label>Notes</label>
     <div>
-      <textarea name="notes"
-                [ngrxFormControlState]="formState.controls.notes">
+      <textarea [ngrxFormControlState]="formState.controls.notes">
       </textarea>
     </div>
   </div>
   <div class="buttons">
     <div></div>
     <div>
-      <button type="submit"
-              [disabled]="formState.isInvalid && formState.isSubmitted">
+      <button type="submit">
         Submit
       </button>
       <button type="button"
-              [disabled]="formState.isPristine && formState.isUntouched && formState.isUnsubmitted"
+              [disabled]="formState.isPristine
+                          && formState.isUntouched
+                          && formState.isUnsubmitted"
               (click)="reset()">
         Reset
       </button>
     </div>
   </div>
 </form>
+<br />
+<div *ngIf="formState.isSubmitted">
+  The form was submitted with the following value:
+  <br />
+  <pre>{{ submittedValue | json }}</pre>
+</div>
