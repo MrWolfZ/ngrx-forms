@@ -10,4 +10,8 @@ export const routes: Routes = [
     path: 'simpleForm',
     loadChildren: './simple-form/simple-form.module#SimpleFormModule',
   },
+  {
+    path: 'syncValidation',
+    loadChildren: './sync-validation/sync-validation.module#SyncValidationModule',
+  },
 ];
