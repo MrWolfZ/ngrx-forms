@@ -18,4 +18,8 @@ export const routes: Routes = [
     path: 'asyncValidation',
     loadChildren: './async-validation/async-validation.module#AsyncValidationModule',
   },
+  {
+    path: 'array',
+    loadChildren: './array/array.module#ArrayModule',
+  },
 ];
