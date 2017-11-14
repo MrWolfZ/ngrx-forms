@@ -3,7 +3,7 @@ import { createFormGroupState, formGroupReducer, FormGroupState } from 'ngrx-for
 
 import { State as RootState } from '../app.reducer';
 
-export interface SimpleFormValue {
+export interface FormValue {
   firstName: string;
   lastName: string;
   email: string;
@@ -15,13 +15,13 @@ export interface SimpleFormValue {
 
 export interface State extends RootState {
   simpleForm: {
-    formState: FormGroupState<SimpleFormValue>;
+    formState: FormGroupState<FormValue>;
   };
 }
 
 export const FORM_ID = 'simpleForm';
 
-export const INITIAL_STATE = createFormGroupState<SimpleFormValue>(FORM_ID, {
+export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
   firstName: '',
   lastName: '',
   email: '',

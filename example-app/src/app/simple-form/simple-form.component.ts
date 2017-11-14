@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroupState } from 'ngrx-forms';
 import { Observable } from 'rxjs/Rx';
 
-import { SimpleFormValue, State } from './simple-form.reducer';
+import { FormValue, State } from './simple-form.reducer';
 
 @Component({
   selector: 'ngf-simple-form',
@@ -12,10 +12,13 @@ import { SimpleFormValue, State } from './simple-form.reducer';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SimpleFormPageComponent {
-  formState$: Observable<FormGroupState<SimpleFormValue>>;
+  formState$: Observable<FormGroupState<FormValue>>;
 
   reducerCode = `
-export interface SimpleFormValue {
+import { Action } from '@ngrx/store';
+import { createFormGroupState, formGroupReducer } from 'ngrx-forms';
+
+export interface FormValue {
   firstName: string;
   lastName: string;
   email: string;
@@ -27,7 +30,7 @@ export interface SimpleFormValue {
 
 export const FORM_ID = 'simpleForm';
 
-export const INITIAL_STATE = createFormGroupState<SimpleFormValue>(FORM_ID, {
+export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
   firstName: '',
   lastName: '',
   email: '',
@@ -43,6 +46,12 @@ export function simpleFormReducer(s = INITIAL_STATE, a: Action) {
   `;
 
   componentCode = `
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ActionsSubject } from '@ngrx/store';
+import { FormGroupState, ResetAction, SetValueAction } from 'ngrx-forms';
+
+import { INITIAL_STATE, FormValue } from '../simple-form.reducer';
+
 @Component({
   selector: 'ngf-simple-form-example',
   templateUrl: './form.component.html',
@@ -50,8 +59,8 @@ export function simpleFormReducer(s = INITIAL_STATE, a: Action) {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SimpleFormComponent {
-  @Input() formState: FormGroupState<SimpleFormValue>;
-  submittedValue: SimpleFormValue;
+  @Input() formState: FormGroupState<FormValue>;
+  submittedValue: FormValue;
 
   constructor(private actionsSubject: ActionsSubject) { }
 

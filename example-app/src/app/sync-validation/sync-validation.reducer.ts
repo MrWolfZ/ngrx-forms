@@ -1,16 +1,31 @@
 import { Action } from '@ngrx/store';
-import { createFormGroupState, formGroupReducer, FormGroupState } from 'ngrx-forms';
+import {
+  cast,
+  createFormGroupReducerWithUpdate,
+  createFormGroupState,
+  disable,
+  enable,
+  FormGroupState,
+  updateGroup,
+  validate,
+} from 'ngrx-forms';
+import { minLength, required, requiredTrue } from 'ngrx-forms/validation';
 
 import { State as RootState } from '../app.reducer';
 
+export interface PasswordValue {
+  password: string;
+  confirmPassword: string;
+}
+
 export interface FormValue {
-  firstName: string;
-  lastName: string;
-  email: string;
-  sex: string;
-  favoriteColor: string;
-  employed: boolean;
-  notes: string;
+  userName: string;
+  createAccount: boolean;
+  password: PasswordValue;
+  dayOfBirth: number;
+  monthOfBirth: string;
+  yearOfBirth: number;
+  agreeToTermsOfUse: boolean;
 }
 
 export interface State extends RootState {
@@ -22,17 +37,46 @@ export interface State extends RootState {
 export const FORM_ID = 'syncValidation';
 
 export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
-  firstName: '',
-  lastName: '',
-  email: '',
-  sex: '',
-  favoriteColor: '',
-  employed: false,
-  notes: '',
+  userName: '',
+  createAccount: true,
+  password: {
+    password: '',
+    confirmPassword: '',
+  },
+  dayOfBirth: 1,
+  monthOfBirth: 'January',
+  yearOfBirth: 1970,
+  agreeToTermsOfUse: false,
+});
+
+function validatePasswordsMatch(value: PasswordValue) {
+  if (value.password === value.confirmPassword) {
+    return {};
+  }
+
+  return {
+    match: value,
+  };
+}
+
+const validationFormGroupReducer = createFormGroupReducerWithUpdate<FormValue>({
+  userName: validate(required),
+  password: (state, parentState) => {
+    if (!parentState.value.createAccount) {
+      return disable(state);
+    }
+
+    state = enable(state);
+    state = validate(validatePasswordsMatch, state);
+    return updateGroup<PasswordValue>({
+      password: validate([required, minLength(8)]),
+    })(cast(state));
+  },
+  agreeToTermsOfUse: validate<boolean>(requiredTrue),
 });
 
 export const reducers = {
   formState(s = INITIAL_STATE, a: Action) {
-    return formGroupReducer(s, a);
+    return validationFormGroupReducer(s, a);
   },
 };
