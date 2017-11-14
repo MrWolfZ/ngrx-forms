@@ -5,7 +5,7 @@ import { FormGroupState, ResetAction, SetValueAction } from 'ngrx-forms';
 import { FormValue, INITIAL_STATE } from '../dynamic.reducer';
 
 @Component({
-  selector: 'ngf-array-example',
+  selector: 'ngf-dynamic-example',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
