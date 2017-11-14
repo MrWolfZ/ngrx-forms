@@ -27,14 +27,15 @@ export * from './update-functions';
 export {
   FormViewAdapter,
   NGRX_FORM_VIEW_ADAPTER,
-  NgrxDefaultViewAdapter,
   NgrxCheckboxViewAdapter,
+  NgrxDefaultViewAdapter,
   NgrxNumberViewAdapter,
+  NgrxRadioViewAdapter,
   NgrxRangeViewAdapter,
   NgrxSelectViewAdapter,
-  NgrxSelectMultipleViewAdapter,
-  NgrxRadioViewAdapter,
   NgrxSelectOption,
+  NgrxSelectMultipleViewAdapter,
+  NgrxSelectMultipleOption,
 } from './view-adapter';
 
 export { NgrxFormsModule } from './module';

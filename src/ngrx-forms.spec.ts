@@ -26,9 +26,10 @@ import {
   NgrxNumberViewAdapter,
   NgrxRadioViewAdapter,
   NgrxRangeViewAdapter,
-  NgrxSelectViewAdapter,
+  NgrxSelectMultipleOption,
   NgrxSelectMultipleViewAdapter,
   NgrxSelectOption,
+  NgrxSelectViewAdapter,
   NgrxValueConverters,
   removeControl,
   reset,
@@ -43,45 +44,46 @@ import {
 } from './ngrx-forms';
 
 describe('ngrx-forms', () => {
-  it('should export isArrayState', () => expect(isArrayState).toBeDefined());
-  it('should export isGroupState', () => expect(isGroupState).toBeDefined());
-  it('should export cast', () => expect(cast).toBeDefined());
-  it('should export createFormControlState', () => expect(createFormControlState).toBeDefined());
-  it('should export createFormGroupState', () => expect(createFormGroupState).toBeDefined());
-  it('should export createFormArrayState', () => expect(createFormArrayState).toBeDefined());
-  it('should export formControlReducer', () => expect(formControlReducer).toBeDefined());
-  it('should export formGroupReducer', () => expect(formGroupReducer).toBeDefined());
-  it('should export formArrayReducer', () => expect(formArrayReducer).toBeDefined());
-  it('should export addControl', () => expect(addControl).toBeDefined());
-  it('should export disable', () => expect(disable).toBeDefined());
-  it('should export enable', () => expect(enable).toBeDefined());
-  it('should export focus', () => expect(focus).toBeDefined());
-  it('should export markAsDirty', () => expect(markAsDirty).toBeDefined());
-  it('should export markAsPristine', () => expect(markAsPristine).toBeDefined());
-  it('should export markAsSubmitted', () => expect(markAsSubmitted).toBeDefined());
-  it('should export markAsTouched', () => expect(markAsTouched).toBeDefined());
-  it('should export markAsUnsubmitted', () => expect(markAsUnsubmitted).toBeDefined());
-  it('should export markAsUntouched', () => expect(markAsUntouched).toBeDefined());
-  it('should export removeControl', () => expect(removeControl).toBeDefined());
-  it('should export reset', () => expect(reset).toBeDefined());
-  it('should export setErrors', () => expect(setErrors).toBeDefined());
-  it('should export setUserDefinedProperty', () => expect(setUserDefinedProperty).toBeDefined());
-  it('should export setValue', () => expect(setValue).toBeDefined());
-  it('should export unfocus', () => expect(unfocus).toBeDefined());
-  it('should export updateArray', () => expect(updateArray).toBeDefined());
-  it('should export updateGroup', () => expect(updateGroup).toBeDefined());
-  it('should export updateRecursive', () => expect(updateRecursive).toBeDefined());
-  it('should export validate', () => expect(validate).toBeDefined());
-  it('should export NgrxFormControlDirective', () => expect(NgrxFormControlDirective).toBeDefined());
-  it('should export NgrxValueConverters', () => expect(NgrxValueConverters).toBeDefined());
-  it('should export NgrxFormDirective', () => expect(NgrxFormDirective).toBeDefined());
-  it('should export NgrxDefaultViewAdapter', () => expect(NgrxDefaultViewAdapter).toBeDefined());
-  it('should export NgrxCheckboxViewAdapter', () => expect(NgrxCheckboxViewAdapter).toBeDefined());
-  it('should export NgrxNumberViewAdapter', () => expect(NgrxNumberViewAdapter).toBeDefined());
-  it('should export NgrxRangeViewAdapter', () => expect(NgrxRangeViewAdapter).toBeDefined());
-  it('should export NgrxSelectViewAdapter', () => expect(NgrxSelectViewAdapter).toBeDefined());
-  it('should export NgrxSelectMultipleViewAdapter', () => expect(NgrxSelectMultipleViewAdapter).toBeDefined());
-  it('should export NgrxRadioViewAdapter', () => expect(NgrxRadioViewAdapter).toBeDefined());
-  it('should export NgrxSelectOption', () => expect(NgrxSelectOption).toBeDefined());
-  it('should export NgrxFormsModule', () => expect(NgrxFormsModule).toBeDefined());
+  it(`should export ${isArrayState.name}`, () => expect(isArrayState).toBeDefined());
+  it(`should export ${isGroupState.name}`, () => expect(isGroupState).toBeDefined());
+  it(`should export ${cast.name}`, () => expect(cast).toBeDefined());
+  it(`should export ${createFormControlState.name}`, () => expect(createFormControlState).toBeDefined());
+  it(`should export ${createFormGroupState.name}`, () => expect(createFormGroupState).toBeDefined());
+  it(`should export ${createFormArrayState.name}`, () => expect(createFormArrayState).toBeDefined());
+  it(`should export ${formControlReducer.name}`, () => expect(formControlReducer).toBeDefined());
+  it(`should export ${formGroupReducer.name}`, () => expect(formGroupReducer).toBeDefined());
+  it(`should export ${formArrayReducer.name}`, () => expect(formArrayReducer).toBeDefined());
+  it(`should export ${addControl.name}`, () => expect(addControl).toBeDefined());
+  it(`should export ${disable.name}`, () => expect(disable).toBeDefined());
+  it(`should export ${enable.name}`, () => expect(enable).toBeDefined());
+  it(`should export ${focus.name}`, () => expect(focus).toBeDefined());
+  it(`should export ${markAsDirty.name}`, () => expect(markAsDirty).toBeDefined());
+  it(`should export ${markAsPristine.name}`, () => expect(markAsPristine).toBeDefined());
+  it(`should export ${markAsSubmitted.name}`, () => expect(markAsSubmitted).toBeDefined());
+  it(`should export ${markAsTouched.name}`, () => expect(markAsTouched).toBeDefined());
+  it(`should export ${markAsUnsubmitted.name}`, () => expect(markAsUnsubmitted).toBeDefined());
+  it(`should export ${markAsUntouched.name}`, () => expect(markAsUntouched).toBeDefined());
+  it(`should export ${removeControl.name}`, () => expect(removeControl).toBeDefined());
+  it(`should export ${reset.name}`, () => expect(reset).toBeDefined());
+  it(`should export ${setErrors.name}`, () => expect(setErrors).toBeDefined());
+  it(`should export ${setUserDefinedProperty.name}`, () => expect(setUserDefinedProperty).toBeDefined());
+  it(`should export ${setValue.name}`, () => expect(setValue).toBeDefined());
+  it(`should export ${unfocus.name}`, () => expect(unfocus).toBeDefined());
+  it(`should export ${updateArray.name}`, () => expect(updateArray).toBeDefined());
+  it(`should export ${updateGroup.name}`, () => expect(updateGroup).toBeDefined());
+  it(`should export ${updateRecursive.name}`, () => expect(updateRecursive).toBeDefined());
+  it(`should export ${validate.name}`, () => expect(validate).toBeDefined());
+  it(`should export ${NgrxFormControlDirective.name}`, () => expect(NgrxFormControlDirective).toBeDefined());
+  it(`should export NgrxValueConverters`, () => expect(NgrxValueConverters).toBeDefined());
+  it(`should export ${NgrxFormDirective.name}`, () => expect(NgrxFormDirective).toBeDefined());
+  it(`should export ${NgrxDefaultViewAdapter.name}`, () => expect(NgrxDefaultViewAdapter).toBeDefined());
+  it(`should export ${NgrxCheckboxViewAdapter.name}`, () => expect(NgrxCheckboxViewAdapter).toBeDefined());
+  it(`should export ${NgrxNumberViewAdapter.name}`, () => expect(NgrxNumberViewAdapter).toBeDefined());
+  it(`should export ${NgrxRangeViewAdapter.name}`, () => expect(NgrxRangeViewAdapter).toBeDefined());
+  it(`should export ${NgrxSelectViewAdapter.name}`, () => expect(NgrxSelectViewAdapter).toBeDefined());
+  it(`should export ${NgrxSelectMultipleViewAdapter.name}`, () => expect(NgrxSelectMultipleViewAdapter).toBeDefined());
+  it(`should export ${NgrxRadioViewAdapter.name}`, () => expect(NgrxRadioViewAdapter).toBeDefined());
+  it(`should export ${NgrxSelectOption.name}`, () => expect(NgrxSelectOption).toBeDefined());
+  it(`should export ${NgrxSelectMultipleOption.name}`, () => expect(NgrxSelectMultipleOption).toBeDefined());
+  it(`should export ${NgrxFormsModule.name}`, () => expect(NgrxFormsModule).toBeDefined());
 });
