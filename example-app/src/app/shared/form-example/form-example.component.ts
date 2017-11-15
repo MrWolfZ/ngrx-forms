@@ -24,6 +24,10 @@ export class FormExampleComponent {
     this.formattedComponentHtml = Prism.highlight(value.trim(), Prism.languages.html);
   }
 
+  @Input() set effectsCode(value: string) {
+    this.formattedEffectsCode = Prism.highlight(value.trim(), Prism.languages.typescript);
+  }
+
   @Input() set formState(value: FormGroupState<any>) {
     const formStateJson = JSON.stringify(value, null, 2);
     this.formattedFormState = Prism.highlight(formStateJson, Prism.languages.json);
@@ -32,5 +36,6 @@ export class FormExampleComponent {
   formattedReducerCode: string;
   formattedComponentCode: string;
   formattedComponentHtml: string;
+  formattedEffectsCode: string;
   formattedFormState: string;
 }

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import { FormGroupState, ResetAction, SetValueAction } from 'ngrx-forms';
+import { FormGroupState } from 'ngrx-forms';
 
-import { FormValue, INITIAL_STATE } from '../async-validation.reducer';
+import { FormValue } from '../async-validation.reducer';
 
 @Component({
   selector: 'ngf-async-validation-example',
@@ -12,11 +12,7 @@ import { FormValue, INITIAL_STATE } from '../async-validation.reducer';
 })
 export class AsyncValidationFormComponent {
   @Input() formState: FormGroupState<FormValue>;
+  @Input() searchResults: string[];
 
   constructor(private actionsSubject: ActionsSubject) { }
-
-  reset() {
-    this.actionsSubject.next(new SetValueAction(INITIAL_STATE.id, INITIAL_STATE.value));
-    this.actionsSubject.next(new ResetAction(INITIAL_STATE.id));
-  }
 }

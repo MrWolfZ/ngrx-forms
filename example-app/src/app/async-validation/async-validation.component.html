@@ -1,9 +1,13 @@
 <ngf-form-example [reducerCode]="reducerCode"
                   [componentCode]="componentCode"
                   [componentHtml]="componentHtml"
+                  [effectsCode]="effectsCode"
                   [formState]="formState$ | async">
-  Description
+  This example shows how to perform asynchronous validation. The entered text will be used to search Google books and will
+  return up to the entered number of results. Please note that this example uses the Google books API anonymously and is
+  therefore rate limited. This means sometimes the search will not return a result even if the search term is valid.
   <br />
   <br />
-  <ngf-async-validation-example [formState]="formState$ | async"></ngf-async-validation-example>
+  <ngf-async-validation-example [formState]="formState$ | async"
+                                [searchResults]="searchResults$ | async"></ngf-async-validation-example>
 </ngf-form-example>
