@@ -2,8 +2,12 @@ import * as Prism from 'prismjs';
 import 'prismjs/components/prism-json';
 import 'prismjs/components/prism-typescript';
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, Input } from '@angular/core';
 import { FormGroupState } from 'ngrx-forms';
+
+export enum KEY_CODE {
+  A = 65,
+}
 
 @Component({
   selector: 'ngf-form-example',
@@ -38,4 +42,31 @@ export class FormExampleComponent {
   formattedComponentHtml: string;
   formattedEffectsCode: string;
   formattedFormState: string;
+
+  @HostListener('window:keydown', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if (event.keyCode === KEY_CODE.A && event.ctrlKey) {
+      const preEl = document.querySelector('pre:hover');
+      if (preEl) {
+        selectText(preEl);
+        event.stopPropagation();
+        event.preventDefault();
+      }
+    }
+  }
+}
+
+function selectText(element: Element) {
+  const body = document.body as any;
+  if (body.createTextRange) {
+    const range = body.createTextRange();
+    range.moveToElementText(element);
+    range.select();
+  } else if (window.getSelection) {
+    const selection = window.getSelection();
+    const range = document.createRange();
+    range.selectNodeContents(element);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
 }
