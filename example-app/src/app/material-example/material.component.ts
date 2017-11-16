@@ -170,7 +170,7 @@ export class DynamicFormComponent {
         A password is required
       </mat-error>
       <mat-error *ngIf="!formState.errors._password?._password?.required && formState.errors._password?._password?.minLength">
-        The password must be at least {{ formState.errors._password._password.minLength.minLength }} characters long.
+        Must be at least {{ formState.errors._password._password.minLength.minLength }} characters long
       </mat-error>
     </mat-form-field>
   </div>
@@ -243,7 +243,7 @@ export class DynamicFormComponent {
   </div>
 </form>
 <br />
-<div *ngIf="formState.isSubmitted">
+<div *ngIf="submittedValue">
   The form was submitted with the following value:
   <br />
   <pre>{{ submittedValue | json }}</pre>
