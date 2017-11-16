@@ -42,7 +42,7 @@ export class NgrxSelectMultipleViewAdapter implements FormViewAdapter {
     }
 
     if (!Array.isArray(value)) {
-      throw new Error(`the value provided to a NgrxSelectMultipleViewAdapter must be null or an array; got ${value}`);
+      throw new Error(`the value provided to a NgrxSelectMultipleViewAdapter must be null or an array; got ${value} of type ${typeof value}`); // `
     }
 
     this.selectedIds = value.map(v => this.getOptionId(v)).filter(id => id !== null).map(id => id as string);
@@ -114,14 +114,12 @@ const NULL_VIEW_ADAPTER: NgrxSelectMultipleViewAdapter = {
   selector: 'option',
 })
 export class NgrxSelectMultipleOption implements OnInit, OnDestroy {
-  private viewAdapter: NgrxSelectMultipleViewAdapter;
-
   id: string;
 
   constructor(
     private element: ElementRef,
     private renderer: Renderer2,
-    @Host() @Optional() viewAdapter: NgrxSelectMultipleViewAdapter | undefined,
+    @Host() @Optional() private viewAdapter: NgrxSelectMultipleViewAdapter,
   ) {
     this.viewAdapter = viewAdapter || NULL_VIEW_ADAPTER;
     this.id = this.viewAdapter.registerOption(this);

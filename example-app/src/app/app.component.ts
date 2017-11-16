@@ -1,36 +1,52 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { FormGroupState } from 'ngrx-forms';
-import { Observable } from 'rxjs/Observable';
-
-import { RootState, TodoItem } from './app.state';
-import { AddTodoItemAction } from './app.actions';
-import { ItemFormValue } from './item-form/item-form.state';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
+  selector: 'ngf-app',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  formState$: Observable<FormGroupState<ItemFormValue>>;
-  items$: Observable<TodoItem[]>;
-
-  constructor(private store: Store<RootState>) {
-    this.formState$ = store.select(s => s.app.itemForm);
-    this.items$ = store.select(s => s.app.items);
-  }
-
-  formatDate(value: string) {
-    const date = new Date(value);
-    const curr_date = date.getDate();
-    const curr_month = date.getMonth() + 1; // Months are zero based
-    const curr_year = date.getFullYear();
-    return curr_year + '-' + curr_month + '-' + curr_date;
-  }
-
-  addTodoItem(item: TodoItem) {
-    this.store.dispatch(new AddTodoItemAction(item));
-  }
+  examples = [
+    {
+      path: '/simpleForm',
+      hint: 'A basic form showing how to get started with ngrx-forms',
+      label: 'Simple Form',
+    },
+    {
+      path: '/syncValidation',
+      hint: 'How to perform synchronous validation and basic state updates',
+      label: 'Synchronous Validation',
+    },
+    {
+      path: '/asyncValidation',
+      hint: 'How to perform asynchronous validation',
+      label: 'Asynchronous Validation',
+    },
+    {
+      path: '/array',
+      hint: 'A form created from an array',
+      label: 'Array Form',
+    },
+    {
+      path: '/dynamic',
+      hint: 'A form that supports dynamically adding and removing controls',
+      label: 'Dynamic Form',
+    },
+    {
+      path: '/valueConversion',
+      hint: 'How to convert values between the view and the state',
+      label: 'Value Conversion',
+    },
+    {
+      path: '/recursiveUpdate',
+      hint: 'How to update all controls in a form at once',
+      label: 'Recursive Update',
+    },
+    {
+      path: '/material',
+      hint: 'A form that uses third party form controls',
+      label: 'Material UI Form',
+    },
+  ];
 }

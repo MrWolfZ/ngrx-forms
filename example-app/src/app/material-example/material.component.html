@@ -1,0 +1,10 @@
+<ngf-form-example [reducerCode]="reducerCode"
+                  [componentCode]="componentCode"
+                  [componentHtml]="componentHtml"
+                  [formState]="formState$ | async">
+  This example shows how easily ngrx-forms integrates with any third party library as long as it supports control value accessors
+  from @angular/forms.
+  <br />
+  <br />
+  <ngf-material-example [formState]="formState$ | async"></ngf-material-example>
+</ngf-form-example>

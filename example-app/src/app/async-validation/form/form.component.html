@@ -1,0 +1,34 @@
+<div>
+  <label>Search Term</label>
+  <div>
+    <input type="text"
+           [ngrxFormControlState]="formState.controls.searchTerm" />
+    <span *ngIf="formState.isValidationPending">Searching...</span>
+  </div>
+</div>
+<div>
+  <label>Nr of results</label>
+  <div>
+    <input type="number"
+           [ngrxFormControlState]="formState.controls.numberOfResultsToShow" />
+  </div>
+</div>
+
+<ul *ngIf="formState.isInvalid"
+    class="error-messages">
+  <li *ngIf="formState.errors._searchTerm?.$exists">
+    The search returned no results
+  </li>
+  <li *ngIf="formState.errors._numberOfResultsToShow?.required">
+    The number of results must be specified
+  </li>
+  <li *ngIf="formState.errors._numberOfResultsToShow?.greaterThan">
+    The number of results must be at least 1
+  </li>
+</ul>
+
+<ul *ngIf="searchResults.length > 0">
+  <li *ngFor="let r of searchResults">
+    {{ r }}
+  </li>
+</ul>

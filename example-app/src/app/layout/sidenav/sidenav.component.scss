@@ -1,0 +1,9 @@
+:host {
+  box-shadow: 4px 0 5px 0 #BBB;
+  z-index: 1;
+}
+
+:host,
+mat-sidenav {
+  width: 230px;
+}

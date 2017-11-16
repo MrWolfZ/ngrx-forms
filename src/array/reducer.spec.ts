@@ -1,4 +1,6 @@
 import {
+  AddArrayControlAction,
+  AddControlAction,
   ClearAsyncErrorAction,
   DisableAction,
   EnableAction,
@@ -9,6 +11,8 @@ import {
   MarkAsTouchedAction,
   MarkAsUnsubmittedAction,
   MarkAsUntouchedAction,
+  RemoveArrayControlAction,
+  RemoveControlAction,
   ResetAction,
   SetAsyncErrorAction,
   SetErrorsAction,
@@ -54,6 +58,20 @@ describe('form array reducer', () => {
     expect(cast(resultState.controls[0]).isUnfocused).toEqual(true);
   });
 
+  it('should forward add control actions to children', () => {
+    const value = [{ inner: '' }];
+    const state = createFormArrayState(FORM_CONTROL_ID, value);
+    const resultState = formArrayReducerInternal(state, new AddControlAction<any, any>(FORM_CONTROL_0_ID, 'inner2', ''));
+    expect((cast(resultState.controls[0]).controls as any).inner2).toBeDefined();
+  });
+
+  it('should forward remove control actions to children', () => {
+    const value = [{ inner: '', inner2: '' }];
+    const state = createFormArrayState(FORM_CONTROL_ID, value);
+    const resultState = formArrayReducerInternal(state, new RemoveControlAction<any>(FORM_CONTROL_0_ID, 'inner2'));
+    expect(cast(resultState.controls[0]).controls.inner2).toBeUndefined();
+  });
+
   it('should not update state if no child was updated', () => {
     const resultState = formArrayReducerInternal(INITIAL_STATE, new SetValueAction(FORM_CONTROL_0_ID, '') as any);
     expect(resultState).toBe(INITIAL_STATE);
@@ -74,6 +92,13 @@ describe('form array reducer', () => {
   it('should not be stateful', () => {
     formArrayReducerInternal(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, []));
     expect(() => formArrayReducerInternal(INITIAL_STATE, new MarkAsDirtyAction(FORM_CONTROL_ID))).not.toThrowError();
+  });
+
+  it('should preserve the order of properties when stringified', () => {
+    const expected = JSON.stringify(INITIAL_STATE);
+    let state = formArrayReducerInternal(INITIAL_STATE, new MarkAsDirtyAction(FORM_CONTROL_ID));
+    state = formArrayReducerInternal(state, new MarkAsPristineAction(FORM_CONTROL_ID));
+    expect(JSON.stringify(state)).toEqual(expected);
   });
 
   it('should throw if state is not an array state', () => {
@@ -203,6 +228,22 @@ describe('form array reducer', () => {
       const action = new ResetAction(FORM_CONTROL_ID);
       const state = { ...INITIAL_STATE, isSubmitted: true, isUnsubmitted: false };
       const resultState = formArrayReducerInternal<string>(state, action);
+      expect(resultState).not.toBe(INITIAL_STATE);
+    });
+  });
+
+  describe(AddArrayControlAction.name, () => {
+    it('should update state', () => {
+      const action = new AddArrayControlAction(FORM_CONTROL_ID, '');
+      const resultState = formArrayReducerInternal<string>(INITIAL_STATE, action);
+      expect(resultState).not.toBe(INITIAL_STATE);
+    });
+  });
+
+  describe(RemoveArrayControlAction.name, () => {
+    it('should update state', () => {
+      const action = new RemoveArrayControlAction(FORM_CONTROL_ID, 0);
+      const resultState = formArrayReducerInternal<string>(INITIAL_STATE, action);
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });

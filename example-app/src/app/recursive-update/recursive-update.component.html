@@ -1,0 +1,13 @@
+<ngf-form-example [reducerCode]="reducerCode"
+                  [componentCode]="componentCode"
+                  [componentHtml]="componentHtml"
+                  [formState]="formState$ | async">
+  This example shows how it is possible to update the full form state with a single update function. In this scenario we want
+  to block/disable the form inputs after submitting the form. However, some elements have been manually disabled in the form
+  state and they should remain disabled when the UI is unblocked, which will happen 1 second after submitting the form (simulating
+  a server call). We achieve this by storing a user-defined property for each form control. This allows returning all form
+  inputs to the state they were before the UI was blocked.
+  <br />
+  <br />
+  <ngf-recursive-update-example [formState]="formState$ | async"></ngf-recursive-update-example>
+</ngf-form-example>

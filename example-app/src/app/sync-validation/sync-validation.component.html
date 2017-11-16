@@ -1,0 +1,10 @@
+<ngf-form-example [reducerCode]="reducerCode"
+                  [componentCode]="componentCode"
+                  [componentHtml]="componentHtml"
+                  [formState]="formState$ | async">
+  This example shows how to use update functions to validate a form state. In addition it
+  shows how to apply other updates like enabling and disabling form elements dynamically.
+  <br />
+  <br />
+  <ngf-sync-validation-example [formState]="formState$ | async"></ngf-sync-validation-example>
+</ngf-form-example>

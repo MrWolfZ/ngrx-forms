@@ -30,6 +30,13 @@ describe('form control reducer', () => {
     expect(resultState).toBe(INITIAL_STATE);
   });
 
+  it('should preserve the order of properties when stringified', () => {
+    const expected = JSON.stringify(INITIAL_STATE);
+    let state = formControlReducerInternal(INITIAL_STATE, new MarkAsDirtyAction(FORM_CONTROL_ID));
+    state = formControlReducerInternal(state, new MarkAsPristineAction(FORM_CONTROL_ID));
+    expect(JSON.stringify(state)).toEqual(expected);
+  });
+
   it('should throw if state is not a control state', () => {
     expect(() => formControlReducerInternal({ controls: [] } as any, new MarkAsDirtyAction(FORM_CONTROL_ID))).toThrowError();
   });

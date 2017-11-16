@@ -1,0 +1,14 @@
+<form>
+  <div>
+    <label>Options</label>
+    <div>
+      <select multiple
+              size="5"
+              [ngrxFormControlState]="formState.controls.selection"
+              [ngrxValueConverter]="jsonValueConverter">
+        <option *ngFor="let o of [1,2,3,4,5]"
+                [value]="o">Option {{o}}</option>
+      </select>
+    </div>
+  </div>
+</form>

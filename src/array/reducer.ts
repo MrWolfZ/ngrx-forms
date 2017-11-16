@@ -1,7 +1,8 @@
 import { Action } from '@ngrx/store';
 
-import { Actions, FocusAction, UnfocusAction } from '../actions';
+import { Actions, AddControlAction, FocusAction, RemoveControlAction, UnfocusAction } from '../actions';
 import { FormArrayState, isArrayState } from '../state';
+import { addControlReducer } from './reducer/add-control';
 import { clearAsyncErrorReducer } from './reducer/clear-async-error';
 import { disableReducer } from './reducer/disable';
 import { enableReducer } from './reducer/enable';
@@ -11,6 +12,7 @@ import { markAsSubmittedReducer } from './reducer/mark-as-submitted';
 import { markAsTouchedReducer } from './reducer/mark-as-touched';
 import { markAsUnsubmittedReducer } from './reducer/mark-as-unsubmitted';
 import { markAsUntouchedReducer } from './reducer/mark-as-untouched';
+import { removeControlReducer } from './reducer/remove-control';
 import { resetReducer } from './reducer/reset';
 import { setAsyncErrorReducer } from './reducer/set-async-error';
 import { setErrorsReducer } from './reducer/set-errors';
@@ -27,6 +29,8 @@ export function formArrayReducerInternal<TValue>(state: FormArrayState<TValue>, 
   switch (action.type) {
     case FocusAction.TYPE:
     case UnfocusAction.TYPE:
+    case AddControlAction.TYPE:
+    case RemoveControlAction.TYPE:
       return childReducer(state, action);
   }
 
@@ -45,6 +49,8 @@ export function formArrayReducerInternal<TValue>(state: FormArrayState<TValue>, 
   state = markAsUnsubmittedReducer(state, action);
   state = setUserDefinedPropertyReducer(state, action);
   state = resetReducer(state, action);
+  state = addControlReducer(state, action);
+  state = removeControlReducer(state, action);
 
   return state;
 }

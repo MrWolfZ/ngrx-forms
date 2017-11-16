@@ -1,4 +1,5 @@
 import {
+  AddArrayControlAction,
   AddControlAction,
   ClearAsyncErrorAction,
   DisableAction,
@@ -10,14 +11,15 @@ import {
   MarkAsTouchedAction,
   MarkAsUnsubmittedAction,
   MarkAsUntouchedAction,
+  RemoveArrayControlAction,
   RemoveControlAction,
+  ResetAction,
   SetAsyncErrorAction,
   SetErrorsAction,
   SetUserDefinedPropertyAction,
   SetValueAction,
   StartAsyncValidationAction,
   UnfocusAction,
-  ResetAction,
 } from '../actions';
 import { cast, createFormGroupState } from '../state';
 import { formGroupReducerInternal } from './reducer';
@@ -25,9 +27,10 @@ import { formGroupReducerInternal } from './reducer';
 describe('form group reducer', () => {
   const FORM_CONTROL_ID = 'test ID';
   const FORM_CONTROL_INNER_ID = FORM_CONTROL_ID + '.inner';
-  interface FormGroupValue { inner: string; inner2?: string; inner3?: { inner4: string }; }
+  const FORM_CONTROL_INNER5_ID = FORM_CONTROL_ID + '.inner5';
+  interface FormGroupValue { inner: string; inner2?: string; inner3?: { inner4: string }; inner5?: string[]; }
   const INITIAL_FORM_CONTROL_VALUE: FormGroupValue = { inner: '' };
-  const INITIAL_FORM_CONTROL_VALUE_FULL: FormGroupValue = { inner: '', inner2: '', inner3: { inner4: '' } };
+  const INITIAL_FORM_CONTROL_VALUE_FULL: FormGroupValue = { inner: '', inner2: '', inner3: { inner4: '' }, inner5: [''] };
   const INITIAL_STATE = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
   const INITIAL_STATE_FULL = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE_FULL);
 
@@ -58,6 +61,16 @@ describe('form group reducer', () => {
     expect(cast(resultState.controls.inner).isUnfocused).toEqual(true);
   });
 
+  it('should forward add array control actions to children', () => {
+    const resultState = formGroupReducerInternal<FormGroupValue>(INITIAL_STATE_FULL, new AddArrayControlAction<any>(FORM_CONTROL_INNER5_ID, ''));
+    expect(cast(resultState.controls.inner5)!.controls[1]).toBeDefined();
+  });
+
+  it('should forward remove array control actions to children', () => {
+    const resultState = formGroupReducerInternal(INITIAL_STATE_FULL, new RemoveArrayControlAction(FORM_CONTROL_INNER5_ID, 0));
+    expect(cast(resultState.controls.inner5)!.controls[0]).toBeUndefined();
+  });
+
   it('should not update state if no child was updated', () => {
     const resultState = formGroupReducerInternal(INITIAL_STATE, new SetValueAction(FORM_CONTROL_INNER_ID, '') as any);
     expect(resultState).toBe(INITIAL_STATE);
@@ -78,6 +91,13 @@ describe('form group reducer', () => {
   it('should not be stateful', () => {
     formGroupReducerInternal(INITIAL_STATE_FULL, new SetValueAction(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE));
     expect(() => formGroupReducerInternal(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_ID))).not.toThrowError();
+  });
+
+  it('should preserve the order of properties when stringified', () => {
+    const expected = JSON.stringify(INITIAL_STATE_FULL);
+    let state = formGroupReducerInternal(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_ID));
+    state = formGroupReducerInternal(state, new MarkAsPristineAction(FORM_CONTROL_ID));
+    expect(JSON.stringify(state)).toEqual(expected);
   });
 
   it('should throw if trying to set a date as value', () => {

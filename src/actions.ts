@@ -203,6 +203,26 @@ export class MarkAsUnsubmittedAction implements Action {
   }
 }
 
+export class AddArrayControlAction<TValue> implements Action {
+  static readonly TYPE = 'ngrx/forms/ADD_ARRAY_CONTROL';
+  readonly type = AddArrayControlAction.TYPE;
+  readonly controlId: NgrxFormControlId;
+
+  readonly payload: {
+    readonly value: TValue;
+    readonly index: number | null;
+  };
+
+  constructor(
+    controlId: string,
+    value: TValue,
+    index: number | null = null,
+  ) {
+    this.controlId = controlId;
+    this.payload = { index, value };
+  }
+}
+
 export class AddControlAction<TValue, TControlKey extends keyof TValue> implements Action {
   static readonly TYPE = 'ngrx/forms/ADD_CONTROL';
   readonly type = AddControlAction.TYPE;
@@ -220,6 +240,24 @@ export class AddControlAction<TValue, TControlKey extends keyof TValue> implemen
   ) {
     this.controlId = controlId;
     this.payload = { name, value };
+  }
+}
+
+export class RemoveArrayControlAction implements Action {
+  static readonly TYPE = 'ngrx/forms/REMOVE_ARRAY_CONTROL';
+  readonly type = RemoveArrayControlAction.TYPE;
+  readonly controlId: NgrxFormControlId;
+
+  readonly payload: {
+    readonly index: number;
+  };
+
+  constructor(
+    controlId: string,
+    index: number,
+  ) {
+    this.controlId = controlId;
+    this.payload = { index };
   }
 }
 
@@ -289,6 +327,8 @@ export type Actions<TValue> =
   | MarkAsUnsubmittedAction
   | AddControlAction<TValue, keyof TValue>
   | RemoveControlAction<TValue>
+  | AddArrayControlAction<any>
+  | RemoveArrayControlAction
   | SetUserDefinedPropertyAction
   | ResetAction
   ;

@@ -1,0 +1,13 @@
+<ngf-form-example [reducerCode]="reducerCode"
+                  [componentCode]="componentCode"
+                  [componentHtml]="componentHtml"
+                  [formState]="formState$ | async">
+  This example shows how to dynamically add and remove controls from arrays and groups. For arrays we directly dispatch the
+  corresponding actions from the component. For groups we dispatch custom actions which we handle in the reducer by calling
+  the corresponding update functions.
+  <br />
+  <br />
+  <ngf-dynamic-example [formState]="formState$ | async"
+                       [arrayOptions]="arrayOptions$ | async"
+                       [groupOptions]="groupOptions$ | async"></ngf-dynamic-example>
+</ngf-form-example>

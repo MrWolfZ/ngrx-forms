@@ -1,9 +1,9 @@
 import { Action } from '@ngrx/store';
 
-import { Actions, FocusAction, UnfocusAction } from '../actions';
+import { Actions, AddArrayControlAction, FocusAction, RemoveArrayControlAction, UnfocusAction } from '../actions';
 import { FormGroupState, isGroupState, KeyValue } from '../state';
-import { clearAsyncErrorReducer } from './reducer/clear-async-error';
 import { addControlReducer } from './reducer/add-control';
+import { clearAsyncErrorReducer } from './reducer/clear-async-error';
 import { disableReducer } from './reducer/disable';
 import { enableReducer } from './reducer/enable';
 import { markAsDirtyReducer } from './reducer/mark-as-dirty';
@@ -29,6 +29,8 @@ export function formGroupReducerInternal<TValue extends KeyValue>(state: FormGro
   switch (action.type) {
     case FocusAction.TYPE:
     case UnfocusAction.TYPE:
+    case AddArrayControlAction.TYPE:
+    case RemoveArrayControlAction.TYPE:
       return childReducer(state, action);
   }
 

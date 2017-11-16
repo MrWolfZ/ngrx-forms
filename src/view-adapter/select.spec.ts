@@ -329,6 +329,6 @@ describe(NgrxSelectOption.name, () => {
   });
 
   it('should work if option is created without view adapter', () => {
-    expect(new NgrxSelectOption({} as any, {} as any, undefined)).toBeDefined();
+    expect(new NgrxSelectOption({} as any, {} as any, null as any)).toBeDefined();
   });
 });

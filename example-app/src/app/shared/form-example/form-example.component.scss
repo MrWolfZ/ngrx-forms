@@ -1,0 +1,33 @@
+:host {
+  display: flex;
+  height: 100%;
+
+  >mat-card.example {
+    width: 640px;
+
+    .small /deep/ .mat-tab-label {
+      min-width: 128px;
+      padding: 0;
+    }
+
+    /deep/ .mat-tab-body-content {
+      max-width: 640px;
+    }
+
+    /deep/ .mat-card-content,
+    /deep/ .mat-tab-group {
+      height: 100%;
+    }
+  }
+}
+
+.form-state {
+  margin-left: 20px;
+  overflow: auto;
+  min-width: 500px;
+  max-width: 640px;
+}
+
+.form {
+  padding: 20px;
+}
