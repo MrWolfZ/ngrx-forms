@@ -8,7 +8,7 @@ import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
 import { SimpleFormPageComponent } from './simple-form.component';
 import { SimpleFormComponent } from './form/form.component';
-import { reducers } from './simple-form.reducer';
+import { reducer } from './simple-form.reducer';
 
 export const COMPONENTS = [
   SimpleFormPageComponent,
@@ -25,9 +25,7 @@ export const COMPONENTS = [
       { path: '', component: SimpleFormPageComponent },
     ]),
 
-    StoreModule.forFeature('simpleForm', reducers),
-
-    // EffectsModule.forFeature([BookEffects, CollectionEffects]),
+    StoreModule.forFeature('simpleForm', reducer),
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS,

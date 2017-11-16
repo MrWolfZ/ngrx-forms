@@ -8,7 +8,7 @@ import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
 import { SyncValidationPageComponent } from './sync-validation.component';
 import { SyncValidationComponent } from './form/form.component';
-import { reducers } from './sync-validation.reducer';
+import { reducer } from './sync-validation.reducer';
 
 export const COMPONENTS = [
   SyncValidationPageComponent,
@@ -25,7 +25,7 @@ export const COMPONENTS = [
       { path: '', component: SyncValidationPageComponent },
     ]),
 
-    StoreModule.forFeature('syncValidation', reducers),
+    StoreModule.forFeature('syncValidation', reducer),
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS,

@@ -8,7 +8,7 @@ import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
 import { DynamicFormComponent } from './form/form.component';
 import { DynamicPageComponent } from './material.component';
-import { reducers } from './material.reducer';
+import { reducer } from './material.reducer';
 
 export const COMPONENTS = [
   DynamicPageComponent,
@@ -25,7 +25,7 @@ export const COMPONENTS = [
       { path: '', component: DynamicPageComponent },
     ]),
 
-    StoreModule.forFeature('material', reducers),
+    StoreModule.forFeature('material', reducer),
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS,

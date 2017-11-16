@@ -8,7 +8,7 @@ import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
 import { ValueConversionFormComponent } from './form/form.component';
 import { ValueConversionPageComponent } from './value-conversion.component';
-import { reducers } from './value-conversion.reducer';
+import { reducer } from './value-conversion.reducer';
 
 export const COMPONENTS = [
   ValueConversionPageComponent,
@@ -25,7 +25,7 @@ export const COMPONENTS = [
       { path: '', component: ValueConversionPageComponent },
     ]),
 
-    StoreModule.forFeature('valueConversion', reducers),
+    StoreModule.forFeature('valueConversion', reducer),
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS,

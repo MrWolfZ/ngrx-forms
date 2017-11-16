@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import { Action, combineReducers } from '@ngrx/store';
 import { createFormGroupReducerWithUpdate, createFormGroupState, FormGroupState, validate } from 'ngrx-forms';
 import { greaterThan, required } from 'ngrx-forms/validation';
 
@@ -34,15 +34,17 @@ const formGroupReducerWithUpdate = createFormGroupReducerWithUpdate<FormValue>({
   numberOfResultsToShow: validate<number>([required, greaterThan(0)]),
 });
 
-export const reducers = {
-  formState(s = INITIAL_STATE, a: Action) {
-    return formGroupReducerWithUpdate(s, a);
-  },
-  searchResults(s = [], a: SetSearchResultAction) {
-    if (a.type === SetSearchResultAction.TYPE) {
-      return a.results;
-    }
+export function reducer(_s: any, _a: any) {
+  return combineReducers({
+    formState(s = INITIAL_STATE, a: Action) {
+      return formGroupReducerWithUpdate(s, a);
+    },
+    searchResults(s: string[] = [], a: Action) {
+      if (a.type === SetSearchResultAction.TYPE) {
+        return (a as SetSearchResultAction).results;
+      }
 
-    return s;
-  },
+      return s;
+    },
+  })(_s, _a);
 };

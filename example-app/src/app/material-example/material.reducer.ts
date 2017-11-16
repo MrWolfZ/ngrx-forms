@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import { Action, combineReducers } from '@ngrx/store';
 import {
   cast,
   createFormGroupReducerWithUpdate,
@@ -79,8 +79,10 @@ const validationFormGroupReducer = createFormGroupReducerWithUpdate<FormValue>({
   agreeToTermsOfUse: validate<boolean>(requiredTrue),
 });
 
-export const reducers = {
-  formState(s = INITIAL_STATE, a: Action) {
-    return validationFormGroupReducer(s, a);
-  },
+export function reducer(_s: any, _a: any) {
+  return combineReducers({
+    formState(s = INITIAL_STATE, a: Action) {
+      return validationFormGroupReducer(s, a);
+    },
+  })(_s, _a);
 };
