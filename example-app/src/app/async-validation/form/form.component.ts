@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ActionsSubject } from '@ngrx/store';
 import { FormGroupState } from 'ngrx-forms';
 
 import { FormValue } from '../async-validation.reducer';
@@ -13,6 +12,4 @@ import { FormValue } from '../async-validation.reducer';
 export class AsyncValidationFormComponent {
   @Input() formState: FormGroupState<FormValue>;
   @Input() searchResults: string[];
-
-  constructor(private actionsSubject: ActionsSubject) { }
 }
