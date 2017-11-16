@@ -15,12 +15,199 @@ export class RecursiveUpdatePageComponent {
   formState$: Observable<FormGroupState<FormValue>>;
 
   reducerCode = `
+import { Action } from '@ngrx/store';
+import {
+  cast,
+  createFormGroupState,
+  disable,
+  enable,
+  formGroupReducer,
+  FormGroupState,
+  setUserDefinedProperty,
+  updateGroup,
+  updateRecursive,
+} from 'ngrx-forms';
+
+import { State as RootState } from '../app.reducer';
+
+export interface FormValue {
+  firstName: string;
+  lastName: string;
+  email: string;
+  sex: string;
+  favoriteColor: string;
+  employed: boolean;
+  notes: string;
+}
+
+export interface State extends RootState {
+  recursiveUpdate: {
+    formState: FormGroupState<FormValue>;
+  };
+}
+
+export class BlockUIAction implements Action {
+  static TYPE = 'recursiveUpdate/BLOCK_UI';
+  type = BlockUIAction.TYPE;
+}
+
+export class UnblockUIAction implements Action {
+  static TYPE = 'dynamic/UNBLOCK_UI';
+  type = UnblockUIAction.TYPE;
+}
+
+export const FORM_ID = 'recursiveUpdate';
+
+export const INITIAL_STATE = updateGroup<FormValue>({
+  employed: disable,
+  notes: disable,
+  sex: disable,
+})(createFormGroupState<FormValue>(FORM_ID, {
+  firstName: '',
+  lastName: '',
+  email: '',
+  sex: '',
+  favoriteColor: '',
+  employed: false,
+  notes: '',
+}));
+
+export const reducers = {
+  formState(state = INITIAL_STATE, a: BlockUIAction | UnblockUIAction) {
+    state = formGroupReducer(state, a);
+
+    switch (a.type) {
+      case BlockUIAction.TYPE: {
+        state = cast(updateRecursive<FormValue>(
+          s => setUserDefinedProperty('wasDisabled', s.isDisabled)(s)
+        )(state));
+        return disable(state);
+      }
+
+      case UnblockUIAction.TYPE: {
+        state = cast(enable(state));
+        return updateRecursive<FormValue>(
+          s => s.userDefinedProperties.wasDisabled ? disable(s) : s
+        )(state);
+      }
+
+      default: {
+        return state;
+      }
+    }
+  },
+};
   `;
 
   componentCode = `
+import { Observable } from 'rxjs/Rx';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ActionsSubject } from '@ngrx/store';
+import { FormGroupState, ResetAction, SetValueAction } from 'ngrx-forms';
+
+import {
+  FormValue,
+  INITIAL_STATE,
+  BlockUIAction,
+  UnblockUIAction,
+} from '../recursive-update.reducer';
+
+@Component({
+  selector: 'ngf-recursive-update-example',
+  templateUrl: './form.component.html',
+  styleUrls: ['./form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class RecursiveUpdateFormComponent {
+  @Input() formState: FormGroupState<FormValue>;
+
+  constructor(private actionsSubject: ActionsSubject) { }
+
+  submit() {
+    this.actionsSubject.next(new BlockUIAction());
+    Observable.timer(1000)
+      .map(() => new UnblockUIAction())
+      .subscribe(this.actionsSubject);
+  }
+}
   `;
 
   componentHtml = `
+<form [ngrxFormState]="formState"
+      (submit)="submit()">
+  <div>
+    <label>First Name</label>
+    <div>
+      <input type="text"
+             placeholder="First Name"
+             [ngrxFormControlState]="formState.controls.firstName" />
+    </div>
+  </div>
+  <div>
+    <label>Last Name</label>
+    <div>
+      <input type="text"
+             placeholder="Last Name"
+             [ngrxFormControlState]="formState.controls.lastName" />
+    </div>
+  </div>
+  <div>
+    <label>Email</label>
+    <div>
+      <input type="email"
+             placeholder="Email"
+             [ngrxFormControlState]="formState.controls.email" />
+    </div>
+  </div>
+  <div>
+    <label>Sex</label>
+    <div>
+      <label>
+        <input type="radio"
+               value="male"
+               [ngrxFormControlState]="formState.controls.sex" /> Male
+      </label>
+      <label>
+        <input type="radio"
+               value="female"
+               [ngrxFormControlState]="formState.controls.sex" /> Female
+      </label>
+    </div>
+  </div>
+  <div>
+    <label>Favorite Color</label>
+    <div>
+      <select [ngrxFormControlState]="formState.controls.favoriteColor">
+        <option value=""></option>
+        <option value="ff0000">Red</option>
+        <option value="00ff00">Green</option>
+        <option value="0000ff">Blue</option>
+      </select>
+    </div>
+  </div>
+  <div>
+    <label>Employed</label>
+    <div>
+      <input type="checkbox"
+             [ngrxFormControlState]="formState.controls.employed" />
+    </div>
+  </div>
+  <div>
+    <label>Notes</label>
+    <div>
+      <textarea [ngrxFormControlState]="formState.controls.notes">
+      </textarea>
+    </div>
+  </div>
+  <div class="buttons">
+    <div></div>
+    <div>
+      <button type="submit">
+        Submit
+      </button>
+    </div>
+  </div>
+</form>
   `;
 
   constructor(store: Store<State>) {

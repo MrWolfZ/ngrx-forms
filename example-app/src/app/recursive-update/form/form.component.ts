@@ -1,8 +1,9 @@
+import { Observable } from 'rxjs/Rx';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 import { FormGroupState, ResetAction, SetValueAction } from 'ngrx-forms';
 
-import { FormValue, INITIAL_STATE } from '../recursive-update.reducer';
+import { FormValue, INITIAL_STATE, BlockUIAction, UnblockUIAction } from '../recursive-update.reducer';
 
 @Component({
   selector: 'ngf-recursive-update-example',
@@ -15,8 +16,10 @@ export class RecursiveUpdateFormComponent {
 
   constructor(private actionsSubject: ActionsSubject) { }
 
-  reset() {
-    this.actionsSubject.next(new SetValueAction(INITIAL_STATE.id, INITIAL_STATE.value));
-    this.actionsSubject.next(new ResetAction(INITIAL_STATE.id));
+  submit() {
+    this.actionsSubject.next(new BlockUIAction());
+    Observable.timer(1000)
+      .map(() => new UnblockUIAction())
+      .subscribe(this.actionsSubject);
   }
 }
