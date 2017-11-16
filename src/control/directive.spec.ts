@@ -112,6 +112,21 @@ describe(NgrxFormControlDirective.name, () => {
     expect(spy).toHaveBeenCalledWith(newValue);
   });
 
+  it('should correctly set the initial values if a value converter is set after the initial state', () => {
+    const convertedValue = ['A'];
+    viewAdapter = {
+      ...viewAdapter,
+      setViewValue: v => expect(v).toEqual(convertedValue),
+    };
+    directive = new NgrxFormControlDirective<string>(elementRef, document, actionsSubject as any, [viewAdapter], []);
+    directive.ngrxFormControlState = INITIAL_STATE;
+    directive.ngrxValueConverter = {
+      convertStateToViewValue: () => convertedValue,
+      convertViewToStateValue: s => s,
+    };
+    directive.ngOnInit();
+  });
+
   describe('ngrxUpdateOn "blur"', () => {
     beforeEach(() => {
       directive.ngrxFormControlState = { ...INITIAL_STATE, isTouched: true, isUntouched: false };

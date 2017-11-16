@@ -42,7 +42,7 @@ export class NgrxSelectMultipleViewAdapter implements FormViewAdapter {
     }
 
     if (!Array.isArray(value)) {
-      throw new Error(`the value provided to a NgrxSelectMultipleViewAdapter must be null or an array; got ${value}`);
+      throw new Error(`the value provided to a NgrxSelectMultipleViewAdapter must be null or an array; got ${value} of type ${typeof value}`); // `
     }
 
     this.selectedIds = value.map(v => this.getOptionId(v)).filter(id => id !== null).map(id => id as string);

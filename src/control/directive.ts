@@ -27,6 +27,8 @@ const BLUR = 'blur';
   selector: '[ngrxFormControlState]',
 })
 export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes, TViewValue = TStateValue> implements AfterViewInit, OnInit {
+  private isInitialized = false;
+
   @Input() set ngrxFormControlState(newState: FormControlState<TStateValue>) {
     if (!newState) {
       throw new Error('The control state must not be undefined!');
@@ -35,10 +37,12 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     const oldState = this.state;
     this.state = newState;
 
-    this.updateViewIfControlIdChanged(newState, oldState);
-    this.updateViewIfValueChanged(newState, oldState);
-    this.updateViewIfIsDisabledChanged(newState, oldState);
-    this.updateViewIfIsFocusedChanged(newState, oldState);
+    if (this.isInitialized) {
+      this.updateViewIfControlIdChanged(newState, oldState);
+      this.updateViewIfValueChanged(newState, oldState);
+      this.updateViewIfIsDisabledChanged(newState, oldState);
+      this.updateViewIfIsFocusedChanged(newState, oldState);
+    }
   }
 
   @Input() ngrxUpdateOn: 'change' | 'blur' = CHANGE;
@@ -85,7 +89,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
       : selectViewAdapter(viewAdapters);
   }
 
-  updateViewIfControlIdChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue>) {
+  updateViewIfControlIdChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue> | undefined) {
     if (oldState && newState.id === oldState.id) {
       return;
     }
@@ -98,7 +102,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     }
   }
 
-  updateViewIfValueChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue>) {
+  updateViewIfValueChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue> | undefined) {
     if (newState.value === this.stateValue) {
       return;
     }
@@ -108,7 +112,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     this.viewAdapter.setViewValue(this.viewValue);
   }
 
-  updateViewIfIsDisabledChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue>) {
+  updateViewIfIsDisabledChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue> | undefined) {
     if (!this.viewAdapter.setIsDisabled) {
       return;
     }
@@ -120,7 +124,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     this.viewAdapter.setIsDisabled(newState.isDisabled);
   }
 
-  updateViewIfIsFocusedChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue>) {
+  updateViewIfIsFocusedChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue> | undefined) {
     if (oldState && newState.isFocused === oldState.isFocused) {
       return;
     }
@@ -136,6 +140,13 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     if (!this.state) {
       throw new Error('The form state must not be undefined!');
     }
+
+    this.isInitialized = true;
+
+    this.updateViewIfControlIdChanged(this.state, undefined);
+    this.updateViewIfValueChanged(this.state, undefined);
+    this.updateViewIfIsDisabledChanged(this.state, undefined);
+    this.updateViewIfIsFocusedChanged(this.state, undefined);
 
     const dispatchSetValueAction = () => {
       this.stateValue = this.ngrxValueConverter.convertViewToStateValue(this.viewValue);
