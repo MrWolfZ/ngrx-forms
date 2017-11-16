@@ -1,5 +1,6 @@
 import {
   AddArrayControlAction,
+  AddControlAction,
   ClearAsyncErrorAction,
   DisableAction,
   EnableAction,
@@ -11,6 +12,7 @@ import {
   MarkAsUnsubmittedAction,
   MarkAsUntouchedAction,
   RemoveArrayControlAction,
+  RemoveControlAction,
   ResetAction,
   SetAsyncErrorAction,
   SetErrorsAction,
@@ -54,6 +56,20 @@ describe('form array reducer', () => {
     const resultState = formArrayReducerInternal(state, new UnfocusAction(FORM_CONTROL_0_ID) as any);
     expect(cast(resultState.controls[0]).isFocused).toEqual(false);
     expect(cast(resultState.controls[0]).isUnfocused).toEqual(true);
+  });
+
+  it('should forward add control actions to children', () => {
+    const value = [{ inner: '' }];
+    const state = createFormArrayState(FORM_CONTROL_ID, value);
+    const resultState = formArrayReducerInternal(state, new AddControlAction<any, any>(FORM_CONTROL_0_ID, 'inner2', ''));
+    expect((cast(resultState.controls[0]).controls as any).inner2).toBeDefined();
+  });
+
+  it('should forward remove control actions to children', () => {
+    const value = [{ inner: '', inner2: '' }];
+    const state = createFormArrayState(FORM_CONTROL_ID, value);
+    const resultState = formArrayReducerInternal(state, new RemoveControlAction<any>(FORM_CONTROL_0_ID, 'inner2'));
+    expect(cast(resultState.controls[0]).controls.inner2).toBeUndefined();
   });
 
   it('should not update state if no child was updated', () => {
