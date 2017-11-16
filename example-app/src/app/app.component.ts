@@ -46,7 +46,7 @@ export class AppComponent {
     {
       path: '/material',
       hint: 'A form that uses third party form controls',
-      label: 'Material UI Simple Form',
+      label: 'Material UI Form',
     },
   ];
 }
