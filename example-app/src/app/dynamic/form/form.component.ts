@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import { FormGroupState, ResetAction, SetValueAction } from 'ngrx-forms';
+import { AddArrayControlAction, FormGroupState, RemoveArrayControlAction } from 'ngrx-forms';
 
-import { FormValue, INITIAL_STATE } from '../dynamic.reducer';
+import { CreateGroupElementAction, FormValue, RemoveGroupElementAction } from '../dynamic.reducer';
 
 @Component({
   selector: 'ngf-dynamic-example',
@@ -12,11 +12,40 @@ import { FormValue, INITIAL_STATE } from '../dynamic.reducer';
 })
 export class DynamicFormComponent {
   @Input() formState: FormGroupState<FormValue>;
+  @Input() arrayOptions: number[];
+  @Input() groupOptions: string[];
 
   constructor(private actionsSubject: ActionsSubject) { }
 
-  reset() {
-    this.actionsSubject.next(new SetValueAction(INITIAL_STATE.id, INITIAL_STATE.value));
-    this.actionsSubject.next(new ResetAction(INITIAL_STATE.id));
+  addGroupOption() {
+    const name = Math.random().toString(36).substr(2, 3);
+    this.actionsSubject.next(new CreateGroupElementAction(name));
+  }
+
+  removeGroupOption(name: string) {
+    this.actionsSubject.next(new RemoveGroupElementAction(name));
+  }
+
+  addArrayOption(index: number | null) {
+    this.actionsSubject.next(new AddArrayControlAction(
+      this.formState.controls.array.id,
+      false,
+      index,
+    ));
+  }
+
+  removeArrayOption(index: number) {
+    this.actionsSubject.next(new RemoveArrayControlAction(
+      this.formState.controls.array.id,
+      index,
+    ));
+  }
+
+  trackByIndex(index: number) {
+    return index;
+  }
+
+  trackById(index: number, id: string) {
+    return id;
   }
 }
