@@ -1,4 +1,5 @@
 import {
+  AddArrayControlAction,
   ClearAsyncErrorAction,
   DisableAction,
   EnableAction,
@@ -9,6 +10,7 @@ import {
   MarkAsTouchedAction,
   MarkAsUnsubmittedAction,
   MarkAsUntouchedAction,
+  RemoveArrayControlAction,
   ResetAction,
   SetAsyncErrorAction,
   SetErrorsAction,
@@ -210,6 +212,22 @@ describe('form array reducer', () => {
       const action = new ResetAction(FORM_CONTROL_ID);
       const state = { ...INITIAL_STATE, isSubmitted: true, isUnsubmitted: false };
       const resultState = formArrayReducerInternal<string>(state, action);
+      expect(resultState).not.toBe(INITIAL_STATE);
+    });
+  });
+
+  describe(AddArrayControlAction.name, () => {
+    it('should update state', () => {
+      const action = new AddArrayControlAction(FORM_CONTROL_ID, '');
+      const resultState = formArrayReducerInternal<string>(INITIAL_STATE, action);
+      expect(resultState).not.toBe(INITIAL_STATE);
+    });
+  });
+
+  describe(RemoveArrayControlAction.name, () => {
+    it('should update state', () => {
+      const action = new RemoveArrayControlAction(FORM_CONTROL_ID, 0);
+      const resultState = formArrayReducerInternal<string>(INITIAL_STATE, action);
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
