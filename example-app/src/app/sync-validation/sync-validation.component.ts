@@ -91,7 +91,7 @@ export function syncValidationFormReducer(s = INITIAL_STATE, a: Action) {
   componentCode = `
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import { FormGroupState, ResetAction, SetValueAction } from 'ngrx-forms';
+import { FormGroupState, ResetAction, SetValueAction, cast } from 'ngrx-forms';
 
 import { FormValue, INITIAL_STATE } from '../sync-validation.reducer';
 
@@ -104,6 +104,10 @@ import { FormValue, INITIAL_STATE } from '../sync-validation.reducer';
 export class SyncValidationComponent {
   @Input() formState: FormGroupState<FormValue>;
   submittedValue: FormValue;
+
+  get passwordState() {
+    return cast(this.formState.controls.password);
+  }
 
   days = Array.from(Array(31).keys());
   months = [
@@ -160,14 +164,14 @@ export class SyncValidationComponent {
     <label>Password</label>
     <div>
       <input type="password"
-             [ngrxFormControlState]="formState.controls.password.controls.password" />
+             [ngrxFormControlState]="passwordState.controls.password" />
     </div>
   </div>
   <div>
     <label>Confirm Password</label>
     <div>
       <input type="password"
-             [ngrxFormControlState]="formState.controls.password.controls.confirmPassword" />
+             [ngrxFormControlState]="passwordState.controls.confirmPassword" />
     </div>
   </div>
   <div>

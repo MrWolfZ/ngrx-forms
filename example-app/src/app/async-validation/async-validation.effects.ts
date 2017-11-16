@@ -7,7 +7,7 @@ import {
   SetAsyncErrorAction,
   StartAsyncValidationAction,
 } from 'ngrx-forms';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 import { SetSearchResultAction, State } from './async-validation.reducer';
 

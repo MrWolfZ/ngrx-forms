@@ -47,7 +47,7 @@ export const reducers = {
   componentCode = `
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import { FormGroupState } from 'ngrx-forms';
+import { FormGroupState, cast } from 'ngrx-forms';
 
 import { FormValue } from '../array.reducer';
 
@@ -60,6 +60,10 @@ import { FormValue } from '../array.reducer';
 export class ArrayFormComponent {
   @Input() formState: FormGroupState<FormValue>;
 
+  get optionsState() {
+    return cast(this.formState.controls.options);
+  }
+
   constructor(private actionsSubject: ActionsSubject) { }
 
   trackByIndex(index: number) {
@@ -70,7 +74,7 @@ export class ArrayFormComponent {
 
   componentHtml = `
 <form>
-  <div *ngFor="let control of formState.controls.options.controls;
+  <div *ngFor="let control of optionsState.controls;
                trackBy: trackByIndex;
                let i = index">
     <label>Option {{ i }}</label>

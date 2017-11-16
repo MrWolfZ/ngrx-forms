@@ -17,8 +17,8 @@
     <mat-form-field>
       <input matInput
              type="password"
-             placeholder="Password {{ formState.controls.password.isDisabled ? '(disabled)' : '' }}"
-             [ngrxFormControlState]="formState.controls.password.controls.password">
+             placeholder="Password {{ passwordState.isDisabled ? '(disabled)' : '' }}"
+             [ngrxFormControlState]="passwordState.controls.password">
       <mat-error *ngIf="formState.errors._password?._password?.required">
         A password is required
       </mat-error>
@@ -31,8 +31,8 @@
     <mat-form-field>
       <input matInput
              type="password"
-             placeholder="Confirm Password {{ formState.controls.password.isDisabled ? '(disabled)' : '' }}"
-             [ngrxFormControlState]="formState.controls.password.controls.confirmPassword">
+             placeholder="Confirm Password {{ passwordState.isDisabled ? '(disabled)' : '' }}"
+             [ngrxFormControlState]="passwordState.controls.confirmPassword">
       <mat-error *ngIf="formState.errors._password?._confirmPassword?.match">
         The passwords do not match
       </mat-error>
@@ -71,7 +71,7 @@
     <mat-checkbox [ngrxFormControlState]="formState.controls.agreeToTermsOfUse">Agree to terms of use</mat-checkbox>
     <mat-error *ngIf="formState.errors._agreeToTermsOfUse?.required 
                       && (formState.controls.agreeToTermsOfUse.isTouched || formState.controls.agreeToTermsOfUse.isSubmitted)"
-  
+
                class="terms-of-use-error">
       You must agree to the terms of use
     </mat-error>

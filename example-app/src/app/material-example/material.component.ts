@@ -100,7 +100,7 @@ export const reducers = {
   componentCode = `
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import { FormGroupState, ResetAction, SetValueAction, NgrxValueConverters, NgrxValueConverter } from 'ngrx-forms';
+import { cast, FormGroupState, NgrxValueConverter, NgrxValueConverters, ResetAction, SetValueAction } from 'ngrx-forms';
 
 import { FormValue, INITIAL_STATE } from '../material.reducer';
 
@@ -113,6 +113,10 @@ import { FormValue, INITIAL_STATE } from '../material.reducer';
 export class DynamicFormComponent {
   @Input() formState: FormGroupState<FormValue>;
   submittedValue: FormValue;
+
+  get passwordState() {
+    return cast(this.formState.controls.password);
+  }
 
   dateValueConverter: NgrxValueConverter<Date | null, string | null> = {
     convertViewToStateValue(value) {
@@ -164,8 +168,8 @@ export class DynamicFormComponent {
     <mat-form-field>
       <input matInput
              type="password"
-             placeholder="Password {{ formState.controls.password.isDisabled ? '(disabled)' : '' }}"
-             [ngrxFormControlState]="formState.controls.password.controls.password">
+             placeholder="Password {{ passwordState.isDisabled ? '(disabled)' : '' }}"
+             [ngrxFormControlState]="passwordState.controls.password">
       <mat-error *ngIf="formState.errors._password?._password?.required">
         A password is required
       </mat-error>
@@ -178,8 +182,8 @@ export class DynamicFormComponent {
     <mat-form-field>
       <input matInput
              type="password"
-             placeholder="Confirm Password {{ formState.controls.password.isDisabled ? '(disabled)' : '' }}"
-             [ngrxFormControlState]="formState.controls.password.controls.confirmPassword">
+             placeholder="Confirm Password {{ passwordState.isDisabled ? '(disabled)' : '' }}"
+             [ngrxFormControlState]="passwordState.controls.confirmPassword">
       <mat-error *ngIf="formState.errors._password?._confirmPassword?.match">
         The passwords do not match
       </mat-error>
