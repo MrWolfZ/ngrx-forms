@@ -1,3 +1,12 @@
+import 'rxjs/add/observable/timer';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/concat';
+import 'rxjs/add/operator/distinct';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Effect } from '@ngrx/effects';

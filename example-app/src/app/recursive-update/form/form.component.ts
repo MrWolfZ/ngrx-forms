@@ -1,9 +1,12 @@
-import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/timer';
+import 'rxjs/add/operator/map';
+
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import { FormGroupState, ResetAction, SetValueAction } from 'ngrx-forms';
+import { FormGroupState } from 'ngrx-forms';
+import { Observable } from 'rxjs/Observable';
 
-import { FormValue, INITIAL_STATE, BlockUIAction, UnblockUIAction } from '../recursive-update.reducer';
+import { BlockUIAction, FormValue, UnblockUIAction } from '../recursive-update.reducer';
 
 @Component({
   selector: 'ngf-recursive-update-example',
