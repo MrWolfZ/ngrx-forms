@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ActionsSubject } from '@ngrx/store';
-import { FormGroupState, ResetAction, SetValueAction } from 'ngrx-forms';
+import { FormGroupState, NgrxValueConverters } from 'ngrx-forms';
 
-import { FormValue, INITIAL_STATE } from '../value-conversion.reducer';
+import { FormValue } from '../value-conversion.reducer';
 
 @Component({
   selector: 'ngf-value-conversion-example',
@@ -13,10 +12,5 @@ import { FormValue, INITIAL_STATE } from '../value-conversion.reducer';
 export class ValueConversionFormComponent {
   @Input() formState: FormGroupState<FormValue>;
 
-  constructor(private actionsSubject: ActionsSubject) { }
-
-  reset() {
-    this.actionsSubject.next(new SetValueAction(INITIAL_STATE.id, INITIAL_STATE.value));
-    this.actionsSubject.next(new ResetAction(INITIAL_STATE.id));
-  }
+  jsonValueConverter = NgrxValueConverters.objectToJSON;
 }

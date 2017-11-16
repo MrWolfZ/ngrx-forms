@@ -4,13 +4,7 @@ import { createFormGroupState, formGroupReducer, FormGroupState } from 'ngrx-for
 import { State as RootState } from '../app.reducer';
 
 export interface FormValue {
-  firstName: string;
-  lastName: string;
-  email: string;
-  sex: string;
-  favoriteColor: string;
-  employed: boolean;
-  notes: string;
+  selection: string;
 }
 
 export interface State extends RootState {
@@ -22,13 +16,7 @@ export interface State extends RootState {
 export const FORM_ID = 'valueConversion';
 
 export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
-  firstName: '',
-  lastName: '',
-  email: '',
-  sex: '',
-  favoriteColor: '',
-  employed: false,
-  notes: '',
+  selection: '[2, 4]',
 });
 
 export const reducers = {
