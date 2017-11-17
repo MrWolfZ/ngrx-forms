@@ -6,7 +6,7 @@ Proper integration of forms in Angular 4 applications using ngrx.
 
 Disclaimer: This library is not affiliated with the official ngrx library. I have created it mainly for my own use in one of my projects, but I thought others could profit as well.
 
-There is an [example app](https://ngrx-forms-example-app.herokuapp.com/) that showcases most of the functionality of this library.
+There is an [example app](https://ngrx-forms-example-app-v2.herokuapp.com/) that showcases most of the functionality of this library.
 
 ### Content
 [1 Installation](#1-installation)  
