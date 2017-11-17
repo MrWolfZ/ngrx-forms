@@ -15,8 +15,7 @@ export class NgrxValidateMatFormFieldControl implements OnChanges {
   constructor(private input: MatFormFieldControl<any>) {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
+  ngOnChanges(changes: SimpleChanges): void {    
     const isErrorState = () => this.ngrxFormControlState.isInvalid &&
       (this.ngrxFormControlState.isDirty
         || this.ngrxFormControlState.isTouched
