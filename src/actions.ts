@@ -261,9 +261,9 @@ export class RemoveArrayControlAction implements Action {
   }
 }
 
-export class RemoveControlAction<TValue> implements Action {
+export class RemoveGroupControlAction<TValue> implements Action {
   static readonly TYPE = 'ngrx/forms/REMOVE_CONTROL';
-  readonly type = RemoveControlAction.TYPE;
+  readonly type = RemoveGroupControlAction.TYPE;
   readonly controlId: NgrxFormControlId;
 
   readonly payload: {
@@ -326,7 +326,7 @@ export type Actions<TValue> =
   | MarkAsSubmittedAction
   | MarkAsUnsubmittedAction
   | AddGroupControlAction<TValue>
-  | RemoveControlAction<TValue>
+  | RemoveGroupControlAction<TValue>
   | AddArrayControlAction<any>
   | RemoveArrayControlAction
   | SetUserDefinedPropertyAction

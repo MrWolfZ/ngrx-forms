@@ -1,12 +1,12 @@
 import { FormGroupState, KeyValue } from '../../state';
-import { Actions, RemoveControlAction } from '../../actions';
+import { Actions, RemoveGroupControlAction } from '../../actions';
 import { computeGroupState, childReducer } from './util';
 
 export function removeControlReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,
   action: Actions<TValue>,
 ): FormGroupState<TValue> {
-  if (action.type !== RemoveControlAction.TYPE) {
+  if (action.type !== RemoveGroupControlAction.TYPE) {
     return state;
   }
 

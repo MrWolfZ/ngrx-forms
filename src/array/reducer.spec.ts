@@ -12,7 +12,7 @@ import {
   MarkAsUnsubmittedAction,
   MarkAsUntouchedAction,
   RemoveArrayControlAction,
-  RemoveControlAction,
+  RemoveGroupControlAction,
   ResetAction,
   SetAsyncErrorAction,
   SetErrorsAction,
@@ -65,10 +65,10 @@ describe('form array reducer', () => {
     expect((cast(resultState.controls[0]).controls as any).inner2).toBeDefined();
   });
 
-  it(`should forward ${RemoveControlAction.name}s to children`, () => {
+  it(`should forward ${RemoveGroupControlAction.name}s to children`, () => {
     const value = [{ inner: '', inner2: '' }];
     const state = createFormArrayState(FORM_CONTROL_ID, value);
-    const resultState = formArrayReducerInternal(state, new RemoveControlAction<any>(FORM_CONTROL_0_ID, 'inner2'));
+    const resultState = formArrayReducerInternal(state, new RemoveGroupControlAction<any>(FORM_CONTROL_0_ID, 'inner2'));
     expect(cast(resultState.controls[0]).controls.inner2).toBeUndefined();
   });
 

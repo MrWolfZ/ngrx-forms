@@ -12,7 +12,7 @@ import {
   MarkAsUnsubmittedAction,
   MarkAsUntouchedAction,
   RemoveArrayControlAction,
-  RemoveControlAction,
+  RemoveGroupControlAction,
   ResetAction,
   SetAsyncErrorAction,
   SetErrorsAction,
@@ -232,9 +232,9 @@ describe('form group reducer', () => {
     });
   });
 
-  describe(RemoveControlAction.name, () => {
+  describe(RemoveGroupControlAction.name, () => {
     it('should update state', () => {
-      const action = new RemoveControlAction<FormGroupValue>(FORM_CONTROL_ID, 'inner2');
+      const action = new RemoveGroupControlAction<FormGroupValue>(FORM_CONTROL_ID, 'inner2');
       const resultState = formGroupReducerInternal<FormGroupValue>(INITIAL_STATE_FULL, action);
       expect(resultState).not.toBe(INITIAL_STATE_FULL);
     });

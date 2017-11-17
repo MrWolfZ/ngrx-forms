@@ -1,4 +1,4 @@
-import { RemoveControlAction } from '../actions';
+import { RemoveGroupControlAction } from '../actions';
 import { formGroupReducer } from '../group/reducer';
 import { FormGroupState, KeyValue } from '../state';
 import { ensureState } from './util';
@@ -17,7 +17,7 @@ export function removeGroupControl<TValue extends KeyValue>(name: keyof TValue, 
 
 export function removeGroupControl<TValue extends KeyValue>(name: keyof TValue, state?: FormGroupState<TValue>) {
   if (!!state) {
-    return formGroupReducer(state, new RemoveControlAction<TValue>(state.id, name));
+    return formGroupReducer(state, new RemoveGroupControlAction<TValue>(state.id, name));
   }
 
   return (s: FormGroupState<TValue>) => removeGroupControl(name, ensureState(s));
