@@ -1,5 +1,6 @@
 import {
-  addControl,
+  addArrayControl,
+  addGroupControl,
   cast,
   createFormArrayState,
   createFormControlState,
@@ -53,7 +54,8 @@ describe('ngrx-forms', () => {
   it(`should export ${formControlReducer.name}`, () => expect(formControlReducer).toBeDefined());
   it(`should export ${formGroupReducer.name}`, () => expect(formGroupReducer).toBeDefined());
   it(`should export ${formArrayReducer.name}`, () => expect(formArrayReducer).toBeDefined());
-  it(`should export ${addControl.name}`, () => expect(addControl).toBeDefined());
+  it(`should export ${addArrayControl.name}`, () => expect(addArrayControl).toBeDefined());
+  it(`should export ${addGroupControl.name}`, () => expect(addGroupControl).toBeDefined());
   it(`should export ${disable.name}`, () => expect(disable).toBeDefined());
   it(`should export ${enable.name}`, () => expect(enable).toBeDefined());
   it(`should export ${focus.name}`, () => expect(focus).toBeDefined());
