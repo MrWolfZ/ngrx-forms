@@ -20,7 +20,7 @@ export class DynamicPageComponent {
 import { Action } from '@ngrx/store';
 import {
   AddArrayControlAction,
-  addControl,
+  addGroupControl,
   cast,
   createFormGroupState,
   formGroupReducer,
@@ -69,7 +69,7 @@ export const reducers = {
         return updateGroup<FormValue>({
           group: group => {
             const newGroup =
-              addControl<typeof INITIAL_STATE.value.group, string>(
+              addGroupControl<typeof INITIAL_STATE.value.group, string>(
                 a.name,
                 false,
               )(cast(group));
@@ -89,9 +89,9 @@ export const reducers = {
             delete newValue[a.name];
             const newGroup = setValue(newValue, cast(group));
 
-            // alternatively we can also use removeControl
+            // alternatively we can also use removeGroupControl
             // const newGroup =
-            //   removeControl<typeof INITIAL_STATE.value.group>(a.name)
+            //   removeGroupControl<typeof INITIAL_STATE.value.group>(a.name)
             //   (cast(group));
 
             return newGroup;

@@ -8,9 +8,8 @@ import {
   FormGroupState,
   updateGroup,
   validate,
-  setErrors,
 } from 'ngrx-forms';
-import { minLength, required, requiredTrue } from 'ngrx-forms/validation';
+import { equalTo, minLength, required, requiredTrue } from 'ngrx-forms/validation';
 
 import { State as RootState } from '../app.reducer';
 
@@ -50,19 +49,6 @@ export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
   agreeToTermsOfUse: false,
 });
 
-function validatePasswordsMatch(password: string, confirmPassword: string) {
-  if (password === confirmPassword) {
-    return {};
-  }
-
-  return {
-    match: {
-      password,
-      confirmPassword,
-    },
-  };
-}
-
 const validationFormGroupReducer = createFormGroupReducerWithUpdate<FormValue>({
   userName: validate(required),
   password: (state, parentState) => {
@@ -73,7 +59,7 @@ const validationFormGroupReducer = createFormGroupReducerWithUpdate<FormValue>({
     state = enable(state);
     return updateGroup<PasswordValue>({
       password: validate([required, minLength(8)]),
-      confirmPassword: validate(value => validatePasswordsMatch(state.value.password, value)),
+      confirmPassword: validate(equalTo(state.value.password)),
     })(cast(state));
   },
   agreeToTermsOfUse: validate<boolean>(requiredTrue),

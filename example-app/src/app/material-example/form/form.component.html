@@ -33,7 +33,7 @@
              type="password"
              placeholder="Confirm Password {{ passwordState.isDisabled ? '(disabled)' : '' }}"
              [ngrxFormControlState]="passwordState.controls.confirmPassword">
-      <mat-error *ngIf="formState.errors._password?._confirmPassword?.match">
+      <mat-error *ngIf="formState.errors._password?._confirmPassword?.equalTo">
         The passwords do not match
       </mat-error>
     </mat-form-field>

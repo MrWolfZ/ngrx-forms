@@ -1,7 +1,7 @@
 import { Action, combineReducers } from '@ngrx/store';
 import {
   AddArrayControlAction,
-  addControl,
+  addGroupControl,
   cast,
   createFormGroupState,
   formGroupReducer,
@@ -63,7 +63,7 @@ export function reducer(_s: any, _a: any) {
         case CreateGroupElementAction.TYPE:
           return updateGroup<FormValue>({
             group: group => {
-              const newGroup = addControl<typeof INITIAL_STATE.value.group, string>(a.name, false)(cast(group));
+              const newGroup = addGroupControl<typeof INITIAL_STATE.value.group, string>(a.name, false)(cast(group));
 
               // alternatively we can also use setValue
               // const newValue = { ...group.value, [a.name]: false };
@@ -80,8 +80,8 @@ export function reducer(_s: any, _a: any) {
               delete newValue[a.name];
               const newGroup = setValue(newValue, cast(group));
 
-              // alternatively we can also use removeControl
-              // const newGroup = removeControl<typeof INITIAL_STATE.value.group>(a.name)(cast(group));
+              // alternatively we can also use removeGroupControl
+              // const newGroup = removeGroupControl<typeof INITIAL_STATE.value.group>(a.name)(cast(group));
 
               return newGroup;
             },
