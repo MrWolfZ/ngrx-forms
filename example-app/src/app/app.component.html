@@ -1,9 +1,9 @@
 <div class="main-content">
-  <md-card class="todo-list">
-    <md-card-header>
-      <md-card-title>Todos</md-card-title>
-    </md-card-header>
-    <md-card-content>
+  <mat-card class="todo-list">
+    <mat-card-header>
+      <mat-card-title>Todos</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
       <div class="description">
         Notes: <br/>
         - the "Priority" input is only enabled for the "Work" category<br/>
@@ -11,19 +11,19 @@
       </div>
       <app-item-form [formState]="formState$ | async"
                      (addTodoItem)="addTodoItem($event)"></app-item-form>
-      <md-list>
-        <md-list-item *ngFor="let item of items$ | async">
+      <mat-list>
+        <mat-list-item *ngFor="let item of items$ | async">
           <div class="list-item">
             <div class="category">{{item.category}}</div>
             <div class="text">{{item.text}}</div>
             <div class="priority">{{item.meta.priority > 0 ? item.meta.priority : ''}}</div>
             <div class="duedate">{{formatDate(item.meta.duedate)}}</div>
           </div>
-        </md-list-item>
-      </md-list>
-    </md-card-content>
-  </md-card>
-  <md-card class="state">
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="state">
     <pre>{{formState$ | async | json}}</pre>
-  </md-card>
+  </mat-card>
 </div>

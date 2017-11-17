@@ -5,25 +5,35 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { HttpModule } from '@angular/http';
-import { MaterialModule, MdNativeDateModule } from '@angular/material';
+import { MatNativeDateModule,
+   MatSelectModule,
+   MatInputModule,
+   MatCardModule,
+   MatListModule,
+   MatDatepickerModule } from '@angular/material';
 import { NgrxFormsModule } from 'ngrx-forms';
 
 import { reducers } from './app.reducer';
 import { AppComponent } from './app.component';
 import { ItemFormComponent } from './item-form/item-form.component';
-import { NgrxMdSelectValueAccessor } from './md-select-value-accessor';
-
+import { NgrxMatSelectValueAccessor } from './mat-select-value-accessor';
+import { NgrxValidateMatFormFieldControl } from './mat-validate-form-field-control';
 @NgModule({
   declarations: [
     AppComponent,
     ItemFormComponent,
-    NgrxMdSelectValueAccessor,
+    NgrxMatSelectValueAccessor,
+    NgrxValidateMatFormFieldControl
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MaterialModule,
-    MdNativeDateModule,
+    MatSelectModule,
+    MatInputModule,
+    MatCardModule,
+    MatListModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     NgrxFormsModule,
     HttpModule,
     StoreModule.forRoot(reducers),
