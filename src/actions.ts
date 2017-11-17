@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { ValidationErrors } from '@angular/forms';
-import { NgrxFormControlId } from './state';
+import { NgrxFormControlId, KeyValue } from './state';
 
 export class SetValueAction<TValue> implements Action {
   static readonly TYPE = 'ngrx/forms/SET_VALUE';
@@ -223,9 +223,9 @@ export class AddArrayControlAction<TValue> implements Action {
   }
 }
 
-export class AddControlAction<TValue, TControlKey extends keyof TValue> implements Action {
-  static readonly TYPE = 'ngrx/forms/ADD_CONTROL';
-  readonly type = AddControlAction.TYPE;
+export class AddGroupControlAction<TValue extends KeyValue, TControlKey extends keyof TValue = string> implements Action {
+  static readonly TYPE = 'ngrx/forms/ADD_GROUP_CONTROL';
+  readonly type = AddGroupControlAction.TYPE;
   readonly controlId: NgrxFormControlId;
 
   readonly payload: {
@@ -325,7 +325,7 @@ export type Actions<TValue> =
   | UnfocusAction
   | MarkAsSubmittedAction
   | MarkAsUnsubmittedAction
-  | AddControlAction<TValue, keyof TValue>
+  | AddGroupControlAction<TValue>
   | RemoveControlAction<TValue>
   | AddArrayControlAction<any>
   | RemoveArrayControlAction

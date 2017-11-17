@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Actions, AddControlAction, FocusAction, RemoveControlAction, UnfocusAction } from '../actions';
+import { Actions, AddGroupControlAction, FocusAction, RemoveControlAction, UnfocusAction } from '../actions';
 import { FormArrayState, isArrayState } from '../state';
 import { addControlReducer } from './reducer/add-control';
 import { clearAsyncErrorReducer } from './reducer/clear-async-error';
@@ -29,7 +29,7 @@ export function formArrayReducerInternal<TValue>(state: FormArrayState<TValue>, 
   switch (action.type) {
     case FocusAction.TYPE:
     case UnfocusAction.TYPE:
-    case AddControlAction.TYPE:
+    case AddGroupControlAction.TYPE:
     case RemoveControlAction.TYPE:
       return childReducer(state, action);
   }

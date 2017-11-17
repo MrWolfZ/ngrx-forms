@@ -1,6 +1,6 @@
 import {
   AddArrayControlAction,
-  AddControlAction,
+  AddGroupControlAction,
   ClearAsyncErrorAction,
   DisableAction,
   EnableAction,
@@ -36,13 +36,13 @@ describe('form array reducer', () => {
     expect(resultState).toBe(INITIAL_STATE);
   });
 
-  it('should forward focus actions to children', () => {
+  it(`should forward ${FocusAction.name}s to children`, () => {
     const resultState = formArrayReducerInternal(INITIAL_STATE, new FocusAction(FORM_CONTROL_0_ID) as any);
     expect(cast(resultState.controls[0]).isFocused).toEqual(true);
     expect(cast(resultState.controls[0]).isUnfocused).toEqual(false);
   });
 
-  it('should forward unfocus actions to children', () => {
+  it(`should forward ${UnfocusAction.name}s to children`, () => {
     const state = {
       ...INITIAL_STATE,
       controls: [
@@ -58,14 +58,14 @@ describe('form array reducer', () => {
     expect(cast(resultState.controls[0]).isUnfocused).toEqual(true);
   });
 
-  it('should forward add control actions to children', () => {
+  it(`should forward ${AddGroupControlAction.name}s to children`, () => {
     const value = [{ inner: '' }];
     const state = createFormArrayState(FORM_CONTROL_ID, value);
-    const resultState = formArrayReducerInternal(state, new AddControlAction<any, any>(FORM_CONTROL_0_ID, 'inner2', ''));
+    const resultState = formArrayReducerInternal(state, new AddGroupControlAction<any, any>(FORM_CONTROL_0_ID, 'inner2', ''));
     expect((cast(resultState.controls[0]).controls as any).inner2).toBeDefined();
   });
 
-  it('should forward remove control actions to children', () => {
+  it(`should forward ${RemoveControlAction.name}s to children`, () => {
     const value = [{ inner: '', inner2: '' }];
     const state = createFormArrayState(FORM_CONTROL_ID, value);
     const resultState = formArrayReducerInternal(state, new RemoveControlAction<any>(FORM_CONTROL_0_ID, 'inner2'));

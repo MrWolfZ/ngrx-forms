@@ -1,6 +1,6 @@
 import {
   AddArrayControlAction,
-  AddControlAction,
+  AddGroupControlAction,
   ClearAsyncErrorAction,
   DisableAction,
   EnableAction,
@@ -39,13 +39,13 @@ describe('form group reducer', () => {
     expect(resultState).toBe(INITIAL_STATE);
   });
 
-  it('should forward focus actions to children', () => {
+  it(`should forward ${FocusAction.name}s to children`, () => {
     const resultState = formGroupReducerInternal(INITIAL_STATE, new FocusAction(FORM_CONTROL_INNER_ID) as any);
     expect(cast(resultState.controls.inner).isFocused).toEqual(true);
     expect(cast(resultState.controls.inner).isUnfocused).toEqual(false);
   });
 
-  it('should forward unfocus actions to children', () => {
+  it(`should forward ${UnfocusAction.name}s to children`, () => {
     const state = {
       ...INITIAL_STATE,
       controls: {
@@ -61,12 +61,12 @@ describe('form group reducer', () => {
     expect(cast(resultState.controls.inner).isUnfocused).toEqual(true);
   });
 
-  it('should forward add array control actions to children', () => {
+  it(`should forward add ${AddArrayControlAction.name}s to children`, () => {
     const resultState = formGroupReducerInternal<FormGroupValue>(INITIAL_STATE_FULL, new AddArrayControlAction<any>(FORM_CONTROL_INNER5_ID, ''));
     expect(cast(resultState.controls.inner5)!.controls[1]).toBeDefined();
   });
 
-  it('should forward remove array control actions to children', () => {
+  it(`should forward remove ${RemoveArrayControlAction.name}s to children`, () => {
     const resultState = formGroupReducerInternal(INITIAL_STATE_FULL, new RemoveArrayControlAction(FORM_CONTROL_INNER5_ID, 0));
     expect(cast(resultState.controls.inner5)!.controls[0]).toBeUndefined();
   });
@@ -224,9 +224,9 @@ describe('form group reducer', () => {
     });
   });
 
-  describe(AddControlAction.name, () => {
+  describe(AddGroupControlAction.name, () => {
     it('should update state', () => {
-      const action = new AddControlAction<FormGroupValue, 'inner2'>(FORM_CONTROL_ID, 'inner2', '');
+      const action = new AddGroupControlAction<FormGroupValue>(FORM_CONTROL_ID, 'inner2', '');
       const resultState = formGroupReducerInternal<FormGroupValue>(INITIAL_STATE, action);
       expect(resultState).not.toBe(INITIAL_STATE);
     });

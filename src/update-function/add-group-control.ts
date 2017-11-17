@@ -1,4 +1,4 @@
-import { AddControlAction } from '../actions';
+import { AddGroupControlAction } from '../actions';
 import { formGroupReducer } from '../group/reducer';
 import { FormGroupState, KeyValue } from '../state';
 import { ensureState } from './util';
@@ -28,7 +28,7 @@ export function addGroupControl<TValue extends KeyValue, TControlKey extends key
   state?: FormGroupState<TValue>,
 ) {
   if (!!state) {
-    return formGroupReducer(state, new AddControlAction<TValue, TControlKey>(state.id, name, value));
+    return formGroupReducer(state, new AddGroupControlAction<TValue, TControlKey>(state.id, name, value));
   }
 
   return (s: FormGroupState<TValue>) => addGroupControl(name, value, ensureState(s));

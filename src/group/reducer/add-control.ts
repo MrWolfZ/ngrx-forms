@@ -1,4 +1,4 @@
-import { Actions, AddControlAction } from '../../actions';
+import { Actions, AddGroupControlAction } from '../../actions';
 import { createChildState, FormGroupState, KeyValue } from '../../state';
 import { childReducer, computeGroupState } from './util';
 
@@ -6,7 +6,7 @@ export function addControlReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,
   action: Actions<TValue>,
 ): FormGroupState<TValue> {
-  if (action.type !== AddControlAction.TYPE) {
+  if (action.type !== AddGroupControlAction.TYPE) {
     return state;
   }
 

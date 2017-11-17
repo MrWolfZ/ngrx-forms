@@ -1,4 +1,4 @@
-import { AddControlAction } from '../../actions';
+import { AddGroupControlAction } from '../../actions';
 import { cast } from '../../state';
 import { addControlReducer } from './add-control';
 import { FORM_CONTROL_ID, FormGroupValue, INITIAL_STATE } from './test-util';
@@ -6,7 +6,7 @@ import { FORM_CONTROL_ID, FormGroupValue, INITIAL_STATE } from './test-util';
 describe(`form group ${addControlReducer.name}`, () => {
   it('should create child state for control child', () => {
     const value = 'B';
-    const action = new AddControlAction<FormGroupValue, 'inner2'>(FORM_CONTROL_ID, 'inner2', value);
+    const action = new AddGroupControlAction<FormGroupValue>(FORM_CONTROL_ID, 'inner2', value);
     const resultState = addControlReducer<FormGroupValue>(INITIAL_STATE, action);
     expect(resultState.value).toEqual({ inner: '', inner2: value });
     expect(resultState.controls.inner2.value).toEqual(value);
@@ -14,7 +14,7 @@ describe(`form group ${addControlReducer.name}`, () => {
 
   it('should create child state for group child', () => {
     const value = { inner4: 'D' };
-    const action = new AddControlAction<FormGroupValue, 'inner3'>(FORM_CONTROL_ID, 'inner3', value);
+    const action = new AddGroupControlAction<FormGroupValue>(FORM_CONTROL_ID, 'inner3', value);
     const resultState = addControlReducer<FormGroupValue>(INITIAL_STATE, action);
     expect(resultState.value).toEqual({ inner: '', inner3: value });
     expect(resultState.controls.inner3.value).toBe(value);
@@ -24,7 +24,7 @@ describe(`form group ${addControlReducer.name}`, () => {
 
   it('should create child state for array child', () => {
     const value = ['A'];
-    const action = new AddControlAction<FormGroupValue, 'inner5'>(FORM_CONTROL_ID, 'inner5', value);
+    const action = new AddGroupControlAction<FormGroupValue>(FORM_CONTROL_ID, 'inner5', value);
     const resultState = addControlReducer<FormGroupValue>(INITIAL_STATE, action);
     expect(resultState.value).toEqual({ inner: '', inner5: value });
     expect(resultState.controls.inner5.value).toBe(value);
@@ -33,7 +33,7 @@ describe(`form group ${addControlReducer.name}`, () => {
   });
 
   it('should throw if trying to add existing control', () => {
-    const action = new AddControlAction<FormGroupValue, 'inner'>(FORM_CONTROL_ID, 'inner', '');
+    const action = new AddGroupControlAction<FormGroupValue>(FORM_CONTROL_ID, 'inner', '');
     expect(() => addControlReducer<FormGroupValue>(INITIAL_STATE, action)).toThrowError();
   });
 });
