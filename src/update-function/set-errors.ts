@@ -1,17 +1,44 @@
 import { SetErrorsAction } from '../actions';
-import { AbstractControlState, ValidationErrors } from '../state';
-import { abstractControlReducer, ensureState, ProjectFn } from './util';
-
-// export function setErrors<TValue extends FormControlValueTypes>(param: ValidationErrors | ValidationErrors[]): ProjectFn<FormControlState<TValue>>;
-// export function setErrors<TValue extends KeyValue>(param: ValidationErrors | ValidationErrors[]): ProjectFn<FormGroupState<TValue>>;
+import {
+  AbstractControlState,
+  FormArrayState,
+  FormControlState,
+  FormControlValueTypes,
+  FormGroupState,
+  ValidationErrors,
+} from '../state';
+import { abstractControlReducer, ensureState } from './util';
 
 /**
- * Returns a function that sets the errors of a given form state.
+ * This update function takes an error object or an array of error objects and returns
+ * a projection function that sets the errors of a form state.
  */
-export function setErrors<TValue>(param: ValidationErrors | ValidationErrors[]): ProjectFn<AbstractControlState<TValue>>;
+export function setErrors<TValue>(param: ValidationErrors | ValidationErrors[]): (state: AbstractControlState<TValue>) => AbstractControlState<TValue>;
 
 /**
- * Sets the errors of a given form state.
+ * This update function takes an error object or an array of error objects and a form
+ * state and sets the errors of the state.
+ */
+export function setErrors<TValue extends FormControlValueTypes>(
+  param: ValidationErrors | ValidationErrors[],
+  state: FormControlState<TValue>,
+): FormControlState<TValue>;
+
+/**
+ * This update function takes an error object or an array of error objects and a form
+ * array state and sets the errors of the state.
+ */
+export function setErrors<TValue>(param: ValidationErrors | ValidationErrors[], state: FormArrayState<TValue>): FormArrayState<TValue>;
+
+/**
+ * This update function takes an error object or an array of error objects and a form
+ * group state and sets the errors of the state.
+ */
+export function setErrors<TValue>(param: ValidationErrors | ValidationErrors[], state: FormGroupState<TValue>): FormGroupState<TValue>;
+
+/**
+ * This update function takes an error object or an array of error objects and a form
+ * state and sets the errors of the state.
  */
 export function setErrors<TValue>(param: ValidationErrors | ValidationErrors[], state: AbstractControlState<TValue>): AbstractControlState<TValue>;
 

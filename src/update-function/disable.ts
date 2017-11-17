@@ -1,13 +1,36 @@
 import { DisableAction } from '../actions';
-import { AbstractControlState } from '../state';
+import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState } from '../state';
 import { abstractControlReducer } from './util';
 
-// export function disable<TValue extends FormControlValueTypes>(state: FormControlState<TValue>): FormControlState<TValue>;
-// export function disable<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
+/**
+ * This update function takes a form control state and disables it. Disabling a control
+ * will clear all of its errors (i.e. making it always valid) and will remove all
+ * pending validations (thereby effectively cancelling those validations).
+ */
+export function disable<TValue extends FormControlValueTypes>(state: FormControlState<TValue>): FormControlState<TValue>;
 
 /**
- * Disables a given form state. For groups and arrays also disables all children.
+ * This update function takes a form array state and disables it and all of its children.
+ * Disabling a control will clear all of its errors (i.e. making it always valid) and
+ * will remove all pending validations (thereby effectively cancelling those validations).
  */
+export function disable<TValue>(state: FormArrayState<TValue>): FormArrayState<TValue>;
+
+/**
+ * This update function takes a form group state and disables it and all of its children.
+ * Disabling a control will clear all of its errors (i.e. making it always valid) and
+ * will remove all pending validations (thereby effectively cancelling those validations).
+ */
+export function disable<TValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
+
+/**
+ * This update function takes a form state and disables it. For groups and arrays also
+ * disables all children. Disabling a control will clear all of its errors (i.e. making
+ * it always valid) and will remove all pending validations (thereby effectively
+ * cancelling those validations).
+ */
+export function disable<TValue>(state: AbstractControlState<TValue>): AbstractControlState<TValue>;
+
 export function disable<TValue>(state: AbstractControlState<TValue>) {
   return abstractControlReducer(state, new DisableAction(state.id));
 }

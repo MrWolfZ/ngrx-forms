@@ -24,10 +24,55 @@ function updateArraySingle<TValue>(updateFn: ProjectFn2<AbstractControlState<TVa
 }
 
 /**
- * Returns a function that applies all given update functions one after another to the given form array state.
+ * This update function takes a variable number of update functions and returns
+ * a projection function that applies all update functions one after another to
+ * a form array state.
+ *
+ * The following (contrived) example uses this function to validate all its
+ * children to be required and mark them as dirty.
+ *
+ * ```typescript
+ * const arrayUpdateFn = updateArray<string>(
+ *   validate(required),
+ *   markAsDirty,
+ * );
+ * const updatedState = arrayUpdateFn(state);
+ * ```
  */
-export function updateArray<TValue>(...updateFnArr: Array<ProjectFn2<AbstractControlState<TValue>, FormArrayState<TValue>>>) {
+export function updateArray<TValue>(
+  ...updateFnArr: Array<ProjectFn2<AbstractControlState<TValue>, FormArrayState<TValue>>>,
+): (state: FormArrayState<TValue>) => FormArrayState<TValue>;
+
+/**
+ * This update function takes a form array state and a variable number of update
+ * functions applies all update functions one after another to the state.
+ *
+ * The following (contrived) example uses this function to validate all its
+ * children to be required and mark them as dirty.
+ *
+ * ```typescript
+ * const updatedState = updateArray<string>(
+ *   state,
+ *   validate(required),
+ *   markAsDirty,
+ * );
+ * ```
+ */
+export function updateArray<TValue>(
+  state: FormArrayState<TValue>,
+  ...updateFnArr: Array<ProjectFn2<AbstractControlState<TValue>, FormArrayState<TValue>>>,
+): FormArrayState<TValue>;
+
+export function updateArray<TValue>(
+  stateOrFunction: FormArrayState<TValue> | ProjectFn2<AbstractControlState<TValue>, FormArrayState<TValue>>,
+  ...updateFnArr: Array<ProjectFn2<AbstractControlState<TValue>, FormArrayState<TValue>>>,
+) {
+  if (typeof stateOrFunction !== 'function') {
+    const [first, ...rest] = updateFnArr;
+    return updateArray(first, ...rest)(stateOrFunction);
+  }
+
   return (state: FormArrayState<TValue>): FormArrayState<TValue> => {
-    return updateFnArr.reduce((s, updateFn) => updateArraySingle<TValue>(updateFn)(s), state);
+    return [stateOrFunction as any, ...updateFnArr].reduce((s, updateFn) => updateArraySingle<TValue>(updateFn)(s), state);
   };
 }

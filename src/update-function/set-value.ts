@@ -1,17 +1,42 @@
 import { SetValueAction } from '../actions';
-import { AbstractControlState } from '../state';
-import { abstractControlReducer, ensureState, ProjectFn } from './util';
-
-// export function setValue<TValue extends FormControlValueTypes>(value: TValue): ProjectFn<FormControlState<TValue>>;
-// export function setValue<TValue extends KeyValue>(value: TValue): ProjectFn<FormGroupState<TValue>>;
+import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState } from '../state';
+import { abstractControlReducer, ensureState } from './util';
 
 /**
- * Returns a function that sets the value of a given form state.
+ * This update function takes a value and returns a projection function that
+ * sets the value of a form state. Setting the value of a group or array will
+ * also update the values of all children including adding and removing
+ * children on the fly for added/removed properties/items.
  */
-export function setValue<TValue>(value: TValue): ProjectFn<AbstractControlState<TValue>>;
+export function setValue<TValue>(value: TValue): (state: AbstractControlState<TValue>) => AbstractControlState<TValue>;
 
 /**
- * Sets the value of a given form state.
+ * This update function takes a value and a form control state and sets the
+ * value of the state.
+ */
+export function setValue<TValue extends FormControlValueTypes>(value: TValue, state: FormControlState<TValue>): FormControlState<TValue>;
+
+/**
+ * This update function takes a value and a form array state and sets the
+ * value of the state. This will also update the values of all children
+ * including adding and removing children on the fly for added/removed
+ * items.
+ */
+export function setValue<TValue>(value: TValue, state: FormArrayState<TValue>): FormArrayState<TValue>;
+
+/**
+ * This update function takes a value and a form group state and sets the
+ * value of the state. This will also update the values of all children
+ * including adding and removing children on the fly for added/removed
+ * properties.
+ */
+export function setValue<TValue>(value: TValue, state: FormGroupState<TValue>): FormGroupState<TValue>;
+
+/**
+ * This update function takes a value and a form state and sets the value
+ * of the state. Setting the value of a group or array will also update the
+ * values of all children including adding and removing children on the fly
+ * for added/removed properties/items.
  */
 export function setValue<TValue>(value: TValue, state: AbstractControlState<TValue>): AbstractControlState<TValue>;
 

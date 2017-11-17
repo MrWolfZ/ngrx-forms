@@ -28,6 +28,39 @@ describe(updateGroup.name, () => {
     expect(resultState.controls.inner5).toBe(expected);
   });
 
+  it('should apply the provided functions to control children uncurried', () => {
+    const expected = { ...INITIAL_STATE.controls.inner, value: 'A' };
+    const resultState = updateGroup<FormGroupValue>(
+      INITIAL_STATE,
+      {
+        inner: () => expected,
+      },
+    );
+    expect(resultState.controls.inner).toBe(expected);
+  });
+
+  it('should apply the provided functions to group children uncurried', () => {
+    const expected = { ...INITIAL_STATE.controls.inner3, value: { inner4: 'A' } };
+    const resultState = updateGroup<FormGroupValue>(
+      INITIAL_STATE,
+      {
+        inner3: () => expected,
+      },
+    );
+    expect(resultState.controls.inner3).toBe(expected);
+  });
+
+  it('should apply the provided functions to array children uncurried', () => {
+    const expected = { ...INITIAL_STATE.controls.inner5, value: ['A'] };
+    const resultState = updateGroup<FormGroupValue>(
+      INITIAL_STATE,
+      {
+        inner5: () => expected,
+      },
+    );
+    expect(resultState.controls.inner5).toBe(expected);
+  });
+
   it('should apply multiple provided function objects one after another', () => {
     const updatedInner1 = { ...INITIAL_STATE.controls.inner, value: 'A' };
     const expectedInner1 = { ...INITIAL_STATE.controls.inner, value: 'B' };

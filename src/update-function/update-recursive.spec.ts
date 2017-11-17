@@ -10,10 +10,24 @@ describe(updateRecursive.name, () => {
     expect(resultState).toBe(expected);
   });
 
+  it('should apply the provided functions to controls uncurried', () => {
+    const state = createFormControlState<string>(FORM_CONTROL_ID, '');
+    const expected = { ...state, value: 'A' };
+    const resultState = updateRecursive(state, () => expected);
+    expect(resultState).toBe(expected);
+  });
+
   it('should apply the provided functions to arrays', () => {
     const state = createFormArrayState(FORM_CONTROL_ID, ['']);
     const expected = { ...state, value: ['A'] };
     const resultState = updateRecursive<string[]>(() => expected)(state);
+    expect(resultState).toBe(expected);
+  });
+
+  it('should apply the provided functions to arrays uncurried', () => {
+    const state = createFormArrayState(FORM_CONTROL_ID, ['']);
+    const expected = { ...state, value: ['A'] };
+    const resultState = updateRecursive(state, () => expected);
     expect(resultState).toBe(expected);
   });
 
@@ -35,6 +49,13 @@ describe(updateRecursive.name, () => {
     const state = createFormGroupState(FORM_CONTROL_ID, { inner: '' });
     const expected = { ...state, value: { inner: 'A' } };
     const resultState = updateRecursive<typeof state.value>(() => expected)(state);
+    expect(resultState).toBe(expected);
+  });
+
+  it('should apply the provided functions to groups uncurried', () => {
+    const state = createFormGroupState(FORM_CONTROL_ID, { inner: '' });
+    const expected = { ...state, value: { inner: 'A' } };
+    const resultState = updateRecursive(state, () => expected);
     expect(resultState).toBe(expected);
   });
 
