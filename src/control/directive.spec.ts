@@ -1,12 +1,13 @@
 import 'rxjs/add/operator/count';
 import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/skip';
 
 import { ElementRef } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import { SetValueAction } from '../actions';
+import { MarkAsDirtyAction, SetValueAction } from '../actions';
 import { createFormControlState } from '../state';
 import { FormViewAdapter } from '../view-adapter/view-adapter';
 import { NgrxFormControlDirective } from './directive';
@@ -84,22 +85,46 @@ describe(NgrxFormControlDirective.name, () => {
     expect(spy).toHaveBeenCalledWith(newValue);
   });
 
-  it('should dispatch an action if the view value changes', done => {
-    const newValue = 'new value';
-    onChange(newValue);
+  it(`should dispatch a ${SetValueAction.name} if the view value changes`, done => {
     actions$.first().subscribe(a => {
       expect(a).toEqual(new SetValueAction(INITIAL_STATE.id, newValue));
       done();
     });
+
+    const newValue = 'new value';
+    onChange(newValue);
   });
 
-  it('should not dispatch an action if the view value is the same as the state', done => {
-    onChange(INITIAL_STATE.value);
-    actionsSubject.complete();
+  it(`should not dispatch a ${SetValueAction.name} if the view value is the same as the state`, done => {
     actions$.count().subscribe(c => {
       expect(c).toEqual(0);
       done();
     });
+
+    onChange(INITIAL_STATE.value);
+    actionsSubject.complete();
+  });
+
+  it(`should dispatch a ${MarkAsDirtyAction.name} if the view value changes when the state is not marked as dirty`, done => {
+    actions$.skip(1).first().subscribe(a => {
+      expect(a).toEqual(new MarkAsDirtyAction(INITIAL_STATE.id));
+      done();
+    });
+
+    const newValue = 'new value';
+    onChange(newValue);
+  });
+
+  it(`should not dispatch a ${MarkAsDirtyAction.name} if the view value changes when the state is marked as dirty`, done => {
+    actions$.count().subscribe(c => {
+      expect(c).toEqual(1);
+      done();
+    });
+
+    directive.ngrxFormControlState = { ...INITIAL_STATE, isDirty: true, isPristine: false };
+    const newValue = 'new value';
+    onChange(newValue);
+    actionsSubject.complete();
   });
 
   it('should write the value when the state changes to the same value that was reported from the view before', () => {
@@ -134,32 +159,35 @@ describe(NgrxFormControlDirective.name, () => {
     });
 
     it('should dispatch an action on blur if the view value has changed with ngrxUpdateOn "blur"', done => {
-      const newValue = 'new value';
-      onChange(newValue);
-      onTouched();
       actions$.first().subscribe(a => {
         expect(a).toEqual(new SetValueAction(INITIAL_STATE.id, newValue));
         done();
       });
+
+      const newValue = 'new value';
+      onChange(newValue);
+      onTouched();
     });
 
     it('should not dispatch an action on blur if the view value has not changed with ngrxUpdateOn "blur"', done => {
-      onTouched();
-      actionsSubject.complete();
       actions$.count().subscribe(c => {
         expect(c).toEqual(0);
         done();
       });
+
+      onTouched();
+      actionsSubject.complete();
     });
 
     it('should not dispatch an action if the view value changes with ngrxUpdateOn "blur"', done => {
-      const newValue = 'new value';
-      onChange(newValue);
-      actionsSubject.complete();
       actions$.count().subscribe(c => {
         expect(c).toEqual(0);
         done();
       });
+
+      const newValue = 'new value';
+      onChange(newValue);
+      actionsSubject.complete();
     });
 
     it('should not write the value when the state value does not change', () => {
@@ -186,11 +214,12 @@ describe(NgrxFormControlDirective.name, () => {
     });
 
     it('should convert the view value if it changes', done => {
-      onChange(VIEW_VALUE);
       actions$.first().subscribe(a => {
         expect(a).toEqual(new SetValueAction(INITIAL_STATE.id, STATE_VALUE));
         done();
       });
+
+      onChange(VIEW_VALUE);
     });
 
     it('should not write the value when the state value does not change with conversion', () => {
@@ -201,13 +230,14 @@ describe(NgrxFormControlDirective.name, () => {
     });
 
     it('should not dispatch an action if the view value is the same as the state with conversion', done => {
-      directive.ngrxFormControlState = { ...INITIAL_STATE, value: STATE_VALUE };
-      onChange(VIEW_VALUE);
-      actionsSubject.complete();
       actions$.count().subscribe(c => {
         expect(c).toEqual(0);
         done();
       });
+
+      directive.ngrxFormControlState = { ...INITIAL_STATE, value: STATE_VALUE };
+      onChange(VIEW_VALUE);
+      actionsSubject.complete();
     });
   });
 

@@ -14,7 +14,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DOCUMENT } from '@angular/platform-browser';
 import { ActionsSubject } from '@ngrx/store';
 
-import { FocusAction, MarkAsTouchedAction, SetValueAction, UnfocusAction } from '../actions';
+import { FocusAction, MarkAsDirtyAction, MarkAsTouchedAction, SetValueAction, UnfocusAction } from '../actions';
 import { FormControlState, FormControlValueTypes } from '../state';
 import { selectViewAdapter } from '../view-adapter/util';
 import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from '../view-adapter/view-adapter';
@@ -152,6 +152,10 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
       this.stateValue = this.ngrxValueConverter.convertViewToStateValue(this.viewValue);
       if (this.stateValue !== this.state.value) {
         this.actionsSubject.next(new SetValueAction(this.state.id, this.stateValue));
+
+        if (this.state.isPristine) {
+          this.actionsSubject.next(new MarkAsDirtyAction(this.state.id));
+        }
       }
     };
 

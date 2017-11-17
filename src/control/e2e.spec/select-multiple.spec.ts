@@ -4,10 +4,10 @@ import 'rxjs/add/operator/skip';
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 
-import { SetValueAction } from '../../actions';
+import { SetValueAction, MarkAsDirtyAction } from '../../actions';
 import { NgrxFormsModule } from '../../module';
 import { createFormControlState, FormControlState } from '../../state';
 import { NgrxValueConverters } from '../../control/value-converter';
@@ -23,15 +23,15 @@ const SELECT_OPTIONS = ['op1', 'op2'];
   </select>
   `,
 })
-export class SelectComponent {
+export class SelectMultipleComponent {
   @Input() state: FormControlState<string>;
   options = SELECT_OPTIONS;
   valueConverter = NgrxValueConverters.objectToJSON;
 }
 
-describe(SelectComponent.name, () => {
-  let component: SelectComponent;
-  let fixture: ComponentFixture<SelectComponent>;
+describe(SelectMultipleComponent.name, () => {
+  let component: SelectMultipleComponent;
+  let fixture: ComponentFixture<SelectMultipleComponent>;
   let actionsSubject: ActionsSubject;
   let actions$: Observable<Action>;
   let element: HTMLSelectElement;
@@ -42,20 +42,20 @@ describe(SelectComponent.name, () => {
   const INITIAL_STATE = createFormControlState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
 
   beforeEach(() => {
-    actionsSubject = new BehaviorSubject<Action>({ type: '' }) as ActionsSubject;
+    actionsSubject = new Subject<Action>() as ActionsSubject;
     actions$ = actionsSubject as Observable<Action>; // cast required due to mismatch of lift() function signature
   });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NgrxFormsModule],
-      declarations: [SelectComponent],
+      declarations: [SelectMultipleComponent],
       providers: [{ provide: ActionsSubject, useValue: actionsSubject }],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelectComponent);
+    fixture = TestBed.createComponent(SelectMultipleComponent);
     component = fixture.componentInstance;
     component.state = INITIAL_STATE;
     fixture.detectChanges();
@@ -70,12 +70,23 @@ describe(SelectComponent.name, () => {
   });
 
   it('should trigger a SetValueAction with the selected value when an option is selected', done => {
-    option1.selected = true;
-    element.dispatchEvent(new Event('change'));
     actions$.first().subscribe(a => {
       expect(a.type).toBe(SetValueAction.TYPE);
       expect((a as SetValueAction<string>).payload.value).toBe(JSON.stringify(SELECT_OPTIONS));
       done();
     });
+
+    option1.selected = true;
+    element.dispatchEvent(new Event('change'));
+  });
+
+  it(`should trigger a ${MarkAsDirtyAction.name} when an option is selected`, done => {
+    actions$.skip(1).first().subscribe(a => {
+      expect(a.type).toBe(MarkAsDirtyAction.TYPE);
+      done();
+    });
+
+    option1.selected = true;
+    element.dispatchEvent(new Event('change'));
   });
 });

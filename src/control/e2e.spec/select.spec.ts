@@ -4,10 +4,10 @@ import 'rxjs/add/operator/skip';
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 
-import { SetValueAction } from '../../actions';
+import { MarkAsDirtyAction, SetValueAction } from '../../actions';
 import { NgrxFormsModule } from '../../module';
 import { createFormControlState, FormControlState } from '../../state';
 
@@ -36,7 +36,7 @@ describe(SelectComponent.name, () => {
   const INITIAL_STATE = createFormControlState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
 
   beforeEach(() => {
-    actionsSubject = new BehaviorSubject<Action>({ type: '' }) as ActionsSubject;
+    actionsSubject = new Subject<Action>() as ActionsSubject;
     actions$ = actionsSubject as Observable<Action>; // cast required due to mismatch of lift() function signature
   });
 
@@ -63,14 +63,25 @@ describe(SelectComponent.name, () => {
     expect(option2.selected).toBe(true);
   });
 
-  it('should trigger a SetValueAction with the selected value when an option is selected', done => {
-    element.selectedIndex = 0;
-    element.dispatchEvent(new Event('change'));
+  it(`should trigger a ${SetValueAction.name} with the selected value when an option is selected`, done => {
     actions$.first().subscribe(a => {
       expect(a.type).toBe(SetValueAction.TYPE);
       expect((a as SetValueAction<string>).payload.value).toBe(SELECT_OPTIONS[0]);
       done();
     });
+
+    element.selectedIndex = 0;
+    element.dispatchEvent(new Event('change'));
+  });
+
+  it(`should trigger a ${MarkAsDirtyAction.name} when an option is selected`, done => {
+    actions$.skip(1).first().subscribe(a => {
+      expect(a.type).toBe(MarkAsDirtyAction.TYPE);
+      done();
+    });
+
+    element.selectedIndex = 0;
+    element.dispatchEvent(new Event('change'));
   });
 });
 
@@ -99,7 +110,7 @@ describe(NumberSelectComponent.name, () => {
   const INITIAL_STATE = createFormControlState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
 
   beforeEach(() => {
-    actionsSubject = new BehaviorSubject<Action>({ type: '' }) as ActionsSubject;
+    actionsSubject = new Subject<Action>() as ActionsSubject;
     actions$ = actionsSubject as Observable<Action>; // cast required due to mismatch of lift() function signature
   });
 
@@ -126,13 +137,24 @@ describe(NumberSelectComponent.name, () => {
     expect(option2.selected).toBe(true);
   });
 
-  it('should trigger a SetValueAction with the selected value when an option is selected', done => {
-    element.selectedIndex = 0;
-    element.dispatchEvent(new Event('change'));
+  it(`should trigger a ${SetValueAction.name} with the selected value when an option is selected`, done => {
     actions$.first().subscribe(a => {
       expect(a.type).toBe(SetValueAction.TYPE);
       expect((a as SetValueAction<number>).payload.value).toBe(SELECT_NUMBER_OPTIONS[0]);
       done();
     });
+
+    element.selectedIndex = 0;
+    element.dispatchEvent(new Event('change'));
+  });
+
+  it(`should trigger a ${MarkAsDirtyAction.name} when an option is selected`, done => {
+    actions$.skip(1).first().subscribe(a => {
+      expect(a.type).toBe(MarkAsDirtyAction.TYPE);
+      done();
+    });
+
+    element.selectedIndex = 0;
+    element.dispatchEvent(new Event('change'));
   });
 });

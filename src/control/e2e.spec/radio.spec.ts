@@ -6,7 +6,7 @@ import { Action, ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-import { SetValueAction } from '../../actions';
+import { MarkAsDirtyAction, SetValueAction } from '../../actions';
 import { NgrxFormsModule } from '../../module';
 import { createFormControlState, FormControlState } from '../../state';
 
@@ -73,7 +73,7 @@ describe(RadioTestComponent.name, () => {
     expect(element2.checked).toBe(true);
   });
 
-  it('should trigger a SetValueAction with the selected value when an option is selected', done => {
+  it(`should trigger a ${SetValueAction.name} with the selected value when an option is selected`, done => {
     actions$.take(1).subscribe(a => {
       expect(a.type).toBe(SetValueAction.TYPE);
       expect((a as SetValueAction<string>).payload.value).toBe(RADIO_OPTIONS[0]);
@@ -83,12 +83,23 @@ describe(RadioTestComponent.name, () => {
     element1.click();
   });
 
-  it('should trigger SetValueActions when switching between options', done => {
-    actions$.bufferCount(2).take(1).subscribe(([a1, a2]) => {
+  it(`should trigger a ${MarkAsDirtyAction.name} when an option is selected`, done => {
+    actions$.skip(1).take(1).subscribe(a => {
+      expect(a.type).toBe(MarkAsDirtyAction.TYPE);
+      done();
+    });
+
+    element1.click();
+  });
+
+  it(`should trigger ${SetValueAction.name}s and ${MarkAsDirtyAction.name}s when switching between options`, done => {
+    actions$.bufferCount(4).take(1).subscribe(([a1, a2, a3, a4]) => {
       expect(a1.type).toBe(SetValueAction.TYPE);
-      expect(a2.type).toBe(SetValueAction.TYPE);
+      expect(a2.type).toBe(MarkAsDirtyAction.TYPE);
+      expect(a3.type).toBe(SetValueAction.TYPE);
+      expect(a4.type).toBe(MarkAsDirtyAction.TYPE);
       expect((a1 as SetValueAction<string>).payload.value).toBe(RADIO_OPTIONS[0]);
-      expect((a2 as SetValueAction<string>).payload.value).toBe(RADIO_OPTIONS[1]);
+      expect((a3 as SetValueAction<string>).payload.value).toBe(RADIO_OPTIONS[1]);
       done();
     });
 
@@ -98,7 +109,7 @@ describe(RadioTestComponent.name, () => {
     element2.click();
   });
 
-  it('should trigger a SetValueAction if the value of the selected option changes', done => {
+  it(`should trigger a ${SetValueAction.name} if the value of the selected option changes`, done => {
     const newValue = 'new value';
 
     actions$.take(1).subscribe(a => {
