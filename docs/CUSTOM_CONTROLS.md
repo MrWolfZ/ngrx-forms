@@ -4,7 +4,7 @@ ngrx-forms uses a mechanism called `FormViewAdapter` to connect form elements in
 
 However, since many third party libraries are using the `ControlValueAccessor` already, ngrx-forms integrates with these libraries by converting the value accessor internally into a view adapter. Therefore, all third party form components should work with ngrx-forms out of the box as long as they properly export the value accessor.
 
-However, in case a library does not do this you can write a custom view adapter (if you want to integrate more directly with ngrx-forms) or a value accessor. Use the injection token `NGRX_FORM_VIEW_ADAPTER` to register a custom adapter. See the example app for such a custom view adapter (in this case for the `md-select` from `@angular/material` which in version `2.0.0-beta.8` does not properly export the `md-select`'s value accessor).
+However, in case a library does not do this you can write a custom view adapter (if you want to integrate more directly with ngrx-forms) or a value accessor. Use the injection token `NGRX_FORM_VIEW_ADAPTER` to register a custom adapter. See the example app for such a custom view adapter (in this case for the `mat-select` from `@angular/material` which in version `5.0.0-rc0` does not export the `mat-select`'s value accessor).
 
 A `FormViewAdapter` is defined as follows:
 
