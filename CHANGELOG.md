@@ -11,6 +11,7 @@
 * change `option` element `value` bindings to work correctly for all primitive data types thereby removing the need for `ngValue` bindings
 * trying to set an error with a key prefixed with `$` will now throw an error since the `$` prefix is used to mark async errors
 * applying the `ngrxFormControlState` directive to a form element will now set the element's `id` attribute to the ID of the state (thereby overriding any already present `id`)
+* the `isDirty` property for form controls is now not set automatically the first time the state's value changes, but instead it is set manually from the `NgrxFormControlDirective` the first time the underlying `FormViewAdapter` or `ControlValueAccessor` reports a new value; this means if you were e.g. using the `setValue` update function in your reducer before this will now not mark the state as `dirty` anymore
 * rename `addControl` update function to `addGroupControl`
 * rename `AddControlAction` to `AddGroupControlAction` (also renaming its `type` from `ngrx/forms/ADD_CONTROL` to `ngrx/forms/ADD_GROUP_CONTROL`)
 * rename `removeControl` update function to `removeGroupControl`
@@ -30,6 +31,7 @@
 * add support for asynchronous validation (see the [documentation](docs/VALIDATION.md#asynchronous-validation) for more details) ([f208e61](https://github.com/MrWolfZ/ngrx-forms/commit/f208e61))
 * extend [example application](https://ngrx-forms-example-app-v2.herokuapp.com/) to contain multiple examples
 * added overloads for many update functions that make casting the state unnecessary in certain situations
+* added lots of inline comments to the API making it easier to understand what certain functions do right in your IDE
 
 #### Bugfixes
 
