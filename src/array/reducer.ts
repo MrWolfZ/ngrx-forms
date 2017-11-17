@@ -55,6 +55,9 @@ export function formArrayReducerInternal<TValue>(state: FormArrayState<TValue>, 
   return state;
 }
 
+/**
+ * This reducer function updates a form array state with actions.
+ */
 export function formArrayReducer<TValue>(state: FormArrayState<TValue>, action: Action) {
   return formArrayReducerInternal(state, action as any);
 }

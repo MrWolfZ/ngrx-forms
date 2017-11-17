@@ -53,6 +53,9 @@ export function formControlReducerInternal<TValue extends FormControlValueTypes>
   return state;
 }
 
+/**
+ * This reducer function updates a form control state with actions.
+ */
 export function formControlReducer<TValue extends FormControlValueTypes>(state: FormControlState<TValue>, action: Action) {
   return formControlReducerInternal(state, action as any);
 }

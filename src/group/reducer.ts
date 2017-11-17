@@ -55,6 +55,9 @@ export function formGroupReducerInternal<TValue extends KeyValue>(state: FormGro
   return state;
 }
 
+/**
+ * This reducer function updates a form group state with actions.
+ */
 export function formGroupReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, action: Action) {
   return formGroupReducerInternal(state, action as any);
 }
