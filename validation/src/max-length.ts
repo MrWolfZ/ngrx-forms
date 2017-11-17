@@ -1,9 +1,29 @@
 import { ValidationErrors } from 'ngrx-forms';
 
 /**
- * Validation function that requires a value to have a maximum length.
+ * A validation function that requires a `string` value to have a maximum length.
  * Considers `null` as valid. Combine this function with the `required` validation
  * function if `null` should be considered invalid.
+ *
+ * The validation error returned by this validation function has the following shape:
+ *
+ * ```typescript
+ * {
+ *   maxLength: {
+ *     maxLength: number;
+ *     value: string;
+ *     actualLength: number;
+ *   };
+ * }
+ * ```
+ *
+ * Usually you would use this validation function in conjunction with the `validate`
+ * update function to perform synchronous validation in your reducer:
+ *
+ * ```typescript
+ * updateGroup<MyFormValue>({
+ *  name: validate(maxLength(10)),
+ * })
  */
 export function maxLength(maxLength: number) {
   if (maxLength === null || maxLength === undefined) {
