@@ -24,17 +24,17 @@ import { ValidationErrors } from 'ngrx-forms';
  *  amount: validate(lessThan(10)),
  * })
  */
-export function lessThan(comparand: number, treatNullAsError = true) {
+export function lessThan(comparand: number) {
   if (comparand === null || comparand === undefined) {
     throw new Error(`The lessThan Validation function requires the comparand parameter to be a non-null number, got ${comparand}!`);
   }
 
   return (value: number | null): ValidationErrors => {
-    if (value === null && treatNullAsError === false) {
+    if (value === null) {
       return {};
     }
 
-    if (value !== null && value < comparand) {
+    if (value < comparand) {
       return {};
     }
 

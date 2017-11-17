@@ -9,12 +9,8 @@ describe(lessThan.name, () => {
     expect(() => lessThan(undefined as any)).toThrow();
   });
 
-  it('should return an error for null if treatNullAsError is true', () => {
-    expect(lessThan(1, true)(null)).not.toEqual({});
-  });
-
-  it('should not return an error for null if treatNullAsError is false', () => {
-    expect(lessThan(1, false)(null)).toEqual({});
+  it('should not return an error for null', () => {
+    expect(lessThan(1)(null)).toEqual({});
   });
 
   it('should return an error if value is greater than comparand', () => {
