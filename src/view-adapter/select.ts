@@ -35,6 +35,10 @@ export class NgrxSelectViewAdapter implements FormViewAdapter {
   onTouched: () => void = () => void 0
 
   @Input() set ngrxFormControlState(value: FormControlState<any>) {
+    if (!value) {
+      throw new Error('The control state must not be undefined!');
+    }
+
     if (value.id !== this.elementRef.nativeElement.id) {
       this.renderer.setProperty(this.elementRef.nativeElement, 'id', value.id);
     }

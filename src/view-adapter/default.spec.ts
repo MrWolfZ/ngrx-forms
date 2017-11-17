@@ -3,22 +3,24 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgrxDefaultViewAdapter } from './default';
 
+const TEST_ID = 'test ID';
+
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'default-test',
   template: `
-<input type="text" ngrxFormControlState />
+<input type="text" [ngrxFormControlState]="state" />
 `,
 })
-export class DefaultInputTestComponent { }
+export class DefaultInputTestComponent {
+  state = { id: TEST_ID } as any;
+}
 
 describe(NgrxDefaultViewAdapter.name, () => {
   let component: DefaultInputTestComponent;
   let fixture: ComponentFixture<DefaultInputTestComponent>;
   let viewAdapter: NgrxDefaultViewAdapter;
   let element: HTMLInputElement;
-
-  const TEST_ID = 'test ID';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -35,8 +37,6 @@ describe(NgrxDefaultViewAdapter.name, () => {
     fixture.detectChanges();
     element = (fixture.nativeElement as HTMLElement).querySelector('input') as HTMLInputElement;
     viewAdapter = getDebugNode(element)!.injector.get(NgrxDefaultViewAdapter);
-    viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
-    fixture.detectChanges();
   });
 
   it('should attach the view adapter', () => expect(viewAdapter).toBeDefined());
@@ -88,5 +88,9 @@ describe(NgrxDefaultViewAdapter.name, () => {
     element.disabled = true;
     viewAdapter.setIsDisabled(false);
     expect(element.disabled).toBe(false);
+  });
+
+  it('should throw if state is undefined', () => {
+    expect(() => viewAdapter.ngrxFormControlState = undefined as any).toThrowError();
   });
 });

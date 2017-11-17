@@ -3,22 +3,24 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgrxCheckboxViewAdapter } from './checkbox';
 
+const TEST_ID = 'test ID';
+
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'checkbox-test',
   template: `
-<input type="checkbox" ngrxFormControlState />
+<input type="checkbox" [ngrxFormControlState]="state" />
 `,
 })
-export class CheckboxTestComponent { }
+export class CheckboxTestComponent {
+  state = { id: TEST_ID } as any;
+}
 
 describe(NgrxCheckboxViewAdapter.name, () => {
   let component: CheckboxTestComponent;
   let fixture: ComponentFixture<CheckboxTestComponent>;
   let viewAdapter: NgrxCheckboxViewAdapter;
   let element: HTMLInputElement;
-
-  const TEST_ID = 'test ID';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -35,8 +37,6 @@ describe(NgrxCheckboxViewAdapter.name, () => {
     fixture.detectChanges();
     element = (fixture.nativeElement as HTMLElement).querySelector('input') as HTMLInputElement;
     viewAdapter = getDebugNode(element)!.injector.get(NgrxCheckboxViewAdapter);
-    viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
-    fixture.detectChanges();
   });
 
   it('should attach the view adapter', () => expect(viewAdapter).toBeDefined());
@@ -92,5 +92,9 @@ describe(NgrxCheckboxViewAdapter.name, () => {
     element.disabled = true;
     viewAdapter.setIsDisabled(false);
     expect(element.disabled).toBe(false);
+  });
+
+  it('should throw if state is undefined', () => {
+    expect(() => viewAdapter.ngrxFormControlState = undefined as any).toThrowError();
   });
 });

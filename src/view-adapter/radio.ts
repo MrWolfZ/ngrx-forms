@@ -24,6 +24,10 @@ export class NgrxRadioViewAdapter implements FormViewAdapter, OnInit, OnDestroy 
   }
 
   @Input() set ngrxFormControlState(value: FormControlState<any>) {
+    if (!value) {
+      throw new Error('The control state must not be undefined!');
+    }
+
     if (value.id !== this.elementRef.nativeElement.name) {
       this.renderer.setProperty(this.elementRef.nativeElement, 'name', value.id);
     }

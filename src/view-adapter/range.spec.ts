@@ -3,22 +3,24 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgrxRangeViewAdapter } from './range';
 
+const TEST_ID = 'test ID';
+
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'range-test',
   template: `
-<input type="range" ngrxFormControlState />
+<input type="range" [ngrxFormControlState]="state" />
 `,
 })
-export class RangeTestComponent { }
+export class RangeTestComponent {
+  state = { id: TEST_ID } as any;
+}
 
 describe(NgrxRangeViewAdapter.name, () => {
   let component: RangeTestComponent;
   let fixture: ComponentFixture<RangeTestComponent>;
   let viewAdapter: NgrxRangeViewAdapter;
   let element: HTMLInputElement;
-
-  const TEST_ID = 'test ID';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -35,8 +37,6 @@ describe(NgrxRangeViewAdapter.name, () => {
     fixture.detectChanges();
     element = (fixture.nativeElement as HTMLElement).querySelector('input') as HTMLInputElement;
     viewAdapter = getDebugNode(element)!.injector.get(NgrxRangeViewAdapter);
-    viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
-    fixture.detectChanges();
   });
 
   it('should attach the view adapter', () => expect(viewAdapter).toBeDefined());
@@ -92,5 +92,9 @@ describe(NgrxRangeViewAdapter.name, () => {
     element.disabled = true;
     viewAdapter.setIsDisabled(false);
     expect(element.disabled).toBe(false);
+  });
+
+  it('should throw if state is undefined', () => {
+    expect(() => viewAdapter.ngrxFormControlState = undefined as any).toThrowError();
   });
 });

@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgrxSelectMultipleOption, NgrxSelectMultipleViewAdapter } from './select-multiple';
 
+const TEST_ID = 'test ID';
+
 const OPTION1_VALUE = 'op1';
 const OPTION2_VALUE = 'op2';
 const OPTION3_VALUE = 'op3';
@@ -11,21 +13,21 @@ const OPTION3_VALUE = 'op3';
   // tslint:disable-next-line:component-selector
   selector: 'select-test',
   template: `
-<select multiple ngrxFormControlState>
+<select multiple [ngrxFormControlState]="state">
   <option value="op1">op1</option>
   <option value="op2" selected>op2</option>
   <option value="op3" selected>op2</option>
 </select>
 
-<select multiple ngrxFormControlState>
+<select multiple [ngrxFormControlState]="state">
   <option *ngFor="let o of stringOptions; trackBy: trackByIndex" [value]="o">{{o}}</option>
 </select>
 
-<select multiple ngrxFormControlState>
+<select multiple [ngrxFormControlState]="state">
   <option *ngFor="let o of numberOptions; trackBy: trackByIndex" [value]="o">{{o}}</option>
 </select>
 
-<select multiple ngrxFormControlState>
+<select multiple [ngrxFormControlState]="state">
   <option *ngFor="let o of booleanOptions; trackBy: trackByIndex" [value]="o">{{o}}</option>
 </select>
 `,
@@ -34,6 +36,7 @@ export class SelectTestComponent {
   stringOptions = ['op1', 'op2', 'op3'];
   numberOptions = [1, 2, 3];
   booleanOptions = [true, false];
+  state = { id: TEST_ID } as any;
   trackByIndex = (index: number) => index;
 }
 
@@ -115,6 +118,10 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       viewAdapter.setIsDisabled(false);
       expect(element.disabled).toBe(false);
     });
+
+    it('should throw if state is undefined', () => {
+      expect(() => viewAdapter.ngrxFormControlState = undefined as any).toThrowError();
+    });
   });
 
   describe('dynamic string options', () => {
@@ -129,6 +136,17 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       option3 = element.querySelectorAll('option')[2] as HTMLOptionElement;
       viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectMultipleViewAdapter);
       viewAdapter.setViewValue([component.stringOptions[1], component.stringOptions[2]]);
+    });
+
+    it('should set the ID of the element to the ID of the state', () => {
+      expect(element.id).toBe(TEST_ID);
+    });
+
+    it('should set the ID of the element if the ID of the state changes', () => {
+      const newId = 'new ID';
+      viewAdapter.ngrxFormControlState = { id: newId } as any;
+      fixture.detectChanges();
+      expect(element.id).toBe(newId);
     });
 
     it('should mark a single option as selected if same value is written', () => {

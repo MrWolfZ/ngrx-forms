@@ -3,26 +3,28 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgrxSelectOption, NgrxSelectViewAdapter } from './select';
 
+const TEST_ID = 'test ID';
+
 const OPTION1_VALUE = 'op1';
 
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'select-test',
   template: `
-<select ngrxFormControlState>
+<select [ngrxFormControlState]="state">
   <option value="op1">op1</option>
   <option value="op2" selected>op2</option>
 </select>
 
-<select ngrxFormControlState>
+<select [ngrxFormControlState]="state">
   <option *ngFor="let o of stringOptions; trackBy: trackByIndex" [value]="o">{{o}}</option>
 </select>
 
-<select ngrxFormControlState>
+<select [ngrxFormControlState]="state">
   <option *ngFor="let o of numberOptions; trackBy: trackByIndex" [value]="o">{{o}}</option>
 </select>
 
-<select ngrxFormControlState>
+<select [ngrxFormControlState]="state">
   <option *ngFor="let o of booleanOptions; trackBy: trackByIndex" [value]="o">{{o}}</option>
 </select>
 `,
@@ -31,6 +33,7 @@ export class SelectTestComponent {
   stringOptions = ['op1', 'op2'];
   numberOptions = [1, 2];
   booleanOptions = [true, false];
+  state = { id: TEST_ID } as any;
   trackByIndex = (index: number) => index;
 }
 
@@ -101,11 +104,13 @@ describe(NgrxSelectViewAdapter.name, () => {
       viewAdapter.setIsDisabled(false);
       expect(element.disabled).toBe(false);
     });
+
+    it('should throw if state is undefined', () => {
+      expect(() => viewAdapter.ngrxFormControlState = undefined as any).toThrowError();
+    });
   });
 
   describe('dynamic string options', () => {
-    const TEST_ID = 'test ID';
-
     beforeEach(() => {
       fixture = TestBed.createComponent(SelectTestComponent);
       component = fixture.componentInstance;
@@ -116,8 +121,6 @@ describe(NgrxSelectViewAdapter.name, () => {
       option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
       viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
       viewAdapter.setViewValue(component.stringOptions[1]);
-      viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
-      fixture.detectChanges();
     });
 
     it('should set the ID of the element to the ID of the state', () => {
