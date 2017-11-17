@@ -32,7 +32,8 @@ import {
   NgrxSelectOption,
   NgrxSelectViewAdapter,
   NgrxValueConverters,
-  removeControl,
+  removeArrayControl,
+  removeGroupControl,
   reset,
   setErrors,
   setUserDefinedProperty,
@@ -65,7 +66,8 @@ describe('ngrx-forms', () => {
   it(`should export ${markAsTouched.name}`, () => expect(markAsTouched).toBeDefined());
   it(`should export ${markAsUnsubmitted.name}`, () => expect(markAsUnsubmitted).toBeDefined());
   it(`should export ${markAsUntouched.name}`, () => expect(markAsUntouched).toBeDefined());
-  it(`should export ${removeControl.name}`, () => expect(removeControl).toBeDefined());
+  it(`should export ${removeArrayControl.name}`, () => expect(removeArrayControl).toBeDefined());
+  it(`should export ${removeGroupControl.name}`, () => expect(removeGroupControl).toBeDefined());
   it(`should export ${reset.name}`, () => expect(reset).toBeDefined());
   it(`should export ${setErrors.name}`, () => expect(setErrors).toBeDefined());
   it(`should export ${setUserDefinedProperty.name}`, () => expect(setUserDefinedProperty).toBeDefined());

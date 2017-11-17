@@ -39,7 +39,8 @@ export * from './update-function/focus';
 export * from './update-function/unfocus';
 export * from './update-function/add-array-control';
 export * from './update-function/add-group-control';
-export * from './update-function/remove-control';
+export * from './update-function/remove-array-control';
+export * from './update-function/remove-group-control';
 export * from './update-function/set-user-defined-property';
 export * from './update-function/reset';
 
