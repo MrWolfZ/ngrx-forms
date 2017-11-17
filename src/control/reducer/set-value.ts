@@ -23,7 +23,5 @@ export function setValueReducer<TValue extends FormControlValueTypes>(
   return {
     ...state,
     value: action.payload.value,
-    isDirty: true,
-    isPristine: false,
   };
 }

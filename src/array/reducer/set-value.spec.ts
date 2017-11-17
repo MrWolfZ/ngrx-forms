@@ -22,10 +22,10 @@ describe(`form array ${setValueReducer.name}`, () => {
     expect(resultState).toBe(state);
   });
 
-  it('should mark state as dirty if value is different', () => {
+  it('should not mark state as dirty', () => {
     const value = ['A', ''];
     const resultState = setValueReducer(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, value));
-    expect(resultState.isDirty).toEqual(true);
+    expect(resultState.isDirty).toEqual(false);
   });
 
   it('should update child state value', () => {
@@ -82,11 +82,11 @@ describe(`form array ${setValueReducer.name}`, () => {
     expect(resultState.value).toEqual([value, '']);
   });
 
-  it('should mark state as dirty if child value is updated', () => {
+  it('should not mark state as dirty if child value is updated', () => {
     const value = 'A';
     const resultState = setValueReducer(INITIAL_STATE, new SetValueAction(FORM_CONTROL_0_ID, value) as any);
-    expect(resultState.isDirty).toEqual(true);
-    expect(resultState.controls[0].isDirty).toEqual(true);
+    expect(resultState.isDirty).toEqual(false);
+    expect(resultState.controls[0].isDirty).toEqual(false);
   });
 
   it('should aggregate child values for group children', () => {
@@ -95,11 +95,11 @@ describe(`form array ${setValueReducer.name}`, () => {
     expect(resultState.value).toEqual([value, { inner: '' }]);
   });
 
-  it('should mark state as dirty if group child value is updated', () => {
+  it('should not mark state as dirty if group child value is updated', () => {
     const value = { inner: 'A' };
     const resultState = setValueReducer(INITIAL_STATE_NESTED_GROUP, new SetValueAction(FORM_CONTROL_0_ID, value) as any);
-    expect(resultState.isDirty).toEqual(true);
-    expect(resultState.controls[0].isDirty).toEqual(true);
+    expect(resultState.isDirty).toEqual(false);
+    expect(resultState.controls[0].isDirty).toEqual(false);
   });
 
   it('should aggregate child values for array children', () => {
@@ -108,11 +108,11 @@ describe(`form array ${setValueReducer.name}`, () => {
     expect(resultState.value).toEqual([value, ['']]);
   });
 
-  it('should mark state as dirty if array child value is updated', () => {
+  it('should not mark state as dirty if array child value is updated', () => {
     const value = ['A'];
     const resultState = setValueReducer(INITIAL_STATE_NESTED_ARRAY, new SetValueAction(FORM_CONTROL_0_ID, value) as any);
-    expect(resultState.isDirty).toEqual(true);
-    expect(resultState.controls[0].isDirty).toEqual(true);
+    expect(resultState.isDirty).toEqual(false);
+    expect(resultState.controls[0].isDirty).toEqual(false);
   });
 
   it('should remove child errors on demand when value is empty', () => {

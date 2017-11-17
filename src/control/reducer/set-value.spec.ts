@@ -22,10 +22,10 @@ describe('form control setValueReducer', () => {
     expect(resultState).toBe(state);
   });
 
-  it('should mark state as dirty if value is different', () => {
+  it('should not mark state as dirty', () => {
     const value = 'A';
     const resultState = setValueReducer(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, value));
-    expect(resultState.isDirty).toEqual(true);
+    expect(resultState.isDirty).toEqual(false);
   });
 
   it('should throw for date values', () => {
