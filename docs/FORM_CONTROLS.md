@@ -36,17 +36,17 @@ The following table explains each property.
 
 |Property|Negated|Description|
 |-|-|-|
-|`id`||The unique ID of the form control. Usually this is the name of the field in the form value prefixed by the ID of the containing group, e.g. `MY_FORM.someTextInput`.|
+|`id`||The unique ID of the form control. Usually this is the name of the field in the form value prefixed by the ID of the containing group or array, e.g. `MY_FORM.someTextInput`.|
 |`value`||The value of the form control. Controls only support values of type `string`, `number`, `boolean`, `null`, and `undefined` to keep the state string serializable.|
-|`isValid`|`isInvalid`|The `isValid` flag is `true` if the control does not have any errors.|
+|`isValid`|`isInvalid`|The `isValid` property is `true` if the control does not have any errors.|
 |`errors`||The errors of the control. This property always has a value. If the control has no errors the property is set to `{}`.|
-|`pendingValidations`||The names of all asynchronous validation errors currently being validated for the control.|
-|`isValidationPending`||The `isValidationPending` flag indicates whether the control is currently being asynchronously validated (i.e. this is `true` if and only if `pendingValidations` is not empty).|
-|`isEnabled`|`isDisabled`|The `isEnabled` flag indicates whether the control is enabled. When `isEnabled` is `false` the `errors` are always `{}` (i.e. the control is always valid if disabled) and `pendingValidations` is always `[]` (i.e. all pending validations are cancelled).|
-|`isDirty`|`isPristine`|The `isDirty` flag is set to `true` as soon as the value of the control changes for the first time.|
-|`isTouched`|`isUntouched`|The `isTouched` flag is set to `true` based on the rules of the underlying `FormViewAdapter` (usually on `blur` for most form elements).|
-|`isSubmitted`|`isUnsubmitted`|The `isSubmitted` flag is set to `true` if the containing group is submitted.|
-|`isFocused`|`isUnfocused`|The `isFocused` flag is set to `true` if the control currently has focus. Note that this feature is opt-in. To enable it you have to add ```[ngrxEnableFocusTracking]="true"``` to your form element.|
+|`pendingValidations`||The names of all asynchronous validations currently running for the control.|
+|`isValidationPending`||The `isValidationPending` property indicates whether the control is currently being asynchronously validated (i.e. this is `true` if and only if `pendingValidations` is not empty).|
+|`isEnabled`|`isDisabled`|The `isEnabled` property indicates whether the control is enabled. When `isEnabled` is `false` the `errors` are always `{}` (i.e. the control is always valid if disabled) and `pendingValidations` is always `[]` (i.e. all pending validations are cancelled).|
+|`isDirty`|`isPristine`|The `isDirty` property is set to `true` as soon as the the underlying `FormViewAdapter` or `ControlValueAccessor` reports a new value for the first time.|
+|`isTouched`|`isUntouched`|The `isTouched` property is set to `true` based on the rules of the underlying `FormViewAdapter` or `ControlValueAccessor` (usually on `blur` for most form elements).|
+|`isSubmitted`|`isUnsubmitted`|The `isSubmitted` property is set to `true` if the containing group or array is submitted.|
+|`isFocused`|`isUnfocused`|The `isFocused` property is set to `true` if the control currently has focus. Note that this feature is opt-in. To enable it you have to add ```[ngrxEnableFocusTracking]="true"``` to your form element.|
 |`userDefinedProperties`||Sometimes it is useful to associate your own metadata with a form control (e.g. if you wanted to count the number of times a control's value has been changed, what keys were pressed on an input, or how often a form has been submitted). While it is possible to store this kind of information outside of `ngrx-forms` in your own state the `userDefinedProperties` allow you to store your own metadata directly in a control's state.|
 
 Control states are associated with a form element via the `NgrxFormControlDirective` (applied with `[ngrxFormControlState]="controlState"`). This directive is reponsible for keeping the view and the state in sync. When the state is changed the update is always immediately sync'ed to the view. Additionally the `id` of the HTML element is set to the ID of the form control.
