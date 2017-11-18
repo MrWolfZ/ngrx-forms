@@ -7,11 +7,11 @@ Proper integration of forms in Angular applications using ngrx.
 Disclaimer: This library is not affiliated with the official ngrx library. I have created it mainly for my own use in one of my projects, but I thought others could profit as well.
 
 ### Content
-[1 Overview](#1-overview)
-[2 Installation](#2-installation)
-[3 Design Principles](#3-design-principles)
-[4 Open Points](#4-open-points)
-[5 Contributing](#5-contributing)
+[1 Overview](#1-overview)  
+[2 Installation](#2-installation)  
+[3 Design Principles](#3-design-principles)  
+[4 Open Points](#4-open-points)  
+[5 Contributing](#5-contributing)  
 
 ## 1 Overview
 ngrx-forms brings the strengths of the redux state management model to the world of forms in applications that are using Angular and ngrx. The mechanisms that Angular provides for working with forms are inherently mutable, local, and hard to debug. This library offers a different model for working with forms. Instead of storing the state of form controls inside the components we put them in the ngrx store. We update the state with actions which allows easy debugging just like any other redux application. ngrx-forms also provides powerful mechanisms to update, validate and generally manage large complex forms. It contains APIs for synchronous and asynchronous validation, creating dynamic forms, integrating with custom form elements, and much more.
