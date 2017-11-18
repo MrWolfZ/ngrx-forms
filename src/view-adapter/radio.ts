@@ -1,4 +1,4 @@
-import { Directive, ElementRef, forwardRef, HostListener, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, forwardRef, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
 
 import { FormControlState } from '../state';
 import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
@@ -13,7 +13,7 @@ import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
     multi: true,
   }],
 })
-export class NgrxRadioViewAdapter implements FormViewAdapter, OnInit, OnDestroy {
+export class NgrxRadioViewAdapter implements FormViewAdapter, OnInit {
   @Input() set value(val: any) {
     if (val !== this.latestValue) {
       this.latestValue = val;
@@ -66,12 +66,5 @@ export class NgrxRadioViewAdapter implements FormViewAdapter, OnInit, OnDestroy 
 
   setIsDisabled(isDisabled: boolean): void {
     this.renderer.setProperty(this.elementRef.nativeElement, 'disabled', isDisabled);
-  }
-
-  ngOnDestroy() {
-    if (this.isChecked) {
-      this.latestValue = null;
-      this.onChange();
-    }
   }
 }

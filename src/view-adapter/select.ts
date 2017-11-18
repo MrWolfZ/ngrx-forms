@@ -90,10 +90,6 @@ export class NgrxSelectViewAdapter implements FormViewAdapter {
 
   deregisterOption(id: string) {
     delete this.optionMap[id];
-
-    if (this.selectedId === id) {
-      this.onChangeFn(null);
-    }
   }
 
   private getOptionId(value: any) {

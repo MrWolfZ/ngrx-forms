@@ -185,15 +185,6 @@ describe(NgrxRadioViewAdapter.name, () => {
       newElement.dispatchEvent(new Event('change'));
       expect(spy).toHaveBeenCalledWith(newValue);
     });
-
-    it('should remove options dynamically', () => {
-      const spy = jasmine.createSpy('fn');
-      viewAdapter1.setOnChangeCallback(spy);
-      viewAdapter2.setOnChangeCallback(spy);
-      component.stringOptions.pop();
-      fixture.detectChanges();
-      expect(spy).toHaveBeenCalledWith(null);
-    });
   });
 
   describe('dynamic number options', () => {
@@ -265,15 +256,6 @@ describe(NgrxRadioViewAdapter.name, () => {
       newElement.dispatchEvent(new Event('change'));
       expect(spy).toHaveBeenCalledWith(newValue);
     });
-
-    it('should remove options dynamically', () => {
-      const spy = jasmine.createSpy('fn');
-      viewAdapter1.setOnChangeCallback(spy);
-      viewAdapter2.setOnChangeCallback(spy);
-      component.numberOptions.pop();
-      fixture.detectChanges();
-      expect(spy).toHaveBeenCalledWith(null);
-    });
   });
 
   describe('dynamic boolean options', () => {
@@ -344,15 +326,6 @@ describe(NgrxRadioViewAdapter.name, () => {
       newElement.checked = true;
       newElement.dispatchEvent(new Event('change'));
       expect(spy).toHaveBeenCalledWith(newValue);
-    });
-
-    it('should remove options dynamically', () => {
-      const spy = jasmine.createSpy('fn');
-      viewAdapter1.setOnChangeCallback(spy);
-      viewAdapter2.setOnChangeCallback(spy);
-      component.booleanOptions.pop();
-      fixture.detectChanges();
-      expect(spy).toHaveBeenCalledWith(null);
     });
   });
 });

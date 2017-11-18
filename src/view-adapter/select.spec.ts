@@ -182,11 +182,11 @@ describe(NgrxSelectViewAdapter.name, () => {
     });
 
     it('should remove options dynamically', () => {
-      const spy = jasmine.createSpy('fn');
-      viewAdapter.setOnChangeCallback(spy);
+      const oldValue = component.stringOptions[1];
       component.stringOptions.pop();
       fixture.detectChanges();
-      expect(spy).toHaveBeenCalledWith(null);
+      expect(() => viewAdapter.setViewValue(oldValue)).not.toThrow();
+      expect(element.selectedIndex).toEqual(-1);
     });
   });
 
@@ -251,11 +251,11 @@ describe(NgrxSelectViewAdapter.name, () => {
     });
 
     it('should remove options dynamically', () => {
-      const spy = jasmine.createSpy('fn');
-      viewAdapter.setOnChangeCallback(spy);
+      const oldValue = component.numberOptions[1];
       component.numberOptions.pop();
       fixture.detectChanges();
-      expect(spy).toHaveBeenCalledWith(null);
+      expect(() => viewAdapter.setViewValue(oldValue)).not.toThrow();
+      expect(element.selectedIndex).toEqual(-1);
     });
   });
 
@@ -311,11 +311,11 @@ describe(NgrxSelectViewAdapter.name, () => {
     });
 
     it('should remove options dynamically', () => {
-      const spy = jasmine.createSpy('fn');
-      viewAdapter.setOnChangeCallback(spy);
+      const oldValue = component.booleanOptions[1];
       component.booleanOptions.pop();
       fixture.detectChanges();
-      expect(spy).toHaveBeenCalledWith(null);
+      expect(() => viewAdapter.setViewValue(oldValue)).not.toThrow();
+      expect(element.selectedIndex).toEqual(-1);
     });
   });
 });

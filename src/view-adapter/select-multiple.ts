@@ -97,10 +97,6 @@ export class NgrxSelectMultipleViewAdapter implements FormViewAdapter {
   deregisterOption(id: string) {
     delete this.options[id];
     delete this.optionValues[id];
-
-    if (this.selectedIds.indexOf(id) >= 0) {
-      this.onChange();
-    }
   }
 
   private getOptionId(value: any) {
