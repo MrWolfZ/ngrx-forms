@@ -33,14 +33,14 @@ Group states are usually completely independent of the DOM (with the exception o
 
 Sometimes you will have to render a variable number of fields in your form. In such a case you can provide a form value interface that has an index signature and then add and remove controls dynamically. Instead of an index signature you can also use optional fields if the potential members of the form value are statically known. At runtime you can add and remove controls in two ways:
 
-1) explicitly call the `addControl` and `removeControl` update functions (see the section below)
+1) explicitly call the `addGroupControl` and `removeGroupControl` update functions (see the section section on [updating the state](UPDATING_THE_STATE.md) for more details on these functions)
 2) set the value of the form group via `setValue` which will automatically update the form group based on the value you provide
 
 Below you can find an example of how this would look. Assume that we have an action that provides a variable set of objects which each should be mapped to a group with two form controls.
 
 ```typescript
 import { Action } from '@ngrx/store';
-import { FormGroupState, setValue, cast } from 'ngrx-forms';
+import { FormGroupState, setValue } from 'ngrx-forms';
 
 interface DynamicObject {
   id: string;
@@ -81,7 +81,7 @@ export function appReducer(state: AppState, action: Action): AppState {
 
       // the `setValue` will add and remove controls as required; existing controls that are still
       // present get their value updated but are otherwise kept in the same state as before
-      const dynamicForm = cast(setValue(newFormValue, state.dynamicForm));
+      const dynamicForm = setValue(newFormValue, state.dynamicForm);
       return { ...state, dynamicForm };
     }
 

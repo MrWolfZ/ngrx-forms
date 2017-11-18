@@ -29,13 +29,16 @@ Array states are completely independent of the DOM. They are updated by intercep
 
 #### Dynamic Form Arrays
 
-Sometimes you will have to render a variable number of fields in your form. Form arrays support adding and removing controls dynamically. This is done by setting the value of the form array via `setValue` which will automatically update the form array based on the value you provide.
+Sometimes you will have to render a variable number of fields in your form. Form arrays support adding and removing controls dynamically. This can be done in two ways:
+
+1) explicitly call the `addArrayControl` and `removeArrayControl` update functions (see the section section on [updating the state](UPDATING_THE_STATE.md) for more details on these functions)
+2) set the value of the form array via `setValue` which will automatically update the form array based on the value you provide
 
 Below you can find an example of how this would look. Assume that we have an action that provides a variable set of objects which each should be mapped to an array with two form controls.
 
 ```typescript
 import { Action } from '@ngrx/store';
-import { FormArrayState, setValue, updateGroup, cast } from 'ngrx-forms';
+import { FormArrayState, setValue } from 'ngrx-forms';
 
 interface DynamicObject {
   someNumber: number;
@@ -65,7 +68,7 @@ export function appReducer(state: AppState, action: Action): AppState {
 
       // the `setValue` will add and remove controls as required; existing controls that are still
       // present get their value updated but are otherwise kept in the same state as before
-      const dynamicFormArray = cast(setValue(newFormValue, state.dynamicFormArray));
+      const dynamicFormArray = setValue(newFormValue, state.dynamicFormArray);
       return { ...state, dynamicFormArray };
     }
 
