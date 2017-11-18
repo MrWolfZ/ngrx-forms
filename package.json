@@ -2,8 +2,8 @@
   "name": "ngrx-forms",
   "version": "1.1.1",
   "description": "Proper integration of forms in Angular 4 applications using ngrx",
-  "module": "@ngrx/forms.es5.js",
-  "es2015": "@ngrx/forms.js",
+  "module": "ngrx/forms.es5.js",
+  "es2015": "ngrx/forms.js",
   "main": "bundles/forms.umd.js",
   "scripts": {
     "build": "node build.js",
@@ -14,7 +14,7 @@
     "publish-lib": "npm publish ./dist",
     "compodoc": "compodoc -p tsconfig.json",
     "compodoc-serve": "compodoc -s",
-    "example-install": "npm run build && move ./dist/@ngrx ./dist/ngrx && npm pack ./dist && cd example-app && npm install ../ngrx-forms-1.1.1.tgz && move ./node_modules/ngrx-forms/ngrx ./node_modules/ngrx-forms/@ngrx && cd .."
+    "example-install": "npm run build && npm pack ./dist && cd example-app && npm install ../ngrx-forms-1.1.1.tgz && cd .."
   },
   "typings": "./forms.d.ts",
   "author": "",

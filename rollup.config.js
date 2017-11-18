@@ -10,7 +10,7 @@ const globals = {
 };
 
 export default {
-  entry: './dist/@ngrx/forms.es5.js',
+  entry: './dist/ngrx/forms.es5.js',
   dest: './dist/bundles/forms.umd.js',
   format: 'umd',
   exports: 'named',

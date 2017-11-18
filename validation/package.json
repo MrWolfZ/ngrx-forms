@@ -2,6 +2,6 @@
   "name": "ngrx-forms/validation",
   "typings": "../validation.d.ts",
   "main": "../bundles/forms-validation.umd.js",
-  "module": "../@ngrx/forms/validation.es5.js",
-  "es2015": "../@ngrx/forms/validation.js"
+  "module": "../ngrx/forms/validation.es5.js",
+  "es2015": "../ngrx/forms/validation.js"
 }

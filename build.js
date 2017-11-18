@@ -4,7 +4,7 @@ const shell = require('shelljs');
 const chalk = require('chalk');
 
 const DIST_DIR = `dist`;
-const MODULES_DIR = `${DIST_DIR}/@ngrx`;
+const MODULES_DIR = `${DIST_DIR}/ngrx`;
 const BUNDLES_DIR = `${DIST_DIR}/bundles`;
 
 const PACKAGES = [
