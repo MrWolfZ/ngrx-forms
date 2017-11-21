@@ -1,9 +1,12 @@
 :host {
   display: flex;
   height: 100%;
+  margin: auto;
+  justify-content: flex-start;
 
   >mat-card.example {
     width: 640px;
+    margin: 20px 10px 20px 20px;
 
     .small /deep/ .mat-tab-label {
       min-width: 128px;
@@ -22,7 +25,7 @@
 }
 
 .form-state {
-  margin-left: 20px;
+  margin: 20px 20px 20px 10px;
   overflow: auto;
   min-width: 500px;
   max-width: 640px;

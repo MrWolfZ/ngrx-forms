@@ -2,10 +2,12 @@
 
 :host {
   @extend .page;
+  padding: 0 20px;
 }
 
 .mat-card {
   width: 800px;
+  margin: 20px auto;
 }
 
 .mat-card-title {
