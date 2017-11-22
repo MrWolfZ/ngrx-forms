@@ -34,6 +34,11 @@ describe('form group reducer', () => {
   const INITIAL_STATE = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
   const INITIAL_STATE_FULL = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE_FULL);
 
+  it('should skip any non-ngrx-forms action', () => {
+    const resultState = formGroupReducerInternal(INITIAL_STATE, { type: '' } as any);
+    expect(resultState).toBe(INITIAL_STATE);
+  });
+
   it('should skip any action with non-equal control ID', () => {
     const resultState = formGroupReducerInternal(INITIAL_STATE, new SetValueAction('A' + FORM_CONTROL_ID, 'A') as any);
     expect(resultState).toBe(INITIAL_STATE);

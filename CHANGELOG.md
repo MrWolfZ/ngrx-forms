@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="2.1.0"></a>
+### 2.1.0
+
+#### Features
+
+* improve performance by ignoring irrelevant actions in reducers
+
 <a name="2.0.1"></a>
 ### 2.0.1
 

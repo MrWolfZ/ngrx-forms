@@ -332,3 +332,7 @@ export type Actions<TValue> =
   | SetUserDefinedPropertyAction
   | ResetAction
   ;
+
+export function isNgrxFormsAction(action: Action) {
+  return action.type.startsWith('ngrx/forms/');
+}

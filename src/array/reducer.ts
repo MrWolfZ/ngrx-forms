@@ -1,6 +1,13 @@
 import { Action } from '@ngrx/store';
 
-import { Actions, AddGroupControlAction, FocusAction, RemoveGroupControlAction, UnfocusAction } from '../actions';
+import {
+  Actions,
+  AddGroupControlAction,
+  FocusAction,
+  isNgrxFormsAction,
+  RemoveGroupControlAction,
+  UnfocusAction,
+} from '../actions';
 import { FormArrayState, isArrayState } from '../state';
 import { addControlReducer } from './reducer/add-control';
 import { clearAsyncErrorReducer } from './reducer/clear-async-error';
@@ -24,6 +31,14 @@ import { childReducer } from './reducer/util';
 export function formArrayReducerInternal<TValue>(state: FormArrayState<TValue>, action: Actions<TValue[]>) {
   if (!isArrayState(state)) {
     throw new Error('State must be array state');
+  }
+
+  if (!isNgrxFormsAction(action)) {
+    return state;
+  }
+
+  if (!action.controlId.startsWith(state.id)) {
+    return state;
   }
 
   switch (action.type) {

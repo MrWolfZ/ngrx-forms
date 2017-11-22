@@ -31,6 +31,11 @@ describe('form array reducer', () => {
   const INITIAL_FORM_CONTROL_VALUE: FormArrayValue = [''];
   const INITIAL_STATE = createFormArrayState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
 
+  it('should skip any non-ngrx-forms action', () => {
+    const resultState = formArrayReducerInternal(INITIAL_STATE, { type: '' } as any);
+    expect(resultState).toBe(INITIAL_STATE);
+  });
+
   it('should skip any action with non-equal control ID', () => {
     const resultState = formArrayReducerInternal(INITIAL_STATE, new SetValueAction('A' + FORM_CONTROL_ID, 'A') as any);
     expect(resultState).toBe(INITIAL_STATE);
