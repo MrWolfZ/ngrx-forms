@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="2.0.1"></a>
+### 2.0.1
+
+#### Bugfixes
+
+* properly handle case where the `addArrayControl` update function is called with only a value but neither an index nor a state
+
 <a name="2.0.0"></a>
 ### 2.0.0
 
