@@ -15,8 +15,8 @@ export function addArrayControl<TValue>(value: TValue, index?: number | null): (
  */
 export function addArrayControl<TValue>(value: TValue, state: FormArrayState<TValue>, index?: number | null): FormArrayState<TValue>;
 
-export function addArrayControl<TValue>(value: TValue, indexOrState?: number | null | FormArrayState<TValue>, index?: number | null) {
-  if (isArrayState(indexOrState as any)) {
+export function addArrayControl<TValue>(value: TValue, indexOrState: number | null | FormArrayState<TValue> = null, index: number | null = null) {
+  if (indexOrState !== null && isArrayState(indexOrState as any)) {
     return formArrayReducer(indexOrState as any, new AddArrayControlAction((indexOrState as any).id, value, index));
   }
 
