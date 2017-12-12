@@ -1,5 +1,6 @@
 import { FormGroupState, KeyValue } from '../../state';
 import { Actions, SetUserDefinedPropertyAction } from '../../actions';
+import { childReducer } from './util';
 
 export function setUserDefinedPropertyReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,
@@ -10,7 +11,7 @@ export function setUserDefinedPropertyReducer<TValue extends KeyValue>(
   }
 
   if (action.controlId !== state.id) {
-    return state;
+    return childReducer(state, action);
   }
 
   if (state.userDefinedProperties[action.payload.name] === action.payload.value) {

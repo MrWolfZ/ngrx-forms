@@ -1,5 +1,6 @@
 import { Actions, SetUserDefinedPropertyAction } from '../../actions';
 import { FormArrayState } from '../../state';
+import { childReducer } from './util';
 
 export function setUserDefinedPropertyReducer<TValue>(
   state: FormArrayState<TValue>,
@@ -10,7 +11,7 @@ export function setUserDefinedPropertyReducer<TValue>(
   }
 
   if (action.controlId !== state.id) {
-    return state;
+    return childReducer(state, action);
   }
 
   if (state.userDefinedProperties[action.payload.name] === action.payload.value) {

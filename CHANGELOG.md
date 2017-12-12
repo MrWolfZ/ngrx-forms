@@ -7,6 +7,10 @@
 
 * improve performance by ignoring irrelevant actions in reducers
 
+#### Bugfixes
+
+* fix issue that causes user defined properties not being properly set for form controls in groups or arrays when setting them by dispatching actions
+
 <a name="2.0.1"></a>
 ### 2.0.1
 
