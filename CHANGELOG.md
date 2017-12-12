@@ -9,7 +9,7 @@
 
 #### Bugfixes
 
-* fix issue that causes user defined properties not being properly set for form controls in groups or arrays when setting them by dispatching actions
+* fix issue that causes user defined properties not being properly set for form controls in groups or arrays when setting them by dispatching actions ([ba0c34f](https://github.com/MrWolfZ/ngrx-forms/commit/ba0c34f)), closes [#24](https://github.com/MrWolfZ/ngrx-forms/issues/24)
 
 <a name="2.0.1"></a>
 ### 2.0.1
