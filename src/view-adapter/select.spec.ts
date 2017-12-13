@@ -188,6 +188,15 @@ describe(NgrxSelectViewAdapter.name, () => {
       expect(() => viewAdapter.setViewValue(oldValue)).not.toThrow();
       expect(element.selectedIndex).toEqual(-1);
     });
+
+    it('should select the correct option when a new option is added for the current state value', () => {
+      const newValue = 'new value';
+      viewAdapter.setViewValue(newValue);
+      component.stringOptions.push(newValue);
+      fixture.detectChanges();
+      const newOption = element.querySelectorAll('option')[2] as HTMLOptionElement;
+      expect(newOption.selected).toBe(true);
+    });
   });
 
   describe('dynamic number options', () => {
@@ -257,6 +266,15 @@ describe(NgrxSelectViewAdapter.name, () => {
       expect(() => viewAdapter.setViewValue(oldValue)).not.toThrow();
       expect(element.selectedIndex).toEqual(-1);
     });
+
+    it('should select the correct option when a new option is added for the current state value', () => {
+      const newValue = 3;
+      viewAdapter.setViewValue(newValue);
+      component.numberOptions.push(newValue);
+      fixture.detectChanges();
+      const newOption = element.querySelectorAll('option')[2] as HTMLOptionElement;
+      expect(newOption.selected).toBe(true);
+    });
   });
 
   describe('dynamic boolean options', () => {
@@ -316,6 +334,17 @@ describe(NgrxSelectViewAdapter.name, () => {
       fixture.detectChanges();
       expect(() => viewAdapter.setViewValue(oldValue)).not.toThrow();
       expect(element.selectedIndex).toEqual(-1);
+    });
+
+    it('should select the correct option when a new option is added for the current state value', () => {
+      const newValue = false;
+      viewAdapter.setViewValue(newValue);
+      component.booleanOptions = [true];
+      fixture.detectChanges();
+      component.booleanOptions.push(newValue);
+      fixture.detectChanges();
+      const newOption = element.querySelectorAll('option')[1] as HTMLOptionElement;
+      expect(newOption.selected).toBe(true);
     });
   });
 });

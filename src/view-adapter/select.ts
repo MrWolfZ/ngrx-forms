@@ -6,7 +6,6 @@ import {
   HostListener,
   Input,
   OnDestroy,
-  OnInit,
   Optional,
   Renderer2,
 } from '@angular/core';
@@ -28,6 +27,7 @@ export class NgrxSelectViewAdapter implements FormViewAdapter {
   private optionMap: { [id: string]: any } = {};
   private idCounter = 0;
   private selectedId: string | null = null;
+  private value: any = undefined;
 
   onChangeFn: (value: any) => void = () => void 0;
 
@@ -47,6 +47,7 @@ export class NgrxSelectViewAdapter implements FormViewAdapter {
   constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
 
   setViewValue(value: any) {
+    this.value = value;
     this.selectedId = this.getOptionId(value);
     if (this.selectedId === null) {
       this.renderer.setProperty(this.elementRef.nativeElement, 'selectedIndex', -1);
@@ -59,6 +60,7 @@ export class NgrxSelectViewAdapter implements FormViewAdapter {
   onChange(event: UIEvent) {
     this.selectedId = (event.target as HTMLOptionElement).value;
     const value = this.optionMap[this.selectedId];
+    this.value = value;
     this.onChangeFn(value);
   }
 
@@ -85,6 +87,8 @@ export class NgrxSelectViewAdapter implements FormViewAdapter {
 
     if (this.selectedId === id) {
       this.onChangeFn(value);
+    } else if (value === this.value) {
+      this.setViewValue(value);
     }
   }
 
@@ -113,7 +117,8 @@ const NULL_VIEW_ADAPTER: NgrxSelectViewAdapter = {
   // tslint:disable-next-line:directive-selector
   selector: 'option',
 })
-export class NgrxSelectOption implements OnInit, OnDestroy {
+export class NgrxSelectOption implements OnDestroy {
+  private isInitialized = false;
   id: string;
 
   constructor(
@@ -127,11 +132,15 @@ export class NgrxSelectOption implements OnInit, OnDestroy {
 
   @Input('value')
   set value(value: any) {
-    this.viewAdapter.updateOptionValue(this.id, value);
-  }
+    if (!this.isInitialized) {
+      this.isInitialized = true;
 
-  ngOnInit() {
-    this.renderer.setProperty(this.element.nativeElement, 'value', this.id);
+      if (this.id) {
+        this.renderer.setProperty(this.element.nativeElement, 'value', this.id);
+      }
+    }
+
+    this.viewAdapter.updateOptionValue(this.id, value);
   }
 
   ngOnDestroy(): void {
