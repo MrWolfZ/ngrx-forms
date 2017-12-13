@@ -5,7 +5,7 @@
 
 #### Bugfixes
 
-* fix `select` controls not properly selecting `option` if `option` is added to the DOM after the value of the state was set to the value of the option, closes [#23](https://github.com/MrWolfZ/ngrx-forms/issues/23)
+* fix `select` controls not properly selecting `option` if `option` is added to the DOM after the value of the state was set to the value of the option ([0c2c0cc](https://github.com/MrWolfZ/ngrx-forms/commit/0c2c0cc)), closes [#23](https://github.com/MrWolfZ/ngrx-forms/issues/23)
 
 <a name="2.1.0"></a>
 ### 2.1.0
