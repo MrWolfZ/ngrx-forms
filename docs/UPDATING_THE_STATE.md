@@ -165,7 +165,7 @@ const createMyFormUpdateFunction = (otherNumber: number) => updateGroup<MyFormVa
 });
 
 export function appReducer(state = initialState, action: Action): AppState {
-  let myForm = formGroupeReducer(state.myForm, action);
+  let myForm = formGroupReducer(state.myForm, action);
   myForm = createMyFormUpdateFunction(state.someOtherNumber)(myForm);
   if (myForm !== state.myForm) {
     state = { ...state, myForm };
