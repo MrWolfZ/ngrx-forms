@@ -5,7 +5,7 @@
 
 #### Bugfixes
 
-* fix issue that caused `select` elements to get assigned wrong initial value, closes [#32](https://github.com/MrWolfZ/ngrx-forms/issues/32)
+* fix issue that caused `select` elements to get assigned wrong initial value ([d62ec81](https://github.com/MrWolfZ/ngrx-forms/commit/d62ec81)), closes [#32](https://github.com/MrWolfZ/ngrx-forms/issues/32)
 
 <a name="2.1.1"></a>
 ### 2.1.1
