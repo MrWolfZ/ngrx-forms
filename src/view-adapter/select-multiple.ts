@@ -116,6 +116,10 @@ const NULL_VIEW_ADAPTER: NgrxSelectMultipleViewAdapter = {
   updateOptionValue: () => void 0,
 } as any;
 
+const NULL_RENDERER: Renderer2 = {
+  setProperty: () => void 0,
+} as any;
+
 @Directive({
   // tslint:disable-next-line:directive-selector
   selector: 'option',
@@ -128,6 +132,7 @@ export class NgrxSelectMultipleOption implements OnInit, OnDestroy {
     private renderer: Renderer2,
     @Host() @Optional() private viewAdapter: NgrxSelectMultipleViewAdapter,
   ) {
+    this.renderer = viewAdapter ? renderer : NULL_RENDERER;
     this.viewAdapter = viewAdapter || NULL_VIEW_ADAPTER;
     this.id = this.viewAdapter.registerOption(this);
   }
