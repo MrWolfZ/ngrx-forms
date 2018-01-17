@@ -363,4 +363,10 @@ describe(NgrxSelectMultipleOption.name, () => {
   it('should work if option is created without view adapter', () => {
     expect(new NgrxSelectMultipleOption({} as any, {} as any, null as any)).toBeDefined();
   });
+
+  it('ngOnInit should not change the element if no matching view adapter is injected', () => {
+    option = new NgrxSelectMultipleOption({} as any, renderer, null as any);
+    option.ngOnInit();
+    expect(renderer.setProperty).not.toHaveBeenCalled();
+  });
 });
