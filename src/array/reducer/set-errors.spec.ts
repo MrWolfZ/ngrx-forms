@@ -1,5 +1,6 @@
 import { SetErrorsAction } from '../../actions';
 import { setErrorsReducer } from './set-errors';
+import { createFormArrayState } from '../../state';
 import {
   FORM_CONTROL_0_ID,
   FORM_CONTROL_1_ID,
@@ -43,6 +44,15 @@ describe(`form array ${setErrorsReducer.name}`, () => {
   it('should not update state if errors are equal and empty', () => {
     const resultState = setErrorsReducer(INITIAL_STATE, new SetErrorsAction(FORM_CONTROL_ID, {}));
     expect(resultState).toBe(INITIAL_STATE);
+  });
+
+  it('should update state if array is empty', () => {
+    const errors = { required: true };
+    const state = createFormArrayState<string>('test ID', []);
+    const resultState = setErrorsReducer(state, new SetErrorsAction(FORM_CONTROL_ID, errors));
+    expect(resultState.errors).toEqual(errors);
+    expect(resultState.isValid).toBe(false);
+    expect(resultState.isInvalid).toBe(true);
   });
 
   it('should keep async errors', () => {

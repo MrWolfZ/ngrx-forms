@@ -1,4 +1,4 @@
-import { cast } from '../state';
+import { cast, createFormArrayState } from '../state';
 import { FormGroupValue, INITIAL_STATE } from './test-util';
 import { setErrors } from './set-errors';
 
@@ -19,6 +19,13 @@ describe(setErrors.name, () => {
     const errors = { required: true };
     const resultState = setErrors<string[]>(errors)(INITIAL_STATE.controls.inner5);
     expect(resultState).not.toBe(cast(INITIAL_STATE.controls.inner5));
+  });
+
+  it('should call reducer for empty arrays', () => {
+    const errors = { required: true };
+    const state = createFormArrayState<string>('test ID', []);
+    const resultState = setErrors<string[]>(errors)(state);
+    expect(resultState).not.toBe(state);
   });
 
   it('should call reducer for controls uncurried', () => {
