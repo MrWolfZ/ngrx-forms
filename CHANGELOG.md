@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="2.1.3"></a>
+### 2.1.3
+
+#### Bugfixes
+
+* fix missing union case in typing of `updateArray` update function that causes a compile error if used inside an `updateGroup`
+
 <a name="2.1.2"></a>
 ### 2.1.2
 

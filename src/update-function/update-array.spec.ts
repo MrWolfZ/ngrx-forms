@@ -1,6 +1,7 @@
 import { createFormArrayState } from '../state';
 import { FORM_CONTROL_ID } from './test-util';
 import { updateArray } from './update-array';
+import { updateGroup } from './update-group';
 
 describe(updateArray.name, () => {
   it('should apply the provided functions to control children', () => {
@@ -79,5 +80,26 @@ describe(updateArray.name, () => {
       expect(p).toBe(state);
       return c;
     })(state);
+  });
+
+  it('should work inside of an updateGroup', () => {
+    interface Outer {
+      inner: Inner[];
+    }
+
+    interface Inner {
+      s: string;
+    }
+
+    // this just asserts it compiles without type error
+    const validationFormGroupReducer = updateGroup<Outer>({
+      inner: updateArray<Inner>(
+        updateGroup<Inner>({
+          s: s => s,
+        }),
+      ),
+    });
+
+    expect(validationFormGroupReducer).toBeDefined();
   });
 });

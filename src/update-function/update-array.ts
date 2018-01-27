@@ -41,7 +41,7 @@ function updateArraySingle<TValue>(updateFn: ProjectFn2<AbstractControlState<TVa
  */
 export function updateArray<TValue>(
   ...updateFnArr: Array<ProjectFn2<AbstractControlState<TValue>, FormArrayState<TValue>>>,
-): (state: FormArrayState<TValue>) => FormArrayState<TValue>;
+): (state: FormArrayState<TValue> | AbstractControlState<TValue[] | undefined>) => FormArrayState<TValue>;
 
 /**
  * This update function takes a form array state and a variable number of update
