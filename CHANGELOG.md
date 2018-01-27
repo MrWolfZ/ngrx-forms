@@ -5,7 +5,7 @@
 
 #### Bugfixes
 
-* fix missing union case in typing of `updateArray` update function that causes a compile error if used inside an `updateGroup`
+* fix missing union case in typing of `updateArray` update function that causes a compile error if used inside an `updateGroup` ([fa7dccc](https://github.com/MrWolfZ/ngrx-forms/commit/fa7dccc))
 
 <a name="2.1.2"></a>
 ### 2.1.2
