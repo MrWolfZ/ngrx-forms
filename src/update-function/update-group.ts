@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { formGroupReducer } from '../group/reducer';
 import { computeGroupState } from '../group/reducer/util';
-import { AbstractControlState, FormGroupControls, FormGroupState, KeyValue } from '../state';
+import { AbstractControlState, FormGroupControls, FormGroupState, KeyValue, isGroupState } from '../state';
 import { ProjectFn2 } from './util';
 
 export type StateUpdateFns<TValue extends KeyValue> =
@@ -108,8 +108,7 @@ export function updateGroup<TValue extends KeyValue>(
   stateOrFunction: FormGroupState<TValue> | StateUpdateFns<TValue>,
   ...updateFnsArr: Array<StateUpdateFns<TValue>>,
 ) {
-  const isUpdateFunctionObject = Object.keys(stateOrFunction).some(key => typeof (stateOrFunction as any)[key] === 'function');
-  if (!isUpdateFunctionObject) {
+  if (isGroupState(stateOrFunction as any)) {
     const [first, ...rest] = updateFnsArr;
     return updateGroup(first, ...rest)(stateOrFunction as any);
   }

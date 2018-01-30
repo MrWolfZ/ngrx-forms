@@ -499,14 +499,16 @@ export interface FormArrayState<TValue> extends AbstractControlState<TValue[]> {
  * This function determines if a form state is an array state.
  */
 export function isArrayState(state: AbstractControlState<any>): state is FormArrayState<any> {
-  return state.hasOwnProperty('controls') && Array.isArray((state as any).controls);
+  const controls = (state as any).controls;
+  return state.hasOwnProperty('controls') && Array.isArray(controls) && typeof controls !== 'function';
 }
 
 /**
  * This function determines if a form state is a group state.
  */
 export function isGroupState(state: AbstractControlState<any>): state is FormGroupState<any> {
-  return state.hasOwnProperty('controls') && !Array.isArray((state as any).controls);
+  const controls = (state as any).controls;
+  return state.hasOwnProperty('controls') && !Array.isArray(controls) && typeof controls !== 'function';
 }
 
 /**

@@ -1,4 +1,4 @@
-import { cast, createFormArrayState, createFormControlState, createFormGroupState } from './state';
+import { cast, createFormArrayState, createFormControlState, createFormGroupState, isGroupState, isArrayState } from './state';
 
 describe('state', () => {
   const FORM_CONTROL_ID = 'test ID';
@@ -211,6 +211,48 @@ describe('state', () => {
       const initialValue = [] as string[];
       const initialState = createFormArrayState<string>(FORM_CONTROL_ID, initialValue);
       expect(initialState.controls).toEqual([]);
+    });
+  });
+
+  describe(isArrayState.name, () => {
+    it('should return true for array state', () => {
+      const INITIAL_STATE = createFormArrayState<string>(FORM_CONTROL_ID, ['abc']);
+      expect(isArrayState(INITIAL_STATE)).toBe(true);
+    });
+
+    it('should return false for group state', () => {
+      const INITIAL_STATE = createFormGroupState<any>(FORM_CONTROL_ID, { control: 'abc' });
+      expect(isArrayState(INITIAL_STATE)).toBe(false);
+    });
+
+    it('should return false for control state', () => {
+      const INITIAL_STATE = createFormControlState<string>(FORM_CONTROL_ID, 'abc');
+      expect(isArrayState(INITIAL_STATE)).toBe(false);
+    });
+
+    it('should return false for update object', () => {
+      expect(isArrayState({ controls: () => void 0 } as any)).toBe(false);
+    });
+  });
+
+  describe(isGroupState.name, () => {
+    it('should return true for group state', () => {
+      const INITIAL_STATE = createFormGroupState<any>(FORM_CONTROL_ID, { control: 'abc' });
+      expect(isGroupState(INITIAL_STATE)).toBe(true);
+    });
+
+    it('should return false for control state', () => {
+      const INITIAL_STATE = createFormControlState<string>(FORM_CONTROL_ID, 'abc');
+      expect(isGroupState(INITIAL_STATE)).toBe(false);
+    });
+
+    it('should return false for array state', () => {
+      const INITIAL_STATE = createFormArrayState<string>(FORM_CONTROL_ID, ['abc']);
+      expect(isGroupState(INITIAL_STATE)).toBe(false);
+    });
+
+    it('should return false for update object', () => {
+      expect(isGroupState({ controls: () => void 0 } as any)).toBe(false);
     });
   });
 });

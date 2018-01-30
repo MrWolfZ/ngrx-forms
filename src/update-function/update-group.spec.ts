@@ -28,6 +28,11 @@ describe(updateGroup.name, () => {
     expect(resultState.controls.inner5).toBe(expected);
   });
 
+  it('should not change the state with empty update object', () => {
+    const resultState = updateGroup<FormGroupValue>({})(INITIAL_STATE);
+    expect(resultState).toBe(resultState);
+  });
+
   it('should apply the provided functions to control children uncurried', () => {
     const expected = { ...INITIAL_STATE.controls.inner, value: 'A' };
     const resultState = updateGroup<FormGroupValue>(
@@ -59,6 +64,11 @@ describe(updateGroup.name, () => {
       },
     );
     expect(resultState.controls.inner5).toBe(expected);
+  });
+
+  it('should not change the state with empty update object uncurried', () => {
+    const resultState = updateGroup<FormGroupValue>(INITIAL_STATE, {});
+    expect(resultState).toBe(resultState);
   });
 
   it('should apply multiple provided function objects one after another', () => {
