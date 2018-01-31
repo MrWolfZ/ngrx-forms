@@ -1,4 +1,3 @@
-import { SetValueAction, SetUserDefinedPropertyAction } from './actions';
 import {
   cast,
   computeGroupState,
@@ -8,8 +7,6 @@ import {
   isGroupState,
   isArrayState,
 } from './state';
-import { formGroupReducer } from './group/reducer';
-import { formArrayReducer } from './array/reducer';
 
 describe('state', () => {
   const FORM_CONTROL_ID = 'test ID';
