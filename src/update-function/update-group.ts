@@ -1,8 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { formGroupReducer } from '../group/reducer';
-import { computeGroupState } from '../group/reducer/util';
-import { AbstractControlState, FormGroupControls, FormGroupState, KeyValue, isGroupState } from '../state';
+import { AbstractControlState, computeGroupState, FormGroupControls, FormGroupState, KeyValue, isGroupState } from '../state';
 import { ProjectFn2 } from './util';
 
 export type StateUpdateFns<TValue extends KeyValue> =

@@ -1,6 +1,6 @@
-import { FormGroupState, KeyValue } from '../../state';
 import { Actions, RemoveGroupControlAction } from '../../actions';
-import { computeGroupState, childReducer } from './util';
+import { computeGroupState, FormGroupState, KeyValue } from '../../state';
+import { childReducer } from './util';
 
 export function removeControlReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,

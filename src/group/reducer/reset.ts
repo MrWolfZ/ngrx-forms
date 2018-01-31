@@ -1,6 +1,6 @@
-import { FormGroupState, KeyValue } from '../../state';
 import { Actions, ResetAction } from '../../actions';
-import { computeGroupState, dispatchActionPerChild, childReducer } from './util';
+import { computeGroupState, FormGroupState, KeyValue } from '../../state';
+import { dispatchActionPerChild, childReducer } from './util';
 
 export function resetReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,

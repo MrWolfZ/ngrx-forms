@@ -1,6 +1,6 @@
-import { FormGroupState, KeyValue } from '../../state';
 import { Actions, SetErrorsAction } from '../../actions';
-import { computeGroupState, childReducer } from './util';
+import { computeGroupState, FormGroupState, KeyValue } from '../../state';
+import { childReducer } from './util';
 import { deepEquals } from '../../util';
 
 export function setErrorsReducer<TValue extends KeyValue>(

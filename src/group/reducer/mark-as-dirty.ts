@@ -1,6 +1,6 @@
-import { FormGroupState, KeyValue } from '../../state';
 import { Actions, MarkAsDirtyAction } from '../../actions';
-import { computeGroupState, dispatchActionPerChild, childReducer } from './util';
+import { computeGroupState, FormGroupState, KeyValue } from '../../state';
+import { dispatchActionPerChild, childReducer } from './util';
 
 export function markAsDirtyReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,

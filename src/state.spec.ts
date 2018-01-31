@@ -1,4 +1,15 @@
-import { cast, createFormArrayState, createFormControlState, createFormGroupState, isGroupState, isArrayState } from './state';
+import { SetValueAction, SetUserDefinedPropertyAction } from './actions';
+import {
+  cast,
+  computeGroupState,
+  createFormArrayState,
+  createFormControlState,
+  createFormGroupState,
+  isGroupState,
+  isArrayState,
+} from './state';
+import { formGroupReducer } from './group/reducer';
+import { formArrayReducer } from './array/reducer';
 
 describe('state', () => {
   const FORM_CONTROL_ID = 'test ID';
@@ -58,7 +69,7 @@ describe('state', () => {
     const CONTROL_VALUE = 'abc';
     const GROUP_VALUE = { control: 'bcd' };
     const ARRAY_VALUE = ['def'];
-    const INITIAL_VALUE = { control: 'abc', group: GROUP_VALUE, array: ARRAY_VALUE };
+    const INITIAL_VALUE = { control: CONTROL_VALUE, group: GROUP_VALUE, array: ARRAY_VALUE };
     const INITIAL_STATE = createFormGroupState<typeof INITIAL_VALUE>(FORM_CONTROL_ID, INITIAL_VALUE);
 
     it('should set the correct id', () => {
@@ -119,6 +130,61 @@ describe('state', () => {
       const controls = cast(INITIAL_STATE.controls.array).controls;
       expect(controls).toBeDefined();
       expect(Array.isArray(controls)).toBe(true);
+    });
+
+    it('should produce the same state as is computed after an action is applied', () => {
+      const state = computeGroupState(
+        INITIAL_STATE.id,
+        INITIAL_STATE.controls,
+        INITIAL_STATE.value,
+        INITIAL_STATE.errors,
+        INITIAL_STATE.pendingValidations,
+        INITIAL_STATE.userDefinedProperties,
+      );
+
+      expect(state.id).toBe(INITIAL_STATE.id);
+      expect(state.value).toEqual(INITIAL_STATE.value);
+      expect(state.errors).toEqual(INITIAL_STATE.errors);
+      expect(state.pendingValidations).toEqual(INITIAL_STATE.pendingValidations);
+      expect(state.isValid).toEqual(INITIAL_STATE.isValid);
+      expect(state.isInvalid).toEqual(INITIAL_STATE.isInvalid);
+      expect(state.isEnabled).toEqual(INITIAL_STATE.isEnabled);
+      expect(state.isDisabled).toEqual(INITIAL_STATE.isDisabled);
+      expect(state.isDirty).toEqual(INITIAL_STATE.isDirty);
+      expect(state.isPristine).toEqual(INITIAL_STATE.isPristine);
+      expect(state.isTouched).toEqual(INITIAL_STATE.isTouched);
+      expect(state.isUntouched).toEqual(INITIAL_STATE.isUntouched);
+      expect(state.isSubmitted).toEqual(INITIAL_STATE.isSubmitted);
+      expect(state.isUnsubmitted).toEqual(INITIAL_STATE.isUnsubmitted);
+      expect(state.userDefinedProperties).toEqual(INITIAL_STATE.userDefinedProperties);
+    });
+
+    it('should produce the same state as is computed after an action is applied for empty group', () => {
+      const initialState = createFormGroupState(FORM_CONTROL_ID, {});
+      const state = computeGroupState(
+        initialState.id,
+        initialState.controls,
+        initialState.value,
+        initialState.errors,
+        initialState.pendingValidations,
+        initialState.userDefinedProperties,
+      );
+
+      expect(state.id).toBe(initialState.id);
+      expect(state.value).toEqual(initialState.value);
+      expect(state.errors).toEqual(initialState.errors);
+      expect(state.pendingValidations).toEqual(initialState.pendingValidations);
+      expect(state.isValid).toEqual(initialState.isValid);
+      expect(state.isInvalid).toEqual(initialState.isInvalid);
+      expect(state.isEnabled).toEqual(initialState.isEnabled);
+      expect(state.isDisabled).toEqual(initialState.isDisabled);
+      expect(state.isDirty).toEqual(initialState.isDirty);
+      expect(state.isPristine).toEqual(initialState.isPristine);
+      expect(state.isTouched).toEqual(initialState.isTouched);
+      expect(state.isUntouched).toEqual(initialState.isUntouched);
+      expect(state.isSubmitted).toEqual(initialState.isSubmitted);
+      expect(state.isUnsubmitted).toEqual(initialState.isUnsubmitted);
+      expect(state.userDefinedProperties).toEqual(initialState.userDefinedProperties);
     });
   });
 

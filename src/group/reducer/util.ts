@@ -8,88 +8,9 @@ import {
   isArrayState,
   isGroupState,
   KeyValue,
-  ValidationErrors,
+  computeGroupState,
 } from '../../state';
-import { isEmpty } from '../../util';
 import { formGroupReducerInternal } from '../reducer';
-
-export function getFormGroupValue<TValue extends { [key: string]: any }>(
-  controls: FormGroupControls<TValue>,
-  originalValue: TValue,
-): TValue {
-  let hasChanged = Object.keys(originalValue).length !== Object.keys(controls).length;
-  const newValue = Object.keys(controls).reduce((res, key) => {
-    hasChanged = hasChanged || originalValue[key] !== controls[key].value;
-    res[key] = controls[key].value;
-    return res;
-  }, {} as TValue);
-
-  return hasChanged ? newValue : originalValue;
-}
-
-export function getFormGroupErrors<TValue extends object>(
-  controls: FormGroupControls<TValue>,
-  originalErrors: ValidationErrors,
-): ValidationErrors {
-  let hasChanged = false;
-  const groupErrors =
-    Object.keys(originalErrors)
-      .filter(key => !key.startsWith('_'))
-      .reduce((res, key) => Object.assign(res, { [key]: originalErrors[key] }), {});
-
-  const newErrors = Object.keys(controls).reduce((res, key: any) => {
-    const controlErrors = controls[key].errors;
-    if (!isEmpty(controlErrors)) {
-      hasChanged = hasChanged || originalErrors['_' + key] !== controlErrors;
-      res['_' + key] = controls[key].errors;
-    } else {
-      hasChanged = hasChanged || originalErrors.hasOwnProperty('_' + key);
-    }
-
-    return res;
-  }, groupErrors as ValidationErrors);
-
-  hasChanged = hasChanged || Object.keys(originalErrors).length !== Object.keys(newErrors).length;
-
-  return hasChanged ? newErrors : originalErrors;
-}
-
-export function computeGroupState<TValue extends KeyValue>(
-  id: string,
-  controls: FormGroupControls<TValue>,
-  value: TValue,
-  errors: ValidationErrors,
-  pendingValidations: string[],
-  userDefinedProperties: KeyValue,
-): FormGroupState<TValue> {
-  value = getFormGroupValue<TValue>(controls, value);
-  errors = getFormGroupErrors(controls, errors);
-  const isValid = isEmpty(errors);
-  const isDirty = Object.keys(controls).some(key => controls[key].isDirty);
-  const isEnabled = Object.keys(controls).some(key => controls[key].isEnabled);
-  const isTouched = Object.keys(controls).some(key => controls[key].isTouched);
-  const isSubmitted = Object.keys(controls).some(key => controls[key].isSubmitted);
-  const isValidationPending = pendingValidations.length > 0 || Object.keys(controls).some(key => controls[key].isValidationPending);
-  return {
-    id,
-    value,
-    errors,
-    pendingValidations,
-    isValidationPending,
-    isValid,
-    isInvalid: !isValid,
-    isEnabled,
-    isDisabled: !isEnabled,
-    isDirty,
-    isPristine: !isDirty,
-    isTouched,
-    isUntouched: !isTouched,
-    isSubmitted,
-    isUnsubmitted: !isSubmitted,
-    userDefinedProperties,
-    controls,
-  };
-}
 
 export function callChildReducer(
   state: AbstractControlState<any>,

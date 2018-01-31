@@ -1,6 +1,6 @@
 import { Actions, ClearAsyncErrorAction } from '../../actions';
-import { FormGroupState, KeyValue } from '../../state';
-import { childReducer, computeGroupState } from './util';
+import { computeGroupState, FormGroupState, KeyValue } from '../../state';
+import { childReducer } from './util';
 
 export function clearAsyncErrorReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,

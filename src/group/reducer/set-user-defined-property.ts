@@ -1,5 +1,5 @@
-import { FormGroupState, KeyValue } from '../../state';
 import { Actions, SetUserDefinedPropertyAction } from '../../actions';
+import { computeGroupState, FormGroupState, KeyValue } from '../../state';
 import { childReducer } from './util';
 
 export function setUserDefinedPropertyReducer<TValue extends KeyValue>(
