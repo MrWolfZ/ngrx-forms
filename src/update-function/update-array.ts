@@ -1,5 +1,4 @@
-import { computeArrayState } from '../array/reducer/util';
-import { AbstractControlState, FormArrayState } from '../state';
+import { AbstractControlState, computeArrayState, FormArrayState } from '../state';
 import { ProjectFn2 } from './util';
 
 function updateArrayControlsState<TValue>(updateFn: ProjectFn2<AbstractControlState<TValue>, FormArrayState<TValue>>) {

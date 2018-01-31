@@ -1,6 +1,6 @@
 import { Actions, SetValueAction } from '../../actions';
-import { createChildState, FormArrayState } from '../../state';
-import { callChildReducer, childReducer, computeArrayState } from './util';
+import { computeArrayState, createChildState, FormArrayState } from '../../state';
+import { callChildReducer, childReducer } from './util';
 
 export function setValueReducer<TValue>(
   state: FormArrayState<TValue>,

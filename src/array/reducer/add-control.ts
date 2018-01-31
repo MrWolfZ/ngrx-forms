@@ -1,6 +1,6 @@
 import { Actions, AddArrayControlAction } from '../../actions';
-import { createChildState, FormArrayState } from '../../state';
-import { childReducer, computeArrayState } from './util';
+import { computeArrayState, createChildState, FormArrayState } from '../../state';
+import { childReducer } from './util';
 
 export function addControlReducer<TValue>(
   state: FormArrayState<TValue>,

@@ -1,6 +1,6 @@
 import { Actions, ResetAction } from '../../actions';
-import { FormArrayState } from '../../state';
-import { childReducer, computeArrayState, dispatchActionPerChild } from './util';
+import { computeArrayState, FormArrayState } from '../../state';
+import { childReducer, dispatchActionPerChild } from './util';
 
 export function resetReducer<TValue>(
   state: FormArrayState<TValue>,

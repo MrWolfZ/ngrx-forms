@@ -1,7 +1,7 @@
 import { Actions, SetErrorsAction } from '../../actions';
-import { FormArrayState } from '../../state';
+import { computeArrayState, FormArrayState } from '../../state';
 import { deepEquals } from '../../util';
-import { childReducer, computeArrayState } from './util';
+import { childReducer } from './util';
 
 export function setErrorsReducer<TValue>(
   state: FormArrayState<TValue>,

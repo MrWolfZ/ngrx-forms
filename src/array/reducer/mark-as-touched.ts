@@ -1,6 +1,6 @@
 import { Actions, MarkAsTouchedAction } from '../../actions';
-import { FormArrayState } from '../../state';
-import { childReducer, computeArrayState, dispatchActionPerChild } from './util';
+import { computeArrayState, FormArrayState } from '../../state';
+import { childReducer, dispatchActionPerChild } from './util';
 
 export function markAsTouchedReducer<TValue>(
   state: FormArrayState<TValue>,

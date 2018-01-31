@@ -8,6 +8,7 @@
 * fix missing union case in typing of `updateArray` update function that causes a compile error if used inside an `updateGroup` ([fa7dccc](https://github.com/MrWolfZ/ngrx-forms/commit/fa7dccc))
 * fix `updateGroup` throwing an error if an empty update object was provided in curried as well as uncurried version ([bee4d54](https://github.com/MrWolfZ/ngrx-forms/commit/bee4d54))
 * fix `createFormGroupState` producing results inconsistent with how group states are recomputed from their children after an update ([1c62d8c](https://github.com/MrWolfZ/ngrx-forms/commit/1c62d8c))
+* fix `createFormArrayState` producing results inconsistent with how array states are recomputed from their children after an update
 
 <a name="2.1.2"></a>
 ### 2.1.2

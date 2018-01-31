@@ -1,5 +1,6 @@
 import {
   cast,
+  computeArrayState,
   computeGroupState,
   createFormArrayState,
   createFormControlState,
@@ -274,6 +275,61 @@ describe('state', () => {
       const initialValue = [] as string[];
       const initialState = createFormArrayState<string>(FORM_CONTROL_ID, initialValue);
       expect(initialState.controls).toEqual([]);
+    });
+
+    it('should produce the same state as is computed after an action is applied', () => {
+      const state = computeArrayState(
+        INITIAL_STATE.id,
+        INITIAL_STATE.controls,
+        INITIAL_STATE.value,
+        INITIAL_STATE.errors,
+        INITIAL_STATE.pendingValidations,
+        INITIAL_STATE.userDefinedProperties,
+      );
+
+      expect(state.id).toBe(INITIAL_STATE.id);
+      expect(state.value).toEqual(INITIAL_STATE.value);
+      expect(state.errors).toEqual(INITIAL_STATE.errors);
+      expect(state.pendingValidations).toEqual(INITIAL_STATE.pendingValidations);
+      expect(state.isValid).toEqual(INITIAL_STATE.isValid);
+      expect(state.isInvalid).toEqual(INITIAL_STATE.isInvalid);
+      expect(state.isEnabled).toEqual(INITIAL_STATE.isEnabled);
+      expect(state.isDisabled).toEqual(INITIAL_STATE.isDisabled);
+      expect(state.isDirty).toEqual(INITIAL_STATE.isDirty);
+      expect(state.isPristine).toEqual(INITIAL_STATE.isPristine);
+      expect(state.isTouched).toEqual(INITIAL_STATE.isTouched);
+      expect(state.isUntouched).toEqual(INITIAL_STATE.isUntouched);
+      expect(state.isSubmitted).toEqual(INITIAL_STATE.isSubmitted);
+      expect(state.isUnsubmitted).toEqual(INITIAL_STATE.isUnsubmitted);
+      expect(state.userDefinedProperties).toEqual(INITIAL_STATE.userDefinedProperties);
+    });
+
+    it('should produce the same state as is computed after an action is applied for empty array', () => {
+      const initialState = createFormArrayState(FORM_CONTROL_ID, []);
+      const state = computeArrayState(
+        initialState.id,
+        initialState.controls,
+        initialState.value,
+        initialState.errors,
+        initialState.pendingValidations,
+        initialState.userDefinedProperties,
+      );
+
+      expect(state.id).toBe(initialState.id);
+      expect(state.value).toEqual(initialState.value);
+      expect(state.errors).toEqual(initialState.errors);
+      expect(state.pendingValidations).toEqual(initialState.pendingValidations);
+      expect(state.isValid).toEqual(initialState.isValid);
+      expect(state.isInvalid).toEqual(initialState.isInvalid);
+      expect(state.isEnabled).toEqual(initialState.isEnabled);
+      expect(state.isDisabled).toEqual(initialState.isDisabled);
+      expect(state.isDirty).toEqual(initialState.isDirty);
+      expect(state.isPristine).toEqual(initialState.isPristine);
+      expect(state.isTouched).toEqual(initialState.isTouched);
+      expect(state.isUntouched).toEqual(initialState.isUntouched);
+      expect(state.isSubmitted).toEqual(initialState.isSubmitted);
+      expect(state.isUnsubmitted).toEqual(initialState.isUnsubmitted);
+      expect(state.userDefinedProperties).toEqual(initialState.userDefinedProperties);
     });
   });
 

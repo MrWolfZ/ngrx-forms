@@ -1,6 +1,6 @@
 import { Actions, DisableAction } from '../../actions';
-import { FormArrayState } from '../../state';
-import { childReducer, computeArrayState, dispatchActionPerChild } from './util';
+import { computeArrayState, FormArrayState } from '../../state';
+import { childReducer, dispatchActionPerChild } from './util';
 
 export function disableReducer<TValue>(
   state: FormArrayState<TValue>,

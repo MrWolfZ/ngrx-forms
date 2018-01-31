@@ -1,6 +1,6 @@
 import { Actions, StartAsyncValidationAction } from '../../actions';
-import { FormArrayState } from '../../state';
-import { childReducer, computeArrayState } from './util';
+import { computeArrayState, FormArrayState } from '../../state';
+import { childReducer } from './util';
 
 export function startAsyncValidationReducer<TValue>(
   state: FormArrayState<TValue>,
