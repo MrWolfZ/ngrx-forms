@@ -1,7 +1,11 @@
 ## ngrx-forms Changelog
 
-<a name="2.1.3"></a>
-### 2.1.3
+<a name="2.2.0"></a>
+### 2.2.0
+
+#### Breaking Changes
+
+* empty groups and arrays are now always enabled instead of disabled and therefore errors can now be set on empty groups and arrays (note that this is only a minor breaking change and only applies in edge cases and therefore this fix is included in a new minor instead of a new major version), closes [#37](https://github.com/MrWolfZ/ngrx-forms/issues/37)
 
 #### Bugfixes
 

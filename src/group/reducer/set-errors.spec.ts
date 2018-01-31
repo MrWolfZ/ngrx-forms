@@ -1,4 +1,5 @@
 import { SetErrorsAction } from '../../actions';
+import { createFormGroupState } from '../../state';
 import { setErrorsReducer } from './set-errors';
 import {
   FORM_CONTROL_ID,
@@ -45,6 +46,15 @@ describe(`form group ${setErrorsReducer.name}`, () => {
   it('should not update state if errors are equal and empty', () => {
     const resultState = setErrorsReducer(INITIAL_STATE, new SetErrorsAction(FORM_CONTROL_ID, {}));
     expect(resultState).toBe(INITIAL_STATE);
+  });
+
+  it('should update state if group is empty', () => {
+    const errors = { required: true };
+    const state = createFormGroupState('test ID', {});
+    const resultState = setErrorsReducer(state, new SetErrorsAction(FORM_CONTROL_ID, errors));
+    expect(resultState.errors).toEqual(errors);
+    expect(resultState.isValid).toBe(false);
+    expect(resultState.isInvalid).toBe(true);
   });
 
   it('should keep async errors', () => {

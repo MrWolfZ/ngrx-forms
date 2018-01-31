@@ -1,4 +1,4 @@
-import { cast, createFormArrayState } from '../state';
+import { cast, createFormArrayState, createFormGroupState } from '../state';
 import { FormGroupValue, INITIAL_STATE } from './test-util';
 import { setErrors } from './set-errors';
 
@@ -15,19 +15,25 @@ describe(setErrors.name, () => {
     expect(resultState).not.toBe(cast(INITIAL_STATE));
   });
 
+  it('should call reducer for empty groups', () => {
+    const errors = { required: true };
+    const state = createFormGroupState('test ID', {});
+    const resultState = setErrors(errors)(state);
+    expect(resultState).not.toBe(state);
+  });
+
   it('should call reducer for arrays', () => {
     const errors = { required: true };
     const resultState = setErrors<string[]>(errors)(INITIAL_STATE.controls.inner5);
     expect(resultState).not.toBe(cast(INITIAL_STATE.controls.inner5));
   });
 
-  // will be fixed as part of another bugfix
-  // it('should call reducer for empty arrays', () => {
-  //   const errors = { required: true };
-  //   const state = createFormArrayState<string>('test ID', []);
-  //   const resultState = setErrors<string[]>(errors)(state);
-  //   expect(resultState).not.toBe(state);
-  // });
+  it('should call reducer for empty arrays', () => {
+    const errors = { required: true };
+    const state = createFormArrayState<string>('test ID', []);
+    const resultState = setErrors<string[]>(errors)(state);
+    expect(resultState).not.toBe(state);
+  });
 
   it('should call reducer for controls uncurried', () => {
     const errors = { required: true };
@@ -41,10 +47,24 @@ describe(setErrors.name, () => {
     expect(resultState).not.toBe(INITIAL_STATE);
   });
 
+  it('should call reducer for empty groups uncurried', () => {
+    const errors = { required: true };
+    const state = createFormGroupState('test ID', {});
+    const resultState = setErrors(errors, state);
+    expect(resultState).not.toBe(state);
+  });
+
   it('should call reducer for arrays uncurried', () => {
     const errors = { required: true };
     const resultState = setErrors(errors, INITIAL_STATE.controls.inner5);
     expect(resultState).not.toBe(INITIAL_STATE.controls.inner5);
+  });
+
+  it('should call reducer for empty arrays uncurried', () => {
+    const errors = { required: true };
+    const state = createFormArrayState<string>('test ID', []);
+    const resultState = setErrors<string[]>(errors, state);
+    expect(resultState).not.toBe(state);
   });
 
   it('should merge errors from multiple validation functions', () => {

@@ -663,7 +663,7 @@ export function computeGroupState<TValue extends KeyValue>(
   errors = getFormGroupErrors(controls, errors);
   const isValid = isEmpty(errors);
   const isDirty = Object.keys(controls).some(key => controls[key].isDirty);
-  const isEnabled = Object.keys(controls).some(key => controls[key].isEnabled);
+  const isEnabled = Object.keys(controls).length === 0 || Object.keys(controls).some(key => controls[key].isEnabled);
   const isTouched = Object.keys(controls).some(key => controls[key].isTouched);
   const isSubmitted = Object.keys(controls).some(key => controls[key].isSubmitted);
   const isValidationPending = pendingValidations.length > 0 || Object.keys(controls).some(key => controls[key].isValidationPending);
@@ -758,7 +758,7 @@ export function computeArrayState<TValue>(
   errors = getFormArrayErrors(controls, errors);
   const isValid = isEmpty(errors);
   const isDirty = controls.some(state => state.isDirty);
-  const isEnabled = controls.some(state => state.isEnabled);
+  const isEnabled = controls.length === 0 || controls.some(state => state.isEnabled);
   const isTouched = controls.some(state => state.isTouched);
   const isSubmitted = controls.some(state => state.isSubmitted);
   const isValidationPending = pendingValidations.length > 0 || controls.some(state => state.isValidationPending);
