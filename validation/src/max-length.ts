@@ -30,7 +30,7 @@ export function maxLength(maxLength: number) {
     throw new Error(`The maxLength Validation function requires the maxLength parameter to be a non-null number, got ${maxLength}!`);
   }
 
-  return (value: string | null): ValidationErrors => {
+  return (value: string | any[] | null): ValidationErrors => {
     if (value === null) {
       return {};
     }

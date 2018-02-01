@@ -13,16 +13,28 @@ describe(maxLength.name, () => {
     expect(maxLength(2)(null)).toEqual({});
   });
 
-  it('should return an error if value\'s length is greater than maxLength', () => {
+  it('should return an error if string value\'s length is greater than maxLength', () => {
     expect(maxLength(2)('abc')).not.toEqual({});
   });
 
-  it('should not return an error if value\'s length is equal to maxLength', () => {
+  it('should not return an error if string value\'s length is equal to maxLength', () => {
     expect(maxLength(2)('ab')).toEqual({});
   });
 
-  it('should not return an error if value\'s length is less than maxLength', () => {
+  it('should not return an error if string value\'s length is less than maxLength', () => {
     expect(maxLength(2)('a')).toEqual({});
+  });
+
+  it('should return an error if array value\'s length is greater than maxLength', () => {
+    expect(maxLength(2)(['a', 'b', 'c'])).not.toEqual({});
+  });
+
+  it('should not return an error if array value\'s length is equal to maxLength', () => {
+    expect(maxLength(2)(['a', 'b'])).toEqual({});
+  });
+
+  it('should not return an error if array value\'s length is less than maxLength', () => {
+    expect(maxLength(2)(['a'])).toEqual({});
   });
 
   it('should return errors with maxLength, value, and actualLength properties', () => {

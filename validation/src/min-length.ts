@@ -30,7 +30,7 @@ export function minLength(minLength: number) {
     throw new Error(`The minLength Validation function requires the minLength parameter to be a non-null number, got ${minLength}!`);
   }
 
-  return (value: string | null): ValidationErrors => {
+  return (value: string | any[] | null): ValidationErrors => {
     if (value === null) {
       return {};
     }

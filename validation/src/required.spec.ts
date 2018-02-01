@@ -19,6 +19,15 @@ describe(required.name, () => {
     });
   });
 
+  it('should return an error for empty array', () => {
+    const value: any[] = [];
+    expect(required(value)).toEqual({
+      required: {
+        actual: value,
+      },
+    });
+  });
+
   it('should not return an error for number zero', () => {
     expect(required(0)).toEqual({});
   });
@@ -37,5 +46,9 @@ describe(required.name, () => {
 
   it('should not return an error for false', () => {
     expect(required(false)).toEqual({});
+  });
+
+  it('should not return an error for non-empty array', () => {
+    expect(required(['a'])).toEqual({});
   });
 });
