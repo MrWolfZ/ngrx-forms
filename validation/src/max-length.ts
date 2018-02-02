@@ -1,7 +1,7 @@
 import { ValidationErrors } from 'ngrx-forms';
 
 /**
- * A validation function that requires a `string` value to have a maximum length.
+ * A validation function that requires a `string` or `array` value to have a maximum length.
  * Considers `null` as valid. Combine this function with the `required` validation
  * function if `null` should be considered invalid.
  *

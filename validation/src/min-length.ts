@@ -1,7 +1,7 @@
 import { ValidationErrors } from 'ngrx-forms';
 
 /**
- * A validation function that requires a `string` value to have a minimum length.
+ * A validation function that requires a `string` or `array` value to have a minimum length.
  * Considers `null` as valid. Combine this function with the `required` validation
  * function if `null` should be considered invalid.
  *
