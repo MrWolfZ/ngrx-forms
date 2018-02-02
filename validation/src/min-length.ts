@@ -1,7 +1,7 @@
 import { ValidationErrors } from 'ngrx-forms';
 
 /**
- * A validation function that requires a `string` value to have a minimum length.
+ * A validation function that requires a `string` or `array` value to have a minimum length.
  * Considers `null` as valid. Combine this function with the `required` validation
  * function if `null` should be considered invalid.
  *
@@ -30,7 +30,7 @@ export function minLength(minLength: number) {
     throw new Error(`The minLength Validation function requires the minLength parameter to be a non-null number, got ${minLength}!`);
   }
 
-  return (value: string | null): ValidationErrors => {
+  return (value: string | any[] | null): ValidationErrors => {
     if (value === null) {
       return {};
     }

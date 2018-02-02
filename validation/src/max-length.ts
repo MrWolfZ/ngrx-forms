@@ -1,7 +1,7 @@
 import { ValidationErrors } from 'ngrx-forms';
 
 /**
- * A validation function that requires a `string` value to have a maximum length.
+ * A validation function that requires a `string` or `array` value to have a maximum length.
  * Considers `null` as valid. Combine this function with the `required` validation
  * function if `null` should be considered invalid.
  *
@@ -30,7 +30,7 @@ export function maxLength(maxLength: number) {
     throw new Error(`The maxLength Validation function requires the maxLength parameter to be a non-null number, got ${maxLength}!`);
   }
 
-  return (value: string | null): ValidationErrors => {
+  return (value: string | any[] | null): ValidationErrors => {
     if (value === null) {
       return {};
     }
