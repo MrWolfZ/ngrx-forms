@@ -4,7 +4,7 @@ As mentioned in the section about [updating the state](UPDATING_THE_STATE.md) th
 
 |Function|Description|
 |-|-|
-|`required`|Requires the value to be non-empty (i.e. non-`null`, non-empty `string` etc.)|
+|`required`|Requires the value to be non-empty (i.e. non-`null`, non-empty `string`, non-empty `array` etc.)|
 |`requiredTrue`|Requires the `boolean` value to be `true`|
 |`requiredFalse`|Requires the `boolean` value to be `false`|
 |`equalTo`|Requires the value to be equal to another value|
@@ -12,8 +12,8 @@ As mentioned in the section about [updating the state](UPDATING_THE_STATE.md) th
 |`lessThanOrEqualTo`|Requires the `number` value to be less than or equal to another number|
 |`greaterThan`|Requires the `number` value to be greater than another number|
 |`greaterThanOrEqualTo`|Requires the `number` value to be greater than or equal to another number|
-|`minLength`|Requires a `string` value to have a minimum length|
-|`maxLength`|Requires a `string` value to have a maximum length|
+|`minLength`|Requires a `string` or `array` value to have a minimum length|
+|`maxLength`|Requires a `string` or `array` value to have a maximum length|
 |`email`|Requires a `string` value to be a valid e-mail address|
 |`pattern`|Requires a `string` value to match a regular expression|
 
