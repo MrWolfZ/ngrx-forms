@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="2.3.0"></a>
+### 2.3.0
+
+#### Features
+
+* add support for array values in `minLength`, `maxLength`, and `required` validation functions ([c88353a](https://github.com/MrWolfZ/ngrx-forms/commit/c88353a)), closes [#40](https://github.com/MrWolfZ/ngrx-forms/issues/40) (thanks @icepeng)
+
 <a name="2.2.0"></a>
 ### 2.2.0
 
