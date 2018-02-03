@@ -6,6 +6,7 @@
 #### Features
 
 * add support for array values in `minLength`, `maxLength`, and `required` validation functions ([c88353a](https://github.com/MrWolfZ/ngrx-forms/commit/c88353a)), closes [#40](https://github.com/MrWolfZ/ngrx-forms/issues/40) (thanks @icepeng)
+* set CSS classes on form elements based on the status of the control (see the [documentation](docs/FORM_CONTROLS.md#status-css-classes) for more details), closes [#34](https://github.com/MrWolfZ/ngrx-forms/issues/34)
 
 #### Bugfixes
 

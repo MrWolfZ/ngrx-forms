@@ -19,6 +19,7 @@ import {
   markAsTouched,
   markAsUnsubmitted,
   markAsUntouched,
+  NGRX_STATUS_CLASS_NAMES,
   NgrxCheckboxViewAdapter,
   NgrxDefaultViewAdapter,
   NgrxFormControlDirective,
@@ -31,6 +32,7 @@ import {
   NgrxSelectMultipleViewAdapter,
   NgrxSelectOption,
   NgrxSelectViewAdapter,
+  NgrxStatusCssClassesDirective,
   NgrxValueConverters,
   removeArrayControl,
   removeGroupControl,
@@ -77,6 +79,7 @@ describe('ngrx-forms', () => {
   it(`should export ${updateGroup.name}`, () => expect(updateGroup).toBeDefined());
   it(`should export ${updateRecursive.name}`, () => expect(updateRecursive).toBeDefined());
   it(`should export ${validate.name}`, () => expect(validate).toBeDefined());
+  it(`should export NGRX_STATUS_CLASS_NAMES`, () => expect(NGRX_STATUS_CLASS_NAMES).toBeDefined());
   it(`should export ${NgrxFormControlDirective.name}`, () => expect(NgrxFormControlDirective).toBeDefined());
   it(`should export NgrxValueConverters`, () => expect(NgrxValueConverters).toBeDefined());
   it(`should export ${NgrxFormDirective.name}`, () => expect(NgrxFormDirective).toBeDefined());
@@ -89,5 +92,6 @@ describe('ngrx-forms', () => {
   it(`should export ${NgrxRadioViewAdapter.name}`, () => expect(NgrxRadioViewAdapter).toBeDefined());
   it(`should export ${NgrxSelectOption.name}`, () => expect(NgrxSelectOption).toBeDefined());
   it(`should export ${NgrxSelectMultipleOption.name}`, () => expect(NgrxSelectMultipleOption).toBeDefined());
+  it(`should export ${NgrxStatusCssClassesDirective.name}`, () => expect(NgrxStatusCssClassesDirective).toBeDefined());
   it(`should export ${NgrxFormsModule.name}`, () => expect(NgrxFormsModule).toBeDefined());
 });

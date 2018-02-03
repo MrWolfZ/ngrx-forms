@@ -29,6 +29,22 @@ As you can see most properties are shared with controls via the common base inte
 
 Group states are usually completely independent of the DOM (with the exception of root groups that are associated with a `form` via `NgrxFormDirective`). They are updated by intercepting all actions that change their children (i.e. the group's reducer is the parent reducer of all its child reducers and forwards any actions to all children; if any children change it recomputes the state of the group). A group state can be created via `createFormGroupState`. This function takes an initial value and automatically creates all child states recursively.
 
+#### Status CSS Classes
+
+ngrx-forms adds CSS classes to `form` elements depending on the state of the form. The available classes are:
+
+* `ngrx-forms-valid`
+* `ngrx-forms-invalid`
+* `ngrx-forms-dirty`
+* `ngrx-forms-pristine`
+* `ngrx-forms-touched`
+* `ngrx-forms-untouched`
+* `ngrx-forms-submitted`
+* `ngrx-forms-unsubmitted`
+* `ngrx-forms-validation-pending`
+
+A constant `NGRX_STATUS_CLASS_NAMES` is exported to allow accessing these class names in user code without needing to hard-code them.
+
 #### Dynamic Form Groups
 
 Sometimes you will have to render a variable number of fields in your form. In such a case you can provide a form value interface that has an index signature and then add and remove controls dynamically. Instead of an index signature you can also use optional fields if the potential members of the form value are statically known. At runtime you can add and remove controls in two ways:

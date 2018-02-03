@@ -51,6 +51,22 @@ The following table explains each property.
 
 Control states are associated with a form element via the `NgrxFormControlDirective` (applied with `[ngrxFormControlState]="controlState"`). This directive is reponsible for keeping the view and the state in sync. When the state is changed the update is always immediately sync'ed to the view. Additionally the `id` of the HTML element is set to the ID of the form control.
 
+#### Status CSS Classes
+
+ngrx-forms adds CSS classes to form control elements depending on the state of the control. The available classes are:
+
+* `ngrx-forms-valid`
+* `ngrx-forms-invalid`
+* `ngrx-forms-dirty`
+* `ngrx-forms-pristine`
+* `ngrx-forms-touched`
+* `ngrx-forms-untouched`
+* `ngrx-forms-submitted`
+* `ngrx-forms-unsubmitted`
+* `ngrx-forms-validation-pending`
+
+A constant `NGRX_STATUS_CLASS_NAMES` is exported to allow accessing these class names in user code without needing to hard-code them.
+
 #### `ngrxUpdateOn`
 
 It is possible to control when view values changes are pushed to the state with the `ngrxUpdateOn` attribute. The supported values are `change` (pushed immediately when the view value changes; default) and `blur` (pushed when the form element loses focus). Note that by changing the time value changes are pushed to the state you are also changing the time at which validation and other state updates that depend on the value happen.

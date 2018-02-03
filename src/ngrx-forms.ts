@@ -60,4 +60,6 @@ export { NgrxFormDirective } from './group/directive';
 
 export { NgrxValueConverter, NgrxValueConverters } from './control/value-converter';
 
+export { NGRX_STATUS_CLASS_NAMES, NgrxStatusCssClassesDirective } from './status-css-classes.directive';
+
 export { NgrxFormsModule } from './module';

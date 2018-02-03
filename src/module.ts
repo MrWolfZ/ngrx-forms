@@ -9,6 +9,7 @@ import { NgrxRadioViewAdapter } from './view-adapter/radio';
 import { NgrxRangeViewAdapter } from './view-adapter/range';
 import { NgrxSelectOption, NgrxSelectViewAdapter } from './view-adapter/select';
 import { NgrxSelectMultipleOption, NgrxSelectMultipleViewAdapter } from './view-adapter/select-multiple';
+import { NgrxStatusCssClassesDirective } from './status-css-classes.directive';
 
 const exportsAndDeclarations = [
   NgrxFormControlDirective,
@@ -22,6 +23,7 @@ const exportsAndDeclarations = [
   NgrxSelectMultipleViewAdapter,
   NgrxSelectOption,
   NgrxSelectViewAdapter,
+  NgrxStatusCssClassesDirective,
 ];
 
 @NgModule({
