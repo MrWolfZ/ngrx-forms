@@ -1,5 +1,5 @@
 import { RemoveArrayControlAction } from '../../actions';
-import { createFormArrayState } from '../../state';
+import { cast, createFormArrayState } from '../../state';
 import { removeControlReducer } from './remove-control';
 import { FORM_CONTROL_ID } from './test-util';
 
@@ -33,6 +33,18 @@ describe(`form group ${removeControlReducer.name}`, () => {
     expect(resultState.value).toEqual([INITIAL_FORM_ARRAY_VALUE_NESTED_ARRAY[1]]);
     expect(resultState.controls[1]).toBeUndefined();
     expect(resultState.controls[0].id).toEqual(FORM_CONTROL_ID + '.0');
+  });
+
+  it('should update nested child IDs for group children', () => {
+    const action = new RemoveArrayControlAction(FORM_CONTROL_ID, 0);
+    const resultState = removeControlReducer<{ inner: string }>(INITIAL_STATE_NESTED_GROUP, action);
+    expect(cast(resultState.controls[0]).controls.inner.id).toEqual(FORM_CONTROL_ID + '.0.inner');
+  });
+
+  it('should update nested child IDs for array children', () => {
+    const action = new RemoveArrayControlAction(FORM_CONTROL_ID, 0);
+    const resultState = removeControlReducer<string[]>(INITIAL_STATE_NESTED_ARRAY, action);
+    expect(cast(resultState.controls[0]).controls[0].id).toEqual(FORM_CONTROL_ID + '.0.0');
   });
 
   it('should remove last element', () => {
