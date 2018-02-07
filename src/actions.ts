@@ -334,5 +334,5 @@ export type Actions<TValue> =
   ;
 
 export function isNgrxFormsAction(action: Action) {
-  return action.type.startsWith('ngrx/forms/');
+  return action.type && action.type.startsWith('ngrx/forms/');
 }
