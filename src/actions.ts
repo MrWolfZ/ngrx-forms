@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import { ValidationErrors } from '@angular/forms';
 import { NgrxFormControlId, KeyValue } from './state';
 
-export const ngrxFormsActionPrefix = 'ngrx/forms';
+const ngrxFormsActionPrefix = 'ngrx/forms';
 
 export class SetValueAction<TValue> implements Action {
   static readonly TYPE = `${ngrxFormsActionPrefix}/SET_VALUE`;
