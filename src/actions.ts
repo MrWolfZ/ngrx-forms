@@ -335,6 +335,6 @@ export type Actions<TValue> =
   | ResetAction
   ;
 
-export function isNgrxFormsAction(action: Action) {
-  return action.type && action.type.startsWith(`${ngrxFormsActionPrefix}/`);
+export function isNgrxFormsAction(action: Action): boolean {
+  return !!action.type && action.type.startsWith(`${ngrxFormsActionPrefix}/`);
 }
