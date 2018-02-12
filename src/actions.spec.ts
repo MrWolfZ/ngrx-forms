@@ -2,18 +2,18 @@ import { isNgrxFormsAction } from './actions';
 
 describe('action', () => {
   it('should return true if type is ngrx/forms/', () => {
-    expect(isNgrxFormsAction({ type: 'ngrx/forms/' })).toBeTruthy();
+    expect(isNgrxFormsAction({ type: 'ngrx/forms/' })).toBe(true);
   });
 
   it('should return true if type startsWith ngrx/forms/', () => {
-    expect(isNgrxFormsAction({ type: 'ngrx/forms/test' })).toBeTruthy();
+    expect(isNgrxFormsAction({ type: 'ngrx/forms/test' })).toBe(true);
   });
 
   it('should return false if type does not have ngrx/forms/', () => {
-    expect(isNgrxFormsAction({ type: 'some-type' })).toBeFalsy();
+    expect(isNgrxFormsAction({ type: 'some-type' })).toBe(false);
   });
 
   it('should return false if type is missing', () => {
-    expect(isNgrxFormsAction({} as any)).toBeFalsy();
+    expect(isNgrxFormsAction({} as any)).toBe(false);
   });
 });
