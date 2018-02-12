@@ -1,6 +1,6 @@
 import { isNgrxFormsAction } from './actions';
 
-describe('action', () => {
+describe(isNgrxFormsAction.name, () => {
   it('should return true if type is ngrx/forms/', () => {
     expect(isNgrxFormsAction({ type: 'ngrx/forms/' })).toBe(true);
   });
