@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="2.3.1"></a>
+### 2.3.1
+
+#### Bugfixes
+
+* allow action `type` to be undefined inside form state reducers ([0a61def](https://github.com/MrWolfZ/ngrx-forms/commit/0a61def)), closes [#44](https://github.com/MrWolfZ/ngrx-forms/pull/44) (thanks @lucax88x)
+
 <a name="2.3.0"></a>
 ### 2.3.0
 
