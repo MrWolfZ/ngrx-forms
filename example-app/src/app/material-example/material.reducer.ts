@@ -50,7 +50,7 @@ export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
 });
 
 const validationFormGroupReducer = createFormGroupReducerWithUpdate<FormValue>({
-  userName: validate(required),
+  userName: validate<string>(required),
   password: (state, parentState) => {
     if (!parentState.value.createAccount) {
       return disable(state);

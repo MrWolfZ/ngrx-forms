@@ -68,7 +68,7 @@ function validatePasswordsMatch(value: PasswordValue) {
 }
 
 const validationFormGroupReducer = createFormGroupReducerWithUpdate<FormValue>({
-  userName: validate(required),
+  userName: validate<string>(required),
   password: (state, parentState) => {
     if (!parentState.value.createAccount) {
       return disable(state);
