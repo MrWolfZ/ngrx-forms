@@ -1,7 +1,6 @@
 import {
   addArrayControl,
   addGroupControl,
-  cast,
   createFormArrayState,
   createFormControlState,
   createFormGroupState,
@@ -50,7 +49,6 @@ import {
 describe('ngrx-forms', () => {
   it(`should export ${isArrayState.name}`, () => expect(isArrayState).toBeDefined());
   it(`should export ${isGroupState.name}`, () => expect(isGroupState).toBeDefined());
-  it(`should export ${cast.name}`, () => expect(cast).toBeDefined());
   it(`should export ${createFormControlState.name}`, () => expect(createFormControlState).toBeDefined());
   it(`should export ${createFormGroupState.name}`, () => expect(createFormGroupState).toBeDefined());
   it(`should export ${createFormArrayState.name}`, () => expect(createFormArrayState).toBeDefined());

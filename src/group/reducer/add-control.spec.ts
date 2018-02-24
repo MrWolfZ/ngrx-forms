@@ -1,5 +1,4 @@
 import { AddGroupControlAction } from '../../actions';
-import { cast } from '../../state';
 import { addControlReducer } from './add-control';
 import { FORM_CONTROL_ID, FormGroupValue, INITIAL_STATE } from './test-util';
 
@@ -18,8 +17,8 @@ describe(`form group ${addControlReducer.name}`, () => {
     const resultState = addControlReducer<FormGroupValue>(INITIAL_STATE, action);
     expect(resultState.value).toEqual({ inner: '', inner3: value });
     expect(resultState.controls.inner3!.value).toBe(value);
-    expect(cast(resultState.controls.inner3!).controls).toBeDefined();
-    expect(Array.isArray(cast(resultState.controls.inner3!).controls)).toBe(false);
+    expect(resultState.controls.inner3!.controls).toBeDefined();
+    expect(Array.isArray(resultState.controls.inner3!.controls)).toBe(false);
   });
 
   it('should create child state for array child', () => {
@@ -28,8 +27,8 @@ describe(`form group ${addControlReducer.name}`, () => {
     const resultState = addControlReducer<FormGroupValue>(INITIAL_STATE, action);
     expect(resultState.value).toEqual({ inner: '', inner5: value });
     expect(resultState.controls.inner5!.value).toBe(value);
-    expect(cast(resultState.controls.inner5!).controls).toBeDefined();
-    expect(Array.isArray(cast(resultState.controls.inner5!).controls)).toBe(true);
+    expect(resultState.controls.inner5!.controls).toBeDefined();
+    expect(Array.isArray(resultState.controls.inner5!.controls)).toBe(true);
   });
 
   it('should throw if trying to add existing control', () => {

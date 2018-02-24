@@ -1,5 +1,4 @@
 import { MarkAsSubmittedAction } from '../../actions';
-import { cast } from '../../state';
 import { markAsSubmittedReducer } from './mark-as-submitted';
 import {
   FORM_CONTROL_0_ID,
@@ -11,7 +10,7 @@ import {
 } from './test-util';
 
 describe(`form array ${markAsSubmittedReducer.name}`, () => {
-  const INITIAL_STATE_SUBMITTED = cast(setPropertiesRecursively(INITIAL_STATE, [['isSubmitted', true], ['isUnsubmitted', false]]));
+  const INITIAL_STATE_SUBMITTED = setPropertiesRecursively(INITIAL_STATE, [['isSubmitted', true], ['isUnsubmitted', false]]);
 
   it('should mark itself and all children recursively as submitted', () => {
     const resultState = markAsSubmittedReducer(INITIAL_STATE, new MarkAsSubmittedAction(FORM_CONTROL_ID));

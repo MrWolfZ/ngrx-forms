@@ -1,5 +1,4 @@
 import { MarkAsTouchedAction } from '../../actions';
-import { cast } from '../../state';
 import { markAsTouchedReducer } from './mark-as-touched';
 import {
   FORM_CONTROL_0_ID,
@@ -11,7 +10,7 @@ import {
 } from './test-util';
 
 describe(`form array ${markAsTouchedReducer.name}`, () => {
-  const INITIAL_STATE_TOUCHED = cast(setPropertiesRecursively(INITIAL_STATE, [['isTouched', true], ['isUntouched', false]]));
+  const INITIAL_STATE_TOUCHED = setPropertiesRecursively(INITIAL_STATE, [['isTouched', true], ['isUntouched', false]]);
 
   it('should mark itself and all children recursively as touched', () => {
     const resultState = markAsTouchedReducer(INITIAL_STATE, new MarkAsTouchedAction(FORM_CONTROL_ID));

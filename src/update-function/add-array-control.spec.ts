@@ -1,4 +1,4 @@
-import { cast, createFormArrayState } from '../state';
+import { createFormArrayState } from '../state';
 import { addArrayControl } from './add-array-control';
 import { FORM_CONTROL_ID } from './test-util';
 
@@ -7,22 +7,22 @@ describe(addArrayControl.name, () => {
 
   it('should call reducer for arrays', () => {
     const resultState = addArrayControl('A', 1)(INITIAL_ARRAY_STATE);
-    expect(resultState).not.toBe(cast(INITIAL_ARRAY_STATE));
+    expect(resultState).not.toBe(INITIAL_ARRAY_STATE);
   });
 
   it('should call reducer for arrays without index', () => {
     const resultState = addArrayControl('A')(INITIAL_ARRAY_STATE);
-    expect(resultState).not.toBe(cast(INITIAL_ARRAY_STATE));
+    expect(resultState).not.toBe(INITIAL_ARRAY_STATE);
   });
 
   it('should call reducer for arrays uncurried', () => {
     const resultState = addArrayControl('A', INITIAL_ARRAY_STATE, 1);
-    expect(resultState).not.toBe(cast(INITIAL_ARRAY_STATE));
+    expect(resultState).not.toBe(INITIAL_ARRAY_STATE);
   });
 
   it('should call reducer for arrays uncurried without index', () => {
     const resultState = addArrayControl('A', INITIAL_ARRAY_STATE);
-    expect(resultState).not.toBe(cast(INITIAL_ARRAY_STATE));
+    expect(resultState).not.toBe(INITIAL_ARRAY_STATE);
   });
 
   it('should throw if curried and no state', () => {

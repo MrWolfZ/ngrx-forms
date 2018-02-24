@@ -532,44 +532,6 @@ export function isGroupState(state: AbstractControlState<any>): state is FormGro
   return state.hasOwnProperty('controls') && !Array.isArray(controls) && typeof controls !== 'function';
 }
 
-/**
- * This utility function allows the compiler to correctly infer
- * the type of a form state. It can be used in places where a
- * sub-type of `AbstractControlState` is expected.
- */
-export function cast<TValue extends FormControlValueTypes>(
-  state: AbstractControlState<TValue | undefined>,
-): FormControlState<TValue>;
-
-/**
- * This utility function allows the compiler to correctly infer
- * the type of a form state. It can be used in places where a
- * sub-type of `AbstractControlState` is expected.
- */
-export function cast<TArray extends TValue[], TValue = any>(
-  state: AbstractControlState<TArray | undefined>,
-): FormArrayState<TValue>;
-
-/**
- * This utility function allows the compiler to correctly infer
- * the type of a form state. It can be used in places where a
- * sub-type of `AbstractControlState` is expected.
- */
-export function cast<TValue extends KeyValue>(
-  state: AbstractControlState<TValue | undefined>,
-): FormGroupState<TValue>;
-
-/**
- * This utility function allows the compiler to correctly infer
- * the type of a form state. It can be used in places where a
- * sub-type of `AbstractControlState` is expected.
- */
-export function cast<TValue>(
-  state: AbstractControlState<TValue>,
-) {
-  return state as any;
-}
-
 export function createChildState<TValue>(id: string, childValue: TValue): InferredControlState<TValue> {
   if (childValue !== null && Array.isArray(childValue)) {
     return createFormArrayState(id, childValue) as any;

@@ -1,5 +1,4 @@
 import { AddArrayControlAction } from '../../actions';
-import { cast } from '../../state';
 import { addControlReducer } from './add-control';
 import { FORM_CONTROL_ID, INITIAL_STATE, INITIAL_STATE_NESTED_ARRAY, INITIAL_STATE_NESTED_GROUP } from './test-util';
 
@@ -18,8 +17,8 @@ describe(`form array ${addControlReducer.name}`, () => {
     const resultState = addControlReducer<{ inner: string }>(INITIAL_STATE_NESTED_GROUP, action);
     expect(resultState.value).toEqual([...INITIAL_STATE_NESTED_GROUP.value, value]);
     expect(resultState.controls[2].value).toBe(value);
-    expect(cast(resultState.controls[2])!.controls).toBeDefined();
-    expect(Array.isArray(cast(resultState.controls[2])!.controls)).toBe(false);
+    expect(resultState.controls[2]!.controls).toBeDefined();
+    expect(Array.isArray(resultState.controls[2]!.controls)).toBe(false);
   });
 
   it('should create child state for array child', () => {
@@ -28,8 +27,8 @@ describe(`form array ${addControlReducer.name}`, () => {
     const resultState = addControlReducer<string[]>(INITIAL_STATE_NESTED_ARRAY, action);
     expect(resultState.value).toEqual([...INITIAL_STATE_NESTED_ARRAY.value, value]);
     expect(resultState.controls[2].value).toEqual(value);
-    expect(cast(resultState.controls[2])!.controls).toBeDefined();
-    expect(Array.isArray(cast(resultState.controls[2])!.controls)).toBe(true);
+    expect(resultState.controls[2]!.controls).toBeDefined();
+    expect(Array.isArray(resultState.controls[2]!.controls)).toBe(true);
   });
 
   it('should create child state at the given index', () => {

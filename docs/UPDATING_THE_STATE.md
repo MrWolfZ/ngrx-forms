@@ -89,9 +89,7 @@ const updateMyFormGroup = updateGroup<MyFormValue>({
 
         return someNumber;
       };
-    })(cast(nested))
-    // the `cast` (utility function exported by `ngrx-forms`) helps the type checker to recognize the
-    // `nested` state as a group state
+    })(nested)
 });
 ```
 
@@ -134,7 +132,7 @@ const myFormReducer = createFormGroupReducerWithUpdate<MyFormValue>({
 
         return someNumber;
       }
-    })(cast(nested))
+    })(nested)
 });
 
 export function appReducer(state = initialState, action: Action): AppState {
@@ -208,7 +206,7 @@ export function appReducer(state = initialState, action: Action): AppState {
 
       return {
         ...state,
-        myForm: cast(myForm),
+        myForm,
       };
     }
 
@@ -218,7 +216,7 @@ export function appReducer(state = initialState, action: Action): AppState {
 
       return {
         ...state,
-        myForm: cast(myForm),
+        myForm,
       };
     }
 

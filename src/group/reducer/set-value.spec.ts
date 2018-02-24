@@ -1,5 +1,5 @@
 import { SetValueAction } from '../../actions';
-import { cast, createFormGroupState } from '../../state';
+import { createFormGroupState } from '../../state';
 import { setValueReducer } from './set-value';
 import {
   FORM_CONTROL_ID,
@@ -167,7 +167,7 @@ describe(`form group ${setValueReducer.name}`, () => {
     const value = 'D';
     resultState = setValueReducer(resultState, new SetValueAction(FORM_CONTROL_INNER4_ID, value) as any);
     expect(resultState.isDirty).toEqual(false);
-    expect(cast(resultState.controls.inner3!).controls.inner4.isDirty).toEqual(false);
+    expect(resultState.controls.inner3!.controls.inner4.isDirty).toEqual(false);
   });
 
   it('should not mark state as dirty if nested child value in array is updated', () => {
@@ -178,7 +178,7 @@ describe(`form group ${setValueReducer.name}`, () => {
     const value = 'D';
     resultState = setValueReducer(resultState, new SetValueAction(FORM_CONTROL_INNER5_0_ID, value) as any);
     expect(resultState.isDirty).toEqual(false);
-    expect(cast(resultState.controls.inner5!).controls[0].isDirty).toEqual(false);
+    expect(resultState.controls.inner5!.controls[0].isDirty).toEqual(false);
   });
 
   it('should remove child errors on demand when value is empty', () => {

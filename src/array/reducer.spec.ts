@@ -21,7 +21,7 @@ import {
   StartAsyncValidationAction,
   UnfocusAction,
 } from '../actions';
-import { cast, createFormArrayState } from '../state';
+import { createFormArrayState } from '../state';
 import { formArrayReducerInternal } from './reducer';
 
 describe('form array reducer', () => {
@@ -43,8 +43,8 @@ describe('form array reducer', () => {
 
   it(`should forward ${FocusAction.name}s to children`, () => {
     const resultState = formArrayReducerInternal(INITIAL_STATE, new FocusAction(FORM_CONTROL_0_ID) as any);
-    expect(cast(resultState.controls[0]).isFocused).toEqual(true);
-    expect(cast(resultState.controls[0]).isUnfocused).toEqual(false);
+    expect(resultState.controls[0].isFocused).toEqual(true);
+    expect(resultState.controls[0].isUnfocused).toEqual(false);
   });
 
   it(`should forward ${UnfocusAction.name}s to children`, () => {
@@ -59,22 +59,22 @@ describe('form array reducer', () => {
       ],
     };
     const resultState = formArrayReducerInternal(state, new UnfocusAction(FORM_CONTROL_0_ID) as any);
-    expect(cast(resultState.controls[0]).isFocused).toEqual(false);
-    expect(cast(resultState.controls[0]).isUnfocused).toEqual(true);
+    expect(resultState.controls[0].isFocused).toEqual(false);
+    expect(resultState.controls[0].isUnfocused).toEqual(true);
   });
 
   it(`should forward ${AddGroupControlAction.name}s to children`, () => {
     const value = [{ inner: '' }];
     const state = createFormArrayState(FORM_CONTROL_ID, value);
     const resultState = formArrayReducerInternal(state, new AddGroupControlAction<any, any>(FORM_CONTROL_0_ID, 'inner2', ''));
-    expect((cast(resultState.controls[0]).controls as any).inner2).toBeDefined();
+    expect((resultState.controls[0].controls as any).inner2).toBeDefined();
   });
 
   it(`should forward ${RemoveGroupControlAction.name}s to children`, () => {
     const value = [{ inner: '', inner2: '' }];
     const state = createFormArrayState(FORM_CONTROL_ID, value);
     const resultState = formArrayReducerInternal(state, new RemoveGroupControlAction<any>(FORM_CONTROL_0_ID, 'inner2'));
-    expect(cast(resultState.controls[0]).controls.inner2).toBeUndefined();
+    expect(resultState.controls[0].controls.inner2).toBeUndefined();
   });
 
   it('should not update state if no child was updated', () => {

@@ -1,5 +1,4 @@
 import { DisableAction } from '../../actions';
-import { cast } from '../../state';
 import { disableReducer } from './disable';
 import {
   FORM_CONTROL_ID,
@@ -71,14 +70,14 @@ describe(`form group ${disableReducer.name}`, () => {
   });
 
   it('should disable if all children are disabled when group child is disabled', () => {
-    const state = cast(setPropertiesRecursively(INITIAL_STATE_FULL, [['isEnabled', false], ['isDisabled', false]], FORM_CONTROL_INNER3_ID));
+    const state = setPropertiesRecursively(INITIAL_STATE_FULL, [['isEnabled', false], ['isDisabled', false]], FORM_CONTROL_INNER3_ID);
     const resultState = disableReducer(state, new DisableAction(FORM_CONTROL_INNER3_ID));
     expect(resultState.isEnabled).toBe(false);
     expect(resultState.isDisabled).toBe(true);
   });
 
   it('should disable if all children are disabled when array child is disabled', () => {
-    const state = cast(setPropertiesRecursively(INITIAL_STATE_FULL, [['isEnabled', false], ['isDisabled', false]], FORM_CONTROL_INNER5_ID));
+    const state = setPropertiesRecursively(INITIAL_STATE_FULL, [['isEnabled', false], ['isDisabled', false]], FORM_CONTROL_INNER5_ID);
     const resultState = disableReducer(state, new DisableAction(FORM_CONTROL_INNER5_ID));
     expect(resultState.isEnabled).toBe(false);
     expect(resultState.isDisabled).toBe(true);

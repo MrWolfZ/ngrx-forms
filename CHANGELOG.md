@@ -3,6 +3,10 @@
 <a name="3.0.0"></a>
 ### 3.0.0
 
+#### Breaking Changes
+
+* remove `cast` utility function since it is obsolete due to proper control type inference
+
 #### Features
 
 * use conditional types to infer the type of child controls

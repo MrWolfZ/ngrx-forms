@@ -1,4 +1,3 @@
-import { cast } from '../state';
 import { enable } from './enable';
 import { INITIAL_STATE } from './test-util';
 
@@ -28,7 +27,7 @@ describe(enable.name, () => {
   });
 
   it('should call reducer for arrays', () => {
-    const inner5State = cast(INITIAL_STATE.controls.inner5);
+    const inner5State = INITIAL_STATE.controls.inner5;
     const state = {
       ...inner5State,
       isEnabled: false,

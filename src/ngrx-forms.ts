@@ -12,7 +12,6 @@ export {
   InferredControlState,
   isArrayState,
   isGroupState,
-  cast,
   createFormControlState,
   createFormGroupState,
   createFormArrayState,

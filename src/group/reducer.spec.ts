@@ -21,7 +21,7 @@ import {
   StartAsyncValidationAction,
   UnfocusAction,
 } from '../actions';
-import { cast, createFormGroupState } from '../state';
+import { createFormGroupState } from '../state';
 import { formGroupReducerInternal } from './reducer';
 
 describe('form group reducer', () => {
@@ -46,8 +46,8 @@ describe('form group reducer', () => {
 
   it(`should forward ${FocusAction.name}s to children`, () => {
     const resultState = formGroupReducerInternal(INITIAL_STATE, new FocusAction(FORM_CONTROL_INNER_ID) as any);
-    expect(cast(resultState.controls.inner).isFocused).toEqual(true);
-    expect(cast(resultState.controls.inner).isUnfocused).toEqual(false);
+    expect(resultState.controls.inner.isFocused).toEqual(true);
+    expect(resultState.controls.inner.isUnfocused).toEqual(false);
   });
 
   it(`should forward ${UnfocusAction.name}s to children`, () => {
@@ -62,18 +62,18 @@ describe('form group reducer', () => {
       },
     };
     const resultState = formGroupReducerInternal(state, new UnfocusAction(FORM_CONTROL_INNER_ID) as any);
-    expect(cast(resultState.controls.inner).isFocused).toEqual(false);
-    expect(cast(resultState.controls.inner).isUnfocused).toEqual(true);
+    expect(resultState.controls.inner.isFocused).toEqual(false);
+    expect(resultState.controls.inner.isUnfocused).toEqual(true);
   });
 
   it(`should forward add ${AddArrayControlAction.name}s to children`, () => {
     const resultState = formGroupReducerInternal<FormGroupValue>(INITIAL_STATE_FULL, new AddArrayControlAction<any>(FORM_CONTROL_INNER5_ID, ''));
-    expect(cast(resultState.controls.inner5!).controls[1]).toBeDefined();
+    expect(resultState.controls.inner5!.controls[1]).toBeDefined();
   });
 
   it(`should forward remove ${RemoveArrayControlAction.name}s to children`, () => {
     const resultState = formGroupReducerInternal(INITIAL_STATE_FULL, new RemoveArrayControlAction(FORM_CONTROL_INNER5_ID, 0));
-    expect(cast(resultState.controls.inner5!).controls[0]).toBeUndefined();
+    expect(resultState.controls.inner5!.controls[0]).toBeUndefined();
   });
 
   it('should not update state if no child was updated', () => {

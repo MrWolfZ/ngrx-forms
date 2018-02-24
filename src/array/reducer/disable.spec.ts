@@ -1,6 +1,5 @@
 import { DisableAction } from '../../actions';
 import { setPropertiesRecursively } from '../../group/reducer/test-util';
-import { cast } from '../../state';
 import { disableReducer } from './disable';
 import {
   FORM_CONTROL_0_ID,
@@ -61,8 +60,8 @@ describe(`form array ${disableReducer.name}`, () => {
   });
 
   it('should disable if all children are disabled when control child is disabled', () => {
-    let state = cast(setPropertiesRecursively(INITIAL_STATE, [['isEnabled', false], ['isDisabled', true]], FORM_CONTROL_0_ID));
-    state = cast(setPropertiesRecursively(state, [['isEnabled', true], ['isDisabled', false]], FORM_CONTROL_1_ID));
+    let state = setPropertiesRecursively(INITIAL_STATE, [['isEnabled', false], ['isDisabled', true]], FORM_CONTROL_0_ID);
+    state = setPropertiesRecursively(state, [['isEnabled', true], ['isDisabled', false]], FORM_CONTROL_1_ID);
     const resultState = disableReducer(state, new DisableAction(FORM_CONTROL_0_ID));
     expect(resultState.isEnabled).toBe(false);
     expect(resultState.isDisabled).toBe(true);
@@ -75,16 +74,16 @@ describe(`form array ${disableReducer.name}`, () => {
   });
 
   it('should disable if all children are disabled when group child is disabled', () => {
-    let state = cast(setPropertiesRecursively(INITIAL_STATE_NESTED_GROUP, [['isEnabled', false], ['isDisabled', true]], FORM_CONTROL_0_ID));
-    state = cast(setPropertiesRecursively(state, [['isEnabled', true], ['isDisabled', false]], FORM_CONTROL_1_ID));
+    let state = setPropertiesRecursively(INITIAL_STATE_NESTED_GROUP, [['isEnabled', false], ['isDisabled', true]], FORM_CONTROL_0_ID);
+    state = setPropertiesRecursively(state, [['isEnabled', true], ['isDisabled', false]], FORM_CONTROL_1_ID);
     const resultState = disableReducer(state, new DisableAction(FORM_CONTROL_0_ID));
     expect(resultState.isEnabled).toBe(false);
     expect(resultState.isDisabled).toBe(true);
   });
 
   it('should disable if all children are disabled when array child is disabled', () => {
-    let state = cast(setPropertiesRecursively(INITIAL_STATE_NESTED_ARRAY, [['isEnabled', false], ['isDisabled', true]], FORM_CONTROL_0_ID));
-    state = cast(setPropertiesRecursively(state, [['isEnabled', true], ['isDisabled', false]], FORM_CONTROL_1_ID));
+    let state = setPropertiesRecursively(INITIAL_STATE_NESTED_ARRAY, [['isEnabled', false], ['isDisabled', true]], FORM_CONTROL_0_ID);
+    state = setPropertiesRecursively(state, [['isEnabled', true], ['isDisabled', false]], FORM_CONTROL_1_ID);
     const resultState = disableReducer(state, new DisableAction(FORM_CONTROL_0_ID));
     expect(resultState.isEnabled).toBe(false);
     expect(resultState.isDisabled).toBe(true);
