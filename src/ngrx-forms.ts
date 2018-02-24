@@ -9,6 +9,7 @@ export {
   FormGroupControls,
   FormGroupState,
   FormArrayState,
+  InferredControlState,
   isArrayState,
   isGroupState,
   cast,
