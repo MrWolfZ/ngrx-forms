@@ -3,12 +3,12 @@ import { INITIAL_STATE } from './test-util';
 
 describe(setUserDefinedProperty.name, () => {
   it('should call reducer for controls', () => {
-    const resultState = setUserDefinedProperty('prop', 12)(INITIAL_STATE.controls.inner);
+    const resultState = setUserDefinedProperty<typeof INITIAL_STATE.value.inner>('prop', 12)(INITIAL_STATE.controls.inner);
     expect(resultState).not.toBe(INITIAL_STATE.controls.inner);
   });
 
   it('should call reducer for groups', () => {
-    const resultState = setUserDefinedProperty('prop', 12)(INITIAL_STATE);
+    const resultState = setUserDefinedProperty<typeof INITIAL_STATE.value>('prop', 12)(INITIAL_STATE);
     expect(resultState).not.toBe(INITIAL_STATE);
   });
 

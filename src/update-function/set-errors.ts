@@ -1,10 +1,10 @@
 import { SetErrorsAction } from '../actions';
 import {
-  AbstractControlState,
   FormArrayState,
   FormControlState,
   FormControlValueTypes,
   FormGroupState,
+  InferredControlState,
   ValidationErrors,
 } from '../state';
 import { abstractControlReducer, ensureState } from './util';
@@ -13,7 +13,7 @@ import { abstractControlReducer, ensureState } from './util';
  * This update function takes an error object or an array of error objects and returns
  * a projection function that sets the errors of a form state.
  */
-export function setErrors<TValue>(param: ValidationErrors | ValidationErrors[]): (state: AbstractControlState<TValue>) => AbstractControlState<TValue>;
+export function setErrors<TValue>(param: ValidationErrors | ValidationErrors[]): (state: InferredControlState<TValue>) => InferredControlState<TValue>;
 
 /**
  * This update function takes an error object or an array of error objects and a form
@@ -40,9 +40,9 @@ export function setErrors<TValue>(param: ValidationErrors | ValidationErrors[], 
  * This update function takes an error object or an array of error objects and a form
  * state and sets the errors of the state.
  */
-export function setErrors<TValue>(param: ValidationErrors | ValidationErrors[], state: AbstractControlState<TValue>): AbstractControlState<TValue>;
+export function setErrors<TValue>(param: ValidationErrors | ValidationErrors[], state: InferredControlState<TValue>): InferredControlState<TValue>;
 
-export function setErrors<TValue>(param: ValidationErrors | ValidationErrors[], state?: AbstractControlState<TValue>) {
+export function setErrors<TValue>(param: ValidationErrors | ValidationErrors[], state?: InferredControlState<TValue>) {
   if (!!state) {
     param = Array.isArray(param) ? param : [param];
     const errors = (param as ValidationErrors[]).reduce((agg, err) => Object.assign(agg, err), {} as ValidationErrors);
@@ -50,5 +50,5 @@ export function setErrors<TValue>(param: ValidationErrors | ValidationErrors[], 
     return abstractControlReducer(state, new SetErrorsAction(state.id, errors));
   }
 
-  return (s: AbstractControlState<TValue>) => setErrors(param, ensureState(s));
+  return (s: InferredControlState<TValue>) => setErrors(param, ensureState(s));
 }

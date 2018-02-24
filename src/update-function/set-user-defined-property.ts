@@ -1,5 +1,5 @@
 import { SetUserDefinedPropertyAction } from '../actions';
-import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState } from '../state';
+import { FormArrayState, FormControlState, FormControlValueTypes, FormGroupState, InferredControlState } from '../state';
 import { abstractControlReducer, ensureState } from './util';
 
 /**
@@ -7,7 +7,7 @@ import { abstractControlReducer, ensureState } from './util';
  * a projection function that sets a user-defined property on
  * a form state.
  */
-export function setUserDefinedProperty<TValue>(name: string, value: any): (state: AbstractControlState<TValue>) => AbstractControlState<TValue>;
+export function setUserDefinedProperty<TValue>(name: string, value: any): (state: InferredControlState<TValue>) => InferredControlState<TValue>;
 
 /**
  * This update function takes a name, a value, and a form
@@ -34,12 +34,12 @@ export function setUserDefinedProperty<TValue>(name: string, value: any, state: 
  * This update function takes a name, a value, and a form
  * state and sets a user-defined property on the state.
  */
-export function setUserDefinedProperty<TValue>(name: string, value: any, state: AbstractControlState<TValue>): AbstractControlState<TValue>;
+export function setUserDefinedProperty<TValue>(name: string, value: any, state: InferredControlState<TValue>): InferredControlState<TValue>;
 
-export function setUserDefinedProperty<TValue>(name: string, value: any, state?: AbstractControlState<TValue>) {
+export function setUserDefinedProperty<TValue>(name: string, value: any, state?: InferredControlState<TValue>) {
   if (!!state) {
     return abstractControlReducer(state, new SetUserDefinedPropertyAction(state.id, name, value));
   }
 
-  return (s: AbstractControlState<TValue>) => setUserDefinedProperty(name, value, ensureState(s));
+  return (s: InferredControlState<TValue>) => setUserDefinedProperty(name, value, ensureState(s));
 }
