@@ -1,11 +1,12 @@
 import { Action } from '@ngrx/store';
 
 import { formGroupReducer } from '../group/reducer';
-import { AbstractControlState, computeGroupState, FormGroupControls, FormGroupState, KeyValue, isGroupState } from '../state';
+import { computeGroupState, FormGroupControls, FormGroupState, KeyValue, InferredControlState, isGroupState } from '../state';
 import { ProjectFn2 } from './util';
 
-export type StateUpdateFns<TValue extends KeyValue> =
-  {[controlId in keyof TValue]?: ProjectFn2<AbstractControlState<TValue[controlId]>, FormGroupState<TValue>> };
+export type StateUpdateFns<TValue extends KeyValue> = {
+  [controlId in keyof TValue]?: ProjectFn2<InferredControlState<TValue[controlId]>, FormGroupState<TValue>>;
+};
 
 function updateGroupControlsState<TValue extends KeyValue>(updateFns: StateUpdateFns<TValue>) {
   return (state: FormGroupState<TValue>) => {
@@ -66,7 +67,7 @@ function updateGroupSingle<TValue extends KeyValue>(updateFns: StateUpdateFns<TV
 // and with optional controls
 export function updateGroup<TValue>(
   ...updateFnsArr: Array<StateUpdateFns<TValue>>,
-): (state: FormGroupState<TValue> | AbstractControlState<TValue | undefined>) => FormGroupState<TValue>;
+): (state: FormGroupState<TValue>) => FormGroupState<TValue>;
 
 /**
  * This update function takes a form group state and a variable number of update

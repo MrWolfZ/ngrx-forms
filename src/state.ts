@@ -226,9 +226,28 @@ export interface FormControlState<TValue extends FormControlValueTypes> extends 
 }
 
 /**
+ * This type is a helper type that uses conditional types to infer
+ * the type of a child control
+ */
+export type InferredControlState<T> =
+  T extends symbol // abuse type 'symbol' to catch 'any' typing without the rule becoming too generic
+  ? AbstractControlState<T>
+  : T extends undefined
+  ? never
+  : T extends any[]
+  ? FormArrayState<T[number]>
+  : T extends FormControlValueTypes
+  ? FormControlState<T>
+  : T extends KeyValue
+  ? FormGroupState<T>
+  : AbstractControlState<T>;
+
+/**
  * This type represents the child control states of a form group.
  */
-export type FormGroupControls<TValue> = {[controlId in keyof TValue]: AbstractControlState<TValue[controlId]> };
+export type FormGroupControls<TValue> = {
+  [controlId in keyof TValue]: InferredControlState<TValue[controlId]>;
+};
 
 /**
  * Form groups are collections of named controls. Just like controls
@@ -494,7 +513,7 @@ export interface FormArrayState<TValue> extends AbstractControlState<TValue[]> {
    * until [conditional mapped types](https://github.com/Microsoft/TypeScript/issues/12424)
    * are added to TypeScript.
    */
-  controls: Array<AbstractControlState<TValue>>;
+  controls: Array<InferredControlState<TValue>>;
 }
 
 /**
@@ -551,16 +570,16 @@ export function cast<TValue>(
   return state as any;
 }
 
-export function createChildState(id: string, childValue: any): AbstractControlState<any> {
+export function createChildState<TValue>(id: string, childValue: TValue): InferredControlState<TValue> {
   if (childValue !== null && Array.isArray(childValue)) {
-    return createFormArrayState(id, childValue);
+    return createFormArrayState(id, childValue) as any;
   }
 
   if (childValue !== null && typeof childValue === 'object') {
-    return createFormGroupState(id, childValue);
+    return createFormGroupState(id, childValue) as any;
   }
 
-  return createFormControlState(id, childValue);
+  return createFormControlState(id, childValue) as any;
 }
 
 /**
@@ -682,13 +701,13 @@ export function createFormGroupState<TValue extends KeyValue>(
   initialValue: TValue,
 ): FormGroupState<TValue> {
   const controls = Object.keys(initialValue)
-    .map((key: keyof TValue) => [key, createChildState(`${id}.${key}`, initialValue[key])] as [string, AbstractControlState<any>])
+    .map((key: keyof TValue) => [key, createChildState(`${id}.${key}`, initialValue[key])] as [string, InferredControlState<any>])
     .reduce((res, [controlId, state]) => Object.assign(res, { [controlId]: state }), {} as FormGroupControls<TValue>);
 
   return computeGroupState(id, controls, initialValue, {}, [], {});
 }
 
-export function getFormArrayValue<TValue>(
+function getFormArrayValue<TValue>(
   controls: Array<AbstractControlState<TValue>>,
   originalValue: TValue[],
 ): TValue[] {
@@ -701,7 +720,7 @@ export function getFormArrayValue<TValue>(
   return hasChanged ? newValue : originalValue;
 }
 
-export function getFormArrayErrors<TValue>(
+function getFormArrayErrors<TValue>(
   controls: Array<AbstractControlState<TValue>>,
   originalErrors: ValidationErrors,
 ): ValidationErrors {
@@ -730,12 +749,14 @@ export function getFormArrayErrors<TValue>(
 
 export function computeArrayState<TValue>(
   id: string,
-  controls: Array<AbstractControlState<TValue>>,
+  inferredControls: Array<InferredControlState<TValue>>,
   value: TValue[],
   errors: ValidationErrors,
   pendingValidations: string[],
   userDefinedProperties: KeyValue,
 ): FormArrayState<TValue> {
+  const controls = inferredControls as Array<AbstractControlState<any>>;
+
   value = getFormArrayValue<TValue>(controls, value);
   errors = getFormArrayErrors(controls, errors);
   const isValid = isEmpty(errors);
@@ -761,7 +782,7 @@ export function computeArrayState<TValue>(
     isSubmitted,
     isUnsubmitted: !isSubmitted,
     userDefinedProperties,
-    controls,
+    controls: inferredControls,
   };
 }
 
@@ -777,7 +798,7 @@ export function createFormArrayState<TValue>(
   initialValue: TValue[],
 ): FormArrayState<TValue> {
   const controls = initialValue
-    .map((value, i) => createChildState(`${id}.${i}`, value) as AbstractControlState<TValue>);
+    .map((value, i) => createChildState(`${id}.${i}`, value));
 
   return computeArrayState(id, controls, initialValue, {}, [], {});
 }

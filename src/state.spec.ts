@@ -1,12 +1,12 @@
 import { FORM_CONTROL_0_ID, FORM_CONTROL_1_ID } from './array/reducer/test-util';
 import { FORM_CONTROL_INNER_ID, FORM_CONTROL_INNER2_ID } from './group/reducer/test-util';
 import {
-  cast,
   computeArrayState,
   computeGroupState,
   createFormArrayState,
   createFormControlState,
   createFormGroupState,
+  InferredControlState,
   isGroupState,
   isArrayState,
 } from './state';
@@ -115,19 +115,19 @@ describe('state', () => {
 
     it('should create control child', () => {
       expect(INITIAL_STATE.controls.control.value).toEqual(CONTROL_VALUE);
-      expect(cast(INITIAL_STATE.controls.control).isFocused).toBeDefined();
+      expect(INITIAL_STATE.controls.control.isFocused).toBeDefined();
     });
 
     it('should create group child', () => {
       expect(INITIAL_STATE.controls.group.value).toEqual(GROUP_VALUE);
-      const controls = cast(INITIAL_STATE.controls.group).controls;
+      const controls = INITIAL_STATE.controls.group.controls;
       expect(controls).toBeDefined();
       expect(Array.isArray(controls)).toBe(false);
     });
 
     it('should create array child', () => {
       expect(INITIAL_STATE.controls.array.value).toEqual(ARRAY_VALUE);
-      const controls = cast(INITIAL_STATE.controls.array).controls;
+      const controls = INITIAL_STATE.controls.array.controls;
       expect(controls).toBeDefined();
       expect(Array.isArray(controls)).toBe(true);
     });
@@ -239,14 +239,14 @@ describe('state', () => {
 
     it('should create control child', () => {
       expect(INITIAL_STATE.controls[0].value).toEqual(INITIAL_VALUE[0]);
-      expect(cast(INITIAL_STATE.controls[0]).isFocused).toBeDefined();
+      expect(INITIAL_STATE.controls[0].isFocused).toBeDefined();
     });
 
     it('should create group child', () => {
       const initialValue = [{ control: 'a' }, { control: 'b' }];
       const initialState = createFormArrayState<{ control: string }>(FORM_CONTROL_ID, initialValue);
       expect(initialState.controls[0].value).toEqual(initialValue[0]);
-      const controls = cast(initialState.controls[0]).controls;
+      const controls = initialState.controls[0].controls;
       expect(controls).toBeDefined();
       expect(Array.isArray(controls)).toBe(false);
     });
@@ -255,7 +255,7 @@ describe('state', () => {
       const initialValue = [['a'], ['b']];
       const initialState = createFormArrayState<string[]>(FORM_CONTROL_ID, initialValue);
       expect(initialState.controls[0].value).toEqual(initialValue[0]);
-      const controls = cast(initialState.controls[0]).controls;
+      const controls = initialState.controls[0].controls;
       expect(controls).toBeDefined();
       expect(Array.isArray(controls)).toBe(true);
     });
@@ -264,11 +264,11 @@ describe('state', () => {
       const initialValue = [['a'], { control: 'b' }];
       const initialState = createFormArrayState<string[] | { control: string }>(FORM_CONTROL_ID, initialValue);
       expect(initialState.controls[0].value).toEqual(initialValue[0]);
-      const controls = cast(initialState.controls[0]).controls;
+      const controls = initialState.controls[0].controls;
       expect(controls).toBeDefined();
       expect(Array.isArray(controls)).toBe(true);
       expect(initialState.controls[1].value).toEqual(initialValue[1]);
-      const controls2 = cast(initialState.controls[1]).controls;
+      const controls2 = initialState.controls[1].controls;
       expect(controls2).toBeDefined();
       expect(Array.isArray(controls2)).toBe(false);
     });
@@ -384,7 +384,7 @@ describe('state', () => {
     const CONTROLS = [CONTROL_1, CONTROL_2];
 
     it('should aggregate child values', () => {
-      const state = computeArrayState(FORM_CONTROL_ID, CONTROLS, [], {}, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], {}, [], {});
       expect(state.value).toEqual(VALUE);
     });
 
@@ -396,7 +396,7 @@ describe('state', () => {
         isValid: false,
         isInvalid: true,
       };
-      const state = computeArrayState(FORM_CONTROL_ID, [controlWithError, CONTROL_2], [], {}, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, [controlWithError, CONTROL_2], [], {}, [], {});
       expect(state.errors).toEqual({ _0: childError });
     });
 
@@ -409,25 +409,25 @@ describe('state', () => {
         isValid: false,
         isInvalid: true,
       };
-      const state = computeArrayState(FORM_CONTROL_ID, [controlWithError, CONTROL_2], [], ownError, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, [controlWithError, CONTROL_2], [], ownError, [], {});
       expect(state.errors).toEqual({ _0: childError, ...ownError });
     });
 
     it('should mark as valid if there are no errors', () => {
-      const state = computeArrayState(FORM_CONTROL_ID, CONTROLS, [], {}, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], {}, [], {});
       expect(state.isValid).toEqual(true);
       expect(state.isInvalid).toEqual(false);
     });
 
     it('should mark as invalid if there are errors', () => {
       const errors = { max: true };
-      const state = computeArrayState(FORM_CONTROL_ID, CONTROLS, [], errors, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], errors, [], {});
       expect(state.isValid).toEqual(false);
       expect(state.isInvalid).toEqual(true);
     });
 
     it('should mark as pristine if no child is dirty', () => {
-      const state = computeArrayState(FORM_CONTROL_ID, CONTROLS, [], {}, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], {}, [], {});
       expect(state.isDirty).toEqual(false);
       expect(state.isPristine).toEqual(true);
     });
@@ -438,7 +438,7 @@ describe('state', () => {
         isDirty: true,
         isPristine: false,
       };
-      const state = computeArrayState(FORM_CONTROL_ID, [dirtyControl, CONTROL_2], [], {}, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, [dirtyControl, CONTROL_2], [], {}, [], {});
       expect(state.isDirty).toEqual(true);
       expect(state.isPristine).toEqual(false);
     });
@@ -455,7 +455,7 @@ describe('state', () => {
         isEnabled: false,
         isDisabled: true,
       };
-      const state = computeArrayState(FORM_CONTROL_ID, [disabledControl, CONTROL_2], [], {}, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, [disabledControl, CONTROL_2], [], {}, [], {});
       expect(state.isEnabled).toEqual(true);
       expect(state.isDisabled).toEqual(false);
     });
@@ -471,7 +471,7 @@ describe('state', () => {
         isEnabled: false,
         isDisabled: true,
       };
-      const state = computeArrayState(FORM_CONTROL_ID, [disabledControl1, disabledControl2], [], {}, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, [disabledControl1, disabledControl2], [], {}, [], {});
       expect(state.isEnabled).toEqual(false);
       expect(state.isDisabled).toEqual(true);
     });
@@ -483,7 +483,7 @@ describe('state', () => {
     });
 
     it('should mark as untouched if no child is touched', () => {
-      const state = computeArrayState(FORM_CONTROL_ID, CONTROLS, [], {}, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], {}, [], {});
       expect(state.isTouched).toEqual(false);
       expect(state.isUntouched).toEqual(true);
     });
@@ -494,7 +494,7 @@ describe('state', () => {
         isTouched: true,
         isUntouched: false,
       };
-      const state = computeArrayState(FORM_CONTROL_ID, [touchedControl, CONTROL_2], [], {}, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, [touchedControl, CONTROL_2], [], {}, [], {});
       expect(state.isTouched).toEqual(true);
       expect(state.isUntouched).toEqual(false);
     });
@@ -506,7 +506,7 @@ describe('state', () => {
     });
 
     it('should mark as unsubmitted if no child is submitted', () => {
-      const state = computeArrayState(FORM_CONTROL_ID, CONTROLS, [], {}, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], {}, [], {});
       expect(state.isSubmitted).toEqual(false);
       expect(state.isUnsubmitted).toEqual(true);
     });
@@ -517,7 +517,7 @@ describe('state', () => {
         isSubmitted: true,
         isUnsubmitted: false,
       };
-      const state = computeArrayState(FORM_CONTROL_ID, [submittedControl, CONTROL_2], [], {}, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, [submittedControl, CONTROL_2], [], {}, [], {});
       expect(state.isSubmitted).toEqual(true);
       expect(state.isUnsubmitted).toEqual(false);
     });
@@ -533,17 +533,17 @@ describe('state', () => {
         pendingValidations: ['test'],
         isValidationPending: true,
       };
-      const state = computeArrayState(FORM_CONTROL_ID, [validationPendingControl, CONTROL_2], [], {}, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, [validationPendingControl, CONTROL_2], [], {}, [], {});
       expect(state.isValidationPending).toEqual(true);
     });
 
     it('should mark as validation pending if array has pending validations', () => {
-      const state = computeArrayState(FORM_CONTROL_ID, CONTROLS, [], {}, ['test'], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], {}, ['test'], {});
       expect(state.isValidationPending).toEqual(true);
     });
 
     it('should mark as no validation pending if no validations are pending', () => {
-      const state = computeArrayState(FORM_CONTROL_ID, CONTROLS, [], {}, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], {}, [], {});
       expect(state.isValidationPending).toEqual(false);
     });
   });
@@ -717,5 +717,37 @@ describe('state', () => {
       const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, CONTROLS, VALUE, {}, [], {});
       expect(state.isValidationPending).toEqual(false);
     });
+  });
+
+  describe('InferredControlState', () => {
+    // tslint:disable:no-unused-variable
+    it('should correctly infer types of unknown controls', () => {
+      type T = InferredControlState<any>;
+    });
+
+    it('should correctly infer types of controls', () => {
+      type T = InferredControlState<string>;
+    });
+
+    it('should correctly infer types of groups', () => {
+      type T = InferredControlState<{ inner: string }>;
+    });
+
+    it('should correctly infer types of arrays', () => {
+      type T = InferredControlState<string[]>;
+    });
+
+    it('should correctly infer types of optional controls', () => {
+      type T = InferredControlState<string | undefined>;
+    });
+
+    it('should correctly infer types of optional groups', () => {
+      type T = InferredControlState<{ inner: string } | undefined>;
+    });
+
+    it('should correctly infer types of optional arrays', () => {
+      type T = InferredControlState<string[] | undefined>;
+    });
+    // tslint:enable:no-unused-variable
   });
 });

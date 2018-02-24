@@ -1,5 +1,5 @@
 import { Actions, AddArrayControlAction } from '../../actions';
-import { computeArrayState, createChildState, FormArrayState } from '../../state';
+import { computeArrayState, createChildState, FormArrayState, InferredControlState } from '../../state';
 import { childReducer } from './util';
 
 export function addControlReducer<TValue>(
@@ -21,8 +21,8 @@ export function addControlReducer<TValue>(
   }
 
   let controls = [...state.controls];
-  controls.splice(index, 0, createChildState(`${state.id}.${index}`, action.payload.value));
-  controls = controls.map((c, i) => ({ ...c, id: `${state.id}.${i}` }));
+  controls.splice(index, 0, createChildState(`${state.id}.${index}`, action.payload.value) as InferredControlState<TValue>);
+  controls = controls.map((c, i) => ({ ...(c as any), id: `${state.id}.${i}` }));
 
   return computeArrayState(
     state.id,

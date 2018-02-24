@@ -27,7 +27,7 @@ export function setValueReducer<TValue extends KeyValue>(
   const controls = Object.keys(value)
     .reduce((c, key) => {
       if (!state.controls[key]) {
-        c[key] = createChildState(`${state.id}.${key}`, value[key]);
+        c[key] = createChildState<TValue[string]>(`${state.id}.${key}`, value[key]);
       } else {
         c[key] = callChildReducer(state.controls[key], new SetValueAction(state.controls[key].id, value[key]));
       }

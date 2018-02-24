@@ -1,7 +1,7 @@
-import { AbstractControlState, computeArrayState, FormArrayState } from '../state';
+import { computeArrayState, FormArrayState, InferredControlState } from '../state';
 import { ProjectFn2 } from './util';
 
-function updateArrayControlsState<TValue>(updateFn: ProjectFn2<AbstractControlState<TValue>, FormArrayState<TValue>>) {
+function updateArrayControlsState<TValue>(updateFn: ProjectFn2<InferredControlState<TValue>, FormArrayState<TValue>>) {
   return (state: FormArrayState<TValue>) => {
     let hasChanged = false;
     const newControls = state.controls.map(control => {
@@ -13,7 +13,7 @@ function updateArrayControlsState<TValue>(updateFn: ProjectFn2<AbstractControlSt
   };
 }
 
-function updateArraySingle<TValue>(updateFn: ProjectFn2<AbstractControlState<TValue>, FormArrayState<TValue>>) {
+function updateArraySingle<TValue>(updateFn: ProjectFn2<InferredControlState<TValue>, FormArrayState<TValue>>) {
   return (state: FormArrayState<TValue>): FormArrayState<TValue> => {
     const newControls = updateArrayControlsState<TValue>(updateFn)(state);
     return newControls !== state.controls
@@ -39,8 +39,8 @@ function updateArraySingle<TValue>(updateFn: ProjectFn2<AbstractControlState<TVa
  * ```
  */
 export function updateArray<TValue>(
-  ...updateFnArr: Array<ProjectFn2<AbstractControlState<TValue>, FormArrayState<TValue>>>,
-): (state: FormArrayState<TValue> | AbstractControlState<TValue[] | undefined>) => FormArrayState<TValue>;
+  ...updateFnArr: Array<ProjectFn2<InferredControlState<TValue>, FormArrayState<TValue>>>,
+): (state: FormArrayState<TValue>) => FormArrayState<TValue>;
 
 /**
  * This update function takes a form array state and a variable number of update
@@ -59,12 +59,12 @@ export function updateArray<TValue>(
  */
 export function updateArray<TValue>(
   state: FormArrayState<TValue>,
-  ...updateFnArr: Array<ProjectFn2<AbstractControlState<TValue>, FormArrayState<TValue>>>,
+  ...updateFnArr: Array<ProjectFn2<InferredControlState<TValue>, FormArrayState<TValue>>>,
 ): FormArrayState<TValue>;
 
 export function updateArray<TValue>(
-  stateOrFunction: FormArrayState<TValue> | ProjectFn2<AbstractControlState<TValue>, FormArrayState<TValue>>,
-  ...updateFnArr: Array<ProjectFn2<AbstractControlState<TValue>, FormArrayState<TValue>>>,
+  stateOrFunction: FormArrayState<TValue> | ProjectFn2<InferredControlState<TValue>, FormArrayState<TValue>>,
+  ...updateFnArr: Array<ProjectFn2<InferredControlState<TValue>, FormArrayState<TValue>>>,
 ) {
   if (typeof stateOrFunction !== 'function') {
     const [first, ...rest] = updateFnArr;

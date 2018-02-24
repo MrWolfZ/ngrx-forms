@@ -1,13 +1,13 @@
 import { Actions } from '../../actions';
 import { formControlReducerInternal } from '../../control/reducer';
 import { formGroupReducerInternal } from '../../group/reducer';
-import { AbstractControlState, computeArrayState, FormArrayState, isArrayState, isGroupState } from '../../state';
+import { computeArrayState, FormArrayState, InferredControlState, isArrayState, isGroupState } from '../../state';
 import { formArrayReducerInternal } from '../reducer';
 
 export function callChildReducer(
-  state: AbstractControlState<any>,
+  state: InferredControlState<any>,
   action: Actions<any>,
-): AbstractControlState<any> {
+): InferredControlState<any> {
   if (isArrayState(state)) {
     return formArrayReducerInternal(state, action as any);
   }
@@ -20,30 +20,32 @@ export function callChildReducer(
 }
 
 export function dispatchActionPerChild<TValue>(
-  controls: Array<AbstractControlState<TValue>>,
+  controls: Array<InferredControlState<TValue>>,
   actionCreator: (controlId: string) => Actions<TValue>,
-) {
+): Array<InferredControlState<TValue>> {
   let hasChanged = false;
   const newControls = controls
     .map(state => {
       const newState = callChildReducer(state, actionCreator(state.id));
       hasChanged = hasChanged || state !== newState;
       return newState;
-    });
+    }) as Array<InferredControlState<TValue>>;
+
   return hasChanged ? newControls : controls;
 }
 
 function callChildReducers<TValue>(
-  controls: Array<AbstractControlState<TValue>>,
+  controls: Array<InferredControlState<TValue>>,
   action: Actions<TValue[]>,
-): Array<AbstractControlState<TValue>> {
+): Array<InferredControlState<TValue>> {
   let hasChanged = false;
   const newControls = controls
     .map(state => {
       const newState = callChildReducer(state, action);
       hasChanged = hasChanged || state !== newState;
       return newState;
-    });
+    }) as Array<InferredControlState<TValue>>;
+
   return hasChanged ? newControls : controls;
 }
 

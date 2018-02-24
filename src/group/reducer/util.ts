@@ -2,29 +2,30 @@ import { Actions } from '../../actions';
 import { formArrayReducerInternal } from '../../array/reducer';
 import { formControlReducerInternal } from '../../control/reducer';
 import {
-  AbstractControlState,
+  computeGroupState,
   FormGroupControls,
   FormGroupState,
+  InferredControlState,
   isArrayState,
   isGroupState,
   KeyValue,
-  computeGroupState,
+  FormControlState,
 } from '../../state';
 import { formGroupReducerInternal } from '../reducer';
 
-export function callChildReducer(
-  state: AbstractControlState<any>,
+export function callChildReducer<TValue>(
+  state: InferredControlState<TValue>,
   action: Actions<any>,
-): AbstractControlState<any> {
+): InferredControlState<TValue> {
   if (isArrayState(state)) {
-    return formArrayReducerInternal(state as any, action as any);
+    return formArrayReducerInternal<TValue>(state, action) as any;
   }
 
   if (isGroupState(state)) {
-    return formGroupReducerInternal(state as any, action);
+    return formGroupReducerInternal(state, action) as any;
   }
 
-  return formControlReducerInternal(state as any, action);
+  return formControlReducerInternal(state as FormControlState<any>, action) as any;
 }
 
 export function dispatchActionPerChild<TValue extends KeyValue>(
@@ -47,7 +48,7 @@ function callChildReducers<TValue extends { [key: string]: any }>(
 ): FormGroupControls<TValue> {
   let hasChanged = false;
   const newControls = Object.keys(controls)
-    .map(key => [key, callChildReducer(controls[key], action)] as [string, AbstractControlState<any>])
+    .map(key => [key, callChildReducer(controls[key], action)] as [string, InferredControlState<any>])
     .reduce((res, [key, state]) => {
       hasChanged = hasChanged || state !== controls[key];
       return Object.assign(res, { [key]: state });

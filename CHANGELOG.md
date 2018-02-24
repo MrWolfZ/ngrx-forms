@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="3.0.0"></a>
+### 3.0.0
+
+#### Features
+
+* use conditional types to infer the type of child controls
+
 <a name="2.3.1"></a>
 ### 2.3.1
 
