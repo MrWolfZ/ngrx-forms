@@ -19,7 +19,7 @@ describe(`form group ${setUserDefinedPropertyReducer.name}`, () => {
     const prop = 'prop';
     const value = 12;
     const state = { ...INITIAL_STATE, userDefinedProperties: { [prop]: value } };
-    const resultState = setUserDefinedPropertyReducer(state, new SetUserDefinedPropertyAction(FORM_CONTROL_ID, prop, value));
+    const resultState = setUserDefinedPropertyReducer<typeof state.value>(state, new SetUserDefinedPropertyAction(FORM_CONTROL_ID, prop, value));
     expect(resultState).toBe(state);
   });
 

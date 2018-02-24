@@ -13,7 +13,7 @@ describe(updateGroup.name, () => {
   });
 
   it('should apply the provided functions to group children', () => {
-    const expected = { ...INITIAL_STATE.controls.inner3, value: { inner4: 'A' } };
+    const expected = { ...INITIAL_STATE.controls.inner3!, value: { inner4: 'A' } };
     const resultState = updateGroup<FormGroupValue>({
       inner3: () => expected,
     })(INITIAL_STATE);
@@ -45,7 +45,7 @@ describe(updateGroup.name, () => {
   });
 
   it('should apply the provided functions to group children uncurried', () => {
-    const expected = { ...INITIAL_STATE.controls.inner3, value: { inner4: 'A' } };
+    const expected = { ...INITIAL_STATE.controls.inner3!, value: { inner4: 'A' } };
     const resultState = updateGroup<FormGroupValue>(
       INITIAL_STATE,
       {
@@ -74,7 +74,7 @@ describe(updateGroup.name, () => {
   it('should apply multiple provided function objects one after another', () => {
     const updatedInner1 = { ...INITIAL_STATE.controls.inner, value: 'A' };
     const expectedInner1 = { ...INITIAL_STATE.controls.inner, value: 'B' };
-    const expectedInner3 = { ...INITIAL_STATE.controls.inner3, value: { inner4: 'A' } };
+    const expectedInner3 = { ...INITIAL_STATE.controls.inner3!, value: { inner4: 'A' } };
     const resultState = updateGroup<FormGroupValue>({
       inner: () => updatedInner1,
       inner3: () => expectedInner3,
@@ -108,10 +108,10 @@ describe(createFormGroupReducerWithUpdate.name, () => {
   it('should apply the action and the provided functions to group children', () => {
     const value = { inner4: 'A' };
     const resultState = createFormGroupReducerWithUpdate<FormGroupValue>({
-      inner3: s => ({ ...s, value }),
+      inner3: s => ({ ...s!, value }),
     })(INITIAL_STATE, new MarkAsTouchedAction(FORM_CONTROL_ID));
-    expect(resultState.controls.inner3.isTouched).toBe(true);
-    expect(resultState.controls.inner3.value).toBe(value);
+    expect(resultState.controls.inner3!.isTouched).toBe(true);
+    expect(resultState.controls.inner3!.value).toBe(value);
   });
 
   it('should apply the action and the provided functions to nested children', () => {
@@ -136,7 +136,7 @@ describe(createFormGroupReducerWithUpdate.name, () => {
   it('should apply multiple provided function objects one after another', () => {
     const updatedInner1 = { ...INITIAL_STATE.controls.inner, value: 'A' };
     const expectedInner1 = { ...INITIAL_STATE.controls.inner, value: 'B' };
-    const expectedInner3 = { ...INITIAL_STATE.controls.inner3, value: { inner4: 'A' } };
+    const expectedInner3 = { ...INITIAL_STATE.controls.inner3!, value: { inner4: 'A' } };
     const resultState = createFormGroupReducerWithUpdate<FormGroupValue>({
       inner: () => updatedInner1,
       inner3: () => expectedInner3,

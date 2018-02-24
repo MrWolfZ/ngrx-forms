@@ -37,7 +37,7 @@ describe(`form group ${removeControlReducer.name}`, () => {
       },
       controls: {
         inner: {
-          ...state.controls.inner,
+          ...state.controls.inner!,
           errors,
         },
       },
@@ -62,7 +62,7 @@ describe(`form group ${removeControlReducer.name}`, () => {
       },
       controls: {
         inner: {
-          ...state.controls.inner,
+          ...state.controls.inner!,
           errors,
         },
       },

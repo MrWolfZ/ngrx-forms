@@ -42,28 +42,28 @@ describe(`form group ${setValueReducer.name}`, () => {
     const value = { inner: 'A', inner2: 'B' };
     const resultState = setValueReducer<FormGroupValue>(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, value));
     expect(resultState.value).toEqual(value);
-    expect(resultState.controls.inner2.value).toEqual(value.inner2);
+    expect(resultState.controls.inner2!.value).toEqual(value.inner2);
   });
 
   it('should create child states on demand for group children', () => {
     const value = { inner: 'A', inner3: { inner4: 'C' } };
     const resultState = setValueReducer<FormGroupValue>(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, value));
     expect(resultState.value).toEqual(value);
-    expect(resultState.controls.inner3.value).toEqual(value.inner3);
+    expect(resultState.controls.inner3!.value).toEqual(value.inner3);
   });
 
   it('should create child states on demand for array children', () => {
     const value = { inner: 'A', inner5: ['C'] };
     const resultState = setValueReducer<FormGroupValue>(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, value));
     expect(resultState.value).toEqual(value);
-    expect(resultState.controls.inner5.value).toEqual(value.inner5);
+    expect(resultState.controls.inner5!.value).toEqual(value.inner5);
   });
 
   it('should create child states on demand for null children', () => {
     const value = { inner: 'A', inner2: null as any as string };
     const resultState = setValueReducer<FormGroupValue>(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, value));
     expect(resultState.value).toEqual(value);
-    expect(resultState.controls.inner2.value).toEqual(value.inner2);
+    expect(resultState.controls.inner2!.value).toEqual(value.inner2);
   });
 
   it('should remove child states on demand', () => {
@@ -125,7 +125,7 @@ describe(`form group ${setValueReducer.name}`, () => {
     const value = { inner4: 'D' };
     resultState = setValueReducer(resultState, new SetValueAction(FORM_CONTROL_INNER3_ID, value) as any);
     expect(resultState.isDirty).toEqual(false);
-    expect(resultState.controls.inner3.isDirty).toEqual(false);
+    expect(resultState.controls.inner3!.isDirty).toEqual(false);
   });
 
   it('should not mark state as dirty if array child value is updated', () => {
@@ -136,7 +136,7 @@ describe(`form group ${setValueReducer.name}`, () => {
     const value = ['D'];
     resultState = setValueReducer(resultState, new SetValueAction(FORM_CONTROL_INNER5_ID, value) as any);
     expect(resultState.isDirty).toEqual(false);
-    expect(resultState.controls.inner5.isDirty).toEqual(false);
+    expect(resultState.controls.inner5!.isDirty).toEqual(false);
   });
 
   it('should aggregate nested child values in groups', () => {
@@ -167,7 +167,7 @@ describe(`form group ${setValueReducer.name}`, () => {
     const value = 'D';
     resultState = setValueReducer(resultState, new SetValueAction(FORM_CONTROL_INNER4_ID, value) as any);
     expect(resultState.isDirty).toEqual(false);
-    expect(cast(resultState.controls.inner3)!.controls.inner4.isDirty).toEqual(false);
+    expect(cast(resultState.controls.inner3!).controls.inner4.isDirty).toEqual(false);
   });
 
   it('should not mark state as dirty if nested child value in array is updated', () => {
@@ -178,7 +178,7 @@ describe(`form group ${setValueReducer.name}`, () => {
     const value = 'D';
     resultState = setValueReducer(resultState, new SetValueAction(FORM_CONTROL_INNER5_0_ID, value) as any);
     expect(resultState.isDirty).toEqual(false);
-    expect(cast(resultState.controls.inner5)!.controls[0].isDirty).toEqual(false);
+    expect(cast(resultState.controls.inner5!).controls[0].isDirty).toEqual(false);
   });
 
   it('should remove child errors on demand when value is empty', () => {
@@ -193,7 +193,7 @@ describe(`form group ${setValueReducer.name}`, () => {
       },
       controls: {
         inner: {
-          ...state.controls.inner,
+          ...state.controls.inner!,
           errors,
         },
       },
@@ -217,7 +217,7 @@ describe(`form group ${setValueReducer.name}`, () => {
       },
       controls: {
         inner: {
-          ...state.controls.inner,
+          ...state.controls.inner!,
           errors,
         },
       },

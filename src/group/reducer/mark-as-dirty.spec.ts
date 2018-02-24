@@ -50,14 +50,14 @@ describe(`form group ${markAsDirtyReducer.name}`, () => {
 
   it('should mark group children as dirty', () => {
     const resultState = markAsDirtyReducer(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_ID));
-    expect(resultState.controls.inner3.isDirty).toEqual(true);
-    expect(resultState.controls.inner3.isPristine).toEqual(false);
+    expect(resultState.controls.inner3!.isDirty).toEqual(true);
+    expect(resultState.controls.inner3!.isPristine).toEqual(false);
   });
 
   it('should mark array children as dirty', () => {
     const resultState = markAsDirtyReducer(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_ID));
-    expect(resultState.controls.inner5.isDirty).toEqual(true);
-    expect(resultState.controls.inner5.isPristine).toEqual(false);
+    expect(resultState.controls.inner5!.isDirty).toEqual(true);
+    expect(resultState.controls.inner5!.isPristine).toEqual(false);
   });
 
   it('should mark state as dirty if control child is marked as dirty', () => {

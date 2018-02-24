@@ -17,7 +17,6 @@ export class CheckboxTestComponent {
 }
 
 describe(NgrxCheckboxViewAdapter.name, () => {
-  let component: CheckboxTestComponent;
   let fixture: ComponentFixture<CheckboxTestComponent>;
   let viewAdapter: NgrxCheckboxViewAdapter;
   let element: HTMLInputElement;
@@ -33,7 +32,6 @@ describe(NgrxCheckboxViewAdapter.name, () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckboxTestComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
     element = (fixture.nativeElement as HTMLElement).querySelector('input') as HTMLInputElement;
     viewAdapter = getDebugNode(element)!.injector.get(NgrxCheckboxViewAdapter);

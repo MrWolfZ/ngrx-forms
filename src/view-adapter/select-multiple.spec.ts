@@ -47,7 +47,6 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
   let element: HTMLSelectElement;
   let option1: HTMLOptionElement;
   let option2: HTMLOptionElement;
-  let option3: HTMLOptionElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -67,7 +66,6 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       element = nativeElement.querySelector('select') as HTMLSelectElement;
       option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
       option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
-      option3 = element.querySelectorAll('option')[2] as HTMLOptionElement;
       viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectMultipleViewAdapter);
       fixture.detectChanges();
     });
@@ -133,7 +131,6 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       element = nativeElement.querySelectorAll('select')[1] as HTMLSelectElement;
       option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
       option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
-      option3 = element.querySelectorAll('option')[2] as HTMLOptionElement;
       viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectMultipleViewAdapter);
       viewAdapter.setViewValue([component.stringOptions[1], component.stringOptions[2]]);
     });
@@ -213,7 +210,6 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       element = nativeElement.querySelectorAll('select')[2] as HTMLSelectElement;
       option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
       option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
-      option3 = element.querySelectorAll('option')[2] as HTMLOptionElement;
       viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectMultipleViewAdapter);
       viewAdapter.setViewValue([component.numberOptions[1], component.numberOptions[2]]);
     });

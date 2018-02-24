@@ -68,12 +68,12 @@ describe('form group reducer', () => {
 
   it(`should forward add ${AddArrayControlAction.name}s to children`, () => {
     const resultState = formGroupReducerInternal<FormGroupValue>(INITIAL_STATE_FULL, new AddArrayControlAction<any>(FORM_CONTROL_INNER5_ID, ''));
-    expect(cast(resultState.controls.inner5)!.controls[1]).toBeDefined();
+    expect(cast(resultState.controls.inner5!).controls[1]).toBeDefined();
   });
 
   it(`should forward remove ${RemoveArrayControlAction.name}s to children`, () => {
     const resultState = formGroupReducerInternal(INITIAL_STATE_FULL, new RemoveArrayControlAction(FORM_CONTROL_INNER5_ID, 0));
-    expect(cast(resultState.controls.inner5)!.controls[0]).toBeUndefined();
+    expect(cast(resultState.controls.inner5!).controls[0]).toBeUndefined();
   });
 
   it('should not update state if no child was updated', () => {
@@ -147,7 +147,7 @@ describe('form group reducer', () => {
       const name = 'required';
       const value = true;
       const state = { ...INITIAL_STATE, pendingValidations: [name], isValidationPending: true };
-      const resultState = formGroupReducerInternal(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+      const resultState = formGroupReducerInternal<typeof state.value>(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });

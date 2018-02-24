@@ -9,7 +9,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
     const name = 'required';
     const value = true;
     const state = { ...INITIAL_STATE, pendingValidations: [name], isValidationPending: true };
-    const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+    const resultState = setAsyncErrorReducer<typeof state.value>(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
     expect(resultState.errors).toEqual({ ['$' + name]: value });
     expect(resultState.isValid).toBe(false);
     expect(resultState.isInvalid).toBe(true);
@@ -19,7 +19,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
     const name = 'required';
     const value = true;
     const state = { ...INITIAL_STATE, pendingValidations: [name], isValidationPending: true };
-    const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+    const resultState = setAsyncErrorReducer<typeof state.value>(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
     expect(resultState.pendingValidations).toEqual([]);
     expect(resultState.isValidationPending).toBe(false);
   });
@@ -29,7 +29,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
     const name2 = 'min';
     const value = true;
     const state = { ...INITIAL_STATE, pendingValidations: [name, name2], isValidationPending: true };
-    const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+    const resultState = setAsyncErrorReducer<typeof state.value>(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
     expect(resultState.pendingValidations).toEqual([name2]);
     expect(resultState.isValidationPending).toBe(true);
   });
@@ -38,7 +38,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
     const name = 'required';
     const value = true;
     const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { ['$' + name]: value }, pendingValidations: [name], isValidationPending: true };
-    const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+    const resultState = setAsyncErrorReducer<typeof state.value>(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
     expect(resultState.errors['$' + name]).toBe(value);
     expect(resultState.pendingValidations).toEqual([]);
     expect(resultState.isValidationPending).toBe(false);
@@ -48,7 +48,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
     const name = 'required';
     const value = { field: true };
     const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { ['$' + name]: value }, pendingValidations: [name], isValidationPending: true };
-    const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, { ...value }));
+    const resultState = setAsyncErrorReducer<typeof state.value>(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, { ...value }));
     expect(resultState.errors['$' + name]).toBe(value);
     expect(resultState.pendingValidations).toEqual([]);
     expect(resultState.isValidationPending).toBe(false);
@@ -58,7 +58,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
     const name = 'required';
     const value = true;
     const state = { ...INITIAL_STATE, isEnabled: false, isDisabled: true };
-    const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+    const resultState = setAsyncErrorReducer<typeof state.value>(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
     expect(resultState).toBe(state);
   });
 
@@ -66,7 +66,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
     const name = 'required';
     const value = true;
     const state = { ...INITIAL_STATE, pendingValidations: ['min'], isValidationPending: true };
-    const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+    const resultState = setAsyncErrorReducer<typeof state.value>(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
     expect(resultState).toBe(state);
   });
 
@@ -99,7 +99,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
       isValidationPending: true,
       controls: {
         inner3: {
-          ...INITIAL_STATE_FULL.controls.inner3,
+          ...INITIAL_STATE_FULL.controls.inner3!,
           pendingValidations: [name],
           isValidationPending: true,
         },
@@ -120,7 +120,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
       isValidationPending: true,
       controls: {
         inner5: {
-          ...INITIAL_STATE_FULL.controls.inner5,
+          ...INITIAL_STATE_FULL.controls.inner5!,
           pendingValidations: [name],
           isValidationPending: true,
         },
@@ -148,7 +148,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
           isValidationPending: true,
         },
         inner3: {
-          ...INITIAL_STATE_FULL.controls.inner3,
+          ...INITIAL_STATE_FULL.controls.inner3!,
           pendingValidations: [name2],
           isValidationPending: true,
         },

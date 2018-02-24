@@ -50,14 +50,14 @@ describe(`form group ${markAsSubmittedReducer.name}`, () => {
 
   it('should mark group children as submitted', () => {
     const resultState = markAsSubmittedReducer(INITIAL_STATE_FULL, new MarkAsSubmittedAction(FORM_CONTROL_ID));
-    expect(resultState.controls.inner3.isSubmitted).toEqual(true);
-    expect(resultState.controls.inner3.isUnsubmitted).toEqual(false);
+    expect(resultState.controls.inner3!.isSubmitted).toEqual(true);
+    expect(resultState.controls.inner3!.isUnsubmitted).toEqual(false);
   });
 
   it('should mark array children as submitted', () => {
     const resultState = markAsSubmittedReducer(INITIAL_STATE_FULL, new MarkAsSubmittedAction(FORM_CONTROL_ID));
-    expect(resultState.controls.inner5.isSubmitted).toEqual(true);
-    expect(resultState.controls.inner5.isUnsubmitted).toEqual(false);
+    expect(resultState.controls.inner5!.isSubmitted).toEqual(true);
+    expect(resultState.controls.inner5!.isUnsubmitted).toEqual(false);
   });
 
   it('should mark state as submitted if control child is marked as submitted', () => {

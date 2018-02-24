@@ -96,7 +96,7 @@ describe(`form group ${clearAsyncErrorReducer.name}`, () => {
       controls: {
         ...INITIAL_STATE_FULL.controls,
         inner3: {
-          ...INITIAL_STATE_FULL.controls.inner3,
+          ...INITIAL_STATE_FULL.controls.inner3!,
           isValid: false,
           isInvalid: true,
           errors,
@@ -125,7 +125,7 @@ describe(`form group ${clearAsyncErrorReducer.name}`, () => {
       controls: {
         ...INITIAL_STATE_FULL.controls,
         inner5: {
-          ...INITIAL_STATE_FULL.controls.inner5,
+          ...INITIAL_STATE_FULL.controls.inner5!,
           isValid: false,
           isInvalid: true,
           errors,
@@ -160,7 +160,7 @@ describe(`form group ${clearAsyncErrorReducer.name}`, () => {
           errors: errors1,
         },
         inner3: {
-          ...INITIAL_STATE_FULL.controls.inner3,
+          ...INITIAL_STATE_FULL.controls.inner3!,
           isValid: false,
           isInvalid: true,
           errors: errors2,
@@ -261,7 +261,7 @@ describe(`form group ${clearAsyncErrorReducer.name}`, () => {
       controls: {
         ...INITIAL_STATE_FULL.controls,
         inner3: {
-          ...INITIAL_STATE_FULL.controls.inner3,
+          ...INITIAL_STATE_FULL.controls.inner3!,
           pendingValidations: [name],
           isValidationPending: true,
         },
@@ -281,7 +281,7 @@ describe(`form group ${clearAsyncErrorReducer.name}`, () => {
       controls: {
         ...INITIAL_STATE_FULL.controls,
         inner5: {
-          ...INITIAL_STATE_FULL.controls.inner5,
+          ...INITIAL_STATE_FULL.controls.inner5!,
           pendingValidations: [name],
           isValidationPending: true,
         },

@@ -17,7 +17,6 @@ export class NumberTestComponent {
 }
 
 describe(NgrxNumberViewAdapter.name, () => {
-  let component: NumberTestComponent;
   let fixture: ComponentFixture<NumberTestComponent>;
   let viewAdapter: NgrxNumberViewAdapter;
   let element: HTMLInputElement;
@@ -33,7 +32,6 @@ describe(NgrxNumberViewAdapter.name, () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NumberTestComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
     element = (fixture.nativeElement as HTMLElement).querySelector('input') as HTMLInputElement;
     viewAdapter = getDebugNode(element)!.injector.get(NgrxNumberViewAdapter);

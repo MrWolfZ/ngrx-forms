@@ -28,7 +28,7 @@ describe(`form group ${enableReducer.name}`, () => {
       controls: {
         ...INITIAL_STATE_FULL.controls,
         inner2: {
-          ...INITIAL_STATE_FULL.controls.inner2,
+          ...INITIAL_STATE_FULL.controls.inner2!,
           isEnabled: false,
           isDisabled: true,
         },
@@ -43,8 +43,8 @@ describe(`form group ${enableReducer.name}`, () => {
     const resultState = enableReducer(state, new EnableAction(FORM_CONTROL_INNER_ID));
     expect(resultState.isEnabled).toBe(true);
     expect(resultState.isDisabled).toBe(false);
-    expect(resultState.controls.inner2.isEnabled).toBe(false);
-    expect(resultState.controls.inner2.isDisabled).toBe(true);
+    expect(resultState.controls.inner2!.isEnabled).toBe(false);
+    expect(resultState.controls.inner2!.isDisabled).toBe(true);
   });
 
   it('should enable without enabling any other children if group child gets enabled', () => {

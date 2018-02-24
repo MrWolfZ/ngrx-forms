@@ -17,7 +17,6 @@ export class RangeTestComponent {
 }
 
 describe(NgrxRangeViewAdapter.name, () => {
-  let component: RangeTestComponent;
   let fixture: ComponentFixture<RangeTestComponent>;
   let viewAdapter: NgrxRangeViewAdapter;
   let element: HTMLInputElement;
@@ -33,7 +32,6 @@ describe(NgrxRangeViewAdapter.name, () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RangeTestComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
     element = (fixture.nativeElement as HTMLElement).querySelector('input') as HTMLInputElement;
     viewAdapter = getDebugNode(element)!.injector.get(NgrxRangeViewAdapter);

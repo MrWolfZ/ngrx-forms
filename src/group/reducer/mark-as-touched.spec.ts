@@ -50,14 +50,14 @@ describe(`form group ${markAsTouchedReducer.name}`, () => {
 
   it('should mark group children as touched', () => {
     const resultState = markAsTouchedReducer(INITIAL_STATE_FULL, new MarkAsTouchedAction(FORM_CONTROL_ID));
-    expect(resultState.controls.inner3.isTouched).toEqual(true);
-    expect(resultState.controls.inner3.isUntouched).toEqual(false);
+    expect(resultState.controls.inner3!.isTouched).toEqual(true);
+    expect(resultState.controls.inner3!.isUntouched).toEqual(false);
   });
 
   it('should mark array children as touched', () => {
     const resultState = markAsTouchedReducer(INITIAL_STATE_FULL, new MarkAsTouchedAction(FORM_CONTROL_ID));
-    expect(resultState.controls.inner5.isTouched).toEqual(true);
-    expect(resultState.controls.inner5.isUntouched).toEqual(false);
+    expect(resultState.controls.inner5!.isTouched).toEqual(true);
+    expect(resultState.controls.inner5!.isUntouched).toEqual(false);
   });
 
   it('should mark state as touched if control child is marked as touched', () => {

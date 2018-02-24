@@ -35,15 +35,15 @@ describe(`form group ${markAsUnsubmittedReducer.name}`, () => {
   it('should mark group children as unsubmitted', () => {
     const state = cast(setPropertiesRecursively(INITIAL_STATE_FULL, [['isSubmitted', true], ['isUnsubmitted', false]]));
     const resultState = markAsUnsubmittedReducer(state, new MarkAsUnsubmittedAction(FORM_CONTROL_ID));
-    expect(resultState.controls.inner3.isSubmitted).toEqual(false);
-    expect(resultState.controls.inner3.isUnsubmitted).toEqual(true);
+    expect(resultState.controls.inner3!.isSubmitted).toEqual(false);
+    expect(resultState.controls.inner3!.isUnsubmitted).toEqual(true);
   });
 
   it('should mark array children as unsubmitted', () => {
     const state = cast(setPropertiesRecursively(INITIAL_STATE_FULL, [['isSubmitted', true], ['isUnsubmitted', false]]));
     const resultState = markAsUnsubmittedReducer(state, new MarkAsUnsubmittedAction(FORM_CONTROL_ID));
-    expect(resultState.controls.inner3.isSubmitted).toEqual(false);
-    expect(resultState.controls.inner3.isUnsubmitted).toEqual(true);
+    expect(resultState.controls.inner3!.isSubmitted).toEqual(false);
+    expect(resultState.controls.inner3!.isUnsubmitted).toEqual(true);
   });
 
   it('should mark state as unsubmitted if all children are unsubmitted when control child is updated', () => {

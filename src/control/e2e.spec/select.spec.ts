@@ -29,7 +29,6 @@ describe(SelectComponent.name, () => {
   let actionsSubject: ActionsSubject;
   let actions$: Observable<Action>;
   let element: HTMLSelectElement;
-  let option1: HTMLOptionElement;
   let option2: HTMLOptionElement;
   const FORM_CONTROL_ID = 'test ID';
   const INITIAL_FORM_CONTROL_VALUE = SELECT_OPTIONS[1];
@@ -55,7 +54,6 @@ describe(SelectComponent.name, () => {
     fixture.detectChanges();
     const nativeElement = fixture.nativeElement as HTMLElement;
     element = nativeElement.querySelector('select') as HTMLSelectElement;
-    option1 = nativeElement.querySelectorAll('option')[0] as HTMLOptionElement;
     option2 = nativeElement.querySelectorAll('option')[1] as HTMLOptionElement;
   });
 
@@ -103,7 +101,6 @@ describe(NumberSelectComponent.name, () => {
   let actionsSubject: ActionsSubject;
   let actions$: Observable<Action>;
   let element: HTMLSelectElement;
-  let option1: HTMLOptionElement;
   let option2: HTMLOptionElement;
   const FORM_CONTROL_ID = 'test ID';
   const INITIAL_FORM_CONTROL_VALUE = SELECT_NUMBER_OPTIONS[1];
@@ -129,7 +126,6 @@ describe(NumberSelectComponent.name, () => {
     fixture.detectChanges();
     const nativeElement = fixture.nativeElement as HTMLElement;
     element = nativeElement.querySelector('select') as HTMLSelectElement;
-    option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
     option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
   });
 

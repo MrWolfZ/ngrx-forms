@@ -61,15 +61,15 @@ describe(`form group ${resetReducer.name}`, () => {
   it('should reset group children', () => {
     const state = cast(setPropertiesRecursively(INITIAL_STATE_FULL, [['isDirty', true], ['isPristine', false]]));
     const resultState = resetReducer(state, new ResetAction(FORM_CONTROL_ID));
-    expect(resultState.controls.inner3.isDirty).toEqual(false);
-    expect(resultState.controls.inner3.isPristine).toEqual(true);
+    expect(resultState.controls.inner3!.isDirty).toEqual(false);
+    expect(resultState.controls.inner3!.isPristine).toEqual(true);
   });
 
   it('should reset array children', () => {
     const state = cast(setPropertiesRecursively(INITIAL_STATE_FULL, [['isDirty', true], ['isPristine', false]]));
     const resultState = resetReducer(state, new ResetAction(FORM_CONTROL_ID));
-    expect(resultState.controls.inner5.isDirty).toEqual(false);
-    expect(resultState.controls.inner5.isPristine).toEqual(true);
+    expect(resultState.controls.inner5!.isDirty).toEqual(false);
+    expect(resultState.controls.inner5!.isPristine).toEqual(true);
   });
 
   it('should reset state if all children are reset when control child is updated', () => {

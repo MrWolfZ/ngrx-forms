@@ -17,7 +17,6 @@ export class DefaultInputTestComponent {
 }
 
 describe(NgrxDefaultViewAdapter.name, () => {
-  let component: DefaultInputTestComponent;
   let fixture: ComponentFixture<DefaultInputTestComponent>;
   let viewAdapter: NgrxDefaultViewAdapter;
   let element: HTMLInputElement;
@@ -33,7 +32,6 @@ describe(NgrxDefaultViewAdapter.name, () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DefaultInputTestComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
     element = (fixture.nativeElement as HTMLElement).querySelector('input') as HTMLInputElement;
     viewAdapter = getDebugNode(element)!.injector.get(NgrxDefaultViewAdapter);

@@ -48,14 +48,14 @@ describe(`form group ${disableReducer.name}`, () => {
 
   it('should disable group children', () => {
     const resultState = disableReducer(INITIAL_STATE_FULL, new DisableAction(FORM_CONTROL_ID));
-    expect(resultState.controls.inner3.isEnabled).toBe(false);
-    expect(resultState.controls.inner3.isDisabled).toBe(true);
+    expect(resultState.controls.inner3!.isEnabled).toBe(false);
+    expect(resultState.controls.inner3!.isDisabled).toBe(true);
   });
 
   it('should disable array children', () => {
     const resultState = disableReducer(INITIAL_STATE_FULL, new DisableAction(FORM_CONTROL_ID));
-    expect(resultState.controls.inner5.isEnabled).toBe(false);
-    expect(resultState.controls.inner5.isDisabled).toBe(true);
+    expect(resultState.controls.inner5!.isEnabled).toBe(false);
+    expect(resultState.controls.inner5!.isDisabled).toBe(true);
   });
 
   it('should disable if all children are disabled when control child is disabled', () => {

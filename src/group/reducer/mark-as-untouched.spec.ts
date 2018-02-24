@@ -35,15 +35,15 @@ describe(`form group ${markAsUntouchedReducer.name}`, () => {
   it('should mark group children as untouched', () => {
     const state = cast(setPropertiesRecursively(INITIAL_STATE_FULL, [['isTouched', true], ['isUntouched', false]]));
     const resultState = markAsUntouchedReducer(state, new MarkAsUntouchedAction(FORM_CONTROL_ID));
-    expect(resultState.controls.inner3.isTouched).toEqual(false);
-    expect(resultState.controls.inner3.isUntouched).toEqual(true);
+    expect(resultState.controls.inner3!.isTouched).toEqual(false);
+    expect(resultState.controls.inner3!.isUntouched).toEqual(true);
   });
 
   it('should mark array children as untouched', () => {
     const state = cast(setPropertiesRecursively(INITIAL_STATE_FULL, [['isTouched', true], ['isUntouched', false]]));
     const resultState = markAsUntouchedReducer(state, new MarkAsUntouchedAction(FORM_CONTROL_ID));
-    expect(resultState.controls.inner5.isTouched).toEqual(false);
-    expect(resultState.controls.inner5.isUntouched).toEqual(true);
+    expect(resultState.controls.inner5!.isTouched).toEqual(false);
+    expect(resultState.controls.inner5!.isUntouched).toEqual(true);
   });
 
   it('should mark state as untouched if all children are untouched when control child is updated', () => {
