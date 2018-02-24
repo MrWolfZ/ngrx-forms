@@ -1,5 +1,6 @@
 import { setUserDefinedProperty } from './set-user-defined-property';
 import { INITIAL_STATE } from './test-util';
+import { updateGroup } from './update-group';
 
 describe(setUserDefinedProperty.name, () => {
   it('should call reducer for controls', () => {
@@ -34,5 +35,21 @@ describe(setUserDefinedProperty.name, () => {
 
   it('should throw if curried and no state', () => {
     expect(() => setUserDefinedProperty('prop', 12)(undefined as any)).toThrowError();
+  });
+
+  it('should work inside an updateGroup', () => {
+    const resultState = updateGroup(INITIAL_STATE, {
+      inner: setUserDefinedProperty<string>('prop', 12),
+    });
+
+    expect(resultState).not.toEqual(INITIAL_STATE);
+  });
+
+  it('should work inside an updateGroup uncurried', () => {
+    const resultState = updateGroup<typeof INITIAL_STATE.value>(INITIAL_STATE, {
+      inner: inner => setUserDefinedProperty<string>('prop', 12, inner),
+    });
+
+    expect(resultState).not.toEqual(INITIAL_STATE);
   });
 });

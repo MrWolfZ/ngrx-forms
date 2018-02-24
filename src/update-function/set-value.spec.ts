@@ -1,5 +1,6 @@
 import { FormGroupValue, INITIAL_STATE } from './test-util';
 import { setValue } from './set-value';
+import { updateGroup } from './update-group';
 
 describe(setValue.name, () => {
   it('should call reducer for controls', () => {
@@ -34,5 +35,21 @@ describe(setValue.name, () => {
 
   it('should throw if curried and no state', () => {
     expect(() => setValue<string>('')(undefined as any)).toThrowError();
+  });
+
+  it('should work inside an updateGroup', () => {
+    const resultState = updateGroup(INITIAL_STATE, {
+      inner: setValue<string>('A'),
+    });
+
+    expect(resultState).not.toEqual(INITIAL_STATE);
+  });
+
+  it('should work inside an updateGroup uncurried', () => {
+    const resultState = updateGroup<typeof INITIAL_STATE.value>(INITIAL_STATE, {
+      inner: inner => setValue<string>('A', inner),
+    });
+
+    expect(resultState).not.toEqual(INITIAL_STATE);
   });
 });

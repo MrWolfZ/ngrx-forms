@@ -1,4 +1,5 @@
 import { FormGroupValue, INITIAL_STATE } from './test-util';
+import { updateGroup } from './update-group';
 import { validate } from './validate';
 
 describe(validate.name, () => {
@@ -57,5 +58,23 @@ describe(validate.name, () => {
   it('should throw if curried and no state', () => {
     const errors = { required: true };
     expect(() => validate<string>(() => errors)(undefined as any)).toThrowError();
+  });
+
+  it('should work inside an updateGroup', () => {
+    const errors = { required: true };
+    const resultState = updateGroup(INITIAL_STATE, {
+      inner: validate<string>(() => errors),
+    });
+
+    expect(resultState).not.toEqual(INITIAL_STATE);
+  });
+
+  it('should work inside an updateGroup uncurried', () => {
+    const errors = { required: true };
+    const resultState = updateGroup<typeof INITIAL_STATE.value>(INITIAL_STATE, {
+      inner: inner => validate<string>(() => errors, inner),
+    });
+
+    expect(resultState).not.toEqual(INITIAL_STATE);
   });
 });

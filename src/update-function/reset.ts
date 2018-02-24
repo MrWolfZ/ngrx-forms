@@ -20,6 +20,13 @@ export function reset<TValue>(state: FormArrayState<TValue>): FormArrayState<TVa
  */
 export function reset<TValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
 
+/**
+ * This update function takes a state and marks it as pristine, untouched, and
+ * unsubmitted. For groups and arrays this also marks all children as pristine,
+ * untouched, and unsubmitted.
+ */
+export function reset<TValue>(state: AbstractControlState<TValue>): AbstractControlState<TValue>;
+
 export function reset<TValue>(state: AbstractControlState<TValue>) {
   return abstractControlReducer(state, new ResetAction(state.id));
 }

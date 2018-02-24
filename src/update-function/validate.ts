@@ -1,5 +1,6 @@
 import { SetErrorsAction } from '../actions';
 import {
+  AbstractControlState,
   FormArrayState,
   FormControlState,
   FormControlValueTypes,
@@ -7,7 +8,7 @@ import {
   InferredControlState,
   ValidationErrors,
 } from '../state';
-import { abstractControlReducer, ensureState, ProjectFn } from './util';
+import { abstractControlReducer, ensureState } from './util';
 
 export type ValidationFn<TValue> = (value: TValue) => ValidationErrors;
 export type ValidateParam<TValue> = ValidationFn<TValue> | Array<ValidationFn<TValue>>;
@@ -18,7 +19,7 @@ export type ValidateParam<TValue> = ValidationFn<TValue> | Array<ValidationFn<TV
  * state to the result of applying the given validation function(s) to the
  * state's value.
  */
-export function validate<TValue>(param: ValidateParam<TValue>): ProjectFn<InferredControlState<TValue>>;
+export function validate<TValue>(param: ValidateParam<TValue>): (state: AbstractControlState<TValue>) => InferredControlState<TValue>;
 
 /**
  * This update function takes a validation function or an array of validation
@@ -46,15 +47,15 @@ export function validate<TValue>(param: ValidateParam<TValue>, state: FormGroupS
  * functions and a form state and sets the errors of the state to the result
  * of applying the given validation function(s) to the state's value.
  */
-export function validate<TValue>(param: ValidateParam<TValue>, state: InferredControlState<TValue>): InferredControlState<TValue>;
+export function validate<TValue>(param: ValidateParam<TValue>, state: AbstractControlState<TValue>): AbstractControlState<TValue>;
 
-export function validate<TValue>(param: ValidateParam<TValue>, state?: InferredControlState<TValue>) {
+export function validate<TValue>(param: ValidateParam<TValue>, state?: AbstractControlState<TValue>) {
   if (!!state) {
     param = Array.isArray(param) ? param : [param];
-    const errors = param.reduce((agg, validationFn) => Object.assign(agg, validationFn(state.value as TValue)), {} as ValidationErrors);
+    const errors = param.reduce((agg, validationFn) => Object.assign(agg, validationFn(state.value)), {} as ValidationErrors);
 
     return abstractControlReducer(state, new SetErrorsAction(state.id, errors));
   }
 
-  return (s: InferredControlState<TValue>) => validate(param, ensureState(s));
+  return (s: AbstractControlState<TValue>) => validate(param, ensureState(s));
 }

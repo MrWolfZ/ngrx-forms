@@ -17,6 +17,12 @@ export function markAsTouched<TValue>(state: FormArrayState<TValue>): FormArrayS
  */
 export function markAsTouched<TValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
 
+/**
+ * This update function takes a state and marks it as touched. For groups and arrays this also marks
+ * all children as touched.
+ */
+export function markAsTouched<TValue>(state: AbstractControlState<TValue>): AbstractControlState<TValue>;
+
 export function markAsTouched<TValue>(state: AbstractControlState<TValue>) {
   return abstractControlReducer(state, new MarkAsTouchedAction(state.id));
 }

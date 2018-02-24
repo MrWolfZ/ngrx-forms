@@ -17,6 +17,12 @@ export function enable<TValue>(state: FormArrayState<TValue>): FormArrayState<TV
  */
 export function enable<TValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
 
+/**
+ * This update function takes a form state and enables it. For groups and arrays also
+ * enables all children.
+ */
+export function enable<TValue>(state: AbstractControlState<TValue>): AbstractControlState<TValue>;
+
 export function enable<TValue>(state: AbstractControlState<TValue>) {
   return abstractControlReducer(state, new EnableAction(state.id));
 }

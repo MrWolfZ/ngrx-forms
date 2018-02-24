@@ -17,6 +17,12 @@ export function markAsUntouched<TValue>(state: FormArrayState<TValue>): FormArra
  */
 export function markAsUntouched<TValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
 
+/**
+ * This update function takes a state and marks it as untouched. For groups and arrays this also marks
+ * all children as untouched.
+ */
+export function markAsUntouched<TValue>(state: AbstractControlState<TValue>): AbstractControlState<TValue>;
+
 export function markAsUntouched<TValue>(state: AbstractControlState<TValue>) {
   return abstractControlReducer(state, new MarkAsUntouchedAction(state.id));
 }

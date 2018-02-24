@@ -1,6 +1,7 @@
 import { createFormArrayState, createFormGroupState } from '../state';
 import { FormGroupValue, INITIAL_STATE } from './test-util';
 import { setErrors } from './set-errors';
+import { updateGroup } from './update-group';
 
 describe(setErrors.name, () => {
   it('should call reducer for controls', () => {
@@ -86,5 +87,23 @@ describe(setErrors.name, () => {
   it('should throw if curried and no state', () => {
     const errors = { required: true };
     expect(() => setErrors<string>(errors)(undefined as any)).toThrowError();
+  });
+
+  it('should work inside an updateGroup', () => {
+    const errors = { required: true };
+    const resultState = updateGroup(INITIAL_STATE, {
+      inner: setErrors<string>(errors),
+    });
+
+    expect(resultState).not.toEqual(INITIAL_STATE);
+  });
+
+  it('should work inside an updateGroup uncurried', () => {
+    const errors = { required: true };
+    const resultState = updateGroup<typeof INITIAL_STATE.value>(INITIAL_STATE, {
+      inner: inner => setErrors<string>(errors, inner),
+    });
+
+    expect(resultState).not.toEqual(INITIAL_STATE);
   });
 });

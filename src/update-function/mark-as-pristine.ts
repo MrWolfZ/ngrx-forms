@@ -17,6 +17,12 @@ export function markAsPristine<TValue>(state: FormArrayState<TValue>): FormArray
  */
 export function markAsPristine<TValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
 
+/**
+ * This update function takes a state and marks it as pristine. For groups and arrays this also marks
+ * all children as pristine.
+ */
+export function markAsPristine<TValue>(state: AbstractControlState<TValue>): AbstractControlState<TValue>;
+
 export function markAsPristine<TValue>(state: AbstractControlState<TValue>) {
   return abstractControlReducer(state, new MarkAsPristineAction(state.id));
 }
