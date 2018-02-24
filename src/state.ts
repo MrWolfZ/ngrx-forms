@@ -519,7 +519,7 @@ export function isGroupState(state: AbstractControlState<any>): state is FormGro
  * sub-type of `AbstractControlState` is expected.
  */
 export function cast<TValue extends FormControlValueTypes>(
-  state: AbstractControlState<TValue>,
+  state: AbstractControlState<TValue | undefined>,
 ): FormControlState<TValue>;
 
 /**
@@ -528,26 +528,8 @@ export function cast<TValue extends FormControlValueTypes>(
  * sub-type of `AbstractControlState` is expected.
  */
 export function cast<TArray extends TValue[], TValue = any>(
-  state: AbstractControlState<TArray>,
-): FormArrayState<TValue>;
-
-/**
- * This utility function allows the compiler to correctly infer
- * the type of a form state. It can be used in places where a
- * sub-type of `AbstractControlState` is expected.
- */
-export function cast<TArray extends TValue[], TValue = any>(
   state: AbstractControlState<TArray | undefined>,
-): FormArrayState<TValue> | undefined;
-
-/**
- * This utility function allows the compiler to correctly infer
- * the type of a form state. It can be used in places where a
- * sub-type of `AbstractControlState` is expected.
- */
-export function cast<TValue extends KeyValue>(
-  state: AbstractControlState<TValue>,
-): FormGroupState<TValue>;
+): FormArrayState<TValue>;
 
 /**
  * This utility function allows the compiler to correctly infer
@@ -556,7 +538,7 @@ export function cast<TValue extends KeyValue>(
  */
 export function cast<TValue extends KeyValue>(
   state: AbstractControlState<TValue | undefined>,
-): FormGroupState<TValue> | undefined;
+): FormGroupState<TValue>;
 
 /**
  * This utility function allows the compiler to correctly infer
@@ -610,7 +592,7 @@ export function createFormControlState<TValue extends FormControlValueTypes>(
   };
 }
 
-export function getFormGroupValue<TValue extends { [key: string]: any }>(
+export function getFormGroupValue<TValue extends KeyValue>(
   controls: FormGroupControls<TValue>,
   originalValue: TValue,
 ): TValue {
@@ -624,7 +606,7 @@ export function getFormGroupValue<TValue extends { [key: string]: any }>(
   return hasChanged ? newValue : originalValue;
 }
 
-export function getFormGroupErrors<TValue extends object>(
+export function getFormGroupErrors<TValue extends KeyValue>(
   controls: FormGroupControls<TValue>,
   originalErrors: ValidationErrors,
 ): ValidationErrors {
