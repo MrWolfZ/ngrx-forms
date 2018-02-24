@@ -722,30 +722,37 @@ describe('state', () => {
   describe('InferredControlState', () => {
     // tslint:disable:no-unused-variable
     it('should correctly infer types of unknown controls', () => {
+      // T should be AbstractControlState<any> | FormArrayState<any> | FormControlState<any> | FormGroupState<any>
       type T = InferredControlState<any>;
     });
 
     it('should correctly infer types of controls', () => {
+      // T should be FormControlState<string>
       type T = InferredControlState<string>;
     });
 
     it('should correctly infer types of groups', () => {
+      // T should be FormGroupState<{ inner: string }>
       type T = InferredControlState<{ inner: string }>;
     });
 
     it('should correctly infer types of arrays', () => {
+      // T should be FormArrayState<string>
       type T = InferredControlState<string[]>;
     });
 
     it('should correctly infer types of optional controls', () => {
+      // T should be FormControlState<string>
       type T = InferredControlState<string | undefined>;
     });
 
     it('should correctly infer types of optional groups', () => {
+      // T should be FormGroupState<{ inner: string }>
       type T = InferredControlState<{ inner: string } | undefined>;
     });
 
     it('should correctly infer types of optional arrays', () => {
+      // T should be FormArrayState<string>
       type T = InferredControlState<string[] | undefined>;
     });
     // tslint:enable:no-unused-variable
