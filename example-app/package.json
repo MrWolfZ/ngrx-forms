@@ -28,7 +28,7 @@
     "@ngrx/store-devtools": "5.1.0",
     "@types/prismjs": "1.9.0",
     "core-js": "2.5.3",
-    "ngrx-forms": "2.3.1",
+    "ngrx-forms": "file:../ngrx-forms-2.3.1.tgz",
     "prismjs": "1.11.0",
     "rxjs": "5.5.6",
     "zone.js": "0.8.20"
@@ -52,6 +52,6 @@
     "protractor": "5.3.0",
     "ts-node": "5.0.0",
     "tslint": "5.9.1",
-    "typescript": "2.7.2"
+    "typescript": "^2.8.0-dev.20180224"
   }
 }

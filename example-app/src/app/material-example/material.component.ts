@@ -17,7 +17,6 @@ export class DynamicPageComponent {
   reducerCode = `
 import { Action } from '@ngrx/store';
 import {
-  cast,
   createFormGroupReducerWithUpdate,
   createFormGroupState,
   disable,
@@ -71,10 +70,10 @@ const validationFormGroupReducer = createFormGroupReducerWithUpdate<FormValue>({
     }
 
     state = enable(state);
-    return updateGroup<PasswordValue>({
-      password: validate([required, minLength(8)]),
+    return updateGroup<PasswordValue>(state, {
+      password: validate<string>([required, minLength(8)]),
       confirmPassword: validate(equalTo(state.value.password)),
-    })(cast(state));
+    });
   },
   agreeToTermsOfUse: validate<boolean>(requiredTrue),
 });
@@ -89,7 +88,7 @@ export const reducers = {
   componentCode = `
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import { cast, FormGroupState, NgrxValueConverter, NgrxValueConverters, ResetAction, SetValueAction } from 'ngrx-forms';
+import { FormGroupState, NgrxValueConverter, NgrxValueConverters, ResetAction, SetValueAction } from 'ngrx-forms';
 
 import { FormValue, INITIAL_STATE } from '../material.reducer';
 
@@ -102,10 +101,6 @@ import { FormValue, INITIAL_STATE } from '../material.reducer';
 export class DynamicFormComponent {
   @Input() formState: FormGroupState<FormValue>;
   submittedValue: FormValue;
-
-  get passwordState() {
-    return cast(this.formState.controls.password);
-  }
 
   dateValueConverter: NgrxValueConverter<Date | null, string | null> = {
     convertViewToStateValue(value) {
@@ -157,8 +152,8 @@ export class DynamicFormComponent {
     <mat-form-field>
       <input matInput
              type="password"
-             placeholder="Password {{ passwordState.isDisabled ? '(disabled)' : '' }}"
-             [ngrxFormControlState]="passwordState.controls.password">
+             placeholder="Password {{ formState.controls.password.isDisabled ? '(disabled)' : '' }}"
+             [ngrxFormControlState]="formState.controls.password.controls.password">
       <mat-error *ngIf="formState.errors._password?._password?.required">
         A password is required
       </mat-error>
@@ -171,8 +166,8 @@ export class DynamicFormComponent {
     <mat-form-field>
       <input matInput
              type="password"
-             placeholder="Confirm Password {{ passwordState.isDisabled ? '(disabled)' : '' }}"
-             [ngrxFormControlState]="passwordState.controls.confirmPassword">
+             placeholder="Confirm Password {{ formState.controls.password.isDisabled ? '(disabled)' : '' }}"
+             [ngrxFormControlState]="formState.controls.password.controls.confirmPassword">
       <mat-error *ngIf="formState.errors._password?._confirmPassword?.equalTo">
         The passwords do not match
       </mat-error>
@@ -209,7 +204,7 @@ export class DynamicFormComponent {
   </div>
   <div>
     <mat-checkbox [ngrxFormControlState]="formState.controls.agreeToTermsOfUse">Agree to terms of use</mat-checkbox>
-    <mat-error *ngIf="formState.errors._agreeToTermsOfUse?.required 
+    <mat-error *ngIf="formState.errors._agreeToTermsOfUse?.required
                       && (formState.controls.agreeToTermsOfUse.isTouched || formState.controls.agreeToTermsOfUse.isSubmitted)"
 
                class="terms-of-use-error">

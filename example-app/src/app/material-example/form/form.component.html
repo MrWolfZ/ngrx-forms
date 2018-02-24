@@ -17,8 +17,8 @@
     <mat-form-field>
       <input matInput
              type="password"
-             placeholder="Password {{ passwordState.isDisabled ? '(disabled)' : '' }}"
-             [ngrxFormControlState]="passwordState.controls.password">
+             placeholder="Password {{ formState.controls.password.isDisabled ? '(disabled)' : '' }}"
+             [ngrxFormControlState]="formState.controls.password.controls.password">
       <mat-error *ngIf="formState.errors._password?._password?.required">
         A password is required
       </mat-error>
@@ -31,8 +31,8 @@
     <mat-form-field>
       <input matInput
              type="password"
-             placeholder="Confirm Password {{ passwordState.isDisabled ? '(disabled)' : '' }}"
-             [ngrxFormControlState]="passwordState.controls.confirmPassword">
+             placeholder="Confirm Password {{ formState.controls.password.isDisabled ? '(disabled)' : '' }}"
+             [ngrxFormControlState]="formState.controls.password.controls.confirmPassword">
       <mat-error *ngIf="formState.errors._password?._confirmPassword?.equalTo">
         The passwords do not match
       </mat-error>

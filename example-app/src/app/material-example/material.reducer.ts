@@ -1,6 +1,5 @@
 import { Action, combineReducers } from '@ngrx/store';
 import {
-  cast,
   createFormGroupReducerWithUpdate,
   createFormGroupState,
   disable,
@@ -57,10 +56,10 @@ const validationFormGroupReducer = createFormGroupReducerWithUpdate<FormValue>({
     }
 
     state = enable(state);
-    return updateGroup<PasswordValue>({
-      password: validate([required, minLength(8)]),
+    return updateGroup<PasswordValue>(state, {
+      password: validate<string>([required, minLength(8)]),
       confirmPassword: validate(equalTo(state.value.password)),
-    })(cast(state));
+    });
   },
   agreeToTermsOfUse: validate<boolean>(requiredTrue),
 });

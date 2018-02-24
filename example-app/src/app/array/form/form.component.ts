@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import { FormGroupState, cast } from 'ngrx-forms';
+import { FormGroupState } from 'ngrx-forms';
 
 import { FormValue } from '../array.reducer';
 
@@ -12,10 +12,6 @@ import { FormValue } from '../array.reducer';
 })
 export class ArrayFormComponent {
   @Input() formState: FormGroupState<FormValue>;
-
-  get optionsState() {
-    return cast(this.formState.controls.options);
-  }
 
   constructor(private actionsSubject: ActionsSubject) { }
 
