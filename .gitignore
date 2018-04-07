@@ -1,6 +1,9 @@
 $ cat .gitignore
 /node_modules
 /example-app/node_modules
+/nativescript-example-app/node_modules
+/nativescript-example-app/platforms
+/nativescript-example-app/app/**/*.js
 /dist
 /example-app/dist
 /documentation
