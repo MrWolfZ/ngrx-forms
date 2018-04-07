@@ -38,4 +38,5 @@ export const routes: Routes = [
     path: 'material',
     loadChildren: './material-example/material.module#MaterialExampleModule',
   },
+  { path: '**', redirectTo: '/introduction' },
 ];

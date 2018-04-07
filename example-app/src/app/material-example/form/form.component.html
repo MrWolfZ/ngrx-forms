@@ -56,6 +56,16 @@
     </mat-form-field>
   </div>
   <div>
+    Hobbies:
+    <mat-selection-list [ngrxFormControlState]="formState.controls.hobbies"
+                        [ngrxValueConverter]="objectToJSON">
+      <mat-list-option *ngFor="let op of hobbyOptions"
+                       [value]="op">
+        {{ op }}
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
+  <div>
     <mat-form-field>
       <input matInput
              [matDatepicker]="picker"
@@ -71,7 +81,7 @@
     <mat-checkbox [ngrxFormControlState]="formState.controls.agreeToTermsOfUse">Agree to terms of use</mat-checkbox>
     <mat-error *ngIf="formState.errors._agreeToTermsOfUse?.required 
                       && (formState.controls.agreeToTermsOfUse.isTouched || formState.controls.agreeToTermsOfUse.isSubmitted)"
-
+  
                class="terms-of-use-error">
       You must agree to the terms of use
     </mat-error>

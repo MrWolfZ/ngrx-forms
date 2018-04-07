@@ -24,6 +24,7 @@ export interface FormValue {
   password: PasswordValue;
   sex: string;
   favoriteColor: string;
+  hobbies: string;
   dateOfBirth: string;
   agreeToTermsOfUse: boolean;
 }
@@ -45,12 +46,13 @@ export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
   },
   sex: '',
   favoriteColor: '',
+  hobbies: '[]',
   dateOfBirth: new Date(Date.UTC(1970, 0, 1)).toISOString(),
   agreeToTermsOfUse: false,
 });
 
 const validationFormGroupReducer = createFormGroupReducerWithUpdate<FormValue>({
-  userName: validate(required),
+  userName: validate<string>(required),
   password: (state, parentState) => {
     if (!parentState.value.createAccount) {
       return disable(state);
@@ -58,7 +60,7 @@ const validationFormGroupReducer = createFormGroupReducerWithUpdate<FormValue>({
 
     state = enable(state);
     return updateGroup<PasswordValue>({
-      password: validate([required, minLength(8)]),
+      password: validate<string>([required, minLength(8)]),
       confirmPassword: validate(equalTo(state.value.password)),
     })(cast(state));
   },
