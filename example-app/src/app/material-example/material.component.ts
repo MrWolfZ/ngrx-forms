@@ -44,6 +44,7 @@ export interface FormValue {
   password: PasswordValue;
   sex: string;
   favoriteColor: string;
+  hobbies: string;
   dateOfBirth: string;
   agreeToTermsOfUse: boolean;
 }
@@ -59,12 +60,13 @@ export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
   },
   sex: '',
   favoriteColor: '',
+  hobbies: '[]',
   dateOfBirth: new Date(Date.UTC(1970, 0, 1)).toISOString(),
   agreeToTermsOfUse: false,
 });
 
 const validationFormGroupReducer = createFormGroupReducerWithUpdate<FormValue>({
-  userName: validate(required),
+  userName: validate<string>(required),
   password: (state, parentState) => {
     if (!parentState.value.createAccount) {
       return disable(state);
@@ -72,7 +74,7 @@ const validationFormGroupReducer = createFormGroupReducerWithUpdate<FormValue>({
 
     state = enable(state);
     return updateGroup<PasswordValue>({
-      password: validate([required, minLength(8)]),
+      password: validate<string>([required, minLength(8)]),
       confirmPassword: validate(equalTo(state.value.password)),
     })(cast(state));
   },
@@ -102,10 +104,13 @@ import { FormValue, INITIAL_STATE } from '../material.reducer';
 export class DynamicFormComponent {
   @Input() formState: FormGroupState<FormValue>;
   submittedValue: FormValue;
+  hobbyOptions = ['Sports', 'Video Games'];
 
   get passwordState() {
     return cast(this.formState.controls.password);
   }
+
+  objectToJSON = NgrxValueConverters.objectToJSON;
 
   dateValueConverter: NgrxValueConverter<Date | null, string | null> = {
     convertViewToStateValue(value) {
@@ -196,6 +201,16 @@ export class DynamicFormComponent {
     </mat-form-field>
   </div>
   <div>
+    Hobbies:
+    <mat-selection-list [ngrxFormControlState]="formState.controls.hobbies"
+                        [ngrxValueConverter]="objectToJSON">
+      <mat-list-option *ngFor="let op of hobbyOptions"
+                       [value]="op">
+        {{ op }}
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
+  <div>
     <mat-form-field>
       <input matInput
              [matDatepicker]="picker"
@@ -209,7 +224,7 @@ export class DynamicFormComponent {
   </div>
   <div>
     <mat-checkbox [ngrxFormControlState]="formState.controls.agreeToTermsOfUse">Agree to terms of use</mat-checkbox>
-    <mat-error *ngIf="formState.errors._agreeToTermsOfUse?.required 
+    <mat-error *ngIf="formState.errors._agreeToTermsOfUse?.required
                       && (formState.controls.agreeToTermsOfUse.isTouched || formState.controls.agreeToTermsOfUse.isSubmitted)"
 
                class="terms-of-use-error">
