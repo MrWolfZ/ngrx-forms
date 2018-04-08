@@ -9,4 +9,3 @@ $ cat .gitignore
 /documentation
 
 *.log
-/*.tgz
