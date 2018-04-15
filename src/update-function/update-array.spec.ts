@@ -1,7 +1,8 @@
-import { createFormArrayState } from '../state';
+import { createFormArrayState, InferredControlState } from '../state';
 import { FORM_CONTROL_ID } from './test-util';
 import { updateArray } from './update-array';
 import { updateGroup } from './update-group';
+import { ProjectFn2 } from './util';
 
 describe(updateArray.name, () => {
   it('should apply the provided functions to control children', () => {
@@ -67,8 +68,42 @@ describe(updateArray.name, () => {
     const expected1 = { ...state.controls[0], value: 'D' };
     const expected2 = { ...state.controls[1], value: 'E' };
     const expected3 = { ...state.controls[2], value: 'F' };
-    let resultState = updateArray<typeof expected1.value>(s => s.value === 'A' ? expected1 : s.value === 'B' ? expected3 : s)(state);
-    resultState = updateArray<typeof expected1.value>(s => s.value === 'F' ? expected2 : s.value === 'C' ? expected3 : s)(resultState);
+    const resultState = updateArray<typeof expected1.value>(
+      s => s.value === 'A' ? expected1 : s.value === 'B' ? expected3 : s,
+      s => s.value === 'F' ? expected2 : s.value === 'C' ? expected3 : s,
+    )(state);
+    expect(resultState.controls[0]).toBe(expected1);
+    expect(resultState.controls[1]).toBe(expected2);
+    expect(resultState.controls[2]).toBe(expected3);
+  });
+
+  it('should apply multiple provided functions as param array one after another', () => {
+    const state = createFormArrayState(FORM_CONTROL_ID, ['A', 'B', 'C']);
+    const expected1 = { ...state.controls[0], value: 'D' };
+    const expected2 = { ...state.controls[1], value: 'E' };
+    const expected3 = { ...state.controls[2], value: 'F' };
+    const updateFunction1: ProjectFn2<InferredControlState<typeof expected1.value>, typeof state> =
+      s => s.value === 'A' ? expected1 : s.value === 'B' ? expected3 : s;
+    const updateFunction2: ProjectFn2<InferredControlState<typeof expected1.value>, typeof state> =
+      s => s.value === 'F' ? expected2 : s.value === 'C' ? expected3 : s;
+    const resultState = updateArray<typeof expected1.value>(
+      updateFunction1,
+      [updateFunction2] as any,
+    )(state);
+    expect(resultState.controls[0]).toBe(expected1);
+    expect(resultState.controls[1]).toBe(expected2);
+    expect(resultState.controls[2]).toBe(expected3);
+  });
+
+  it('should apply multiple provided functions as array one after another', () => {
+    const state = createFormArrayState(FORM_CONTROL_ID, ['A', 'B', 'C']);
+    const expected1 = { ...state.controls[0], value: 'D' };
+    const expected2 = { ...state.controls[1], value: 'E' };
+    const expected3 = { ...state.controls[2], value: 'F' };
+    const resultState = updateArray<typeof expected1.value>([
+      s => s.value === 'A' ? expected1 : s.value === 'B' ? expected3 : s,
+      s => s.value === 'F' ? expected2 : s.value === 'C' ? expected3 : s,
+    ])(state);
     expect(resultState.controls[0]).toBe(expected1);
     expect(resultState.controls[1]).toBe(expected2);
     expect(resultState.controls[2]).toBe(expected3);
