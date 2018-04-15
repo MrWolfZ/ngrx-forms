@@ -125,6 +125,10 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
   }
 
   updateViewIfIsFocusedChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue> | undefined) {
+    if (!this.ngrxEnableFocusTracking) {
+      return;
+    }
+
     if (oldState && newState.isFocused === oldState.isFocused) {
       return;
     }

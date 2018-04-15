@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="2.3.2"></a>
+### 2.3.2
+
+#### Bugfixes
+
+* do not focus or blur form elements initially or on state changes when focus tracking is not enabled
+
 <a name="2.3.1"></a>
 ### 2.3.1
 
