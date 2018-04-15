@@ -2,10 +2,10 @@ import { Actions } from './actions';
 import { formArrayReducerInternal } from './array/reducer';
 import { formControlReducerInternal } from './control/reducer';
 import { formGroupReducerInternal } from './group/reducer';
-import { FormControlState, InferredControlState, isArrayState, isGroupState } from './state';
+import { AbstractControlState, FormControlState, InferredControlState, isArrayState, isGroupState } from './state';
 
 export function inferredStateReducer<TValue>(
-  state: InferredControlState<TValue>,
+  state: AbstractControlState<TValue> | InferredControlState<TValue>,
   action: Actions<any>,
 ): InferredControlState<TValue> {
   if (isArrayState(state)) {
