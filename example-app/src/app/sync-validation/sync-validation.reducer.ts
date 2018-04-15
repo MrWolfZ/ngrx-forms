@@ -59,16 +59,16 @@ function validatePasswordsMatch(value: PasswordValue) {
 }
 
 const validationFormGroupReducer = createFormGroupReducerWithUpdate<FormValue>({
-  userName: validate<string>(required),
+  userName: validate(required),
   password: (state, parentState) => {
     if (!parentState.value.createAccount) {
       return disable(state);
     }
 
     state = enable(state);
-    state = validate(validatePasswordsMatch, state);
+    state = validate(state, validatePasswordsMatch);
     return updateGroup<PasswordValue>(state, {
-      password: validate<string>([required, minLength(8)]),
+      password: validate([required, minLength(8)]),
     });
   },
   agreeToTermsOfUse: validate<boolean>(requiredTrue),

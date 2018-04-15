@@ -68,15 +68,11 @@ export const reducers = {
         return updateGroup<FormValue>({
           group: group => {
             const newGroup =
-              addGroupControl<typeof INITIAL_STATE.value.group, string>(
-                a.name,
-                false,
-                group,
-              );
+              addGroupControl(group, a.name, false);
 
             // alternatively we can also use setValue
             // const newValue = { ...group.value, [a.name]: false };
-            // const newGroup = setValue(newValue, group);
+            // const newGroup = setValue(group, newValue);
 
             return newGroup;
           },
@@ -87,11 +83,10 @@ export const reducers = {
           group: group => {
             const newValue = { ...group.value };
             delete newValue[a.name];
-            const newGroup = setValue(newValue, group);
+            const newGroup = setValue(group, newValue);
 
             // alternatively we can also use removeGroupControl
-            // const newGroup =
-            //   removeGroupControl<typeof INITIAL_STATE.value.group>(a.name, group);
+            // const newGroup = removeGroupControl(group, a.name);
 
             return newGroup;
           },
@@ -184,7 +179,7 @@ export class DynamicFormComponent {
     this.actionsSubject.next(new RemoveGroupElementAction(name));
   }
 
-  addArrayOption(index: number | null) {
+  addArrayOption(index: number) {
     this.actionsSubject.next(new AddArrayControlAction(
       this.formState.controls.array.id,
       false,

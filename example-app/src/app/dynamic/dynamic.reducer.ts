@@ -62,11 +62,11 @@ export function reducer(_s: any, _a: any) {
         case CreateGroupElementAction.TYPE:
           return updateGroup<FormValue>({
             group: group => {
-              const newGroup = addGroupControl<typeof INITIAL_STATE.value.group, string>(a.name, false, group);
+              const newGroup = addGroupControl(group, a.name, false);
 
               // alternatively we can also use setValue
               // const newValue = { ...group.value, [a.name]: false };
-              // const newGroup = setValue(newValue, group);
+              // const newGroup = setValue(group, newValue);
 
               return newGroup;
             },
@@ -77,10 +77,10 @@ export function reducer(_s: any, _a: any) {
             group: group => {
               const newValue = { ...group.value };
               delete newValue[a.name];
-              const newGroup = setValue(newValue, group);
+              const newGroup = setValue(group, newValue);
 
               // alternatively we can also use removeGroupControl
-              // const newGroup = removeGroupControl<typeof INITIAL_STATE.value.group>(a.name, group);
+              // const newGroup = removeGroupControl(group, a.name);
 
               return newGroup;
             },

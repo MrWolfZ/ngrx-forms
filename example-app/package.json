@@ -28,7 +28,7 @@
     "@ngrx/store-devtools": "5.2.0",
     "@types/prismjs": "1.9.0",
     "core-js": "2.5.4",
-    "ngrx-forms": "2.3.1",
+    "ngrx-forms": "file:../ngrx-forms-3.0.0-0.tgz",
     "prismjs": "1.13.0",
     "rxjs": "5.5.8",
     "zone.js": "0.8.25"

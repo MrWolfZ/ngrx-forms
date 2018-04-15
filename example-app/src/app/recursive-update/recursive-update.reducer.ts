@@ -66,16 +66,16 @@ export function reducer(_s: any, _a: any) {
 
       switch (a.type) {
         case BlockUIAction.TYPE: {
-          state = updateRecursive<FormValue>(
+          state = updateRecursive(
             state,
-            s => setUserDefinedProperty('wasDisabled', s.isDisabled, s),
+            s => setUserDefinedProperty(s, 'wasDisabled', s.isDisabled),
           );
           return disable(state);
         }
 
         case UnblockUIAction.TYPE: {
           state = enable(state);
-          return updateRecursive<FormValue>(
+          return updateRecursive(
             state,
             s => s.userDefinedProperties.wasDisabled ? disable(s) : s,
           );

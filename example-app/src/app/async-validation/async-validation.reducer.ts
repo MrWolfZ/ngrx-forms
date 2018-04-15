@@ -30,8 +30,8 @@ export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
 });
 
 const formGroupReducerWithUpdate = createFormGroupReducerWithUpdate<FormValue>({
-  searchTerm: validate<string>(required),
-  numberOfResultsToShow: validate<number>([required, greaterThan(0)]),
+  searchTerm: validate(required),
+  numberOfResultsToShow: validate([required, greaterThan(0)]),
 });
 
 export function reducer(_s: any, _a: any) {

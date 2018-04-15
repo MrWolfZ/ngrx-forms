@@ -26,7 +26,7 @@ export class DynamicFormComponent {
     this.actionsSubject.next(new RemoveGroupElementAction(name));
   }
 
-  addArrayOption(index: number | null) {
+  addArrayOption(index: number) {
     this.actionsSubject.next(new AddArrayControlAction(
       this.formState.controls.array.id,
       false,
