@@ -38,7 +38,7 @@ describe('form control reducer', () => {
   });
 
   it('should throw if state is not a control state', () => {
-    expect(() => formControlReducerInternal({ controls: [] } as any, new MarkAsDirtyAction(FORM_CONTROL_ID))).toThrowError();
+    expect(() => formControlReducerInternal({ ...INITIAL_STATE, value: [], controls: [] } as any, new MarkAsDirtyAction(FORM_CONTROL_ID))).toThrowError();
   });
 
   describe(SetValueAction.name, () => {
