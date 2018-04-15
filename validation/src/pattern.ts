@@ -25,9 +25,9 @@ import { ValidationErrors } from 'ngrx-forms';
  * })
  * ```
  */
-export function pattern(pattern: RegExp) {
-  if (pattern === null || pattern === undefined) {
-    throw new Error(`The pattern Validation function requires the pattern parameter to be a non-null string or regular expression, got ${pattern}!`);
+export function pattern(patternParam: RegExp) {
+  if (patternParam === null || patternParam === undefined) {
+    throw new Error(`The pattern Validation function requires the pattern parameter to be a non-null string or regular expression, got ${patternParam}!`);
   }
 
   return (value: string | null): ValidationErrors => {
@@ -35,13 +35,13 @@ export function pattern(pattern: RegExp) {
       return {};
     }
 
-    if (pattern.test(value)) {
+    if (patternParam.test(value)) {
       return {};
     }
 
     return {
       pattern: {
-        pattern: pattern.toString(),
+        pattern: patternParam.toString(),
         actual: value,
       },
     };

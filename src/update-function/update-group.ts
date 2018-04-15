@@ -66,7 +66,7 @@ function updateGroupSingle<TValue extends KeyValue>(updateFns: StateUpdateFns<TV
 // the weird return type is necessary to allow using updateGroup inside of updateGroup
 // and with optional controls
 export function updateGroup<TValue>(
-  ...updateFnsArr: Array<StateUpdateFns<TValue>>,
+  ...updateFnsArr: Array<StateUpdateFns<TValue>>
 ): (state: FormGroupState<TValue>) => FormGroupState<TValue>;
 
 /**
@@ -101,12 +101,12 @@ export function updateGroup<TValue>(
  */
 export function updateGroup<TValue>(
   state: FormGroupState<TValue>,
-  ...updateFnsArr: Array<StateUpdateFns<TValue>>,
+  ...updateFnsArr: Array<StateUpdateFns<TValue>>
 ): FormGroupState<TValue>;
 
 export function updateGroup<TValue extends KeyValue>(
   stateOrFunction: FormGroupState<TValue> | StateUpdateFns<TValue>,
-  ...updateFnsArr: Array<StateUpdateFns<TValue>>,
+  ...updateFnsArr: Array<StateUpdateFns<TValue>>
 ) {
   if (isGroupState(stateOrFunction as any)) {
     const [first, ...rest] = updateFnsArr;

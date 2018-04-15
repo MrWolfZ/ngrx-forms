@@ -16,7 +16,7 @@ const SELECT_OPTIONS = ['op1', 'op2'];
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'select-test',
-  template: '<select [ngrxFormControlState]="state"><option *ngFor="let o of options" [value]="o">{{o}}</option></select>',
+  template: '<select [ngrxFormControlState]="state"><option *ngFor="let o of options" [value]="o">{{ o }}</option></select>',
 })
 export class SelectComponent {
   @Input() state: FormControlState<string>;
@@ -88,7 +88,7 @@ const SELECT_NUMBER_OPTIONS = [1, 2];
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'select-test',
-  template: '<select [ngrxFormControlState]="state"><option *ngFor="let o of options" [value]="o">{{o}}</option></select>',
+  template: '<select [ngrxFormControlState]="state"><option *ngFor="let o of options" [value]="o">{{ o }}</option></select>',
 })
 export class NumberSelectComponent {
   @Input() state: FormControlState<number>;

@@ -25,9 +25,9 @@ import { ValidationErrors } from 'ngrx-forms';
  *  password: validate(minLength(8)),
  * })
  */
-export function minLength(minLength: number) {
-  if (minLength === null || minLength === undefined) {
-    throw new Error(`The minLength Validation function requires the minLength parameter to be a non-null number, got ${minLength}!`);
+export function minLength(minLengthParam: number) {
+  if (minLengthParam === null || minLengthParam === undefined) {
+    throw new Error(`The minLength Validation function requires the minLength parameter to be a non-null number, got ${minLengthParam}!`);
   }
 
   return (value: string | any[] | null): ValidationErrors => {
@@ -37,13 +37,13 @@ export function minLength(minLength: number) {
 
     const length = value.length;
 
-    if (length >= minLength) {
+    if (length >= minLengthParam) {
       return {};
     }
 
     return {
       minLength: {
-        minLength,
+        minLengthParam,
         value,
         actualLength: length,
       },

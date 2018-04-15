@@ -1,7 +1,7 @@
 import { ValidationErrors } from 'ngrx-forms';
 
-// tslint:disable-next-line:max-line-length
 // this regex is taken from the @angular/forms source code
+// tslint:disable-next-line:max-line-length
 export const NGRX_FORMS_EMAIL_VALIDATION_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
 
 /**

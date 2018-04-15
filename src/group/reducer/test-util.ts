@@ -17,7 +17,7 @@ function setPropertyRecursively<TValue>(
   state: AbstractControlState<TValue>,
   property: keyof AbstractControlState<TValue>,
   value: any,
-  ...excludeIds: string[],
+  ...excludeIds: string[]
 ): AbstractControlState<TValue> {
   if (excludeIds.indexOf(state.id) >= 0) {
     return state;
@@ -56,7 +56,7 @@ function setPropertyRecursively<TValue>(
 export function setPropertiesRecursively<TValue>(
   state: AbstractControlState<TValue>,
   properties: Array<[keyof AbstractControlState<TValue>, any]>,
-  ...excludeIds: string[],
+  ...excludeIds: string[]
 ): InferredControlState<TValue> {
   return properties.reduce((s, [p, v]) => setPropertyRecursively(s, p, v, ...excludeIds), state) as InferredControlState<TValue>;
 }

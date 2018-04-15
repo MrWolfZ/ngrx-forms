@@ -20,15 +20,15 @@ const OPTION3_VALUE = 'op3';
 </select>
 
 <select multiple [ngrxFormControlState]="state">
-  <option *ngFor="let o of stringOptions; trackBy: trackByIndex" [value]="o">{{o}}</option>
+  <option *ngFor="let o of stringOptions; trackBy: trackByIndex" [value]="o">{{ o }}</option>
 </select>
 
 <select multiple [ngrxFormControlState]="state">
-  <option *ngFor="let o of numberOptions; trackBy: trackByIndex" [value]="o">{{o}}</option>
+  <option *ngFor="let o of numberOptions; trackBy: trackByIndex" [value]="o">{{ o }}</option>
 </select>
 
 <select multiple [ngrxFormControlState]="state">
-  <option *ngFor="let o of booleanOptions; trackBy: trackByIndex" [value]="o">{{o}}</option>
+  <option *ngFor="let o of booleanOptions; trackBy: trackByIndex" [value]="o">{{ o }}</option>
 </select>
 `,
 })

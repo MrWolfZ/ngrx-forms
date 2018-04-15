@@ -19,7 +19,7 @@ const SELECT_OPTIONS = ['op1', 'op2'];
   selector: 'select-multiple-test',
   template: `
   <select multiple [ngrxFormControlState]="state" [ngrxValueConverter]="valueConverter">
-    <option *ngFor="let o of options" [value]="o">{{o}}</option>
+    <option *ngFor="let o of options" [value]="o">{{ o }}</option>
   </select>
   `,
 })

@@ -25,9 +25,9 @@ import { ValidationErrors } from 'ngrx-forms';
  *  name: validate(maxLength(10)),
  * })
  */
-export function maxLength(maxLength: number) {
-  if (maxLength === null || maxLength === undefined) {
-    throw new Error(`The maxLength Validation function requires the maxLength parameter to be a non-null number, got ${maxLength}!`);
+export function maxLength(maxLengthParam: number) {
+  if (maxLengthParam === null || maxLengthParam === undefined) {
+    throw new Error(`The maxLength Validation function requires the maxLength parameter to be a non-null number, got ${maxLengthParam}!`);
   }
 
   return (value: string | any[] | null): ValidationErrors => {
@@ -37,13 +37,13 @@ export function maxLength(maxLength: number) {
 
     const length = value.length;
 
-    if (length <= maxLength) {
+    if (length <= maxLengthParam) {
       return {};
     }
 
     return {
       maxLength: {
-        maxLength,
+        maxLengthParam,
         value,
         actualLength: length,
       },

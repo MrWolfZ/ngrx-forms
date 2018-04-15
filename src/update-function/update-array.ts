@@ -39,7 +39,7 @@ function updateArraySingle<TValue>(updateFn: ProjectFn2<InferredControlState<TVa
  * ```
  */
 export function updateArray<TValue>(
-  ...updateFnArr: Array<ProjectFn2<InferredControlState<TValue>, FormArrayState<TValue>>>,
+  ...updateFnArr: Array<ProjectFn2<InferredControlState<TValue>, FormArrayState<TValue>>>
 ): (state: FormArrayState<TValue>) => FormArrayState<TValue>;
 
 /**
@@ -59,12 +59,12 @@ export function updateArray<TValue>(
  */
 export function updateArray<TValue>(
   state: FormArrayState<TValue>,
-  ...updateFnArr: Array<ProjectFn2<InferredControlState<TValue>, FormArrayState<TValue>>>,
+  ...updateFnArr: Array<ProjectFn2<InferredControlState<TValue>, FormArrayState<TValue>>>
 ): FormArrayState<TValue>;
 
 export function updateArray<TValue>(
   stateOrFunction: FormArrayState<TValue> | ProjectFn2<InferredControlState<TValue>, FormArrayState<TValue>>,
-  ...updateFnArr: Array<ProjectFn2<InferredControlState<TValue>, FormArrayState<TValue>>>,
+  ...updateFnArr: Array<ProjectFn2<InferredControlState<TValue>, FormArrayState<TValue>>>
 ) {
   if (typeof stateOrFunction !== 'function') {
     const [first, ...rest] = updateFnArr;

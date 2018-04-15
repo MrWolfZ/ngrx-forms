@@ -45,7 +45,7 @@ function updateRecursiveSingle(parent: AbstractControlState<any>, updateFn: Proj
  * ```
  */
 export function updateRecursive<TValue>(
-  ...updateFnArr: Array<ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>>,
+  ...updateFnArr: Array<ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>>
 ): (state: InferredControlState<TValue>) => InferredControlState<TValue>;
 
 /**
@@ -55,7 +55,7 @@ export function updateRecursive<TValue>(
  */
 export function updateRecursive<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,
-  ...updateFnArr: Array<ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>>,
+  ...updateFnArr: Array<ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>>
 ): FormControlState<TValue>;
 
 /**
@@ -76,7 +76,7 @@ export function updateRecursive<TValue extends FormControlValueTypes>(
  */
 export function updateRecursive<TValue>(
   state: FormArrayState<TValue>,
-  ...updateFnArr: Array<ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>>,
+  ...updateFnArr: Array<ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>>
 ): FormArrayState<TValue>;
 
 /**
@@ -97,7 +97,7 @@ export function updateRecursive<TValue>(
  */
 export function updateRecursive<TValue>(
   state: FormGroupState<TValue>,
-  ...updateFnArr: Array<ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>>,
+  ...updateFnArr: Array<ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>>
 ): FormGroupState<TValue>;
 
 /**
@@ -118,12 +118,12 @@ export function updateRecursive<TValue>(
  */
 export function updateRecursive<TValue>(
   state: InferredControlState<TValue>,
-  ...updateFnArr: Array<ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>>,
+  ...updateFnArr: Array<ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>>
 ): InferredControlState<TValue>;
 
 export function updateRecursive<TValue>(
   stateOrFunction: InferredControlState<TValue> | ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>,
-  ...updateFnArr: Array<ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>>,
+  ...updateFnArr: Array<ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>>
 ) {
   if (typeof stateOrFunction !== 'function') {
     const [first, ...rest] = updateFnArr;
