@@ -19,17 +19,17 @@ describe(setUserDefinedProperty.name, () => {
   });
 
   it('should call reducer for controls uncurried', () => {
-    const resultState = setUserDefinedProperty('prop', 12, INITIAL_STATE.controls.inner);
+    const resultState = setUserDefinedProperty(INITIAL_STATE.controls.inner, 'prop', 12);
     expect(resultState).not.toBe(INITIAL_STATE.controls.inner);
   });
 
   it('should call reducer for groups uncurried', () => {
-    const resultState = setUserDefinedProperty('prop', 12, INITIAL_STATE);
+    const resultState = setUserDefinedProperty(INITIAL_STATE, 'prop', 12);
     expect(resultState).not.toBe(INITIAL_STATE);
   });
 
   it('should call reducer for arrays uncurried', () => {
-    const resultState = setUserDefinedProperty('prop', 12, INITIAL_STATE.controls.inner5);
+    const resultState = setUserDefinedProperty(INITIAL_STATE.controls.inner5, 'prop', 12);
     expect(resultState).not.toBe(INITIAL_STATE.controls.inner5);
   });
 
@@ -47,7 +47,7 @@ describe(setUserDefinedProperty.name, () => {
 
   it('should work inside an updateGroup uncurried', () => {
     const resultState = updateGroup<typeof INITIAL_STATE.value>(INITIAL_STATE, {
-      inner: inner => setUserDefinedProperty<string>('prop', 12, inner),
+      inner: inner => setUserDefinedProperty(inner, 'prop', 12),
     });
 
     expect(resultState).not.toEqual(INITIAL_STATE);
