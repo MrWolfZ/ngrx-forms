@@ -1,4 +1,4 @@
-import { computeArrayState, FormArrayState, InferredControlState, isFormState } from '../state';
+import { computeArrayState, FormArrayState, InferredControlState, isArrayState } from '../state';
 import { ensureState, ProjectFn2 } from './util';
 
 function updateArrayControlsState<TValue>(updateFn: ProjectFn2<InferredControlState<TValue>, FormArrayState<TValue>>) {
@@ -112,7 +112,7 @@ export function updateArray<TValue>(
   updateFnOrUpdateFnArr?: ProjectFn2<InferredControlState<TValue>, FormArrayState<TValue>> | ProjectFn2<InferredControlState<TValue>, FormArrayState<TValue>>[],
   ...rest: ProjectFn2<InferredControlState<TValue>, FormArrayState<TValue>>[]
 ) {
-  if (isFormState(stateOrFunctionOrFunctionArray)) {
+  if (isArrayState<TValue>(stateOrFunctionOrFunctionArray)) {
     const updateFnArr = Array.isArray(updateFnOrUpdateFnArr) ? updateFnOrUpdateFnArr : [updateFnOrUpdateFnArr!];
     return updateFnArr.reduce((s, updateFn) => updateArraySingle<TValue>(updateFn)(s), stateOrFunctionOrFunctionArray);
   }
