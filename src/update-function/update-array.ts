@@ -114,7 +114,7 @@ export function updateArray<TValue>(
 ) {
   if (isArrayState<TValue>(stateOrFunctionOrFunctionArray)) {
     const updateFnArr = Array.isArray(updateFnOrUpdateFnArr) ? updateFnOrUpdateFnArr : [updateFnOrUpdateFnArr!];
-    return updateFnArr.reduce((s, updateFn) => updateArraySingle<TValue>(updateFn)(s), stateOrFunctionOrFunctionArray);
+    return updateFnArr.concat(...rest).reduce((s, updateFn) => updateArraySingle<TValue>(updateFn)(s), stateOrFunctionOrFunctionArray);
   }
 
   let updateFnArr = Array.isArray(stateOrFunctionOrFunctionArray) ? stateOrFunctionOrFunctionArray : [stateOrFunctionOrFunctionArray];
