@@ -28,6 +28,7 @@ const BLUR = 'blur';
 })
 export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes, TViewValue = TStateValue> implements AfterViewInit, OnInit {
   private isInitialized = false;
+  private focusTrackingIsEnabled = false;
 
   @Input() set ngrxFormControlState(newState: FormControlState<TStateValue>) {
     if (!newState) {
@@ -46,7 +47,14 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
   }
 
   @Input() ngrxUpdateOn: 'change' | 'blur' = CHANGE;
-  @Input() ngrxEnableFocusTracking = false;
+  @Input() set ngrxEnableFocusTracking(value: boolean) {
+    if (value && !this.dom) {
+      throw new Error('focus tracking is only supported on the browser platform');
+    }
+
+    this.focusTrackingIsEnabled = value;
+  }
+
   @Input() ngrxValueConverter: NgrxValueConverter<TViewValue, TStateValue> = NgrxValueConverters.identity<any>();
 
   // TODO: move this into a separate directive
@@ -72,7 +80,9 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
 
   constructor(
     private el: ElementRef,
-    @Inject(DOCUMENT) private dom: Document,
+    // for the dom parameter the `null` type must be last to ensure that in the compiled output
+    // there is no reference to the Document type to support non-browser platforms
+    @Optional() @Inject(DOCUMENT) private dom: Document | null,
     private actionsSubject: ActionsSubject,
     @Self() @Optional() @Inject(NGRX_FORM_VIEW_ADAPTER) viewAdapters: FormViewAdapter[],
     @Self() @Optional() @Inject(NG_VALUE_ACCESSOR) valueAccessors: ControlValueAccessor[],
@@ -125,7 +135,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
   }
 
   updateViewIfIsFocusedChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue> | undefined) {
-    if (!this.ngrxEnableFocusTracking) {
+    if (!this.focusTrackingIsEnabled) {
       return;
     }
 
@@ -194,11 +204,11 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
   @HostListener('focusin')
   @HostListener('focusout')
   onFocusChange() {
-    if (!this.ngrxEnableFocusTracking) {
+    if (!this.focusTrackingIsEnabled) {
       return;
     }
 
-    const isControlFocused = this.el.nativeElement === this.dom.activeElement;
+    const isControlFocused = this.el.nativeElement === this.dom!.activeElement;
     if (isControlFocused !== this.state.isFocused) {
       this.actionsSubject.next(isControlFocused ? new FocusAction(this.state.id) : new UnfocusAction(this.state.id));
     }

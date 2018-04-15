@@ -414,6 +414,17 @@ describe(NgrxFormControlDirective.name, () => {
     });
   });
 
+  describe('non-browser platforms', () => {
+    beforeEach(() => {
+      directive = new NgrxFormControlDirective<string>(elementRef, null, actionsSubject as any, [viewAdapter], []);
+      directive.ngrxFormControlState = INITIAL_STATE;
+    });
+
+    it('should throw when trying to enable focus tracking', () => {
+      expect(() => directive.ngrxEnableFocusTracking = true).toThrowError();
+    });
+  });
+
   // TODO: throwing error on undefined state
   // TODO: mark as touched
   // TODO: disabling and enabling
