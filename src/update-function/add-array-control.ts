@@ -7,18 +7,18 @@ import { ensureState } from './util';
  * This update function takes a value and optionally an index and returns a projection function
  * that adds a child control at the given index or at the end of a form array state.
  */
-export function addArrayControl<TValue>(value: TValue, index?: number | null): (state: FormArrayState<TValue>) => FormArrayState<TValue>;
+export function addArrayControl<TValue>(value: TValue, index?: number): (state: FormArrayState<TValue>) => FormArrayState<TValue>;
 
 /**
  * This update function takes a value, an array form state and optionally an index and adds a
  * child control at the given index or at the end of the state.
  */
-export function addArrayControl<TValue>(value: TValue, state: FormArrayState<TValue>, index?: number | null): FormArrayState<TValue>;
+export function addArrayControl<TValue>(state: FormArrayState<TValue>, value: TValue, index?: number): FormArrayState<TValue>;
 
-export function addArrayControl<TValue>(value: TValue, indexOrState: number | null | FormArrayState<TValue> = null, index: number | null = null) {
-  if (indexOrState !== null && isArrayState(indexOrState as any)) {
-    return formArrayReducer(indexOrState as any, new AddArrayControlAction((indexOrState as any).id, value, index));
+export function addArrayControl<TValue>(valueOrState: TValue | FormArrayState<TValue>, indexOrValue: number | TValue | undefined, index?: number) {
+  if (isArrayState(valueOrState)) {
+    return formArrayReducer(valueOrState, new AddArrayControlAction(valueOrState.id, indexOrValue as TValue, index));
   }
 
-  return (s: FormArrayState<TValue>) => addArrayControl(value, ensureState(s), indexOrState as number | null);
+  return (s: FormArrayState<TValue>) => addArrayControl(ensureState(s), valueOrState as TValue, indexOrValue as number);
 }

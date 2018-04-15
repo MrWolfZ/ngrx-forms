@@ -210,13 +210,13 @@ export class AddArrayControlAction<TValue> implements Action {
 
   readonly payload: {
     readonly value: TValue;
-    readonly index: number | null;
+    readonly index: number | undefined;
   };
 
   constructor(
     controlId: string,
     value: TValue,
-    index: number | null = null,
+    index?: number,
   ) {
     this.controlId = controlId;
     this.payload = { index, value };

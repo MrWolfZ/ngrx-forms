@@ -16,12 +16,12 @@ describe(addArrayControl.name, () => {
   });
 
   it('should call reducer for arrays uncurried', () => {
-    const resultState = addArrayControl('A', INITIAL_ARRAY_STATE, 1);
+    const resultState = addArrayControl(INITIAL_ARRAY_STATE, 'A', 1);
     expect(resultState).not.toBe(INITIAL_ARRAY_STATE);
   });
 
   it('should call reducer for arrays uncurried without index', () => {
-    const resultState = addArrayControl('A', INITIAL_ARRAY_STATE);
+    const resultState = addArrayControl(INITIAL_ARRAY_STATE, 'A');
     expect(resultState).not.toBe(INITIAL_ARRAY_STATE);
   });
 

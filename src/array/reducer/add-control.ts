@@ -14,7 +14,7 @@ export function addControlReducer<TValue>(
     return childReducer(state, action);
   }
 
-  const index = action.payload.index === null ? state.controls.length : action.payload.index;
+  const index = action.payload.index === undefined ? state.controls.length : action.payload.index;
 
   if (index > state.controls.length || index < 0) {
     throw new Error(`Index ${index} is out of bounds for array '${state.id}' with length ${state.controls.length}!`); // `;

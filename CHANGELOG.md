@@ -8,6 +8,8 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
 #### Breaking Changes
 
 * remove `cast` utility function since it is obsolete due to proper control type inference
+* change order of parameters for many update functions to more be consistent
+  * `addArrayControl`: move `state` parameter to first position for uncurried overload
 
 #### Features
 
