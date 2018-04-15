@@ -16,11 +16,11 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
   * `setErrors`: rework to support different parameter combinations for errors (i.e. single error object, array of error objects, and rest parameters) and move `state` parameter to first position for uncurried overload ([15ea555](https://github.com/MrWolfZ/ngrx-forms/commit/15ea555))
   * `setUserDefinedProperty`: move `state` parameter to first position for uncurried overload ([520c384](https://github.com/MrWolfZ/ngrx-forms/commit/520c384))
   * `setValue`: move `state` parameter to first position for uncurried overload ([1a69795](https://github.com/MrWolfZ/ngrx-forms/commit/1a69795))
-  * `updateArray`: rework to support different parameter combinations for update functions (i.e. single function, array of functions, and rest parameters) and move `state` parameter to first position for uncurried overload ([f82abf8](https://github.com/MrWolfZ/ngrx-forms/commit/f82abf8))
 
 #### Features
 
 * use conditional types to infer the type of child controls
+* rework `updateArray` to support different parameter combinations for update functions (i.e. single function, array of functions, and rest parameters) ([f82abf8](https://github.com/MrWolfZ/ngrx-forms/commit/f82abf8))
 * rework `updateGroup` to support different parameter combinations for update function objects (i.e. single object, array of objects, and rest parameters) which reduces the probability of false type inference results
 
 <a name="2.3.2"></a>
