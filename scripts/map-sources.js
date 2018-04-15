@@ -4,6 +4,5 @@ const argv = require('yargs')
   .alias('f', 'file')
   .argv;
 
-sorcery.load(argv.file).then(function (chain) {
-  chain.write();
-});
+const chain = sorcery.loadSync(argv.file);
+chain.write();

@@ -14,6 +14,7 @@ const PACKAGES = [
     modulesDir: '.',
     bundleFileName: 'forms',
     moduleFileName: 'forms',
+    moduleName: 'ngrx.forms',
   },
   {
     name: 'validation',
@@ -21,6 +22,7 @@ const PACKAGES = [
     modulesDir: 'forms',
     bundleFileName: 'forms-validation',
     moduleFileName: 'validation',
+    moduleName: 'ngrx.forms-validation',
   },
 ];
 
@@ -33,7 +35,7 @@ for (var pkg of PACKAGES) {
   shell.echo(`Building package '${pkg.name}'...`);
 
   shell.echo(`Starting TSLint...`);
-  if (shell.exec(`tslint -c tslint.json -t stylish --type-check --project . ${pkg.dir}/src/**/*.ts`).code !== 0) {
+  if (shell.exec(`tslint -c tslint.json -t stylish --project . ${pkg.dir}/src/**/*.ts`).code !== 0) {
     shell.echo(chalk.red(`Error: TSLint failed`));
     shell.exit(1);
   }
@@ -48,7 +50,7 @@ for (var pkg of PACKAGES) {
   shell.echo(chalk.green(`AoT compilation completed!`));
 
   shell.echo(`Starting bundling...`);
-  if (shell.exec(`rollup -i ${DIST_DIR}/${pkg.dir}/${pkg.bundleFileName}.js -o ${MODULES_DIR}/${pkg.modulesDir}/${pkg.moduleFileName}.js --sourcemap`, { silent: true }).code !== 0) {
+  if (shell.exec(`rollup -f es -n ngrx.forms -i ${DIST_DIR}/${pkg.dir}/${pkg.bundleFileName}.js -o ${MODULES_DIR}/${pkg.modulesDir}/${pkg.moduleFileName}.js --sourcemap`).code !== 0) {
     shell.echo(chalk.red(`Error: Bundling failed!`));
     shell.exit(1);
   }
@@ -75,7 +77,7 @@ for (var pkg of PACKAGES) {
   shell.rm(`-f`, `${MODULES_DIR}/${pkg.modulesDir}/${pkg.moduleFileName}.es5.ts`);
 
   shell.echo(`Running rollup conversion...`);
-  if (shell.exec(`rollup -c ${pkg.dir}/rollup.config.js --sourcemap`).code !== 0) {
+  if (shell.exec(`rollup -c ${pkg.dir}/rollup.config.js -f umd -n ${pkg.moduleName} --sourcemap`).code !== 0) {
     shell.echo(chalk.red(`Error: Rollup conversion failed!`));
     shell.exit(1);
   }
@@ -87,8 +89,8 @@ for (var pkg of PACKAGES) {
 
   shell.echo(`Minifying...`);
   const pwd = shell.pwd();
-  shell.pushd(BUNDLES_DIR);
-  if (shell.exec(`${pwd}/node_modules/.bin/uglifyjs -c warnings=false --screw-ie8 --comments -o ${pkg.bundleFileName}.umd.min.js --source-map ${pkg.bundleFileName}.umd.min.js.map --source-map-include-sources ${pkg.bundleFileName}.umd.js`).code !== 0) {
+  shell.pushd('-q', BUNDLES_DIR);
+  if (shell.exec(`${pwd}/node_modules/.bin/uglifyjs -c warnings=false --comments -o ${pkg.bundleFileName}.umd.min.js --source-map "filename='${pkg.bundleFileName}.umd.min.js.map',url='${pkg.bundleFileName}.umd.min.js.map',includeSources" ${pkg.bundleFileName}.umd.js`).code !== 0) {
     shell.echo(chalk.red(`Error: Minifying failed!`));
     shell.exit(1);
   }
@@ -98,7 +100,7 @@ for (var pkg of PACKAGES) {
     shell.exit(1);
   }
 
-  shell.popd();
+  shell.popd('-q', '+0');
 
   shell.echo(chalk.green(`Bundling completed!`));
 
