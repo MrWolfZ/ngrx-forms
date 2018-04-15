@@ -1,32 +1,6 @@
 import { Actions } from '../../actions';
-import { formArrayReducerInternal } from '../../array/reducer';
-import { formControlReducerInternal } from '../../control/reducer';
-import {
-  computeGroupState,
-  FormGroupControls,
-  FormGroupState,
-  InferredControlState,
-  isArrayState,
-  isGroupState,
-  KeyValue,
-  FormControlState,
-} from '../../state';
-import { formGroupReducerInternal } from '../reducer';
-
-export function callChildReducer<TValue>(
-  state: InferredControlState<TValue>,
-  action: Actions<any>,
-): InferredControlState<TValue> {
-  if (isArrayState(state)) {
-    return formArrayReducerInternal<TValue>(state, action) as any;
-  }
-
-  if (isGroupState(state)) {
-    return formGroupReducerInternal(state, action) as any;
-  }
-
-  return formControlReducerInternal(state as FormControlState<any>, action) as any;
-}
+import { inferredStateReducer } from '../../inferred-reducer';
+import { computeGroupState, FormGroupControls, FormGroupState, KeyValue, InferredControlState } from '../../state';
 
 export function dispatchActionPerChild<TValue extends KeyValue>(
   controls: FormGroupControls<TValue>,
@@ -35,7 +9,7 @@ export function dispatchActionPerChild<TValue extends KeyValue>(
   let hasChanged = false;
   const newControls = Object.keys(controls)
     .reduce((c, key) => {
-      c[key] = callChildReducer(controls[key], actionCreator(controls[key].id));
+      c[key] = inferredStateReducer(controls[key], actionCreator(controls[key].id));
       hasChanged = hasChanged || c[key] !== controls[key];
       return c;
     }, {} as FormGroupControls<TValue>);
@@ -48,7 +22,7 @@ function callChildReducers<TValue extends { [key: string]: any }>(
 ): FormGroupControls<TValue> {
   let hasChanged = false;
   const newControls = Object.keys(controls)
-    .map(key => [key, callChildReducer(controls[key], action)] as [string, InferredControlState<any>])
+    .map(key => [key, inferredStateReducer(controls[key], action)] as [string, InferredControlState<any>])
     .reduce((res, [key, state]) => {
       hasChanged = hasChanged || state !== controls[key];
       return Object.assign(res, { [key]: state });
