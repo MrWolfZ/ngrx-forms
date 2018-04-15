@@ -53,8 +53,11 @@
   "defaults": {
     "styleExt": "scss",
     "component": {
-      "changeDetection": "OnPush",
-      "viewEncapsulation": "Emulated"
+      "viewEncapsulation": "Emulated",
+      "changeDetection": "OnPush"
     }
+  },
+  "warnings": {
+    "typescriptMismatch": false
   }
 }

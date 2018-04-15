@@ -13,6 +13,9 @@ import { FormValue, INITIAL_STATE } from '../material.reducer';
 export class DynamicFormComponent {
   @Input() formState: FormGroupState<FormValue>;
   submittedValue: FormValue;
+  hobbyOptions = ['Sports', 'Video Games'];
+
+  objectToJSON = NgrxValueConverters.objectToJSON;
 
   dateValueConverter: NgrxValueConverter<Date | null, string | null> = {
     convertViewToStateValue(value) {

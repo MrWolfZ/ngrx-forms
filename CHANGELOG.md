@@ -13,6 +13,14 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
 
 * use conditional types to infer the type of child controls
 
+<a name="2.3.2"></a>
+### 2.3.2
+
+#### Bugfixes
+
+* do not focus or blur form elements initially or on state changes when focus tracking is not enabled ([f6a10d5](https://github.com/MrWolfZ/ngrx-forms/commit/f6a10d5)) (thanks @bufke for helping me find this)
+* make implicit browser platform dependency optional and disallow focus tracking on non-browser platforms ([e7760bc](https://github.com/MrWolfZ/ngrx-forms/commit/e7760bc)) (thanks @bufke for helping me find this)
+
 <a name="2.3.1"></a>
 ### 2.3.1
 

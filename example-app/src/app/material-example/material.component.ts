@@ -43,6 +43,7 @@ export interface FormValue {
   password: PasswordValue;
   sex: string;
   favoriteColor: string;
+  hobbies: string;
   dateOfBirth: string;
   agreeToTermsOfUse: boolean;
 }
@@ -58,6 +59,7 @@ export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
   },
   sex: '',
   favoriteColor: '',
+  hobbies: '[]',
   dateOfBirth: new Date(Date.UTC(1970, 0, 1)).toISOString(),
   agreeToTermsOfUse: false,
 });
@@ -101,6 +103,9 @@ import { FormValue, INITIAL_STATE } from '../material.reducer';
 export class DynamicFormComponent {
   @Input() formState: FormGroupState<FormValue>;
   submittedValue: FormValue;
+  hobbyOptions = ['Sports', 'Video Games'];
+
+  objectToJSON = NgrxValueConverters.objectToJSON;
 
   dateValueConverter: NgrxValueConverter<Date | null, string | null> = {
     convertViewToStateValue(value) {
@@ -189,6 +194,16 @@ export class DynamicFormComponent {
         <mat-option value="0000ff">Blue</mat-option>
       </mat-select>
     </mat-form-field>
+  </div>
+  <div>
+    Hobbies:
+    <mat-selection-list [ngrxFormControlState]="formState.controls.hobbies"
+                        [ngrxValueConverter]="objectToJSON">
+      <mat-list-option *ngFor="let op of hobbyOptions"
+                       [value]="op">
+        {{ op }}
+      </mat-list-option>
+    </mat-selection-list>
   </div>
   <div>
     <mat-form-field>
