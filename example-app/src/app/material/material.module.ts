@@ -17,6 +17,7 @@ import {
 
 import { CustomErrorStateMatcherDirective } from './error-state-matcher';
 import { NgrxMatSelectValueAccessor } from './mat-select-value-accessor';
+import { MatListOptionFixDirective } from './mat-list-option-fix';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { NgrxMatSelectValueAccessor } from './mat-select-value-accessor';
   declarations: [
     NgrxMatSelectValueAccessor,
     CustomErrorStateMatcherDirective,
+    MatListOptionFixDirective,
   ],
   exports: [
     MatInputModule,
@@ -52,6 +54,7 @@ import { NgrxMatSelectValueAccessor } from './mat-select-value-accessor';
     MatNativeDateModule,
     NgrxMatSelectValueAccessor,
     CustomErrorStateMatcherDirective,
+    MatListOptionFixDirective,
   ],
   providers: [
     { provide: MAT_PLACEHOLDER_GLOBAL_OPTIONS, useValue: { float: 'always' } }
