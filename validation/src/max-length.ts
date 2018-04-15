@@ -43,7 +43,7 @@ export function maxLength(maxLengthParam: number) {
 
     return {
       maxLength: {
-        maxLengthParam,
+        maxLength: maxLengthParam,
         value,
         actualLength: length,
       },
