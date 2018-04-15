@@ -1,61 +1,63 @@
 import { SetErrorsAction } from '../actions';
-import {
-  AbstractControlState,
-  FormArrayState,
-  FormControlState,
-  FormControlValueTypes,
-  FormGroupState,
-  InferredControlState,
-  ValidationErrors,
-} from '../state';
-import { abstractControlReducer, ensureState } from './util';
+import { inferredStateReducer } from '../inferred-reducer';
+import { AbstractControlState, InferredControlState, isFormState, ValidationErrors } from '../state';
+import { ensureState } from './util';
 
 export type ValidationFn<TValue> = (value: TValue) => ValidationErrors;
-export type ValidateParam<TValue> = ValidationFn<TValue> | ValidationFn<TValue>[];
 
 /**
- * This update function takes a validation function or an array of validation
- * functions and returns a projection function that sets the errors of a form
- * state to the result of applying the given validation function(s) to the
- * state's value.
+ * This update function takes a variable number of validation functions and
+ * a form state and sets the errors of the state to the result of applying
+ * the given validation function(s) to the state's value.
  */
-export function validate<TValue>(param: ValidateParam<TValue>): (state: AbstractControlState<TValue>) => InferredControlState<TValue>;
+export function validate<TValue>(
+  state: AbstractControlState<TValue>,
+  fn: ValidationFn<TValue>,
+  ...rest: ValidationFn<TValue>[]
+): InferredControlState<TValue>;
 
 /**
- * This update function takes a validation function or an array of validation
- * functions and a form control state and sets the errors of the state to the
+ * This update function takes an array of validation functions and a form
+ * state and sets the errors of the state to the result of applying the given
+ * validation function(s) to the state's value.
+ */
+export function validate<TValue>(
+  state: AbstractControlState<TValue>,
+  rest: ValidationFn<TValue>[],
+): InferredControlState<TValue>;
+
+/**
+ * This update function takes a variable number of validation functions and
+ * returns a projection function that sets the errors of a form state to the
  * result of applying the given validation function(s) to the state's value.
  */
-export function validate<TValue extends FormControlValueTypes>(param: ValidateParam<TValue>, state: FormControlState<TValue>): FormControlState<TValue>;
+export function validate<TValue>(
+  fn: ValidationFn<TValue>,
+  ...rest: ValidationFn<TValue>[]
+): (state: AbstractControlState<TValue>) => InferredControlState<TValue>;
 
 /**
- * This update function takes a validation function or an array of validation
- * functions and a form array state and sets the errors of the state to the
- * result of applying the given validation function(s) to the state's value.
+ * This update function takes an array of validation functions and returns a
+ * projection function that sets the errors of a form state to the result of
+ * applying the given validation function(s) to the state's value.
  */
-export function validate<TValue>(param: ValidateParam<TValue>, state: FormArrayState<TValue>): FormArrayState<TValue>;
+export function validate<TValue>(
+  rest: ValidationFn<TValue>[],
+): (state: AbstractControlState<TValue>) => InferredControlState<TValue>;
 
-/**
- * This update function takes a validation function or an array of validation
- * functions and a form group state and sets the errors of the state to the
- * result of applying the given validation function(s) to the state's value.
- */
-export function validate<TValue>(param: ValidateParam<TValue>, state: FormGroupState<TValue>): FormGroupState<TValue>;
-
-/**
- * This update function takes a validation function or an array of validation
- * functions and a form state and sets the errors of the state to the result
- * of applying the given validation function(s) to the state's value.
- */
-export function validate<TValue>(param: ValidateParam<TValue>, state: AbstractControlState<TValue>): AbstractControlState<TValue>;
-
-export function validate<TValue>(param: ValidateParam<TValue>, state?: AbstractControlState<TValue>) {
-  if (!!state) {
-    param = Array.isArray(param) ? param : [param];
-    const errors = param.reduce((agg, validationFn) => Object.assign(agg, validationFn(state.value)), {} as ValidationErrors);
-
-    return abstractControlReducer(state, new SetErrorsAction(state.id, errors));
+export function validate<TValue>(
+  stateOrFunctionOrFunctionArray: AbstractControlState<TValue> | ValidationFn<TValue> | ValidationFn<TValue>[],
+  functionOrFunctionArr?: ValidationFn<TValue> | ValidationFn<TValue>[],
+  ...rest: ValidationFn<TValue>[]
+) {
+  if (isFormState(stateOrFunctionOrFunctionArray)) {
+    const functionArr = Array.isArray(functionOrFunctionArr) ? functionOrFunctionArr : [functionOrFunctionArr!];
+    const errors = functionArr.concat(...rest)
+      .reduce((agg, validationFn) => Object.assign(agg, validationFn(stateOrFunctionOrFunctionArray.value)), {} as ValidationErrors);
+    return inferredStateReducer(stateOrFunctionOrFunctionArray, new SetErrorsAction(stateOrFunctionOrFunctionArray.id, errors));
   }
 
-  return (s: AbstractControlState<TValue>) => validate(param, ensureState(s));
+  let updateFnArr = Array.isArray(stateOrFunctionOrFunctionArray) ? stateOrFunctionOrFunctionArray : [stateOrFunctionOrFunctionArray];
+  updateFnArr = functionOrFunctionArr === undefined ? updateFnArr : updateFnArr.concat(functionOrFunctionArr);
+  return (s: AbstractControlState<TValue>) => validate<TValue>(ensureState(s), updateFnArr.concat(rest));
 }

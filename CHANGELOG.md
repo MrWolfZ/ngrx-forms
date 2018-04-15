@@ -16,6 +16,7 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
   * `setErrors`: rework to support different parameter combinations for errors (i.e. single error object, array of error objects, and rest parameters) and move `state` parameter to first position for uncurried overload ([15ea555](https://github.com/MrWolfZ/ngrx-forms/commit/15ea555))
   * `setUserDefinedProperty`: move `state` parameter to first position for uncurried overload ([520c384](https://github.com/MrWolfZ/ngrx-forms/commit/520c384))
   * `setValue`: move `state` parameter to first position for uncurried overload ([1a69795](https://github.com/MrWolfZ/ngrx-forms/commit/1a69795))
+  * `validate`: move `state` parameter to first position for uncurried overload and add rest param overloads
 * due to rework of `updateArray`, `updateGroup`, and `updateRecursive` update functions it is now invalid to call any of these functions without parameters (which made no sense anyway) but it is still possible to call the functions with an empty array as parameter (which is useful in dynamic situations)
 
 #### Features
