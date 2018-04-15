@@ -11,7 +11,7 @@ describe(removeArrayControl.name, () => {
   });
 
   it('should call reducer for arrays uncurried', () => {
-    const resultState = removeArrayControl<string>(0, INITIAL_ARRAY_STATE);
+    const resultState = removeArrayControl<string>(INITIAL_ARRAY_STATE, 0);
     expect(resultState).not.toBe(INITIAL_ARRAY_STATE);
   });
 

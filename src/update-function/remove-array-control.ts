@@ -1,6 +1,6 @@
 import { RemoveArrayControlAction } from '../actions';
 import { formArrayReducer } from '../array/reducer';
-import { FormArrayState } from '../state';
+import { FormArrayState, isArrayState } from '../state';
 import { ensureState } from './util';
 
 /**
@@ -10,15 +10,15 @@ import { ensureState } from './util';
 export function removeArrayControl<TValue>(index: number): (state: FormArrayState<TValue>) => FormArrayState<TValue>;
 
 /**
- * This update function takes an index and an array form state and removes the
+ * This update function takes an array form state and an index and removes the
  * child control at the given index from the state.
  */
-export function removeArrayControl<TValue>(index: number, state: FormArrayState<TValue>): FormArrayState<TValue>;
+export function removeArrayControl<TValue>(state: FormArrayState<TValue>, index: number): FormArrayState<TValue>;
 
-export function removeArrayControl<TValue>(index: number, state?: FormArrayState<TValue>) {
-  if (!!state) {
-    return formArrayReducer(state, new RemoveArrayControlAction(state.id, index));
+export function removeArrayControl<TValue>(indexOrState: number | FormArrayState<TValue>, index?: number) {
+  if (isArrayState(indexOrState)) {
+    return formArrayReducer(indexOrState, new RemoveArrayControlAction(indexOrState.id, index!));
   }
 
-  return (s: FormArrayState<TValue>) => removeArrayControl(index, ensureState(s));
+  return (s: FormArrayState<TValue>) => removeArrayControl(ensureState(s), indexOrState as number);
 }
