@@ -22,6 +22,7 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
 * use conditional types to infer the type of child controls
 * rework `updateArray` to support different parameter combinations for update functions (i.e. single function, array of functions, and rest parameters) ([f82abf8](https://github.com/MrWolfZ/ngrx-forms/commit/f82abf8))
 * rework `updateGroup` to support different parameter combinations for update function objects (i.e. single object, array of objects, and rest parameters) which reduces the probability of false type inference results ([0bb1ca7](https://github.com/MrWolfZ/ngrx-forms/commit/0bb1ca7))
+* rework `updateRecursive` to support different parameter combinations for update function objects (i.e. single object, array of objects, and rest parameters)
 
 <a name="2.3.2"></a>
 ### 2.3.2
