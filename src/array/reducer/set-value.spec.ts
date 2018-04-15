@@ -1,3 +1,4 @@
+import { FormArrayState } from '../../state';
 import { SetValueAction } from '../../actions';
 import { setValueReducer } from './set-value';
 import {
@@ -57,7 +58,7 @@ describe(`form array ${setValueReducer.name}`, () => {
 
   it('should create child states on demand for null children', () => {
     const value = ['', '', null];
-    const resultState = setValueReducer<string | null>(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, value));
+    const resultState = setValueReducer<string | null>(INITIAL_STATE as FormArrayState<string | null>, new SetValueAction(FORM_CONTROL_ID, value));
     expect(resultState.value).toEqual(value);
     expect(resultState.controls[2].value).toEqual(value[2]);
   });
