@@ -53,7 +53,7 @@ function updateGroupSingle<TValue extends KeyValue>(updateFns: StateUpdateFns<TV
  * const updatedState = updateGroup<FormValue>(
  *   state,
  *   {
- *     name: validate(required),
+ *     name: validate<string>(required),
  *   },
  *   {
  *     email: (email, parentGroup) =>
@@ -88,15 +88,17 @@ export function updateGroup<TValue>(
  *
  * const updatedState = updateGroup<FormValue>(
  *   state,
- *   {
- *     name: validate(required),
- *   },
- *   {
- *     email: (email, parentGroup) =>
- *       parentGroup.controls.name.isInvalid
- *         ? setValue('', email)
- *         : email,
- *   },
+ *   [
+ *     {
+ *       name: validate<string>(required),
+ *     },
+ *     {
+ *       email: (email, parentGroup) =>
+ *         parentGroup.controls.name.isInvalid
+ *           ? setValue('', email)
+ *           : email,
+ *     },
+ *   ],
  * );
  * ```
  */
@@ -122,7 +124,7 @@ export function updateGroup<TValue>(
  *
  * const groupUpdateFn = updateGroup<FormValue>(
  *   {
- *     name: validate(required),
+ *     name: validate<string>(required),
  *   },
  *   {
  *     email: (email, parentGroup) =>
@@ -155,15 +157,17 @@ export function updateGroup<TValue>(
  * }
  *
  * const groupUpdateFn = updateGroup<FormValue>(
- *   {
- *     name: validate(required),
- *   },
- *   {
- *     email: (email, parentGroup) =>
- *       parentGroup.controls.name.isInvalid
- *         ? setValue('', email)
- *         : email,
- *   },
+ *   [
+ *     {
+ *       name: validate<string>(required),
+ *     },
+ *     {
+ *       email: (email, parentGroup) =>
+ *         parentGroup.controls.name.isInvalid
+ *           ? setValue('', email)
+ *           : email,
+ *     },
+ *   ],
  * );
  * const updatedState = groupUpdateFn(state);
  * ```

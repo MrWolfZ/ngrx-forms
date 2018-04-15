@@ -25,14 +25,14 @@ function updateArraySingle<TValue>(updateFn: ProjectFn2<InferredControlState<TVa
 /**
  * This update function takes a variable number of update functions and returns
  * a projection function that applies all update functions one after another to
- * a form array state.
+ * each element of the form array state.
  *
  * The following (contrived) example uses this function to validate all its
  * children to be required and mark them as dirty.
  *
  * ```typescript
  * const arrayUpdateFn = updateArray<string>(
- *   validate(required),
+ *   validate<string>(required),
  *   markAsDirty,
  * );
  * const updatedState = arrayUpdateFn(state);
@@ -46,16 +46,16 @@ export function updateArray<TValue>(
 /**
  * This update function takes an array of update functions and returns
  * a projection function that applies all update functions one after another to
- * a form array state.
+ * each element of the form array state.
  *
  * The following (contrived) example uses this function to validate all its
  * children to be required and mark them as dirty.
  *
  * ```typescript
- * const arrayUpdateFn = updateArray<string>(
- *   validate(required),
+ * const arrayUpdateFn = updateArray<string>([
+ *   validate<string>(required),
  *   markAsDirty,
- * );
+ * ]);
  * const updatedState = arrayUpdateFn(state);
  * ```
  */
@@ -65,7 +65,8 @@ export function updateArray<TValue>(
 
 /**
  * This update function takes a form array state and a variable number of update
- * functions applies all update functions one after another to the state.
+ * functions and applies all update functions one after another to each element of
+ * the form array state.
  *
  * The following (contrived) example uses this function to validate all its
  * children to be required and mark them as dirty.
@@ -73,7 +74,7 @@ export function updateArray<TValue>(
  * ```typescript
  * const updatedState = updateArray<string>(
  *   state,
- *   validate(required),
+ *   validate<string>(required),
  *   markAsDirty,
  * );
  * ```
@@ -86,7 +87,8 @@ export function updateArray<TValue>(
 
 /**
  * This update function takes a form array state and an array of update
- * functions applies all update functions one after another to the state.
+ * functions and applies all update functions one after another to each element
+ * of the form array state.
  *
  * The following (contrived) example uses this function to validate all its
  * children to be required and mark them as dirty.
@@ -94,8 +96,10 @@ export function updateArray<TValue>(
  * ```typescript
  * const updatedState = updateArray<string>(
  *   state,
- *   validate(required),
- *   markAsDirty,
+ *   [
+ *     validate<string>(required),
+ *     markAsDirty,
+ *   ],
  * );
  * ```
  */

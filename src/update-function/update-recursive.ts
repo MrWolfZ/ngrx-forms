@@ -40,7 +40,7 @@ function updateRecursiveSingle(parent: AbstractControlState<any>, updateFn: Proj
  * ```typescript
  * const updatedState = updateRecursive(
  *   state,
- *   validate(required),
+ *   validate<any>(required),
  * );
  * ```
  */
@@ -62,7 +62,7 @@ export function updateRecursive<TValue>(
  * ```typescript
  * const updatedState = updateRecursive(
  *   state,
- *   validate(required),
+ *   [validate<any>(required)],
  * );
  * ```
  */
@@ -80,7 +80,7 @@ export function updateRecursive<TValue>(
  * group as required.
  *
  * ```typescript
- * const updateFn = updateRecursive(validate(required));
+ * const updateFn = updateRecursive(validate<any>(required));
  * const updatedState = updateFn(state);
  * ```
  */
@@ -98,7 +98,7 @@ export function updateRecursive<TValue>(
  * group as required.
  *
  * ```typescript
- * const updateFn = updateRecursive(validate(required));
+ * const updateFn = updateRecursive([validate<any>(required)]);
  * const updatedState = updateFn(state);
  * ```
  */
