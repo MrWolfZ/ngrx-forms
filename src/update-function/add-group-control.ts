@@ -13,7 +13,7 @@ export function addGroupControl<TValue extends KeyValue, TControlKey extends key
 ): (state: FormGroupState<TValue>) => FormGroupState<TValue>;
 
 /**
- * This update function takes a name, a value, and a form group state and adds a child
+ * This update function takes a form group state, a name, and a value, and adds a child
  * control with the given name and value to the form group state.
  */
 export function addGroupControl<TValue extends KeyValue, TControlKey extends keyof TValue = keyof TValue>(

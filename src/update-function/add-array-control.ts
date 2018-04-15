@@ -10,7 +10,7 @@ import { ensureState } from './util';
 export function addArrayControl<TValue>(value: TValue, index?: number): (state: FormArrayState<TValue>) => FormArrayState<TValue>;
 
 /**
- * This update function takes a value, an array form state and optionally an index and adds a
+ * This update function takes an array form state, a value, and optionally an index and adds a
  * child control at the given index or at the end of the state.
  */
 export function addArrayControl<TValue>(state: FormArrayState<TValue>, value: TValue, index?: number): FormArrayState<TValue>;
