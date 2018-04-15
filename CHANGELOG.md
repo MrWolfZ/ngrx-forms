@@ -5,7 +5,7 @@
 
 #### Bugfixes
 
-* do not focus or blur form elements initially or on state changes when focus tracking is not enabled
+* do not focus or blur form elements initially or on state changes when focus tracking is not enabled ([bb52f64](https://github.com/MrWolfZ/ngrx-forms/commit/bb52f64)) (thanks @bufke for helping me find this)
 
 <a name="2.3.1"></a>
 ### 2.3.1
