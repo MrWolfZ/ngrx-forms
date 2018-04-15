@@ -519,29 +519,27 @@ export interface FormArrayState<TValue> extends AbstractControlState<TValue[]> {
 /**
  * This function determines if a form state is an array state.
  */
-export function isArrayState(state: AbstractControlState<any>): state is FormArrayState<any> {
-  const controls = (state as any).controls;
-  return state.hasOwnProperty('controls') && Array.isArray(controls);
+export function isArrayState(state: any): state is FormArrayState<any> {
+  return state.hasOwnProperty('controls') && Array.isArray(state.controls);
 }
 
 /**
  * This function determines if a form state is a group state.
  */
-export function isGroupState(state: AbstractControlState<any>): state is FormGroupState<any> {
-  const controls = (state as any).controls;
-  return state.hasOwnProperty('controls') && !Array.isArray(controls) && typeof controls !== 'function';
+export function isGroupState(state: any): state is FormGroupState<any> {
+  return state.hasOwnProperty('controls') && !Array.isArray(state.controls) && typeof state.controls !== 'function';
 }
 
 export function createChildState<TValue>(id: string, childValue: TValue): InferredControlState<TValue> {
   if (childValue !== null && Array.isArray(childValue)) {
-    return createFormArrayState(id, childValue) as any;
+    return createFormArrayState(id, childValue) as InferredControlState<TValue>;
   }
 
   if (childValue !== null && typeof childValue === 'object') {
-    return createFormGroupState(id, childValue) as any;
+    return createFormGroupState(id, childValue) as InferredControlState<TValue>;
   }
 
-  return createFormControlState(id, childValue) as any;
+  return createFormControlState<any>(id, childValue) as InferredControlState<TValue>;
 }
 
 /**
