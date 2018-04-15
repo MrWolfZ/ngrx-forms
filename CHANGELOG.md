@@ -1,5 +1,13 @@
 ## ngrx-forms Changelog
 
+<a name="2.3.2"></a>
+### 2.3.2
+
+#### Bugfixes
+
+* do not focus or blur form elements initially or on state changes when focus tracking is not enabled ([bb52f64](https://github.com/MrWolfZ/ngrx-forms/commit/bb52f64)) (thanks @bufke for helping me find this)
+* make implicit browser platform dependency optional and disallow focus tracking on non-browser platforms ([e7760bc](https://github.com/MrWolfZ/ngrx-forms/commit/e7760bc)) (thanks @bufke for helping me find this)
+
 <a name="2.3.1"></a>
 ### 2.3.1
 
