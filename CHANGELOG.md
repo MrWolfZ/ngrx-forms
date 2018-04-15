@@ -13,7 +13,7 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
   * `removeArrayControl`: move `state` parameter to first position for uncurried overload ([5a5aa17](https://github.com/MrWolfZ/ngrx-forms/commit/5a5aa17))
   * `addGroupControl`: move `state` parameter to first position for uncurried overload ([b6da5ee](https://github.com/MrWolfZ/ngrx-forms/commit/b6da5ee))
   * `removeGroupControl`: move `state` parameter to first position for uncurried overload ([a9035ce](https://github.com/MrWolfZ/ngrx-forms/commit/a9035ce))
-  * `setErrors`: rework to support different parameter combinations for errors (i.e. single error object, array of error objects, and rest parameters) and move `state` parameter to first position for uncurried overload
+  * `setErrors`: rework to support different parameter combinations for errors (i.e. single error object, array of error objects, and rest parameters) and move `state` parameter to first position for uncurried overload ([15ea555](https://github.com/MrWolfZ/ngrx-forms/commit/15ea555))
 
 #### Features
 
