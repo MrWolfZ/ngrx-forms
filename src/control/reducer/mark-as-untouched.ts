@@ -1,5 +1,5 @@
-import { FormControlState, FormControlValueTypes } from '../../state';
 import { Actions, MarkAsUntouchedAction } from '../../actions';
+import { FormControlState, FormControlValueTypes } from '../../state';
 
 export function markAsUntouchedReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,

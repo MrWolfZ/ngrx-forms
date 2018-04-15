@@ -1,6 +1,6 @@
 import { SetErrorsAction } from '../../actions';
-import { setErrorsReducer } from './set-errors';
 import { createFormArrayState } from '../../state';
+import { setErrorsReducer } from './set-errors';
 import {
   FORM_CONTROL_0_ID,
   FORM_CONTROL_1_ID,

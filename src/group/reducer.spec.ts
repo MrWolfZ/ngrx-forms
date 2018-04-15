@@ -26,8 +26,8 @@ import { formGroupReducerInternal } from './reducer';
 
 describe('form group reducer', () => {
   const FORM_CONTROL_ID = 'test ID';
-  const FORM_CONTROL_INNER_ID = FORM_CONTROL_ID + '.inner';
-  const FORM_CONTROL_INNER5_ID = FORM_CONTROL_ID + '.inner5';
+  const FORM_CONTROL_INNER_ID = `${FORM_CONTROL_ID}.inner`;
+  const FORM_CONTROL_INNER5_ID = `${FORM_CONTROL_ID}.inner5`;
   interface FormGroupValue { inner: string; inner2?: string; inner3?: { inner4: string }; inner5?: string[]; }
   const INITIAL_FORM_CONTROL_VALUE: FormGroupValue = { inner: '' };
   const INITIAL_FORM_CONTROL_VALUE_FULL: FormGroupValue = { inner: '', inner2: '', inner3: { inner4: '' }, inner5: [''] };
@@ -40,7 +40,7 @@ describe('form group reducer', () => {
   });
 
   it('should skip any action with non-equal control ID', () => {
-    const resultState = formGroupReducerInternal(INITIAL_STATE, new SetValueAction('A' + FORM_CONTROL_ID, 'A') as any);
+    const resultState = formGroupReducerInternal(INITIAL_STATE, new SetValueAction(`A${FORM_CONTROL_ID}`, 'A') as any);
     expect(resultState).toBe(INITIAL_STATE);
   });
 
@@ -159,7 +159,7 @@ describe('form group reducer', () => {
         ...INITIAL_STATE,
         isValid: false,
         isInvalid: true,
-        errors: { ['$' + name]: true },
+        errors: { [`$${name}`]: true },
         pendingValidations: [name],
         isValidationPending: true,
       };

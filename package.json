@@ -9,7 +9,7 @@
     "build": "node build.js",
     "test": "karma start",
     "test-watch": "karma start --single-run=false",
-    "lint": "tslint --type-check --project .",
+    "lint": "tslint --project .",
     "pack-lib": "npm pack ./dist",
     "publish-lib": "npm publish ./dist",
     "compodoc": "compodoc -p tsconfig.json",

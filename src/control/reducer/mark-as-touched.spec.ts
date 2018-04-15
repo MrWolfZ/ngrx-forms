@@ -1,5 +1,5 @@
-import { createFormControlState } from '../../state';
 import { MarkAsTouchedAction } from '../../actions';
+import { createFormControlState } from '../../state';
 import { markAsTouchedReducer } from './mark-as-touched';
 
 describe('form control markAsTouchedReducer', () => {

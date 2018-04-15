@@ -1,5 +1,5 @@
-import { FormControlState, FormControlValueTypes } from '../../state';
 import { Actions, UnfocusAction } from '../../actions';
+import { FormControlState, FormControlValueTypes } from '../../state';
 
 export function unfocusReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,

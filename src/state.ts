@@ -513,7 +513,7 @@ export interface FormArrayState<TValue> extends AbstractControlState<TValue[]> {
    * until [conditional mapped types](https://github.com/Microsoft/TypeScript/issues/12424)
    * are added to TypeScript.
    */
-  controls: Array<InferredControlState<TValue>>;
+  controls: InferredControlState<TValue>[];
 }
 
 /**
@@ -521,7 +521,7 @@ export interface FormArrayState<TValue> extends AbstractControlState<TValue[]> {
  */
 export function isArrayState(state: AbstractControlState<any>): state is FormArrayState<any> {
   const controls = (state as any).controls;
-  return state.hasOwnProperty('controls') && Array.isArray(controls) && typeof controls !== 'function';
+  return state.hasOwnProperty('controls') && Array.isArray(controls);
 }
 
 /**
@@ -595,19 +595,19 @@ export function getFormGroupErrors<TValue extends KeyValue>(
   const groupErrors =
     Object.keys(originalErrors)
       .filter(key => !key.startsWith('_'))
-      .reduce((res, key) => Object.assign(res, { [key]: originalErrors[key] }), {});
+      .reduce((res, key) => Object.assign(res, { [key]: originalErrors[key] }), {} as ValidationErrors);
 
   const newErrors = Object.keys(controls).reduce((res, key: any) => {
     const controlErrors = controls[key].errors;
     if (!isEmpty(controlErrors)) {
-      hasChanged = hasChanged || originalErrors['_' + key] !== controlErrors;
-      res['_' + key] = controls[key].errors;
+      hasChanged = hasChanged || originalErrors[`_${key}`] !== controlErrors;
+      res[`_${key}`] = controls[key].errors;
     } else {
-      hasChanged = hasChanged || originalErrors.hasOwnProperty('_' + key);
+      hasChanged = hasChanged || originalErrors.hasOwnProperty(`_${key}`);
     }
 
     return res;
-  }, groupErrors as ValidationErrors);
+  }, groupErrors);
 
   hasChanged = hasChanged || Object.keys(originalErrors).length !== Object.keys(newErrors).length;
 
@@ -670,7 +670,7 @@ export function createFormGroupState<TValue extends KeyValue>(
 }
 
 function getFormArrayValue<TValue>(
-  controls: Array<AbstractControlState<TValue>>,
+  controls: AbstractControlState<TValue>[],
   originalValue: TValue[],
 ): TValue[] {
   let hasChanged = Object.keys(originalValue).length !== Object.keys(controls).length;
@@ -683,26 +683,26 @@ function getFormArrayValue<TValue>(
 }
 
 function getFormArrayErrors<TValue>(
-  controls: Array<AbstractControlState<TValue>>,
+  controls: AbstractControlState<TValue>[],
   originalErrors: ValidationErrors,
 ): ValidationErrors {
   let hasChanged = false;
   const groupErrors =
     Object.keys(originalErrors)
       .filter(key => !key.startsWith('_'))
-      .reduce((res, key) => Object.assign(res, { [key]: originalErrors[key] }), {});
+      .reduce((res, key) => Object.assign(res, { [key]: originalErrors[key] }), {} as ValidationErrors);
 
   const newErrors = controls.reduce((res, state, i) => {
     const controlErrors = state.errors;
     if (!isEmpty(controlErrors)) {
-      hasChanged = hasChanged || originalErrors['_' + i] !== controlErrors;
-      res['_' + i] = controlErrors;
+      hasChanged = hasChanged || originalErrors[`_${i}`] !== controlErrors;
+      res[`_${i}`] = controlErrors;
     } else {
-      hasChanged = hasChanged || originalErrors.hasOwnProperty('_' + i);
+      hasChanged = hasChanged || originalErrors.hasOwnProperty(`_${i}`);
     }
 
     return res;
-  }, groupErrors as ValidationErrors);
+  }, groupErrors);
 
   hasChanged = hasChanged || Object.keys(originalErrors).length !== Object.keys(newErrors).length;
 
@@ -711,13 +711,13 @@ function getFormArrayErrors<TValue>(
 
 export function computeArrayState<TValue>(
   id: string,
-  inferredControls: Array<InferredControlState<TValue>>,
+  inferredControls: InferredControlState<TValue>[],
   value: TValue[],
   errors: ValidationErrors,
   pendingValidations: string[],
   userDefinedProperties: KeyValue,
 ): FormArrayState<TValue> {
-  const controls = inferredControls as Array<AbstractControlState<any>>;
+  const controls = inferredControls as AbstractControlState<any>[];
 
   value = getFormArrayValue<TValue>(controls, value);
   errors = getFormArrayErrors(controls, errors);

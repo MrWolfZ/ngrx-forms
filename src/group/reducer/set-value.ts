@@ -27,6 +27,7 @@ export function setValueReducer<TValue extends KeyValue>(
 
   const controls = Object.keys(value)
     .reduce((c, key) => {
+      // tslint:disable-next-line:prefer-conditional-expression
       if (!state.controls[key]) {
         c[key] = createChildState<TValue[string]>(`${state.id}.${key}`, value[key]);
       } else {

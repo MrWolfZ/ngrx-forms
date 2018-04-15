@@ -1,5 +1,5 @@
-import { FormControlState, FormControlValueTypes } from '../../state';
 import { Actions, SetValueAction } from '../../actions';
+import { FormControlState, FormControlValueTypes } from '../../state';
 
 export function setValueReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,

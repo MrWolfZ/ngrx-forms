@@ -14,7 +14,7 @@ export function clearAsyncErrorReducer<TValue extends FormControlValueTypes>(
     return state;
   }
 
-  const name = '$' + action.payload.name;
+  const name = `$${action.payload.name}`;
 
   let errors = state.errors;
 

@@ -24,10 +24,32 @@ export interface Document {
   activeElement: any;
 }
 
+class ControlValueAccessorAdapter implements FormViewAdapter {
+  constructor(private valueAccessor: ControlValueAccessor) { }
+
+  setViewValue(value: any): void {
+    this.valueAccessor.writeValue(value);
+  }
+
+  setOnChangeCallback(fn: (value: any) => void): void {
+    this.valueAccessor.registerOnChange(fn);
+  }
+  setOnTouchedCallback(fn: () => void): void {
+    this.valueAccessor.registerOnTouched(fn);
+  }
+
+  setIsDisabled(isDisabled: boolean) {
+    if (this.valueAccessor.setDisabledState) {
+      this.valueAccessor.setDisabledState(isDisabled);
+    }
+  }
+}
+
 const CHANGE = 'change';
 const BLUR = 'blur';
 
 @Directive({
+  // tslint:disable-next-line:directive-selector
   selector: '[ngrxFormControlState]',
 })
 export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes, TViewValue = TStateValue> implements AfterViewInit, OnInit {
@@ -116,7 +138,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     }
   }
 
-  updateViewIfValueChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue> | undefined) {
+  updateViewIfValueChanged(newState: FormControlState<TStateValue>, _: FormControlState<TStateValue> | undefined) {
     if (newState.value === this.stateValue) {
       return;
     }
@@ -215,27 +237,6 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     const isControlFocused = this.el.nativeElement === this.dom!.activeElement;
     if (isControlFocused !== this.state.isFocused) {
       this.actionsSubject.next(isControlFocused ? new FocusAction(this.state.id) : new UnfocusAction(this.state.id));
-    }
-  }
-}
-
-class ControlValueAccessorAdapter implements FormViewAdapter {
-  constructor(private valueAccessor: ControlValueAccessor) { }
-
-  setViewValue(value: any): void {
-    this.valueAccessor.writeValue(value);
-  }
-
-  setOnChangeCallback(fn: (value: any) => void): void {
-    this.valueAccessor.registerOnChange(fn);
-  }
-  setOnTouchedCallback(fn: () => void): void {
-    this.valueAccessor.registerOnTouched(fn);
-  }
-
-  setIsDisabled(isDisabled: boolean) {
-    if (this.valueAccessor.setDisabledState) {
-      this.valueAccessor.setDisabledState(isDisabled);
     }
   }
 }

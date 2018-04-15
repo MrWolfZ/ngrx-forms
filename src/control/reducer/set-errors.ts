@@ -1,6 +1,6 @@
-import { FormControlState, FormControlValueTypes } from '../../state';
 import { Actions, SetErrorsAction } from '../../actions';
-import { isEmpty, deepEquals } from '../../util';
+import { FormControlState, FormControlValueTypes, ValidationErrors } from '../../state';
+import { deepEquals, isEmpty } from '../../util';
 
 export function setErrorsReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,
@@ -33,7 +33,7 @@ export function setErrorsReducer<TValue extends FormControlValueTypes>(
   const asyncErrors =
     Object.keys(state.errors)
       .filter(key => key.startsWith('$'))
-      .reduce((res, key) => Object.assign(res, { [key]: state.errors[key] }), {});
+      .reduce((res, key) => Object.assign(res, { [key]: state.errors[key] }), {} as ValidationErrors);
 
   const newErrors = isEmpty(asyncErrors) ? action.payload.errors : Object.assign(asyncErrors, action.payload.errors);
   const isValid = isEmpty(newErrors);

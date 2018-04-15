@@ -1,5 +1,5 @@
-import { FormControlState, FormControlValueTypes } from '../../state';
 import { Actions, MarkAsTouchedAction } from '../../actions';
+import { FormControlState, FormControlValueTypes } from '../../state';
 
 export function markAsTouchedReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,

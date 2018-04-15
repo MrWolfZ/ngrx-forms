@@ -1,12 +1,12 @@
 import { AbstractControlState, createFormGroupState, FormGroupControls, InferredControlState, isArrayState, isGroupState } from '../../state';
 
 export const FORM_CONTROL_ID = 'test ID';
-export const FORM_CONTROL_INNER_ID = FORM_CONTROL_ID + '.inner';
-export const FORM_CONTROL_INNER2_ID = FORM_CONTROL_ID + '.inner2';
-export const FORM_CONTROL_INNER3_ID = FORM_CONTROL_ID + '.inner3';
-export const FORM_CONTROL_INNER4_ID = FORM_CONTROL_INNER3_ID + '.inner4';
-export const FORM_CONTROL_INNER5_ID = FORM_CONTROL_ID + '.inner5';
-export const FORM_CONTROL_INNER5_0_ID = FORM_CONTROL_ID + '.inner5.0';
+export const FORM_CONTROL_INNER_ID = `${FORM_CONTROL_ID}.inner`;
+export const FORM_CONTROL_INNER2_ID = `${FORM_CONTROL_ID}.inner2`;
+export const FORM_CONTROL_INNER3_ID = `${FORM_CONTROL_ID}.inner3`;
+export const FORM_CONTROL_INNER4_ID = `${FORM_CONTROL_INNER3_ID}.inner4`;
+export const FORM_CONTROL_INNER5_ID = `${FORM_CONTROL_ID}.inner5`;
+export const FORM_CONTROL_INNER5_0_ID = `${FORM_CONTROL_ID}.inner5.0`;
 export interface FormGroupValue { inner: string; inner2?: string; inner3?: { inner4: string }; inner5?: string[]; }
 export const INITIAL_FORM_CONTROL_VALUE: FormGroupValue = { inner: '' };
 export const INITIAL_FORM_CONTROL_VALUE_FULL: FormGroupValue = { inner: '', inner2: '', inner3: { inner4: '' }, inner5: [''] };
@@ -55,7 +55,7 @@ function setPropertyRecursively<TValue>(
 
 export function setPropertiesRecursively<TValue>(
   state: AbstractControlState<TValue>,
-  properties: Array<[keyof AbstractControlState<TValue>, any]>,
+  properties: [keyof AbstractControlState<TValue>, any][],
   ...excludeIds: string[]
 ): InferredControlState<TValue> {
   return properties.reduce((s, [p, v]) => setPropertyRecursively(s, p, v, ...excludeIds), state) as InferredControlState<TValue>;

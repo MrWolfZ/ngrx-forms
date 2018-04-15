@@ -17,8 +17,8 @@ describe(`form array ${addControlReducer.name}`, () => {
     const resultState = addControlReducer<{ inner: string }>(INITIAL_STATE_NESTED_GROUP, action);
     expect(resultState.value).toEqual([...INITIAL_STATE_NESTED_GROUP.value, value]);
     expect(resultState.controls[2].value).toBe(value);
-    expect(resultState.controls[2]!.controls).toBeDefined();
-    expect(Array.isArray(resultState.controls[2]!.controls)).toBe(false);
+    expect(resultState.controls[2].controls).toBeDefined();
+    expect(Array.isArray(resultState.controls[2].controls)).toBe(false);
   });
 
   it('should create child state for array child', () => {
@@ -27,8 +27,8 @@ describe(`form array ${addControlReducer.name}`, () => {
     const resultState = addControlReducer<string[]>(INITIAL_STATE_NESTED_ARRAY, action);
     expect(resultState.value).toEqual([...INITIAL_STATE_NESTED_ARRAY.value, value]);
     expect(resultState.controls[2].value).toEqual(value);
-    expect(resultState.controls[2]!.controls).toBeDefined();
-    expect(Array.isArray(resultState.controls[2]!.controls)).toBe(true);
+    expect(resultState.controls[2].controls).toBeDefined();
+    expect(Array.isArray(resultState.controls[2].controls)).toBe(true);
   });
 
   it('should create child state at the given index', () => {
@@ -37,9 +37,9 @@ describe(`form array ${addControlReducer.name}`, () => {
     const resultState = addControlReducer<string>(INITIAL_STATE, action);
     expect(resultState.value).toEqual(['', value, '']);
     expect(resultState.controls[1].value).toEqual(value);
-    expect(resultState.controls[1].id).toEqual(FORM_CONTROL_ID + '.1');
+    expect(resultState.controls[1].id).toEqual(`${FORM_CONTROL_ID}.1`);
     expect(resultState.controls[2].value).toEqual('');
-    expect(resultState.controls[2].id).toEqual(FORM_CONTROL_ID + '.2');
+    expect(resultState.controls[2].id).toEqual(`${FORM_CONTROL_ID}.2`);
   });
 
   it('should create child state at the start', () => {
@@ -48,9 +48,9 @@ describe(`form array ${addControlReducer.name}`, () => {
     const resultState = addControlReducer<string>(INITIAL_STATE, action);
     expect(resultState.value).toEqual([value, '', '']);
     expect(resultState.controls[0].value).toEqual(value);
-    expect(resultState.controls[0].id).toEqual(FORM_CONTROL_ID + '.0');
+    expect(resultState.controls[0].id).toEqual(`${FORM_CONTROL_ID}.0`);
     expect(resultState.controls[2].value).toEqual('');
-    expect(resultState.controls[2].id).toEqual(FORM_CONTROL_ID + '.2');
+    expect(resultState.controls[2].id).toEqual(`${FORM_CONTROL_ID}.2`);
   });
 
   it('should throw if trying to add control at out of bounds index', () => {

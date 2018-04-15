@@ -1,8 +1,8 @@
 import { AbstractControlState, createFormArrayState, InferredControlState, isArrayState, isGroupState } from '../../state';
 
 export const FORM_CONTROL_ID = 'test ID';
-export const FORM_CONTROL_0_ID = FORM_CONTROL_ID + '.0';
-export const FORM_CONTROL_1_ID = FORM_CONTROL_ID + '.1';
+export const FORM_CONTROL_0_ID = `${FORM_CONTROL_ID}.0`;
+export const FORM_CONTROL_1_ID = `${FORM_CONTROL_ID}.1`;
 export const INITIAL_FORM_ARRAY_VALUE = ['', ''];
 export const INITIAL_FORM_ARRAY_VALUE_NESTED_GROUP = [{ inner: '' }, { inner: '' }];
 export const INITIAL_FORM_ARRAY_VALUE_NESTED_ARRAY = [[''], ['']];
@@ -52,7 +52,7 @@ function setPropertyRecursively<TValue>(
 
 export function setPropertiesRecursively<TValue>(
   state: AbstractControlState<TValue>,
-  properties: Array<[keyof AbstractControlState<TValue>, any]>,
+  properties: [keyof AbstractControlState<TValue>, any][],
   ...excludeIds: string[]
 ): InferredControlState<TValue> {
   return properties.reduce((s, [p, v]) => setPropertyRecursively(s, p, v, ...excludeIds), state) as InferredControlState<TValue>;

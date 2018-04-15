@@ -1,5 +1,5 @@
-import { createFormControlState } from '../../state';
 import { MarkAsDirtyAction } from '../../actions';
+import { createFormControlState } from '../../state';
 import { markAsDirtyReducer } from './mark-as-dirty';
 
 describe('form control markAsDirtyReducer', () => {

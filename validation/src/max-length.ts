@@ -26,6 +26,7 @@ import { ValidationErrors } from 'ngrx-forms';
  * })
  */
 export function maxLength(maxLengthParam: number) {
+  // tslint:disable-next-line:strict-type-predicates (guard for users without strict type checking)
   if (maxLengthParam === null || maxLengthParam === undefined) {
     throw new Error(`The maxLength Validation function requires the maxLength parameter to be a non-null number, got ${maxLengthParam}!`);
   }

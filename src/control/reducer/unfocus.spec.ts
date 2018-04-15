@@ -1,5 +1,5 @@
-import { createFormControlState } from '../../state';
 import { UnfocusAction } from '../../actions';
+import { createFormControlState } from '../../state';
 import { unfocusReducer } from './unfocus';
 
 describe('form control unfocusReducer', () => {

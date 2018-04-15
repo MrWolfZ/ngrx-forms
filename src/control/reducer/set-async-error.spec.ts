@@ -1,5 +1,5 @@
-import { createFormControlState } from '../../state';
 import { SetAsyncErrorAction } from '../../actions';
+import { createFormControlState } from '../../state';
 import { setAsyncErrorReducer } from './set-async-error';
 
 describe(`form control ${setAsyncErrorReducer.name}`, () => {
@@ -14,7 +14,7 @@ describe(`form control ${setAsyncErrorReducer.name}`, () => {
     const value = true;
     const state = { ...INITIAL_STATE, pendingValidations: [name], isValidationPending: true };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
-    expect(resultState.errors).toEqual({ ['$' + name]: value });
+    expect(resultState.errors).toEqual({ [`$${name}`]: value });
     expect(resultState.isValid).toBe(false);
     expect(resultState.isInvalid).toBe(true);
   });
@@ -41,9 +41,9 @@ describe(`form control ${setAsyncErrorReducer.name}`, () => {
   it('should remove pending validation without changing the error if error value is the same', () => {
     const name = 'required';
     const value = true;
-    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { ['$' + name]: value }, pendingValidations: [name], isValidationPending: true };
+    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { [`$${name}`]: value }, pendingValidations: [name], isValidationPending: true };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
-    expect(resultState.errors['$' + name]).toBe(value);
+    expect(resultState.errors[`$${name}`]).toBe(value);
     expect(resultState.pendingValidations).toEqual([]);
     expect(resultState.isValidationPending).toBe(false);
   });
@@ -51,9 +51,9 @@ describe(`form control ${setAsyncErrorReducer.name}`, () => {
   it('should remove pending validation without changing the error if error value is equal', () => {
     const name = 'required';
     const value = { field: true };
-    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { ['$' + name]: value }, pendingValidations: [name], isValidationPending: true };
+    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { [`$${name}`]: value }, pendingValidations: [name], isValidationPending: true };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, { ...value }));
-    expect(resultState.errors['$' + name]).toBe(value);
+    expect(resultState.errors[`$${name}`]).toBe(value);
     expect(resultState.pendingValidations).toEqual([]);
     expect(resultState.isValidationPending).toBe(false);
   });

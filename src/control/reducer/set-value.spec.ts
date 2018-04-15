@@ -1,5 +1,5 @@
-import { createFormControlState } from '../../state';
 import { SetValueAction } from '../../actions';
+import { createFormControlState } from '../../state';
 import { setValueReducer } from './set-value';
 
 describe('form control setValueReducer', () => {
@@ -36,6 +36,6 @@ describe('form control setValueReducer', () => {
 
   it('should throw if value is not supported', () => {
     const value = {};
-    expect(() => setValueReducer<any>(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, value))).toThrowError();
+    expect(() => setValueReducer<any>(INITIAL_STATE, new SetValueAction<{}>(FORM_CONTROL_ID, value))).toThrowError();
   });
 });

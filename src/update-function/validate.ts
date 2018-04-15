@@ -11,7 +11,7 @@ import {
 import { abstractControlReducer, ensureState } from './util';
 
 export type ValidationFn<TValue> = (value: TValue) => ValidationErrors;
-export type ValidateParam<TValue> = ValidationFn<TValue> | Array<ValidationFn<TValue>>;
+export type ValidateParam<TValue> = ValidationFn<TValue> | ValidationFn<TValue>[];
 
 /**
  * This update function takes a validation function or an array of validation

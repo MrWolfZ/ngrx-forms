@@ -1,5 +1,5 @@
-import { createFormControlState } from '../../state';
 import { StartAsyncValidationAction } from '../../actions';
+import { createFormControlState } from '../../state';
 import { startAsyncValidationReducer } from './start-async-validation';
 
 describe(`form control ${startAsyncValidationReducer.name}`, () => {

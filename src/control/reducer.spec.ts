@@ -26,7 +26,7 @@ describe('form control reducer', () => {
   const INITIAL_STATE = createFormControlState<string>(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
 
   it('should skip any action with non-equal control ID', () => {
-    const resultState = formControlReducerInternal(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID + 'A', 'A'));
+    const resultState = formControlReducerInternal(INITIAL_STATE, new SetValueAction(`${FORM_CONTROL_ID}A`, 'A'));
     expect(resultState).toBe(INITIAL_STATE);
   });
 
@@ -81,7 +81,7 @@ describe('form control reducer', () => {
         ...INITIAL_STATE,
         isValid: false,
         isInvalid: true,
-        errors: { ['$' + name]: true },
+        errors: { [`$${name}`]: true },
         pendingValidations: [name],
         isValidationPending: true,
       };

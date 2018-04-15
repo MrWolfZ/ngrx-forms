@@ -108,7 +108,7 @@ describe(createFormGroupReducerWithUpdate.name, () => {
   it('should apply the action and the provided functions to group children', () => {
     const value = { inner4: 'A' };
     const resultState = createFormGroupReducerWithUpdate<FormGroupValue>({
-      inner3: s => ({ ...s!, value }),
+      inner3: s => ({ ...s, value }),
     })(INITIAL_STATE, new MarkAsTouchedAction(FORM_CONTROL_ID));
     expect(resultState.controls.inner3!.isTouched).toBe(true);
     expect(resultState.controls.inner3!.value).toBe(value);

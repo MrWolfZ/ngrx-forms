@@ -34,14 +34,14 @@ describe(updateRecursive.name, () => {
   it('should apply the provided functions to children in an array', () => {
     const state = createFormArrayState(FORM_CONTROL_ID, ['']);
     const expected = { ...state.controls[0], value: 'A' };
-    const resultState = updateRecursive<string[]>(s => s.id === FORM_CONTROL_ID + '.0' ? expected : s)(state);
+    const resultState = updateRecursive<string[]>(s => s.id === `${FORM_CONTROL_ID}.0` ? expected : s)(state);
     expect(resultState.controls[0]).toBe(expected);
   });
 
   it('should apply the provided functions to multiple children in an array', () => {
     const state = createFormArrayState(FORM_CONTROL_ID, ['', '']);
     const expected = { ...state.controls[1], value: 'A' };
-    const resultState = updateRecursive<string[]>(s => s.id === FORM_CONTROL_ID + '.1' ? expected : s)(state);
+    const resultState = updateRecursive<string[]>(s => s.id === `${FORM_CONTROL_ID}.1` ? expected : s)(state);
     expect(resultState.controls[1]).toBe(expected);
   });
 

@@ -1,13 +1,13 @@
 import { ClearAsyncErrorAction } from '../../actions';
 import { clearAsyncErrorReducer } from './clear-async-error';
-import { FORM_CONTROL_ID, INITIAL_STATE, INITIAL_STATE_NESTED_GROUP, INITIAL_STATE_NESTED_ARRAY, FORM_CONTROL_0_ID } from './test-util';
+import { FORM_CONTROL_0_ID, FORM_CONTROL_ID, INITIAL_STATE, INITIAL_STATE_NESTED_ARRAY, INITIAL_STATE_NESTED_GROUP } from './test-util';
 
 describe(`form array ${clearAsyncErrorReducer.name}`, () => {
   it('should skip any action of the wrong type', () => expect(clearAsyncErrorReducer(INITIAL_STATE, { type: '' } as any)).toBe(INITIAL_STATE));
 
   it('should remove error from state', () => {
     const name = 'required';
-    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { ['$' + name]: true }, pendingValidations: [name], isValidationPending: true };
+    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { [`$${name}`]: true }, pendingValidations: [name], isValidationPending: true };
     const resultState = clearAsyncErrorReducer(state, new ClearAsyncErrorAction(FORM_CONTROL_ID, name));
     expect(resultState.errors).toEqual({});
     expect(resultState.isValid).toBe(true);
@@ -16,7 +16,7 @@ describe(`form array ${clearAsyncErrorReducer.name}`, () => {
 
   it('should remove the validation from pending validations if validation is the last pending', () => {
     const name = 'required';
-    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { ['$' + name]: true }, pendingValidations: [name], isValidationPending: true };
+    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { [`$${name}`]: true }, pendingValidations: [name], isValidationPending: true };
     const resultState = clearAsyncErrorReducer(state, new ClearAsyncErrorAction(FORM_CONTROL_ID, name));
     expect(resultState.pendingValidations).toEqual([]);
     expect(resultState.isValidationPending).toBe(false);
@@ -29,7 +29,7 @@ describe(`form array ${clearAsyncErrorReducer.name}`, () => {
       ...INITIAL_STATE,
       isValid: false,
       isInvalid: true,
-      errors: { ['$' + name]: true },
+      errors: { [`$${name}`]: true },
       pendingValidations: [name, name2],
       isValidationPending: true,
     };
@@ -65,7 +65,7 @@ describe(`form array ${clearAsyncErrorReducer.name}`, () => {
       pendingValidations: [name],
       isValidationPending: true,
       errors: {
-        ['$' + name]: value,
+        [`$${name}`]: value,
         _0: errors,
       },
       controls: [
@@ -93,7 +93,7 @@ describe(`form array ${clearAsyncErrorReducer.name}`, () => {
       pendingValidations: [name],
       isValidationPending: true,
       errors: {
-        ['$' + name]: value,
+        [`$${name}`]: value,
         _0: errors,
       },
       controls: [
@@ -121,7 +121,7 @@ describe(`form array ${clearAsyncErrorReducer.name}`, () => {
       pendingValidations: [name],
       isValidationPending: true,
       errors: {
-        ['$' + name]: value,
+        [`$${name}`]: value,
         _0: errors,
       },
       controls: [
@@ -149,7 +149,7 @@ describe(`form array ${clearAsyncErrorReducer.name}`, () => {
       pendingValidations: [name],
       isValidationPending: true,
       errors: {
-        ['$' + name]: value,
+        [`$${name}`]: value,
         _0: errors1,
         _1: errors2,
       },
@@ -183,8 +183,8 @@ describe(`form array ${clearAsyncErrorReducer.name}`, () => {
     const state = {
       ...INITIAL_STATE,
       errors: {
-        ['$' + name1]: value1,
-        _0: { ['$' + name2]: value2 },
+        [`$${name1}`]: value1,
+        _0: { [`$${name2}`]: value2 },
       },
       isValid: false,
       isInvalid: true,
@@ -195,12 +195,12 @@ describe(`form array ${clearAsyncErrorReducer.name}`, () => {
           ...INITIAL_STATE.controls[0],
           isValid: false,
           isInvalid: true,
-          errors: { ['$' + name2]: value2 },
+          errors: { [`$${name2}`]: value2 },
         },
       ],
     };
     const resultState = clearAsyncErrorReducer(state, new ClearAsyncErrorAction(FORM_CONTROL_ID, name1));
-    expect(resultState.errors).toEqual({ _0: { ['$' + name2]: value2 } });
+    expect(resultState.errors).toEqual({ _0: { [`$${name2}`]: value2 } });
     expect(resultState.isValidationPending).toEqual(false);
   });
 
@@ -212,8 +212,8 @@ describe(`form array ${clearAsyncErrorReducer.name}`, () => {
     const state = {
       ...INITIAL_STATE,
       errors: {
-        ['$' + name1]: value1,
-        _inner: { ['$' + name2]: value2 },
+        [`$${name1}`]: value1,
+        _inner: { [`$${name2}`]: value2 },
       },
       isValid: false,
       isInvalid: true,
@@ -223,14 +223,14 @@ describe(`form array ${clearAsyncErrorReducer.name}`, () => {
           ...INITIAL_STATE.controls[0],
           isValid: false,
           isInvalid: true,
-          errors: { ['$' + name2]: value2 },
+          errors: { [`$${name2}`]: value2 },
           pendingValidations: [name2],
           isValidationPending: true,
         },
       ],
     };
     const resultState = clearAsyncErrorReducer(state, new ClearAsyncErrorAction(FORM_CONTROL_0_ID, name2));
-    expect(resultState.errors).toEqual({ ['$' + name1]: value1 });
+    expect(resultState.errors).toEqual({ [`$${name1}`]: value1 });
     expect(resultState.isValidationPending).toEqual(false);
   });
 

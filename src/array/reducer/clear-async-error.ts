@@ -18,7 +18,7 @@ export function clearAsyncErrorReducer<TValue>(
     return state;
   }
 
-  const name = '$' + action.payload.name;
+  const name = `$${action.payload.name}`;
 
   let errors = state.errors;
 

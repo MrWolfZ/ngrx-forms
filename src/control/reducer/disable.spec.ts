@@ -1,5 +1,5 @@
-import { createFormControlState } from '../../state';
 import { DisableAction } from '../../actions';
+import { createFormControlState } from '../../state';
 import { disableReducer } from './disable';
 
 describe('form control disableReducer', () => {

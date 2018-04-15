@@ -1,6 +1,6 @@
 import { Actions, MarkAsPristineAction } from '../../actions';
 import { computeGroupState, FormGroupState, KeyValue } from '../../state';
-import { dispatchActionPerChild, childReducer } from './util';
+import { childReducer, dispatchActionPerChild } from './util';
 
 export function markAsPristineReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,

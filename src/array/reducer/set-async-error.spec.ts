@@ -17,7 +17,7 @@ describe(`form array ${setAsyncErrorReducer.name}`, () => {
     const value = true;
     const state = { ...INITIAL_STATE, pendingValidations: [name], isValidationPending: true };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
-    expect(resultState.errors).toEqual({ ['$' + name]: value });
+    expect(resultState.errors).toEqual({ [`$${name}`]: value });
     expect(resultState.isValid).toBe(false);
     expect(resultState.isInvalid).toBe(true);
   });
@@ -44,9 +44,9 @@ describe(`form array ${setAsyncErrorReducer.name}`, () => {
   it('should remove pending validation without changing the error if error value is the same', () => {
     const name = 'required';
     const value = true;
-    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { ['$' + name]: value }, pendingValidations: [name], isValidationPending: true };
+    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { [`$${name}`]: value }, pendingValidations: [name], isValidationPending: true };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
-    expect(resultState.errors['$' + name]).toBe(value);
+    expect(resultState.errors[`$${name}`]).toBe(value);
     expect(resultState.pendingValidations).toEqual([]);
     expect(resultState.isValidationPending).toBe(false);
   });
@@ -54,9 +54,9 @@ describe(`form array ${setAsyncErrorReducer.name}`, () => {
   it('should remove pending validation without changing the error if error value is equal', () => {
     const name = 'required';
     const value = { field: true };
-    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { ['$' + name]: value }, pendingValidations: [name], isValidationPending: true };
+    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { [`$${name}`]: value }, pendingValidations: [name], isValidationPending: true };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, { ...value }));
-    expect(resultState.errors['$' + name]).toBe(value);
+    expect(resultState.errors[`$${name}`]).toBe(value);
     expect(resultState.pendingValidations).toEqual([]);
     expect(resultState.isValidationPending).toBe(false);
   });
@@ -92,7 +92,7 @@ describe(`form array ${setAsyncErrorReducer.name}`, () => {
       ],
     };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_0_ID, name, value));
-    expect(resultState.errors).toEqual({ _0: { ['$' + name]: value } });
+    expect(resultState.errors).toEqual({ _0: { [`$${name}`]: value } });
     expect(resultState.isValid).toEqual(false);
     expect(resultState.isInvalid).toEqual(true);
     expect(resultState.isValidationPending).toEqual(false);
@@ -113,7 +113,7 @@ describe(`form array ${setAsyncErrorReducer.name}`, () => {
       ],
     };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_0_ID, name, value));
-    expect(resultState.errors).toEqual({ _0: { ['$' + name]: value } });
+    expect(resultState.errors).toEqual({ _0: { [`$${name}`]: value } });
     expect(resultState.isValid).toEqual(false);
     expect(resultState.isInvalid).toEqual(true);
     expect(resultState.isValidationPending).toEqual(false);
@@ -134,7 +134,7 @@ describe(`form array ${setAsyncErrorReducer.name}`, () => {
       ],
     };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_0_ID, name, value));
-    expect(resultState.errors).toEqual({ _0: { ['$' + name]: value } });
+    expect(resultState.errors).toEqual({ _0: { [`$${name}`]: value } });
     expect(resultState.isValid).toEqual(false);
     expect(resultState.isInvalid).toEqual(true);
     expect(resultState.isValidationPending).toEqual(false);
@@ -163,7 +163,7 @@ describe(`form array ${setAsyncErrorReducer.name}`, () => {
     };
     let resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_0_ID, name1, value1));
     resultState = setAsyncErrorReducer(resultState, new SetAsyncErrorAction(FORM_CONTROL_1_ID, name2, value2));
-    expect(resultState.errors).toEqual({ _0: { ['$' + name1]: value1 }, _1: { ['$' + name2]: value2 } });
+    expect(resultState.errors).toEqual({ _0: { [`$${name1}`]: value1 }, _1: { [`$${name2}`]: value2 } });
     expect(resultState.isValid).toEqual(false);
     expect(resultState.isInvalid).toEqual(true);
     expect(resultState.isValidationPending).toEqual(false);
@@ -177,7 +177,7 @@ describe(`form array ${setAsyncErrorReducer.name}`, () => {
     const state = {
       ...INITIAL_STATE,
       errors: {
-        _0: { ['$' + name2]: value2 },
+        _0: { [`$${name2}`]: value2 },
       },
       isValid: false,
       isInvalid: true,
@@ -188,12 +188,12 @@ describe(`form array ${setAsyncErrorReducer.name}`, () => {
           ...INITIAL_STATE.controls[0],
           isValid: false,
           isInvalid: true,
-          errors: { ['$' + name2]: value2 },
+          errors: { [`$${name2}`]: value2 },
         },
       ],
     };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name1, value1));
-    expect(resultState.errors).toEqual({ ['$' + name1]: value1, _0: { ['$' + name2]: value2 } });
+    expect(resultState.errors).toEqual({ [`$${name1}`]: value1, _0: { [`$${name2}`]: value2 } });
   });
 
   it('should track own errors and child errors when child errors are changed', () => {
@@ -205,7 +205,7 @@ describe(`form array ${setAsyncErrorReducer.name}`, () => {
       ...INITIAL_STATE,
       isValid: false,
       isInvalid: true,
-      errors: { ['$' + name1]: value1 },
+      errors: { [`$${name1}`]: value1 },
       isValidationPending: true,
       controls: [
         {
@@ -216,7 +216,7 @@ describe(`form array ${setAsyncErrorReducer.name}`, () => {
       ],
     };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_0_ID, name2, value2));
-    expect(resultState.errors).toEqual({ ['$' + name1]: value1, _0: { ['$' + name2]: value2 } });
+    expect(resultState.errors).toEqual({ [`$${name1}`]: value1, _0: { [`$${name2}`]: value2 } });
   });
 
   it('should mark state as validation pending if child control is validation pending', () => {

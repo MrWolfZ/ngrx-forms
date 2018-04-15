@@ -52,8 +52,8 @@ describe(NgrxRadioViewAdapter.name, () => {
       fixture = TestBed.createComponent(RadioTestComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
-      element1 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[0] as HTMLInputElement;
-      element2 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[1] as HTMLInputElement;
+      element1 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[0];
+      element2 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[1];
       viewAdapter1 = getDebugNode(element1)!.injector.get(NgrxRadioViewAdapter);
       viewAdapter2 = getDebugNode(element2)!.injector.get(NgrxRadioViewAdapter);
     });
@@ -121,8 +121,8 @@ describe(NgrxRadioViewAdapter.name, () => {
       fixture = TestBed.createComponent(RadioTestComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
-      element1 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[2] as HTMLInputElement;
-      element2 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[3] as HTMLInputElement;
+      element1 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[2];
+      element2 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[3];
       viewAdapter1 = getDebugNode(element1)!.injector.get(NgrxRadioViewAdapter);
       viewAdapter2 = getDebugNode(element2)!.injector.get(NgrxRadioViewAdapter);
       viewAdapter1.setViewValue(component.stringOptions[1]);
@@ -178,7 +178,7 @@ describe(NgrxRadioViewAdapter.name, () => {
       const newValue = 'op3';
       component.stringOptions.push(newValue);
       fixture.detectChanges();
-      const newElement = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[4] as HTMLInputElement;
+      const newElement = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[4];
       const newViewAdapter = getDebugNode(newElement)!.injector.get(NgrxRadioViewAdapter);
       newViewAdapter.setOnChangeCallback(spy);
       newElement.checked = true;
@@ -192,8 +192,8 @@ describe(NgrxRadioViewAdapter.name, () => {
       fixture = TestBed.createComponent(RadioTestComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
-      element1 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[4] as HTMLInputElement;
-      element2 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[5] as HTMLInputElement;
+      element1 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[4];
+      element2 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[5];
       viewAdapter1 = getDebugNode(element1)!.injector.get(NgrxRadioViewAdapter);
       viewAdapter2 = getDebugNode(element2)!.injector.get(NgrxRadioViewAdapter);
       viewAdapter1.setViewValue(component.numberOptions[1]);
@@ -249,7 +249,7 @@ describe(NgrxRadioViewAdapter.name, () => {
       const newValue = 3;
       component.numberOptions.push(newValue);
       fixture.detectChanges();
-      const newElement = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[6] as HTMLInputElement;
+      const newElement = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[6];
       const newViewAdapter = getDebugNode(newElement)!.injector.get(NgrxRadioViewAdapter);
       newViewAdapter.setOnChangeCallback(spy);
       newElement.checked = true;
@@ -263,8 +263,8 @@ describe(NgrxRadioViewAdapter.name, () => {
       fixture = TestBed.createComponent(RadioTestComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
-      element1 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[6] as HTMLInputElement;
-      element2 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[7] as HTMLInputElement;
+      element1 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[6];
+      element2 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[7];
       viewAdapter1 = getDebugNode(element1)!.injector.get(NgrxRadioViewAdapter);
       viewAdapter2 = getDebugNode(element2)!.injector.get(NgrxRadioViewAdapter);
       viewAdapter1.setViewValue(component.booleanOptions[1]);
@@ -320,7 +320,7 @@ describe(NgrxRadioViewAdapter.name, () => {
       const newValue = true;
       component.booleanOptions.push(newValue);
       fixture.detectChanges();
-      const newElement = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[8] as HTMLInputElement;
+      const newElement = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[8];
       const newViewAdapter = getDebugNode(newElement)!.injector.get(NgrxRadioViewAdapter);
       newViewAdapter.setOnChangeCallback(spy);
       newElement.checked = true;

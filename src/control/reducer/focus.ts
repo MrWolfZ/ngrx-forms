@@ -1,5 +1,5 @@
-import { FormControlState, FormControlValueTypes } from '../../state';
 import { Actions, FocusAction } from '../../actions';
+import { FormControlState, FormControlValueTypes } from '../../state';
 
 export function focusReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,

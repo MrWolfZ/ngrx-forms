@@ -1,5 +1,5 @@
-import { createFormControlState } from '../../state';
 import { MarkAsPristineAction } from '../../actions';
+import { createFormControlState } from '../../state';
 import { markAsPristineReducer } from './mark-as-pristine';
 
 describe('form control maskAsPristineReducer', () => {

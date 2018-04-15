@@ -4,13 +4,13 @@ import 'rxjs/add/operator/skip';
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
-import { SetValueAction, MarkAsDirtyAction } from '../../actions';
+import { MarkAsDirtyAction, SetValueAction } from '../../actions';
+import { NgrxValueConverters } from '../../control/value-converter';
 import { NgrxFormsModule } from '../../module';
 import { createFormControlState, FormControlState } from '../../state';
-import { NgrxValueConverters } from '../../control/value-converter';
 
 const SELECT_OPTIONS = ['op1', 'op2'];
 
@@ -60,9 +60,9 @@ describe(SelectMultipleComponent.name, () => {
     component.state = INITIAL_STATE;
     fixture.detectChanges();
     const nativeElement = fixture.nativeElement as HTMLElement;
-    element = nativeElement.querySelector('select') as HTMLSelectElement;
-    option1 = nativeElement.querySelectorAll('option')[0] as HTMLOptionElement;
-    option2 = nativeElement.querySelectorAll('option')[1] as HTMLOptionElement;
+    element = nativeElement.querySelector('select')!;
+    option1 = nativeElement.querySelectorAll('option')[0];
+    option2 = nativeElement.querySelectorAll('option')[1];
   });
 
   it('should select the correct option initially', () => {

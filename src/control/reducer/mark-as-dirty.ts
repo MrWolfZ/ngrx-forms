@@ -1,5 +1,5 @@
-import { FormControlState, FormControlValueTypes } from '../../state';
 import { Actions, MarkAsDirtyAction } from '../../actions';
+import { FormControlState, FormControlValueTypes } from '../../state';
 
 export function markAsDirtyReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,

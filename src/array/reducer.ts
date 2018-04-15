@@ -47,6 +47,9 @@ export function formArrayReducerInternal<TValue>(state: FormArrayState<TValue>, 
     case AddGroupControlAction.TYPE:
     case RemoveGroupControlAction.TYPE:
       return childReducer(state, action);
+
+    default:
+      break;
   }
 
   state = setValueReducer(state, action);

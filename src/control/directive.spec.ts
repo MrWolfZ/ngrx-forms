@@ -7,11 +7,13 @@ import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import { MarkAsDirtyAction, SetValueAction, FocusAction, UnfocusAction } from '../actions';
+import { FocusAction, MarkAsDirtyAction, SetValueAction, UnfocusAction } from '../actions';
 import { createFormControlState } from '../state';
 import { FormViewAdapter } from '../view-adapter/view-adapter';
 import { NgrxFormControlDirective } from './directive';
 import { NgrxValueConverters } from './value-converter';
+
+// tslint:disable:no-unbound-method
 
 describe(NgrxFormControlDirective.name, () => {
   let directive: NgrxFormControlDirective<string | null, any>;
@@ -71,7 +73,7 @@ describe(NgrxFormControlDirective.name, () => {
 
     it('should write the value when the state value does not change but the id does', () => {
       const spy = spyOn(viewAdapter, 'setViewValue');
-      directive.ngrxFormControlState = { ...INITIAL_STATE, id: FORM_CONTROL_ID + '1' };
+      directive.ngrxFormControlState = { ...INITIAL_STATE, id: `${FORM_CONTROL_ID}1` };
       expect(spy).toHaveBeenCalledWith(INITIAL_STATE.value);
     });
 
@@ -79,7 +81,7 @@ describe(NgrxFormControlDirective.name, () => {
       const newValue = 'new value';
       onChange(newValue);
       const spy = spyOn(viewAdapter, 'setViewValue');
-      directive.ngrxFormControlState = { ...INITIAL_STATE, id: FORM_CONTROL_ID + '1', value: newValue };
+      directive.ngrxFormControlState = { ...INITIAL_STATE, id: `${FORM_CONTROL_ID}1`, value: newValue };
       expect(spy).toHaveBeenCalledWith(newValue);
     });
 
@@ -87,17 +89,18 @@ describe(NgrxFormControlDirective.name, () => {
       const newValue = undefined as any;
       onChange(newValue);
       const spy = spyOn(viewAdapter, 'setViewValue');
-      directive.ngrxFormControlState = { ...INITIAL_STATE, id: FORM_CONTROL_ID + '1', value: newValue };
+      directive.ngrxFormControlState = { ...INITIAL_STATE, id: `${FORM_CONTROL_ID}1`, value: newValue };
       expect(spy).toHaveBeenCalledWith(newValue);
     });
 
     it(`should dispatch a ${SetValueAction.name} if the view value changes`, done => {
+      const newValue = 'new value';
+
       actions$.first().subscribe(a => {
         expect(a).toEqual(new SetValueAction(INITIAL_STATE.id, newValue));
         done();
       });
 
-      const newValue = 'new value';
       onChange(newValue);
     });
 
@@ -167,12 +170,13 @@ describe(NgrxFormControlDirective.name, () => {
     });
 
     it('should dispatch an action on blur if the view value has changed with ngrxUpdateOn "blur"', done => {
+      const newValue = 'new value';
+
       actions$.first().subscribe(a => {
         expect(a).toEqual(new SetValueAction(INITIAL_STATE.id, newValue));
         done();
       });
 
-      const newValue = 'new value';
       onChange(newValue);
       onTouched();
     });

@@ -1,5 +1,5 @@
-import { createFormControlState } from '../../state';
 import { SetUserDefinedPropertyAction } from '../../actions';
+import { createFormControlState } from '../../state';
 import { setUserDefinedPropertyReducer } from './set-user-defined-property';
 
 describe('form control setUserDefinedPropertyReducer', () => {

@@ -63,9 +63,9 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       fixture = TestBed.createComponent(SelectTestComponent);
       component = fixture.componentInstance;
       const nativeElement = fixture.nativeElement as HTMLElement;
-      element = nativeElement.querySelector('select') as HTMLSelectElement;
-      option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
-      option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
+      element = nativeElement.querySelector('select')!;
+      option1 = element.querySelectorAll('option')[0];
+      option2 = element.querySelectorAll('option')[1];
       viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectMultipleViewAdapter);
       fixture.detectChanges();
     });
@@ -128,9 +128,9 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
       const nativeElement = fixture.nativeElement as HTMLElement;
-      element = nativeElement.querySelectorAll('select')[1] as HTMLSelectElement;
-      option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
-      option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
+      element = nativeElement.querySelectorAll('select')[1];
+      option1 = element.querySelectorAll('option')[0];
+      option2 = element.querySelectorAll('option')[1];
       viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectMultipleViewAdapter);
       viewAdapter.setViewValue([component.stringOptions[1], component.stringOptions[2]]);
     });
@@ -188,7 +188,7 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       const newValue = 'op4';
       component.stringOptions.push(newValue);
       fixture.detectChanges();
-      (element.querySelectorAll('option')[3] as HTMLOptionElement).selected = true;
+      (element.querySelectorAll('option')[3]).selected = true;
       element.dispatchEvent(new Event('change'));
       expect(spy).toHaveBeenCalledWith([component.stringOptions[1], component.stringOptions[2], component.stringOptions[3]]);
     });
@@ -207,9 +207,9 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
       const nativeElement = fixture.nativeElement as HTMLElement;
-      element = nativeElement.querySelectorAll('select')[2] as HTMLSelectElement;
-      option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
-      option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
+      element = nativeElement.querySelectorAll('select')[2];
+      option1 = element.querySelectorAll('option')[0];
+      option2 = element.querySelectorAll('option')[1];
       viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectMultipleViewAdapter);
       viewAdapter.setViewValue([component.numberOptions[1], component.numberOptions[2]]);
     });
@@ -256,7 +256,7 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       const newValue = 4;
       component.numberOptions.push(newValue);
       fixture.detectChanges();
-      (element.querySelectorAll('option')[3] as HTMLOptionElement).selected = true;
+      (element.querySelectorAll('option')[3]).selected = true;
       element.dispatchEvent(new Event('change'));
       expect(spy).toHaveBeenCalledWith([component.numberOptions[1], component.numberOptions[2], component.numberOptions[3]]);
     });
@@ -275,9 +275,9 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
       const nativeElement = fixture.nativeElement as HTMLElement;
-      element = nativeElement.querySelectorAll('select')[3] as HTMLSelectElement;
-      option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
-      option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
+      element = nativeElement.querySelectorAll('select')[3];
+      option1 = element.querySelectorAll('option')[0];
+      option2 = element.querySelectorAll('option')[1];
       viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectMultipleViewAdapter);
       viewAdapter.setViewValue([component.booleanOptions[1]]);
     });
@@ -330,7 +330,7 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       const newValue = false;
       component.booleanOptions.push(newValue);
       fixture.detectChanges();
-      (element.querySelectorAll('option')[1] as HTMLOptionElement).selected = true;
+      (element.querySelectorAll('option')[1]).selected = true;
       element.dispatchEvent(new Event('change'));
       expect(spy).toHaveBeenCalledWith([component.booleanOptions[0], component.booleanOptions[1]]);
     });

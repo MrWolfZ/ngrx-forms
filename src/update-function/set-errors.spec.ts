@@ -1,6 +1,6 @@
 import { createFormArrayState, createFormGroupState } from '../state';
-import { FormGroupValue, INITIAL_STATE } from './test-util';
 import { setErrors } from './set-errors';
+import { FormGroupValue, INITIAL_STATE } from './test-util';
 import { updateGroup } from './update-group';
 
 describe(setErrors.name, () => {

@@ -1,5 +1,5 @@
-import { FormControlState, FormControlValueTypes } from '../../state';
 import { Actions, SetUserDefinedPropertyAction } from '../../actions';
+import { FormControlState, FormControlValueTypes } from '../../state';
 
 export function setUserDefinedPropertyReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,

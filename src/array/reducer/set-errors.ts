@@ -1,5 +1,5 @@
 import { Actions, SetErrorsAction } from '../../actions';
-import { computeArrayState, FormArrayState } from '../../state';
+import { computeArrayState, FormArrayState, ValidationErrors } from '../../state';
 import { deepEquals } from '../../util';
 import { childReducer } from './util';
 
@@ -42,7 +42,7 @@ export function setErrorsReducer<TValue>(
   const childAndAsyncErrors =
     Object.keys(state.errors)
       .filter(key => key.startsWith('_') || key.startsWith('$'))
-      .reduce((res, key) => Object.assign(res, { [key]: state.errors[key] }), {});
+      .reduce((res, key) => Object.assign(res, { [key]: state.errors[key] }), {} as ValidationErrors);
 
   const newErrors = Object.assign(childAndAsyncErrors, action.payload.errors);
 

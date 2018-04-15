@@ -1,5 +1,5 @@
-import { FormControlState, FormControlValueTypes } from '../../state';
 import { Actions, MarkAsPristineAction } from '../../actions';
+import { FormControlState, FormControlValueTypes } from '../../state';
 
 export function markAsPristineReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,

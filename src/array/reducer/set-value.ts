@@ -1,6 +1,6 @@
 import { Actions, SetValueAction } from '../../actions';
 import { inferredStateReducer } from '../../inferred-reducer';
-import { computeArrayState, createChildState, FormArrayState, InferredControlState } from '../../state';
+import { computeArrayState, createChildState, FormArrayState } from '../../state';
 import { childReducer } from './util';
 
 export function setValueReducer<TValue>(
@@ -31,7 +31,7 @@ export function setValueReducer<TValue>(
         return createChildState(`${state.id}.${i}`, v);
       }
 
-      return inferredStateReducer(state.controls[i], new SetValueAction(state.controls[i].id, v)) as InferredControlState<TValue>;
+      return inferredStateReducer(state.controls[i], new SetValueAction(state.controls[i].id, v));
     });
 
   return computeArrayState(state.id, controls, value, state.errors, state.pendingValidations, state.userDefinedProperties);

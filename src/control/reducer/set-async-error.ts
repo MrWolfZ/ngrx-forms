@@ -18,7 +18,7 @@ export function setAsyncErrorReducer<TValue extends FormControlValueTypes>(
     return state;
   }
 
-  const name = '$' + action.payload.name;
+  const name = `$${action.payload.name}`;
   let value = action.payload.value;
 
   if (deepEquals(state.errors[name], action.payload.value)) {

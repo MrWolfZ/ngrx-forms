@@ -1,5 +1,5 @@
-import { createFormControlState } from '../../state';
 import { MarkAsUntouchedAction } from '../../actions';
+import { createFormControlState } from '../../state';
 import { markAsUntouchedReducer } from './mark-as-untouched';
 
 describe('form control markAsUntouchedReducer', () => {

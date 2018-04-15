@@ -4,8 +4,8 @@ import 'rxjs/add/operator/skip';
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { MarkAsDirtyAction, SetValueAction } from '../../actions';
 import { NgrxFormsModule } from '../../module';
@@ -53,8 +53,8 @@ describe(SelectComponent.name, () => {
     component.state = INITIAL_STATE;
     fixture.detectChanges();
     const nativeElement = fixture.nativeElement as HTMLElement;
-    element = nativeElement.querySelector('select') as HTMLSelectElement;
-    option2 = nativeElement.querySelectorAll('option')[1] as HTMLOptionElement;
+    element = nativeElement.querySelector('select')!;
+    option2 = nativeElement.querySelectorAll('option')[1];
   });
 
   it('should select the correct option initially', () => {
@@ -125,8 +125,8 @@ describe(NumberSelectComponent.name, () => {
     component.state = INITIAL_STATE;
     fixture.detectChanges();
     const nativeElement = fixture.nativeElement as HTMLElement;
-    element = nativeElement.querySelector('select') as HTMLSelectElement;
-    option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
+    element = nativeElement.querySelector('select')!;
+    option2 = element.querySelectorAll('option')[1];
   });
 
   it('should select the correct option initially', () => {

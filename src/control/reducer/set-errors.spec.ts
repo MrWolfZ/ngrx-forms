@@ -1,5 +1,5 @@
-import { createFormControlState } from '../../state';
 import { SetErrorsAction } from '../../actions';
+import { createFormControlState } from '../../state';
 import { setErrorsReducer } from './set-errors';
 
 describe('form control setErrorsReducer', () => {

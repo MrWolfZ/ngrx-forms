@@ -1,5 +1,5 @@
-import { FormControlState, FormControlValueTypes } from '../../state';
 import { Actions, MarkAsUnsubmittedAction } from '../../actions';
+import { FormControlState, FormControlValueTypes } from '../../state';
 
 export function markAsUnsubmittedReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,

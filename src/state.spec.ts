@@ -1,5 +1,5 @@
 import { FORM_CONTROL_0_ID, FORM_CONTROL_1_ID } from './array/reducer/test-util';
-import { FORM_CONTROL_INNER_ID, FORM_CONTROL_INNER2_ID } from './group/reducer/test-util';
+import { FORM_CONTROL_INNER2_ID, FORM_CONTROL_INNER_ID } from './group/reducer/test-util';
 import {
   computeArrayState,
   computeGroupState,
@@ -7,8 +7,8 @@ import {
   createFormControlState,
   createFormGroupState,
   InferredControlState,
-  isGroupState,
   isArrayState,
+  isGroupState,
 } from './state';
 
 describe('state', () => {
@@ -723,36 +723,43 @@ describe('state', () => {
     // tslint:disable:no-unused-variable
     it('should correctly infer types of unknown controls', () => {
       // T should be AbstractControlState<any> | FormArrayState<any> | FormControlState<any> | FormGroupState<any>
+      // @ts-ignore
       type T = InferredControlState<any>;
     });
 
     it('should correctly infer types of controls', () => {
       // T should be FormControlState<string>
+      // @ts-ignore
       type T = InferredControlState<string>;
     });
 
     it('should correctly infer types of groups', () => {
       // T should be FormGroupState<{ inner: string }>
+      // @ts-ignore
       type T = InferredControlState<{ inner: string }>;
     });
 
     it('should correctly infer types of arrays', () => {
       // T should be FormArrayState<string>
+      // @ts-ignore
       type T = InferredControlState<string[]>;
     });
 
     it('should correctly infer types of optional controls', () => {
       // T should be FormControlState<string>
+      // @ts-ignore
       type T = InferredControlState<string | undefined>;
     });
 
     it('should correctly infer types of optional groups', () => {
       // T should be FormGroupState<{ inner: string }>
+      // @ts-ignore
       type T = InferredControlState<{ inner: string } | undefined>;
     });
 
     it('should correctly infer types of optional arrays', () => {
       // T should be FormArrayState<string>
+      // @ts-ignore
       type T = InferredControlState<string[] | undefined>;
     });
     // tslint:enable:no-unused-variable

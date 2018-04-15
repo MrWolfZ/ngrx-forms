@@ -1,6 +1,6 @@
 import { SetUserDefinedPropertyAction } from '../../actions';
 import { setUserDefinedPropertyReducer } from './set-user-defined-property';
-import { FORM_CONTROL_ID, FORM_CONTROL_0_ID, INITIAL_STATE } from './test-util';
+import { FORM_CONTROL_0_ID, FORM_CONTROL_ID, INITIAL_STATE } from './test-util';
 
 describe(`form group ${setUserDefinedPropertyReducer.name}`, () => {
   it('should skip any actionof the wrong type', () =>

@@ -5,6 +5,8 @@
     "experimentalDecorators": true,
     "strict": true,
     "strictPropertyInitialization": false,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "rootDir": ".",

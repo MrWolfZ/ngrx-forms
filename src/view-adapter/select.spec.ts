@@ -60,9 +60,9 @@ describe(NgrxSelectViewAdapter.name, () => {
       fixture = TestBed.createComponent(SelectTestComponent);
       component = fixture.componentInstance;
       const nativeElement = fixture.nativeElement as HTMLElement;
-      element = nativeElement.querySelector('select') as HTMLSelectElement;
-      option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
-      option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
+      element = nativeElement.querySelector('select')!;
+      option1 = element.querySelectorAll('option')[0];
+      option2 = element.querySelectorAll('option')[1];
       viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
       fixture.detectChanges();
     });
@@ -116,9 +116,9 @@ describe(NgrxSelectViewAdapter.name, () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
       const nativeElement = fixture.nativeElement as HTMLElement;
-      element = nativeElement.querySelectorAll('select')[1] as HTMLSelectElement;
-      option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
-      option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
+      element = nativeElement.querySelectorAll('select')[1];
+      option1 = element.querySelectorAll('option')[0];
+      option2 = element.querySelectorAll('option')[1];
       viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
       viewAdapter.setViewValue(component.stringOptions[1]);
     });
@@ -194,7 +194,7 @@ describe(NgrxSelectViewAdapter.name, () => {
       viewAdapter.setViewValue(newValue);
       component.stringOptions.push(newValue);
       fixture.detectChanges();
-      const newOption = element.querySelectorAll('option')[2] as HTMLOptionElement;
+      const newOption = element.querySelectorAll('option')[2];
       expect(newOption.selected).toBe(true);
     });
   });
@@ -205,9 +205,9 @@ describe(NgrxSelectViewAdapter.name, () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
       const nativeElement = fixture.nativeElement as HTMLElement;
-      element = nativeElement.querySelectorAll('select')[2] as HTMLSelectElement;
-      option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
-      option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
+      element = nativeElement.querySelectorAll('select')[2];
+      option1 = element.querySelectorAll('option')[0];
+      option2 = element.querySelectorAll('option')[1];
       viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
       viewAdapter.setViewValue(component.numberOptions[1]);
     });
@@ -272,7 +272,7 @@ describe(NgrxSelectViewAdapter.name, () => {
       viewAdapter.setViewValue(newValue);
       component.numberOptions.push(newValue);
       fixture.detectChanges();
-      const newOption = element.querySelectorAll('option')[2] as HTMLOptionElement;
+      const newOption = element.querySelectorAll('option')[2];
       expect(newOption.selected).toBe(true);
     });
   });
@@ -283,9 +283,9 @@ describe(NgrxSelectViewAdapter.name, () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
       const nativeElement = fixture.nativeElement as HTMLElement;
-      element = nativeElement.querySelectorAll('select')[3] as HTMLSelectElement;
-      option1 = element.querySelectorAll('option')[0] as HTMLOptionElement;
-      option2 = element.querySelectorAll('option')[1] as HTMLOptionElement;
+      element = nativeElement.querySelectorAll('select')[3];
+      option1 = element.querySelectorAll('option')[0];
+      option2 = element.querySelectorAll('option')[1];
       viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
       viewAdapter.setViewValue(component.booleanOptions[1]);
     });
@@ -343,7 +343,7 @@ describe(NgrxSelectViewAdapter.name, () => {
       fixture.detectChanges();
       component.booleanOptions.push(newValue);
       fixture.detectChanges();
-      const newOption = element.querySelectorAll('option')[1] as HTMLOptionElement;
+      const newOption = element.querySelectorAll('option')[1];
       expect(newOption.selected).toBe(true);
     });
   });

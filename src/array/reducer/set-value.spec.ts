@@ -1,5 +1,5 @@
-import { FormArrayState } from '../../state';
 import { SetValueAction } from '../../actions';
+import { FormArrayState } from '../../state';
 import { setValueReducer } from './set-value';
 import {
   FORM_CONTROL_0_ID,

@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { formGroupReducer } from '../group/reducer';
-import { computeGroupState, FormGroupControls, FormGroupState, KeyValue, InferredControlState, isGroupState } from '../state';
+import { computeGroupState, FormGroupControls, FormGroupState, InferredControlState, isGroupState, KeyValue } from '../state';
 import { ProjectFn2 } from './util';
 
 export type StateUpdateFns<TValue extends KeyValue> = {
@@ -66,7 +66,7 @@ function updateGroupSingle<TValue extends KeyValue>(updateFns: StateUpdateFns<TV
 // the weird return type is necessary to allow using updateGroup inside of updateGroup
 // and with optional controls
 export function updateGroup<TValue>(
-  ...updateFnsArr: Array<StateUpdateFns<TValue>>
+  ...updateFnsArr: StateUpdateFns<TValue>[]
 ): (state: FormGroupState<TValue>) => FormGroupState<TValue>;
 
 /**
@@ -101,12 +101,12 @@ export function updateGroup<TValue>(
  */
 export function updateGroup<TValue>(
   state: FormGroupState<TValue>,
-  ...updateFnsArr: Array<StateUpdateFns<TValue>>
+  ...updateFnsArr: StateUpdateFns<TValue>[]
 ): FormGroupState<TValue>;
 
 export function updateGroup<TValue extends KeyValue>(
   stateOrFunction: FormGroupState<TValue> | StateUpdateFns<TValue>,
-  ...updateFnsArr: Array<StateUpdateFns<TValue>>
+  ...updateFnsArr: StateUpdateFns<TValue>[]
 ) {
   if (isGroupState(stateOrFunction as any)) {
     const [first, ...rest] = updateFnsArr;
@@ -146,7 +146,7 @@ export function updateGroup<TValue extends KeyValue>(
  * );
  * ```
  */
-export function createFormGroupReducerWithUpdate<TValue extends KeyValue>(...updateFnsArr: Array<StateUpdateFns<TValue>>) {
+export function createFormGroupReducerWithUpdate<TValue extends KeyValue>(...updateFnsArr: StateUpdateFns<TValue>[]) {
   return (state: FormGroupState<TValue>, action: Action) => {
     state = formGroupReducer(state, action);
     return updateGroup<TValue>(...updateFnsArr)(state);

@@ -29,7 +29,7 @@ export function requiredFalse(value: boolean | null): ValidationErrors {
     return {};
   }
 
-  if (value === false) {
+  if (!value) {
     return {};
   }
 

@@ -1,10 +1,11 @@
-import { Directive, Input, HostListener, OnInit } from '@angular/core';
+import { Directive, HostListener, Input, OnInit } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 
 import { MarkAsSubmittedAction } from '../actions';
 import { FormGroupState } from '../state';
 
 @Directive({
+  // tslint:disable-next-line:directive-selector
   selector: 'form[ngrxFormState]',
 })
 export class NgrxFormDirective<TValue extends { [key: string]: any }> implements OnInit {

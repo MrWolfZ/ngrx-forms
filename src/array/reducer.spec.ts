@@ -26,7 +26,7 @@ import { formArrayReducerInternal } from './reducer';
 
 describe('form array reducer', () => {
   const FORM_CONTROL_ID = 'test ID';
-  const FORM_CONTROL_0_ID = FORM_CONTROL_ID + '.0';
+  const FORM_CONTROL_0_ID = `${FORM_CONTROL_ID}.0`;
   type FormArrayValue = string[];
   const INITIAL_FORM_CONTROL_VALUE: FormArrayValue = [''];
   const INITIAL_STATE = createFormArrayState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE);
@@ -37,7 +37,7 @@ describe('form array reducer', () => {
   });
 
   it('should skip any action with non-equal control ID', () => {
-    const resultState = formArrayReducerInternal(INITIAL_STATE, new SetValueAction('A' + FORM_CONTROL_ID, 'A') as any);
+    const resultState = formArrayReducerInternal(INITIAL_STATE, new SetValueAction(`A${FORM_CONTROL_ID}`, 'A') as any);
     expect(resultState).toBe(INITIAL_STATE);
   });
 
@@ -150,7 +150,7 @@ describe('form array reducer', () => {
         ...INITIAL_STATE,
         isValid: false,
         isInvalid: true,
-        errors: { ['$' + name]: true },
+        errors: { [`$${name}`]: true },
         pendingValidations: [name],
         isValidationPending: true,
       };

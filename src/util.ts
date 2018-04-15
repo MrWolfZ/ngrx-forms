@@ -2,7 +2,7 @@ export function isEmpty(obj: object) {
   return Object.keys(obj).length === 0;
 }
 
-export function deepEquals<T>(t: T, t2: T, ...args: T[]) {
+export function deepEquals<T>(_1: T, _2: T, ..._3: T[]) {
   let i: any;
   let l: any;
   let leftChain: any;

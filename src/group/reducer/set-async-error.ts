@@ -23,7 +23,7 @@ export function setAsyncErrorReducer<TValue extends KeyValue>(
     return state;
   }
 
-  const name = '$' + action.payload.name;
+  const name = `$${action.payload.name}`;
   let value = action.payload.value;
 
   if (deepEquals(state.errors[name], action.payload.value)) {

@@ -26,6 +26,7 @@ import { ValidationErrors } from 'ngrx-forms';
  * ```
  */
 export function greaterThanOrEqualTo(comparand: number) {
+  // tslint:disable-next-line:strict-type-predicates (guard for users without strict type checking)
   if (comparand === null || comparand === undefined) {
     throw new Error(`The greaterThanOrEqualTo Validation function requires the comparand parameter to be a non-null number, got ${comparand}!`);
   }

@@ -20,7 +20,7 @@ export function abstractControlReducer<TValue>(state: AbstractControlState<TValu
   return formControlReducer(state as any, action) as any;
 }
 
-export function compose<T>(...fns: Array<(t: T) => T>) {
+export function compose<T>(...fns: ((t: T) => T)[]) {
   return (t: T) => fns.reduce((res, f) => f(res), t);
 }
 

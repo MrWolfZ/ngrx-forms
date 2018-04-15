@@ -1,6 +1,6 @@
 import { Actions } from '../../actions';
 import { inferredStateReducer } from '../../inferred-reducer';
-import { computeGroupState, FormGroupControls, FormGroupState, KeyValue, InferredControlState } from '../../state';
+import { computeGroupState, FormGroupControls, FormGroupState, InferredControlState, KeyValue } from '../../state';
 
 export function dispatchActionPerChild<TValue extends KeyValue>(
   controls: FormGroupControls<TValue>,

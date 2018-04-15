@@ -1,6 +1,6 @@
 import { SetAsyncErrorAction } from '../../actions';
 import { setAsyncErrorReducer } from './set-async-error';
-import { FORM_CONTROL_ID, INITIAL_STATE, INITIAL_STATE_FULL, FORM_CONTROL_INNER_ID, FORM_CONTROL_INNER3_ID, FORM_CONTROL_INNER5_ID } from './test-util';
+import { FORM_CONTROL_ID, FORM_CONTROL_INNER3_ID, FORM_CONTROL_INNER5_ID, FORM_CONTROL_INNER_ID, INITIAL_STATE, INITIAL_STATE_FULL } from './test-util';
 
 describe(`form group ${setAsyncErrorReducer.name}`, () => {
   it('should skip any action of the wrong type', () => expect(setAsyncErrorReducer(INITIAL_STATE, { type: '' } as any)).toBe(INITIAL_STATE));
@@ -10,7 +10,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
     const value = true;
     const state = { ...INITIAL_STATE, pendingValidations: [name], isValidationPending: true };
     const resultState = setAsyncErrorReducer<typeof state.value>(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
-    expect(resultState.errors).toEqual({ ['$' + name]: value });
+    expect(resultState.errors).toEqual({ [`$${name}`]: value });
     expect(resultState.isValid).toBe(false);
     expect(resultState.isInvalid).toBe(true);
   });
@@ -37,9 +37,9 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
   it('should remove pending validation without changing the error if error value is the same', () => {
     const name = 'required';
     const value = true;
-    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { ['$' + name]: value }, pendingValidations: [name], isValidationPending: true };
+    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { [`$${name}`]: value }, pendingValidations: [name], isValidationPending: true };
     const resultState = setAsyncErrorReducer<typeof state.value>(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
-    expect(resultState.errors['$' + name]).toBe(value);
+    expect(resultState.errors[`$${name}`]).toBe(value);
     expect(resultState.pendingValidations).toEqual([]);
     expect(resultState.isValidationPending).toBe(false);
   });
@@ -47,9 +47,9 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
   it('should remove pending validation without changing the error if error value is equal', () => {
     const name = 'required';
     const value = { field: true };
-    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { ['$' + name]: value }, pendingValidations: [name], isValidationPending: true };
+    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { [`$${name}`]: value }, pendingValidations: [name], isValidationPending: true };
     const resultState = setAsyncErrorReducer<typeof state.value>(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, { ...value }));
-    expect(resultState.errors['$' + name]).toBe(value);
+    expect(resultState.errors[`$${name}`]).toBe(value);
     expect(resultState.pendingValidations).toEqual([]);
     expect(resultState.isValidationPending).toBe(false);
   });
@@ -85,7 +85,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
       },
     };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_INNER_ID, name, value));
-    expect(resultState.errors).toEqual({ _inner: { ['$' + name]: value } });
+    expect(resultState.errors).toEqual({ _inner: { [`$${name}`]: value } });
     expect(resultState.isValid).toEqual(false);
     expect(resultState.isInvalid).toEqual(true);
     expect(resultState.isValidationPending).toEqual(false);
@@ -106,7 +106,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
       },
     };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_INNER3_ID, name, value));
-    expect(resultState.errors).toEqual({ _inner3: { ['$' + name]: value } });
+    expect(resultState.errors).toEqual({ _inner3: { [`$${name}`]: value } });
     expect(resultState.isValid).toEqual(false);
     expect(resultState.isInvalid).toEqual(true);
     expect(resultState.isValidationPending).toEqual(false);
@@ -127,7 +127,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
       },
     };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_INNER5_ID, name, value));
-    expect(resultState.errors).toEqual({ _inner5: { ['$' + name]: value } });
+    expect(resultState.errors).toEqual({ _inner5: { [`$${name}`]: value } });
     expect(resultState.isValid).toEqual(false);
     expect(resultState.isInvalid).toEqual(true);
     expect(resultState.isValidationPending).toEqual(false);
@@ -156,7 +156,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
     };
     let resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_INNER_ID, name1, value1));
     resultState = setAsyncErrorReducer(resultState, new SetAsyncErrorAction(FORM_CONTROL_INNER3_ID, name2, value2));
-    expect(resultState.errors).toEqual({ _inner: { ['$' + name1]: value1 }, _inner3: { ['$' + name2]: value2 } });
+    expect(resultState.errors).toEqual({ _inner: { [`$${name1}`]: value1 }, _inner3: { [`$${name2}`]: value2 } });
     expect(resultState.isValid).toEqual(false);
     expect(resultState.isInvalid).toEqual(true);
     expect(resultState.isValidationPending).toEqual(false);
@@ -170,7 +170,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
     const state = {
       ...INITIAL_STATE,
       errors: {
-        _inner: { ['$' + name2]: value2 },
+        _inner: { [`$${name2}`]: value2 },
       },
       isValid: false,
       isInvalid: true,
@@ -181,12 +181,12 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
           ...INITIAL_STATE.controls.inner,
           isValid: false,
           isInvalid: true,
-          errors: { ['$' + name2]: value2 },
+          errors: { [`$${name2}`]: value2 },
         },
       },
     };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name1, value1));
-    expect(resultState.errors).toEqual({ ['$' + name1]: value1, _inner: { ['$' + name2]: value2 } });
+    expect(resultState.errors).toEqual({ [`$${name1}`]: value1, _inner: { [`$${name2}`]: value2 } });
   });
 
   it('should track own errors and child errors when child errors are changed', () => {
@@ -198,7 +198,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
       ...INITIAL_STATE,
       isValid: false,
       isInvalid: true,
-      errors: { ['$' + name1]: value1 },
+      errors: { [`$${name1}`]: value1 },
       isValidationPending: true,
       controls: {
         inner: {
@@ -209,7 +209,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
       },
     };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_INNER_ID, name2, value2));
-    expect(resultState.errors).toEqual({ ['$' + name1]: value1, _inner: { ['$' + name2]: value2 } });
+    expect(resultState.errors).toEqual({ [`$${name1}`]: value1, _inner: { [`$${name2}`]: value2 } });
   });
 
   it('should mark state as validation pending if child control is validation pending', () => {

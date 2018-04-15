@@ -1,5 +1,5 @@
-import { createFormControlState } from '../../state';
 import { ClearAsyncErrorAction } from '../../actions';
+import { createFormControlState } from '../../state';
 import { clearAsyncErrorReducer } from './clear-async-error';
 
 describe(`form control ${clearAsyncErrorReducer.name}`, () => {
@@ -11,7 +11,7 @@ describe(`form control ${clearAsyncErrorReducer.name}`, () => {
 
   it('should remove error from state', () => {
     const name = 'required';
-    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { ['$' + name]: true }, pendingValidations: [name], isValidationPending: true };
+    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { [`$${name}`]: true }, pendingValidations: [name], isValidationPending: true };
     const resultState = clearAsyncErrorReducer(state, new ClearAsyncErrorAction(FORM_CONTROL_ID, name));
     expect(resultState.errors).toEqual({});
     expect(resultState.isValid).toBe(true);
@@ -20,7 +20,7 @@ describe(`form control ${clearAsyncErrorReducer.name}`, () => {
 
   it('should remove the validation from pending validations if validation is the last pending', () => {
     const name = 'required';
-    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { ['$' + name]: true }, pendingValidations: [name], isValidationPending: true };
+    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { [`$${name}`]: true }, pendingValidations: [name], isValidationPending: true };
     const resultState = clearAsyncErrorReducer(state, new ClearAsyncErrorAction(FORM_CONTROL_ID, name));
     expect(resultState.pendingValidations).toEqual([]);
     expect(resultState.isValidationPending).toBe(false);
@@ -33,7 +33,7 @@ describe(`form control ${clearAsyncErrorReducer.name}`, () => {
       ...INITIAL_STATE,
       isValid: false,
       isInvalid: true,
-      errors: { ['$' + name]: true },
+      errors: { [`$${name}`]: true },
       pendingValidations: [name, name2],
       isValidationPending: true,
     };

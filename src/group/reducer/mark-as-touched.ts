@@ -1,6 +1,6 @@
 import { Actions, MarkAsTouchedAction } from '../../actions';
 import { computeGroupState, FormGroupState, KeyValue } from '../../state';
-import { dispatchActionPerChild, childReducer } from './util';
+import { childReducer, dispatchActionPerChild } from './util';
 
 export function markAsTouchedReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,

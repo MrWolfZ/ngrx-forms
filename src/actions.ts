@@ -1,6 +1,6 @@
-import { Action } from '@ngrx/store';
 import { ValidationErrors } from '@angular/forms';
-import { NgrxFormControlId, KeyValue } from './state';
+import { Action } from '@ngrx/store';
+import { KeyValue, NgrxFormControlId } from './state';
 
 export class SetValueAction<TValue> implements Action {
   static readonly TYPE = 'ngrx/forms/SET_VALUE';

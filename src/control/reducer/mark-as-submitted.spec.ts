@@ -1,5 +1,5 @@
-import { createFormControlState } from '../../state';
 import { MarkAsSubmittedAction } from '../../actions';
+import { createFormControlState } from '../../state';
 import { markAsSubmittedReducer } from './mark-as-submitted';
 
 describe('form control markAsSubmittedReducer', () => {

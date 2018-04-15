@@ -1,5 +1,5 @@
-import { FormGroupValue, INITIAL_STATE } from './test-util';
 import { setValue } from './set-value';
+import { FormGroupValue, INITIAL_STATE } from './test-util';
 import { updateGroup } from './update-group';
 
 describe(setValue.name, () => {

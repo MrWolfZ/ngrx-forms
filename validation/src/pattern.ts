@@ -26,6 +26,7 @@ import { ValidationErrors } from 'ngrx-forms';
  * ```
  */
 export function pattern(patternParam: RegExp) {
+  // tslint:disable-next-line:strict-type-predicates (guard for users without strict type checking)
   if (patternParam === null || patternParam === undefined) {
     throw new Error(`The pattern Validation function requires the pattern parameter to be a non-null string or regular expression, got ${patternParam}!`);
   }

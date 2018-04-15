@@ -16,6 +16,7 @@ function isAndroid(): boolean {
 // tslint:disable:directive-class-suffix
 
 @Directive({
+  // tslint:disable-next-line:directive-selector
   selector: 'input:not([type=checkbox])[ngrxFormControlState],textarea[ngrxFormControlState]',
   providers: [{
     provide: NGRX_FORM_VIEW_ADAPTER,
