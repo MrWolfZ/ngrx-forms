@@ -21,6 +21,7 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
 #### Features
 
 * use conditional types to infer the type of child controls
+* rework `updateGroup` to support different parameter combinations for update function objects (i.e. single object, array of objects, and rest parameters) which reduces the probability of false type inference results
 
 <a name="2.3.2"></a>
 ### 2.3.2

@@ -1,7 +1,7 @@
 import { MarkAsTouchedAction, SetValueAction } from '../actions';
 import { FormGroupState } from '../state';
 import { FORM_CONTROL_ID, FORM_CONTROL_INNER_ID, FormGroupValue, INITIAL_STATE, NestedValue } from './test-util';
-import { createFormGroupReducerWithUpdate, updateGroup } from './update-group';
+import { createFormGroupReducerWithUpdate, StateUpdateFns, updateGroup } from './update-group';
 
 describe(updateGroup.name, () => {
   it('should apply the provided functions to control children', () => {
@@ -81,6 +81,86 @@ describe(updateGroup.name, () => {
     }, {
         inner: () => expectedInner1,
       })(INITIAL_STATE);
+    expect(resultState.controls.inner).toBe(expectedInner1);
+    expect(resultState.controls.inner3).toBe(expectedInner3);
+  });
+
+  it('should apply multiple provided function objects as param array one after another', () => {
+    const updatedInner1 = { ...INITIAL_STATE.controls.inner, value: 'A' };
+    const expectedInner1 = { ...INITIAL_STATE.controls.inner, value: 'B' };
+    const expectedInner3 = { ...INITIAL_STATE.controls.inner3!, value: { inner4: 'A' } };
+    const updateFnArr: StateUpdateFns<FormGroupValue>[] = [{
+      inner: () => expectedInner1,
+    }];
+    const resultState = updateGroup<FormGroupValue>({
+      inner: () => updatedInner1,
+      inner3: () => expectedInner3,
+    }, updateFnArr as any)(INITIAL_STATE);
+    expect(resultState.controls.inner).toBe(expectedInner1);
+    expect(resultState.controls.inner3).toBe(expectedInner3);
+  });
+
+  it('should apply multiple provided function objects as array one after another', () => {
+    const updatedInner1 = { ...INITIAL_STATE.controls.inner, value: 'A' };
+    const expectedInner1 = { ...INITIAL_STATE.controls.inner, value: 'B' };
+    const expectedInner3 = { ...INITIAL_STATE.controls.inner3!, value: { inner4: 'A' } };
+    const updateFnArr: StateUpdateFns<FormGroupValue>[] = [
+      {
+        inner: () => updatedInner1,
+        inner3: () => expectedInner3,
+      },
+      {
+        inner: () => expectedInner1,
+      },
+    ];
+    const resultState = updateGroup<FormGroupValue>(updateFnArr)(INITIAL_STATE);
+    expect(resultState.controls.inner).toBe(expectedInner1);
+    expect(resultState.controls.inner3).toBe(expectedInner3);
+  });
+
+  it('should apply multiple provided function objects one after another uncurried', () => {
+    const updatedInner1 = { ...INITIAL_STATE.controls.inner, value: 'A' };
+    const expectedInner1 = { ...INITIAL_STATE.controls.inner, value: 'B' };
+    const expectedInner3 = { ...INITIAL_STATE.controls.inner3!, value: { inner4: 'A' } };
+    const resultState = updateGroup(INITIAL_STATE, {
+      inner: () => updatedInner1,
+      inner3: () => expectedInner3,
+    }, {
+        inner: () => expectedInner1,
+      });
+    expect(resultState.controls.inner).toBe(expectedInner1);
+    expect(resultState.controls.inner3).toBe(expectedInner3);
+  });
+
+  it('should apply multiple provided function objects as param array one after another uncurried', () => {
+    const updatedInner1 = { ...INITIAL_STATE.controls.inner, value: 'A' };
+    const expectedInner1 = { ...INITIAL_STATE.controls.inner, value: 'B' };
+    const expectedInner3 = { ...INITIAL_STATE.controls.inner3!, value: { inner4: 'A' } };
+    const updateFnArr: StateUpdateFns<FormGroupValue>[] = [{
+      inner: () => expectedInner1,
+    }];
+    const resultState = updateGroup(INITIAL_STATE, {
+      inner: () => updatedInner1,
+      inner3: () => expectedInner3,
+    }, updateFnArr as any);
+    expect(resultState.controls.inner).toBe(expectedInner1);
+    expect(resultState.controls.inner3).toBe(expectedInner3);
+  });
+
+  it('should apply multiple provided function objects as array one after another uncurried', () => {
+    const updatedInner1 = { ...INITIAL_STATE.controls.inner, value: 'A' };
+    const expectedInner1 = { ...INITIAL_STATE.controls.inner, value: 'B' };
+    const expectedInner3 = { ...INITIAL_STATE.controls.inner3!, value: { inner4: 'A' } };
+    const updateFnArr: StateUpdateFns<FormGroupValue>[] = [
+      {
+        inner: () => updatedInner1,
+        inner3: () => expectedInner3,
+      },
+      {
+        inner: () => expectedInner1,
+      },
+    ];
+    const resultState = updateGroup(INITIAL_STATE, updateFnArr);
     expect(resultState.controls.inner).toBe(expectedInner1);
     expect(resultState.controls.inner3).toBe(expectedInner3);
   });
