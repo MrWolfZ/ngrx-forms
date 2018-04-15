@@ -24,7 +24,7 @@ export function compose<T>(...fns: ((t: T) => T)[]) {
   return (t: T) => fns.reduce((res, f) => f(res), t);
 }
 
-export function ensureState<TState>(state: TState) {
+export function ensureState<TState>(state: TState | undefined): TState {
   if (!state) {
     throw new Error('state must not be undefined!');
   }
