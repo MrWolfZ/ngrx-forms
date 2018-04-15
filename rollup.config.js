@@ -1,4 +1,4 @@
-import resolve from 'rollup-plugin-node-resolve';
+const resolve = require('rollup-plugin-node-resolve');
 
 // Add here external dependencies that actually you use.
 const globals = {
@@ -9,7 +9,7 @@ const globals = {
   '@ngrx/store': 'ngrx.store',
 };
 
-export default {
+module.exports = {
   entry: './dist/ngrx/forms.es5.js',
   dest: './dist/bundles/forms.umd.js',
   exports: 'named',

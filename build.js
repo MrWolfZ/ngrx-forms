@@ -50,7 +50,8 @@ for (var pkg of PACKAGES) {
   shell.echo(chalk.green(`AoT compilation completed!`));
 
   shell.echo(`Starting bundling...`);
-  if (shell.exec(`rollup -f es -n ngrx.forms -i ${DIST_DIR}/${pkg.dir}/${pkg.bundleFileName}.js -o ${MODULES_DIR}/${pkg.modulesDir}/${pkg.moduleFileName}.js --sourcemap`).code !== 0) {
+  var rollupConfig = require(`${pkg.dir}/rollup.config.js`);
+  if (shell.exec(`rollup -f es -n ngrx.forms -i ${DIST_DIR}/${pkg.dir}/${pkg.bundleFileName}.js -o ${MODULES_DIR}/${pkg.modulesDir}/${pkg.moduleFileName}.js --sourcemap -e ${rollupConfig.external.join(',')}`).code !== 0) {
     shell.echo(chalk.red(`Error: Bundling failed!`));
     shell.exit(1);
   }
