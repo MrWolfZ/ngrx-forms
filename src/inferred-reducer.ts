@@ -9,7 +9,7 @@ export function inferredStateReducer<TValue>(
   action: Actions<any>,
 ): InferredControlState<TValue> {
   if (isArrayState(state)) {
-    return formArrayReducerInternal<TValue>(state, action) as any;
+    return formArrayReducerInternal<TValue>(state, action as Actions<any[]>) as any;
   }
 
   if (isGroupState(state)) {

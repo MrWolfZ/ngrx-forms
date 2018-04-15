@@ -8,7 +8,7 @@ describe(addGroupControl.name, () => {
   });
 
   it('should call reducer for groups uncurried', () => {
-    const resultState = addGroupControl('inner2', 'A', INITIAL_STATE);
+    const resultState = addGroupControl(INITIAL_STATE, 'inner2', 'A');
     expect(resultState).not.toBe(INITIAL_STATE);
   });
 

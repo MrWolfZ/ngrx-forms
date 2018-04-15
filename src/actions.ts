@@ -223,7 +223,7 @@ export class AddArrayControlAction<TValue> implements Action {
   }
 }
 
-export class AddGroupControlAction<TValue extends KeyValue, TControlKey extends keyof TValue = string> implements Action {
+export class AddGroupControlAction<TValue extends KeyValue, TControlKey extends keyof TValue = keyof TValue> implements Action {
   static readonly TYPE = 'ngrx/forms/ADD_GROUP_CONTROL';
   readonly type = AddGroupControlAction.TYPE;
   readonly controlId: NgrxFormControlId;
