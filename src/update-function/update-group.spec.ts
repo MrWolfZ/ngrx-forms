@@ -165,6 +165,16 @@ describe(updateGroup.name, () => {
     expect(resultState.controls.inner3).toBe(expectedInner3);
   });
 
+  it('should not modify state if no update function object is provided', () => {
+    const resultState = updateGroup<typeof INITIAL_STATE.value>([])(INITIAL_STATE);
+    expect(resultState).toBe(INITIAL_STATE);
+  });
+
+  it('should not modify state if no update function object is provided uncurried', () => {
+    const resultState = updateGroup(INITIAL_STATE, []);
+    expect(resultState).toBe(INITIAL_STATE);
+  });
+
   it('should pass the parent group as the second parameter', () => {
     updateGroup<FormGroupValue>({
       inner3: (c, p) => {

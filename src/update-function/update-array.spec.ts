@@ -160,6 +160,18 @@ describe(updateArray.name, () => {
     expect(resultState.controls[2]).toBe(expected3);
   });
 
+  it('should not modify state if no update function is provided', () => {
+    const state = createFormArrayState(FORM_CONTROL_ID, ['A', 'B', 'C']);
+    const resultState = updateArray<typeof state.value[0]>([])(state);
+    expect(resultState).toBe(state);
+  });
+
+  it('should not modify state if no update function is provided uncurried', () => {
+    const state = createFormArrayState(FORM_CONTROL_ID, ['A', 'B', 'C']);
+    const resultState = updateArray(state, []);
+    expect(resultState).toBe(state);
+  });
+
   it('should pass the parent array as the second parameter', () => {
     const state = createFormArrayState(FORM_CONTROL_ID, ['', '']);
     updateArray<typeof state.value[0]>((c, p) => {
