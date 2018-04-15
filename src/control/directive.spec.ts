@@ -417,6 +417,5 @@ describe(NgrxFormControlDirective.name, () => {
   // TODO: throwing error on undefined state
   // TODO: mark as touched
   // TODO: disabling and enabling
-  // TODO: focus tracking
   // TODO: last keydown code tracking
 });
