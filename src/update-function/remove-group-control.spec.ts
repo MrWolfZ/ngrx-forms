@@ -8,7 +8,7 @@ describe(removeGroupControl.name, () => {
   });
 
   it('should call reducer for groups uncurried', () => {
-    const resultState = removeGroupControl<FormGroupValue>('inner3', INITIAL_STATE);
+    const resultState = removeGroupControl(INITIAL_STATE, 'inner3');
     expect(resultState).not.toBe(INITIAL_STATE);
   });
 
