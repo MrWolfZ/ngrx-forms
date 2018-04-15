@@ -29,6 +29,9 @@ These are the basic functions that perform simple updates on states. The functio
 #### `updateArray`
 This update function takes an update function and returns a projection function that takes an array state, applies the provided update function to each element and recomputes the state of the array afterwards. As with all the functions above this function does not change the reference of the array if the update function does not change any children. See the section below for an example of how this function can be used.
 
+#### `updateArrayWithFilter`
+This update function is the same as `updateArray` except that it also takes a filter function that is applied to each array element to determine whether the update function should be applied.
+
 #### `updateGroup`
 This update function takes a partial object in the shape of the group's value where each key contains an update function for that child and returns a projection function that takes a group state, applies all the provided update functions recursively and recomputes the state of the group afterwards. As with all the functions above this function does not change the reference of the group if none of the child update functions change any children. The best example of how this can be used is simple validation:
 
