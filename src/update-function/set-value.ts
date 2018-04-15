@@ -1,5 +1,5 @@
 import { SetValueAction } from '../actions';
-import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState, InferredControlState } from '../state';
+import { AbstractControlState, InferredControlState, isFormState } from '../state';
 import { abstractControlReducer, ensureState } from './util';
 
 /**
@@ -11,39 +11,17 @@ import { abstractControlReducer, ensureState } from './util';
 export function setValue<TValue>(value: TValue): (state: AbstractControlState<TValue>) => InferredControlState<TValue>;
 
 /**
- * This update function takes a value and a form control state and sets the
- * value of the state.
- */
-export function setValue<TValue extends FormControlValueTypes>(value: TValue, state: FormControlState<TValue>): FormControlState<TValue>;
-
-/**
- * This update function takes a value and a form array state and sets the
- * value of the state. This will also update the values of all children
- * including adding and removing children on the fly for added/removed
- * items.
- */
-export function setValue<TValue>(value: TValue, state: FormArrayState<TValue>): FormArrayState<TValue>;
-
-/**
- * This update function takes a value and a form group state and sets the
- * value of the state. This will also update the values of all children
- * including adding and removing children on the fly for added/removed
- * properties.
- */
-export function setValue<TValue>(value: TValue, state: FormGroupState<TValue>): FormGroupState<TValue>;
-
-/**
- * This update function takes a value and a form state and sets the value
- * of the state. Setting the value of a group or array will also update the
+ * This update function takes a form state and a value and sets the value of
+ * the state. Setting the value of a group or array will also update the
  * values of all children including adding and removing children on the fly
  * for added/removed properties/items.
  */
-export function setValue<TValue>(value: TValue, state: AbstractControlState<TValue>): AbstractControlState<TValue>;
+export function setValue<TValue>(state: AbstractControlState<TValue>, value: TValue): InferredControlState<TValue>;
 
-export function setValue<TValue>(value: TValue, state?: AbstractControlState<TValue>) {
-  if (!!state) {
-    return abstractControlReducer(state, new SetValueAction(state.id, value));
+export function setValue<TValue>(valueOrState: TValue | AbstractControlState<TValue>, value?: TValue) {
+  if (isFormState(valueOrState)) {
+    return abstractControlReducer(valueOrState, new SetValueAction(valueOrState.id, value));
   }
 
-  return (s: AbstractControlState<TValue>) => setValue(value, ensureState(s));
+  return (s: AbstractControlState<TValue>) => setValue(ensureState(s), valueOrState);
 }

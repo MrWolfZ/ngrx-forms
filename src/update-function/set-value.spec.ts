@@ -19,17 +19,17 @@ describe(setValue.name, () => {
   });
 
   it('should call reducer for controls uncurried', () => {
-    const resultState = setValue('A', INITIAL_STATE.controls.inner);
+    const resultState = setValue(INITIAL_STATE.controls.inner, 'A');
     expect(resultState).not.toBe(INITIAL_STATE.controls.inner);
   });
 
   it('should call reducer for groups uncurried', () => {
-    const resultState = setValue({ inner: 'A', inner5: INITIAL_STATE.value.inner5 }, INITIAL_STATE);
+    const resultState = setValue(INITIAL_STATE, { inner: 'A', inner5: INITIAL_STATE.value.inner5 });
     expect(resultState).not.toBe(INITIAL_STATE);
   });
 
   it('should call reducer for arrays uncurried', () => {
-    const resultState = setValue(['A'], INITIAL_STATE.controls.inner5);
+    const resultState = setValue(INITIAL_STATE.controls.inner5, ['A']);
     expect(resultState).not.toBe(INITIAL_STATE.controls.inner5);
   });
 
@@ -47,7 +47,7 @@ describe(setValue.name, () => {
 
   it('should work inside an updateGroup uncurried', () => {
     const resultState = updateGroup<typeof INITIAL_STATE.value>(INITIAL_STATE, {
-      inner: inner => setValue<string>('A', inner),
+      inner: inner => setValue<string>(inner, 'A'),
     });
 
     expect(resultState).not.toEqual(INITIAL_STATE);
