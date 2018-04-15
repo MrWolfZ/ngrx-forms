@@ -20,6 +20,10 @@ import { selectViewAdapter } from '../view-adapter/util';
 import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from '../view-adapter/view-adapter';
 import { NgrxValueConverter, NgrxValueConverters } from './value-converter';
 
+export interface Document {
+  activeElement: any;
+}
+
 const CHANGE = 'change';
 const BLUR = 'blur';
 
