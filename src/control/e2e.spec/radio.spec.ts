@@ -77,7 +77,7 @@ describe(RadioTestComponent.name, () => {
   it(`should trigger a ${SetValueAction.name} with the selected value when an option is selected`, done => {
     actions$.take(1).subscribe(a => {
       expect(a.type).toBe(SetValueAction.TYPE);
-      expect((a as SetValueAction<string>).payload.value).toBe(RADIO_OPTIONS[0]);
+      expect((a as SetValueAction<string>).value).toBe(RADIO_OPTIONS[0]);
       done();
     });
 
@@ -99,8 +99,8 @@ describe(RadioTestComponent.name, () => {
       expect(a2.type).toBe(MarkAsDirtyAction.TYPE);
       expect(a3.type).toBe(SetValueAction.TYPE);
       expect(a4.type).toBe(MarkAsDirtyAction.TYPE);
-      expect((a1 as SetValueAction<string>).payload.value).toBe(RADIO_OPTIONS[0]);
-      expect((a3 as SetValueAction<string>).payload.value).toBe(RADIO_OPTIONS[1]);
+      expect((a1 as SetValueAction<string>).value).toBe(RADIO_OPTIONS[0]);
+      expect((a3 as SetValueAction<string>).value).toBe(RADIO_OPTIONS[1]);
       done();
     });
 
@@ -115,7 +115,7 @@ describe(RadioTestComponent.name, () => {
 
     actions$.take(1).subscribe(a => {
       expect(a.type).toBe(SetValueAction.TYPE);
-      expect((a as SetValueAction<string>).payload.value).toBe(newValue);
+      expect((a as SetValueAction<string>).value).toBe(newValue);
       done();
     });
 

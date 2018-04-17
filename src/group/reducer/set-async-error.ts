@@ -19,19 +19,19 @@ export function setAsyncErrorReducer<TValue extends KeyValue>(
     return state;
   }
 
-  if (state.pendingValidations.indexOf(action.payload.name) < 0) {
+  if (state.pendingValidations.indexOf(action.name) < 0) {
     return state;
   }
 
-  const name = `$${action.payload.name}`;
-  let value = action.payload.value;
+  const name = `$${action.name}`;
+  let value = action.value;
 
-  if (deepEquals(state.errors[name], action.payload.value)) {
+  if (deepEquals(state.errors[name], action.value)) {
     value = state.errors[name];
   }
 
   const errors = { ...state.errors, [name]: value };
-  const pendingValidations = state.pendingValidations.filter(v => v !== action.payload.name);
+  const pendingValidations = state.pendingValidations.filter(v => v !== action.name);
 
   return computeGroupState(state.id, state.controls, state.value, errors, pendingValidations, state.userDefinedProperties);
 }

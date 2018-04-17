@@ -18,6 +18,7 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
   * `setValue`: move `state` parameter to first position for uncurried overload ([1a69795](https://github.com/MrWolfZ/ngrx-forms/commit/1a69795))
   * `validate`: move `state` parameter to first position for uncurried overload and add rest param overloads
 * due to rework of `updateArray`, `updateGroup`, and `updateRecursive` update functions it is now invalid to call any of these functions without parameters (which made no sense anyway) but it is still possible to call the functions with an empty array as parameter (which is useful in dynamic situations)
+* remove `payload` property from all actions and move corresponding properties into action itself
 
 #### Features
 

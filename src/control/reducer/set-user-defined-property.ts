@@ -9,7 +9,7 @@ export function setUserDefinedPropertyReducer<TValue extends FormControlValueTyp
     return state;
   }
 
-  if (state.userDefinedProperties[action.payload.name] === action.payload.value) {
+  if (state.userDefinedProperties[action.name] === action.value) {
     return state;
   }
 
@@ -17,7 +17,7 @@ export function setUserDefinedPropertyReducer<TValue extends FormControlValueTyp
     ...state,
     userDefinedProperties: {
       ...state.userDefinedProperties,
-      [action.payload.name]: action.payload.value,
+      [action.name]: action.value,
     },
   };
 }

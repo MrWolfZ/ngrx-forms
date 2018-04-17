@@ -19,24 +19,24 @@ export function setErrorsReducer<TValue>(
     return state;
   }
 
-  if (state.errors === action.payload.errors) {
+  if (state.errors === action.errors) {
     return state;
   }
 
-  if (deepEquals(state.errors, action.payload.errors)) {
+  if (deepEquals(state.errors, action.errors)) {
     return state;
   }
 
-  if (!action.payload.errors || typeof action.payload.errors !== 'object' || Array.isArray(action.payload.errors)) {
-    throw new Error(`Control errors must be an object; got ${action.payload.errors}`); // `;
+  if (!action.errors || typeof action.errors !== 'object' || Array.isArray(action.errors)) {
+    throw new Error(`Control errors must be an object; got ${action.errors}`); // `;
   }
 
-  if (Object.keys(action.payload.errors).some(key => key.startsWith('_'))) {
-    throw new Error(`Control errors must not use underscore as a prefix; got ${JSON.stringify(action.payload.errors)}`); // `;
+  if (Object.keys(action.errors).some(key => key.startsWith('_'))) {
+    throw new Error(`Control errors must not use underscore as a prefix; got ${JSON.stringify(action.errors)}`); // `;
   }
 
-  if (Object.keys(action.payload.errors).some(key => key.startsWith('$'))) {
-    throw new Error(`Control errors must not use $ as a prefix; got ${JSON.stringify(action.payload.errors)}`); // `;
+  if (Object.keys(action.errors).some(key => key.startsWith('$'))) {
+    throw new Error(`Control errors must not use $ as a prefix; got ${JSON.stringify(action.errors)}`); // `;
   }
 
   const childAndAsyncErrors =
@@ -44,7 +44,7 @@ export function setErrorsReducer<TValue>(
       .filter(key => key.startsWith('_') || key.startsWith('$'))
       .reduce((res, key) => Object.assign(res, { [key]: state.errors[key] }), {} as ValidationErrors);
 
-  const newErrors = Object.assign(childAndAsyncErrors, action.payload.errors);
+  const newErrors = Object.assign(childAndAsyncErrors, action.errors);
 
   return computeArrayState(state.id, state.controls, state.value, newErrors, state.pendingValidations, state.userDefinedProperties);
 }

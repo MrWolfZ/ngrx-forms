@@ -15,15 +15,15 @@ export function setValueReducer<TValue extends KeyValue>(
     return childReducer(state, action);
   }
 
-  if (state.value === action.payload.value) {
+  if (state.value === action.value) {
     return state;
   }
 
-  if (action.payload.value instanceof Date) {
+  if (action.value instanceof Date) {
     throw new Error('Date values are not supported. Please used serialized strings instead.');
   }
 
-  const value = action.payload.value;
+  const value = action.value;
 
   const controls = Object.keys(value)
     .reduce((c, key) => {

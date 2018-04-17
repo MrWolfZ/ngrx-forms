@@ -14,7 +14,7 @@ export function setUserDefinedPropertyReducer<TValue>(
     return childReducer(state, action);
   }
 
-  if (state.userDefinedProperties[action.payload.name] === action.payload.value) {
+  if (state.userDefinedProperties[action.name] === action.value) {
     return state;
   }
 
@@ -22,7 +22,7 @@ export function setUserDefinedPropertyReducer<TValue>(
     ...state,
     userDefinedProperties: {
       ...state.userDefinedProperties,
-      [action.payload.name]: action.payload.value,
+      [action.name]: action.value,
     },
   };
 }

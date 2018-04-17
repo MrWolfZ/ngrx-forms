@@ -57,11 +57,11 @@ export function removeControlReducer<TValue>(
     return childReducer(state, action);
   }
 
-  if (action.payload.index >= state.controls.length || action.payload.index < 0) {
-    throw new Error(`Index ${action.payload.index} is out of bounds for array '${state.id}' with length ${state.controls.length}!`); // `;
+  if (action.index >= state.controls.length || action.index < 0) {
+    throw new Error(`Index ${action.index} is out of bounds for array '${state.id}' with length ${state.controls.length}!`); // `;
   }
 
-  const index = action.payload.index;
+  const index = action.index;
   const controls = state.controls.filter((_, i) => i !== index).map((c, i) => updateIdRecursive(c, `${state.id}.${i}`)) as InferredControlState<TValue>[];
 
   return computeArrayState(

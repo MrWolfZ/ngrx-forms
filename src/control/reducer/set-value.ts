@@ -9,19 +9,19 @@ export function setValueReducer<TValue extends FormControlValueTypes>(
     return state;
   }
 
-  if (state.value === action.payload.value) {
+  if (state.value === action.value) {
     return state;
   }
 
-  const value = action.payload.value;
+  const value = action.value;
   const valueType = typeof value;
   if (value !== null && ['string', 'number', 'boolean', 'undefined'].indexOf(valueType) === -1) {
     const errorMsg = 'Form control states only support undefined, null, string, number, and boolean values';
-    throw new Error(`${errorMsg}; got ${JSON.stringify(action.payload.value)} of type "${valueType}"`); // `;
+    throw new Error(`${errorMsg}; got ${JSON.stringify(action.value)} of type "${valueType}"`); // `;
   }
 
   return {
     ...state,
-    value: action.payload.value,
+    value: action.value,
   };
 }

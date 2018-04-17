@@ -14,12 +14,12 @@ export function removeControlReducer<TValue extends KeyValue>(
     return childReducer(state, action);
   }
 
-  if (!state.controls.hasOwnProperty(action.payload.name)) {
-    throw new Error(`Group '${state.id}' does not have child control '${action.payload.name}'!`); // `;
+  if (!state.controls.hasOwnProperty(action.name)) {
+    throw new Error(`Group '${state.id}' does not have child control '${action.name}'!`); // `;
   }
 
   const controls = Object.assign({}, state.controls);
-  delete controls[action.payload.name];
+  delete controls[action.name];
 
   return computeGroupState(
     state.id,

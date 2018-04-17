@@ -14,11 +14,11 @@ export function clearAsyncErrorReducer<TValue>(
     return childReducer(state, action);
   }
 
-  if (state.pendingValidations.indexOf(action.payload.name) < 0) {
+  if (state.pendingValidations.indexOf(action.name) < 0) {
     return state;
   }
 
-  const name = `$${action.payload.name}`;
+  const name = `$${action.name}`;
 
   let errors = state.errors;
 
@@ -27,7 +27,7 @@ export function clearAsyncErrorReducer<TValue>(
     delete errors[name];
   }
 
-  const pendingValidations = state.pendingValidations.filter(v => v !== action.payload.name);
+  const pendingValidations = state.pendingValidations.filter(v => v !== action.name);
 
   return computeArrayState(state.id, state.controls, state.value, errors, pendingValidations, state.userDefinedProperties);
 }

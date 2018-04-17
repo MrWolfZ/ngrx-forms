@@ -14,11 +14,11 @@ export function startAsyncValidationReducer<TValue>(
     return childReducer(state, action);
   }
 
-  if (state.pendingValidations.indexOf(action.payload.name) >= 0) {
+  if (state.pendingValidations.indexOf(action.name) >= 0) {
     return state;
   }
 
-  const pendingValidations = [...state.pendingValidations, action.payload.name];
+  const pendingValidations = [...state.pendingValidations, action.name];
 
   return computeArrayState(state.id, state.controls, state.value, state.errors, pendingValidations, state.userDefinedProperties);
 }

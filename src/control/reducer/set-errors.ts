@@ -14,20 +14,20 @@ export function setErrorsReducer<TValue extends FormControlValueTypes>(
     return state;
   }
 
-  if (state.errors === action.payload.errors) {
+  if (state.errors === action.errors) {
     return state;
   }
 
-  if (deepEquals(state.errors, action.payload.errors)) {
+  if (deepEquals(state.errors, action.errors)) {
     return state;
   }
 
-  if (!action.payload.errors || typeof action.payload.errors !== 'object' || Array.isArray(action.payload.errors)) {
-    throw new Error(`Control errors must be an object; got ${action.payload.errors}`); // `;
+  if (!action.errors || typeof action.errors !== 'object' || Array.isArray(action.errors)) {
+    throw new Error(`Control errors must be an object; got ${action.errors}`); // `;
   }
 
-  if (Object.keys(action.payload.errors).some(key => key.startsWith('$'))) {
-    throw new Error(`Control errors must not use $ as a prefix; got ${JSON.stringify(action.payload.errors)}`); // `;
+  if (Object.keys(action.errors).some(key => key.startsWith('$'))) {
+    throw new Error(`Control errors must not use $ as a prefix; got ${JSON.stringify(action.errors)}`); // `;
   }
 
   const asyncErrors =
@@ -35,7 +35,7 @@ export function setErrorsReducer<TValue extends FormControlValueTypes>(
       .filter(key => key.startsWith('$'))
       .reduce((res, key) => Object.assign(res, { [key]: state.errors[key] }), {} as ValidationErrors);
 
-  const newErrors = isEmpty(asyncErrors) ? action.payload.errors : Object.assign(asyncErrors, action.payload.errors);
+  const newErrors = isEmpty(asyncErrors) ? action.errors : Object.assign(asyncErrors, action.errors);
   const isValid = isEmpty(newErrors);
 
   return {

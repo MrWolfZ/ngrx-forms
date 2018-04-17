@@ -72,7 +72,7 @@ describe(SelectMultipleComponent.name, () => {
   it('should trigger a SetValueAction with the selected value when an option is selected', done => {
     actions$.first().subscribe(a => {
       expect(a.type).toBe(SetValueAction.TYPE);
-      expect((a as SetValueAction<string>).payload.value).toBe(JSON.stringify(SELECT_OPTIONS));
+      expect((a as SetValueAction<string>).value).toBe(JSON.stringify(SELECT_OPTIONS));
       done();
     });
 

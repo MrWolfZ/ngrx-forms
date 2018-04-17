@@ -14,12 +14,12 @@ export function addControlReducer<TValue extends KeyValue>(
     return childReducer(state, action);
   }
 
-  if (state.controls.hasOwnProperty(action.payload.name)) {
-    throw new Error(`Group '${state.id}' already has child control '${action.payload.name}'!`); // `;
+  if (state.controls.hasOwnProperty(action.name)) {
+    throw new Error(`Group '${state.id}' already has child control '${action.name}'!`); // `;
   }
 
   const controls = Object.assign({}, state.controls, {
-    [action.payload.name]: createChildState(`${state.id}.${action.payload.name}`, action.payload.value),
+    [action.name]: createChildState(`${state.id}.${action.name}`, action.value),
   });
 
   return computeGroupState(

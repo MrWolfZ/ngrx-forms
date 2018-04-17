@@ -64,7 +64,7 @@ describe(SelectComponent.name, () => {
   it(`should trigger a ${SetValueAction.name} with the selected value when an option is selected`, done => {
     actions$.first().subscribe(a => {
       expect(a.type).toBe(SetValueAction.TYPE);
-      expect((a as SetValueAction<string>).payload.value).toBe(SELECT_OPTIONS[0]);
+      expect((a as SetValueAction<string>).value).toBe(SELECT_OPTIONS[0]);
       done();
     });
 
@@ -136,7 +136,7 @@ describe(NumberSelectComponent.name, () => {
   it(`should trigger a ${SetValueAction.name} with the selected value when an option is selected`, done => {
     actions$.first().subscribe(a => {
       expect(a.type).toBe(SetValueAction.TYPE);
-      expect((a as SetValueAction<number>).payload.value).toBe(SELECT_NUMBER_OPTIONS[0]);
+      expect((a as SetValueAction<number>).value).toBe(SELECT_NUMBER_OPTIONS[0]);
       done();
     });
 
