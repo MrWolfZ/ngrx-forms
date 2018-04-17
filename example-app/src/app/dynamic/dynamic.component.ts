@@ -104,7 +104,7 @@ export const reducers = {
       case AddArrayControlAction.TYPE: {
         const maxIndex = s.maxIndex + 1;
         const options = [...s.options];
-        options.splice(a.payload.index!, 0, maxIndex);
+        options.splice(a.index!, 0, maxIndex);
         return {
           maxIndex,
           options,
@@ -113,7 +113,7 @@ export const reducers = {
 
       case RemoveArrayControlAction.TYPE: {
         const options = [...s.options];
-        options.splice(a.payload.index!, 1);
+        options.splice(a.index!, 1);
         return {
           ...s,
           options,
