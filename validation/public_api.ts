@@ -13,6 +13,7 @@ export { lessThan } from './src/less-than';
 export { lessThanOrEqualTo } from './src/less-than-or-equal-to';
 export { maxLength } from './src/max-length';
 export { minLength } from './src/min-length';
+export { notEqualTo } from './src/not-equal-to';
 export { pattern } from './src/pattern';
 export { required } from './src/required';
 export { requiredFalse } from './src/required-false';

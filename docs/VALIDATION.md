@@ -8,6 +8,7 @@ As mentioned in the section about [updating the state](UPDATING_THE_STATE.md) th
 |`requiredTrue`|Requires the `boolean` value to be `true`|
 |`requiredFalse`|Requires the `boolean` value to be `false`|
 |`equalTo`|Requires the value to be equal to another value|
+|`notEqualTo`|Requires the value to be not equal to another value|
 |`lessThan`|Requires the `number` value to be less than another number|
 |`lessThanOrEqualTo`|Requires the `number` value to be less than or equal to another number|
 |`greaterThan`|Requires the `number` value to be greater than another number|
