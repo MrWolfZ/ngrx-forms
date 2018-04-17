@@ -27,7 +27,7 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
 * rework `updateGroup` to support different parameter combinations for update function objects (i.e. single object, array of objects, and rest parameters) which reduces the probability of false type inference results ([0bb1ca7](https://github.com/MrWolfZ/ngrx-forms/commit/0bb1ca7))
 * rework `updateRecursive` to support different parameter combinations for update function objects (i.e. single object, array of objects, and rest parameters) ([96121c3](https://github.com/MrWolfZ/ngrx-forms/commit/96121c3))
 * add `updateArrayWithFilter` update function which works the same as `updateArray` except that it also takes a filter function that is applied to each array element to determine whether the update function should be applied ([0b66a6f](https://github.com/MrWolfZ/ngrx-forms/commit/0b66a6f))
-* add `notEqualTo` validation function
+* add `notEqualTo` validation function ([851a1ed](https://github.com/MrWolfZ/ngrx-forms/commit/851a1ed))
 
 <a name="2.3.2"></a>
 ### 2.3.2
