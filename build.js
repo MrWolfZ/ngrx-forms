@@ -89,6 +89,13 @@ for (var pkg of PACKAGES) {
     shell.exit(1);
   }
 
+  // another second run of mapping the sources is required for sorcery to properly map the sources since after the first run
+  // the source files are correctly identified, but their content is not properly added to the source mapping
+  if (shell.exec(`node scripts/map-sources -f ${BUNDLES_DIR}/${pkg.bundleFileName}.umd.js`).code !== 0) {
+    shell.echo(chalk.red(`Error: Rollup conversion failed!`));
+    shell.exit(1);
+  }
+
   shell.echo(`Minifying...`);
   const pwd = shell.pwd();
   shell.pushd('-q', BUNDLES_DIR);
@@ -97,6 +104,13 @@ for (var pkg of PACKAGES) {
     shell.exit(1);
   }
 
+  if (shell.exec(`node ${pwd}/scripts/map-sources -f ${pkg.bundleFileName}.umd.min.js`).code !== 0) {
+    shell.echo(chalk.red(`Error: Minifying failed!`));
+    shell.exit(1);
+  }
+
+  // another second run of mapping the sources is required for sorcery to properly map the sources since after the first run
+  // the source files are correctly identified, but their content is not properly added to the source mapping
   if (shell.exec(`node ${pwd}/scripts/map-sources -f ${pkg.bundleFileName}.umd.min.js`).code !== 0) {
     shell.echo(chalk.red(`Error: Minifying failed!`));
     shell.exit(1);
