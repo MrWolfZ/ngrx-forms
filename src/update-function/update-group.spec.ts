@@ -236,4 +236,12 @@ describe(createFormGroupReducerWithUpdate.name, () => {
     expect(resultState.controls.inner).toBe(expectedInner1);
     expect(resultState.controls.inner3).toBe(expectedInner3);
   });
+
+  it('should not apply the update function object', () => {
+    const expected = { ...INITIAL_STATE.controls.inner, value: 'A' };
+    const resultState = createFormGroupReducerWithUpdate<FormGroupValue>({
+      inner: () => expected,
+    })(INITIAL_STATE, { type: '' });
+    expect(resultState).toBe(INITIAL_STATE);
+  });
 });

@@ -194,7 +194,8 @@ export function updateGroup<TValue extends KeyValue>(
 /**
  * This function creates a reducer function that first applies an action to the state
  * and afterwards applies all given update function objects one after another to the
- * resulting form group state.
+ * resulting form group state. However, the update function objects are only applied
+ * if the form state changed as result of applying the action.
  *
  * The following (contrived) example uses this function to create a reducer that after
  * each action validates the child control `name` to be required and sets the child
@@ -224,7 +225,7 @@ export function createFormGroupReducerWithUpdate<TValue extends KeyValue>(
   ...updateFnsArr: StateUpdateFns<TValue>[]
 ) {
   return (state: FormGroupState<TValue>, action: Action) => {
-    state = formGroupReducer(state, action);
-    return updateGroup<TValue>(updateFn, ...updateFnsArr)(state);
+    const newState = formGroupReducer(state, action);
+    return newState === state ? state : updateGroup<TValue>(updateFn, ...updateFnsArr)(newState);
   };
 }

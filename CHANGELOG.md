@@ -19,6 +19,7 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
   * `validate`: move `state` parameter to first position for uncurried overload and add rest param overloads
 * due to rework of `updateArray`, `updateGroup`, and `updateRecursive` update functions it is now invalid to call any of these functions without parameters (which made no sense anyway) but it is still possible to call the functions with an empty array as parameter (which is useful in dynamic situations)
 * remove `payload` property from all actions and move corresponding properties into action itself ([6f955e9](https://github.com/MrWolfZ/ngrx-forms/commit/6f955e9))
+* change the reducer created by `createFormGroupReducerWithUpdate` to only apply the provided update function objects if the state changed as a result of applying the action to the form state (this is only relevant in cases where the update function is closing over variables that may change without the form state changing in which case you can simply manually call the `formGroupReducer` and the `updateGroup` function); this provides a performance improvement for large form states and their update function objects
 
 #### Features
 
