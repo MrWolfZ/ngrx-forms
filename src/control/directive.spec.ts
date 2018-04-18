@@ -7,7 +7,7 @@ import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import { FocusAction, MarkAsDirtyAction, SetValueAction, UnfocusAction } from '../actions';
+import { FocusAction, MarkAsDirtyAction, MarkAsTouchedAction, SetValueAction, UnfocusAction } from '../actions';
 import { createFormControlState } from '../state';
 import { FormViewAdapter } from '../view-adapter/view-adapter';
 import { NgrxFormControlDirective } from './directive';
@@ -43,6 +43,10 @@ describe(NgrxFormControlDirective.name, () => {
     };
     directive = new NgrxFormControlDirective<string>(elementRef, document, actionsSubject as any, [viewAdapter], []);
     directive.ngrxFormControlState = INITIAL_STATE;
+  });
+
+  it('should throw if the provided state is not defined', () => {
+    expect(() => directive.ngrxFormControlState = undefined!).toThrowError();
   });
 
   describe('writing values and dispatching value and dirty actions', () => {
@@ -90,6 +94,14 @@ describe(NgrxFormControlDirective.name, () => {
       onChange(newValue);
       const spy = spyOn(viewAdapter, 'setViewValue');
       directive.ngrxFormControlState = { ...INITIAL_STATE, id: `${FORM_CONTROL_ID}1`, value: newValue };
+      expect(spy).toHaveBeenCalledWith(newValue);
+    });
+
+    it('should write the value after the view is initialized', () => {
+      const newValue = 'new value';
+      directive.ngrxFormControlState = { ...INITIAL_STATE, value: newValue };
+      const spy = spyOn(viewAdapter, 'setViewValue');
+      directive.ngAfterViewInit();
       expect(spy).toHaveBeenCalledWith(newValue);
     });
 
@@ -162,6 +174,33 @@ describe(NgrxFormControlDirective.name, () => {
     });
   });
 
+  describe('touch handling', () => {
+    beforeEach(() => {
+      directive.ngOnInit();
+    });
+
+    it(`should dispatch a ${MarkAsTouchedAction.name} if the view adapter notifies and the state is not touched`, done => {
+      actions$.first().subscribe(a => {
+        expect(a).toEqual(new MarkAsTouchedAction(INITIAL_STATE.id));
+        done();
+      });
+
+      onTouched();
+      actionsSubject.complete();
+    });
+
+    it(`should not dispatch a ${MarkAsTouchedAction.name} if the view adapter notifies and the state is touched`, done => {
+      actions$.count().subscribe(i => {
+        expect(i).toEqual(0);
+        done();
+      });
+
+      directive.ngrxFormControlState = { ...INITIAL_STATE, isTouched: true, isUntouched: false };
+      onTouched();
+      actionsSubject.complete();
+    });
+  });
+
   describe('ngrxUpdateOn "blur"', () => {
     beforeEach(() => {
       directive.ngOnInit();
@@ -208,6 +247,57 @@ describe(NgrxFormControlDirective.name, () => {
       const spy = spyOn(viewAdapter, 'setViewValue');
       directive.ngrxFormControlState = { ...INITIAL_STATE };
       expect(spy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('enabling/disabling', () => {
+    beforeEach(() => {
+      directive.ngOnInit();
+    });
+
+    it('should enable the state if disabled', () => {
+      directive.ngrxFormControlState = { ...INITIAL_STATE, isEnabled: false, isDisabled: true };
+      const spy = spyOn(viewAdapter, 'setIsDisabled');
+      directive.ngrxFormControlState = { ...INITIAL_STATE };
+      expect(spy).toHaveBeenCalledWith(false);
+    });
+
+    it('should not enable the state if enabled', () => {
+      const spy = spyOn(viewAdapter, 'setIsDisabled');
+      directive.ngrxFormControlState = { ...INITIAL_STATE };
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('should disable the state if enabled', () => {
+      const spy = spyOn(viewAdapter, 'setIsDisabled');
+      directive.ngrxFormControlState = { ...INITIAL_STATE, isEnabled: false, isDisabled: true };
+      expect(spy).toHaveBeenCalledWith(true);
+    });
+
+    it('should not disable the state if disabled', () => {
+      directive.ngrxFormControlState = { ...INITIAL_STATE, isEnabled: false, isDisabled: true };
+      const spy = spyOn(viewAdapter, 'setIsDisabled');
+      directive.ngrxFormControlState = { ...INITIAL_STATE, isEnabled: false, isDisabled: true };
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('should enable after the view is initialized', () => {
+      directive.ngrxFormControlState = INITIAL_STATE;
+      const spy = spyOn(viewAdapter, 'setIsDisabled');
+      directive.ngAfterViewInit();
+      expect(spy).toHaveBeenCalledWith(false);
+    });
+
+    it('should disable after the view is initialized', () => {
+      directive.ngrxFormControlState = { ...INITIAL_STATE, isEnabled: false, isDisabled: true };
+      const spy = spyOn(viewAdapter, 'setIsDisabled');
+      directive.ngAfterViewInit();
+      expect(spy).toHaveBeenCalledWith(true);
+    });
+
+    it('should not throw if setIsDisabled is not defined', () => {
+      viewAdapter.setIsDisabled = undefined;
+      expect(() => directive.ngrxFormControlState = { ...INITIAL_STATE, isEnabled: false, isDisabled: true }).not.toThrow();
     });
   });
 
@@ -428,9 +518,4 @@ describe(NgrxFormControlDirective.name, () => {
       expect(() => directive.ngrxEnableFocusTracking = true).toThrowError();
     });
   });
-
-  // TODO: throwing error on undefined state
-  // TODO: mark as touched
-  // TODO: disabling and enabling
-  // TODO: last keydown code tracking
 });
