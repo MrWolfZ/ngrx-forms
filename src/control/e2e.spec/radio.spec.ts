@@ -70,6 +70,11 @@ describe(RadioTestComponent.name, () => {
     expect(element2.name).toBe(newId);
   });
 
+  it('should not set the id of any element', () => {
+    expect(element1.id).not.toBe(INITIAL_STATE.id);
+    expect(element2.id).not.toBe(INITIAL_STATE.id);
+  });
+
   it('should select the correct option initially', () => {
     expect(element2.checked).toBe(true);
   });

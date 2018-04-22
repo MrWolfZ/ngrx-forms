@@ -14,10 +14,14 @@ function isAndroid(): boolean {
 }
 
 // tslint:disable:directive-class-suffix
+// tslint:disable:directive-selector
 
+// TODO: since this directive has a side-effect (setting the element's id attribute)
+// it should not blacklist other types of inputs but instead it should somehow figure
+// out whether it is the "active" view adapter and only perform its side effects if it
+// is active
 @Directive({
-  // tslint:disable-next-line:directive-selector
-  selector: 'input:not([type=checkbox])[ngrxFormControlState],textarea[ngrxFormControlState]',
+  selector: 'input:not([type=checkbox]):not([type=number]):not([type=radio]):not([type=range])[ngrxFormControlState],textarea[ngrxFormControlState]',
   providers: [{
     provide: NGRX_FORM_VIEW_ADAPTER,
     useExisting: forwardRef(() => NgrxDefaultViewAdapter),

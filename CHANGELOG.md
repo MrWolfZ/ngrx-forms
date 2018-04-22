@@ -31,6 +31,10 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
 * add `notEqualTo` validation function ([851a1ed](https://github.com/MrWolfZ/ngrx-forms/commit/851a1ed))
 * enhance all form state reducers to match type signature for `ActionReducer` (they will still throw an error if the state is `undefined`) ([f3b5fea](https://github.com/MrWolfZ/ngrx-forms/commit/f3b5fea))
 
+#### Bugfixes
+
+* do not set the `id` attribute for `input[type=radio]` form elements, closes [#63](https://github.com/MrWolfZ/ngrx-forms/issues/63)
+
 <a name="2.3.2"></a>
 ### 2.3.2
 
