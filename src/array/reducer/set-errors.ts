@@ -27,7 +27,7 @@ export function setErrorsReducer<TValue>(
     return state;
   }
 
-  if (!action.errors || typeof action.errors !== 'object' || Array.isArray(action.errors)) {
+  if (!action.errors || typeof (action.errors as any) !== 'object' || Array.isArray(action.errors)) {
     throw new Error(`Control errors must be an object; got ${action.errors}`); // `;
   }
 
