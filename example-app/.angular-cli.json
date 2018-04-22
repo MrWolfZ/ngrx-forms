@@ -54,7 +54,8 @@
     "styleExt": "scss",
     "component": {
       "viewEncapsulation": "Emulated",
-      "changeDetection": "OnPush"
+      "changeDetection": "OnPush",
+      "spec": false
     }
   },
   "warnings": {

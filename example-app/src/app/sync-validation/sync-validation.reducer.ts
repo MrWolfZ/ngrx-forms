@@ -4,6 +4,7 @@ import {
   createFormGroupState,
   disable,
   enable,
+  formGroupReducer,
   FormGroupState,
   updateGroup,
   validate,
@@ -58,7 +59,7 @@ function validatePasswordsMatch(value: PasswordValue) {
   };
 }
 
-const validationFormGroupReducer = createFormGroupReducerWithUpdate<FormValue>({
+export const validateAndUpdateForm = updateGroup<FormValue>({
   userName: validate(required),
   password: (state, parentState) => {
     if (!parentState.value.createAccount) {
@@ -68,17 +69,16 @@ const validationFormGroupReducer = createFormGroupReducerWithUpdate<FormValue>({
     state = enable(state);
     state = validate(state, validatePasswordsMatch);
     return updateGroup<PasswordValue>(state, {
-      password: validate([required, minLength(8)]),
+      password: validate(required, minLength(8)),
     });
   },
   agreeToTermsOfUse: validate<boolean>(requiredTrue),
 });
 
-
 export function reducer(_s: any, _a: any) {
   return combineReducers({
     formState(s = INITIAL_STATE, a: Action) {
-      return validationFormGroupReducer(s, a);
+      return validateAndUpdateForm(formGroupReducer(s, a));
     },
   })(_s, _a);
 };
