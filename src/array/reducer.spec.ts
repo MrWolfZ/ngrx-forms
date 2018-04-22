@@ -22,7 +22,7 @@ import {
   UnfocusAction,
 } from '../actions';
 import { createFormArrayState } from '../state';
-import { formArrayReducerInternal } from './reducer';
+import { formArrayReducer, formArrayReducerInternal } from './reducer';
 
 describe('form array reducer', () => {
   const FORM_CONTROL_ID = 'test ID';
@@ -104,6 +104,10 @@ describe('form array reducer', () => {
     let state = formArrayReducerInternal(INITIAL_STATE, new MarkAsDirtyAction(FORM_CONTROL_ID));
     state = formArrayReducerInternal(state, new MarkAsPristineAction(FORM_CONTROL_ID));
     expect(JSON.stringify(state)).toEqual(expected);
+  });
+
+  it('should throw if state is undefined', () => {
+    expect(() => formArrayReducer(undefined, { type: '' })).toThrowError();
   });
 
   it('should throw if state is not an array state', () => {

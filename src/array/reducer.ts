@@ -30,7 +30,7 @@ import { childReducer } from './reducer/util';
 
 export function formArrayReducerInternal<TValue>(state: FormArrayState<TValue>, action: Actions<TValue[]>) {
   if (!isArrayState(state)) {
-    throw new Error('State must be array state');
+    throw new Error('The state must be an array state');
   }
 
   if (!isNgrxFormsAction(action)) {
@@ -76,6 +76,10 @@ export function formArrayReducerInternal<TValue>(state: FormArrayState<TValue>, 
 /**
  * This reducer function updates a form array state with actions.
  */
-export function formArrayReducer<TValue>(state: FormArrayState<TValue>, action: Action) {
+export function formArrayReducer<TValue>(state: FormArrayState<TValue> | undefined, action: Action) {
+  if (!state) {
+    throw new Error('The array state must be defined!');
+  }
+
   return formArrayReducerInternal(state, action as any);
 }

@@ -18,7 +18,7 @@ import {
   UnfocusAction,
 } from '../actions';
 import { createFormControlState } from '../state';
-import { formControlReducerInternal } from './reducer';
+import { formControlReducer, formControlReducerInternal } from './reducer';
 
 describe('form control reducer', () => {
   const FORM_CONTROL_ID = 'test ID';
@@ -35,6 +35,10 @@ describe('form control reducer', () => {
     let state = formControlReducerInternal(INITIAL_STATE, new MarkAsDirtyAction(FORM_CONTROL_ID));
     state = formControlReducerInternal(state, new MarkAsPristineAction(FORM_CONTROL_ID));
     expect(JSON.stringify(state)).toEqual(expected);
+  });
+
+  it('should throw if state is undefined', () => {
+    expect(() => formControlReducer(undefined, { type: '' })).toThrowError();
   });
 
   it('should throw if state is not a control state', () => {

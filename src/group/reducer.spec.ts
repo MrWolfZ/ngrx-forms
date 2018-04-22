@@ -22,7 +22,7 @@ import {
   UnfocusAction,
 } from '../actions';
 import { createFormGroupState } from '../state';
-import { formGroupReducerInternal } from './reducer';
+import { formGroupReducer, formGroupReducerInternal } from './reducer';
 
 describe('form group reducer', () => {
   const FORM_CONTROL_ID = 'test ID';
@@ -113,6 +113,10 @@ describe('form group reducer', () => {
   it('should throw if trying to set a date as a child value', () => {
     const state = createFormGroupState<any>(FORM_CONTROL_ID, { inner: null });
     expect(() => formGroupReducerInternal(state, new SetValueAction(FORM_CONTROL_INNER_ID, new Date()))).toThrowError();
+  });
+
+  it('should throw if state is undefined', () => {
+    expect(() => formGroupReducer(undefined, { type: '' })).toThrowError();
   });
 
   it('should throw if state is not a group state', () => {

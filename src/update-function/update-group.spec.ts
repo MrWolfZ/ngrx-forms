@@ -244,4 +244,8 @@ describe(createFormGroupReducerWithUpdate.name, () => {
     })(INITIAL_STATE, { type: '' });
     expect(resultState).toBe(INITIAL_STATE);
   });
+
+  it('should throw if state is undefined', () => {
+    expect(() => createFormGroupReducerWithUpdate<any>({})(undefined, { type: '' })).toThrowError();
+  });
 });

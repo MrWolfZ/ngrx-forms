@@ -25,7 +25,7 @@ export function formControlReducerInternal<TValue extends FormControlValueTypes>
   action: Actions<TValue>,
 ): FormControlState<TValue> {
   if (isGroupState(state) || isArrayState(state)) {
-    throw new Error('State must be control state');
+    throw new Error('The state must be a control state');
   }
 
   if (action.controlId !== state.id) {
@@ -56,6 +56,10 @@ export function formControlReducerInternal<TValue extends FormControlValueTypes>
 /**
  * This reducer function updates a form control state with actions.
  */
-export function formControlReducer<TValue extends FormControlValueTypes>(state: FormControlState<TValue>, action: Action) {
+export function formControlReducer<TValue extends FormControlValueTypes>(state: FormControlState<TValue> | undefined, action: Action) {
+  if (!state) {
+    throw new Error('The control state must be defined!');
+  }
+
   return formControlReducerInternal(state, action as any);
 }

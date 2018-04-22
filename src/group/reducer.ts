@@ -30,7 +30,7 @@ import { childReducer } from './reducer/util';
 
 export function formGroupReducerInternal<TValue extends KeyValue>(state: FormGroupState<TValue>, action: Actions<TValue>) {
   if (!isGroupState(state)) {
-    throw new Error('State must be group state');
+    throw new Error('The state must be a group state');
   }
 
   if (!isNgrxFormsAction(action)) {
@@ -76,6 +76,10 @@ export function formGroupReducerInternal<TValue extends KeyValue>(state: FormGro
 /**
  * This reducer function updates a form group state with actions.
  */
-export function formGroupReducer<TValue extends KeyValue>(state: FormGroupState<TValue>, action: Action) {
+export function formGroupReducer<TValue extends KeyValue>(state: FormGroupState<TValue> | undefined, action: Action) {
+  if (!state) {
+    throw new Error('The group state must be defined!');
+  }
+
   return formGroupReducerInternal(state, action as any);
 }

@@ -224,7 +224,7 @@ export function createFormGroupReducerWithUpdate<TValue extends KeyValue>(
   updateFn: StateUpdateFns<TValue>,
   ...updateFnsArr: StateUpdateFns<TValue>[]
 ) {
-  return (state: FormGroupState<TValue>, action: Action) => {
+  return (state: FormGroupState<TValue> | undefined, action: Action) => {
     const newState = formGroupReducer(state, action);
     return newState === state ? state : updateGroup<TValue>(updateFn, ...updateFnsArr)(newState);
   };
