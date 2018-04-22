@@ -33,7 +33,7 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
 
 #### Bugfixes
 
-* do not set the `id` attribute for `input[type=radio]` form elements, closes [#63](https://github.com/MrWolfZ/ngrx-forms/issues/63)
+* do not set the `id` attribute for `input[type=radio]` form elements ([cbfd654](https://github.com/MrWolfZ/ngrx-forms/commit/cbfd654)), closes [#63](https://github.com/MrWolfZ/ngrx-forms/issues/63)
 
 <a name="2.3.2"></a>
 ### 2.3.2
