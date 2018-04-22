@@ -22,7 +22,7 @@ import {
   UnfocusAction,
 } from '../actions';
 import { createFormGroupState } from '../state';
-import { formGroupReducer, formGroupReducerInternal } from './reducer';
+import { formGroupReducer } from './reducer';
 
 describe('form group reducer', () => {
   const FORM_CONTROL_ID = 'test ID';
@@ -35,17 +35,17 @@ describe('form group reducer', () => {
   const INITIAL_STATE_FULL = createFormGroupState(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE_FULL);
 
   it('should skip any non-ngrx-forms action', () => {
-    const resultState = formGroupReducerInternal(INITIAL_STATE, { type: '' } as any);
+    const resultState = formGroupReducer(INITIAL_STATE, { type: '' } as any);
     expect(resultState).toBe(INITIAL_STATE);
   });
 
   it('should skip any action with non-equal control ID', () => {
-    const resultState = formGroupReducerInternal(INITIAL_STATE, new SetValueAction(`A${FORM_CONTROL_ID}`, 'A') as any);
+    const resultState = formGroupReducer(INITIAL_STATE, new SetValueAction(`A${FORM_CONTROL_ID}`, 'A') as any);
     expect(resultState).toBe(INITIAL_STATE);
   });
 
   it(`should forward ${FocusAction.name}s to children`, () => {
-    const resultState = formGroupReducerInternal(INITIAL_STATE, new FocusAction(FORM_CONTROL_INNER_ID) as any);
+    const resultState = formGroupReducer(INITIAL_STATE, new FocusAction(FORM_CONTROL_INNER_ID) as any);
     expect(resultState.controls.inner.isFocused).toEqual(true);
     expect(resultState.controls.inner.isUnfocused).toEqual(false);
   });
@@ -61,58 +61,58 @@ describe('form group reducer', () => {
         },
       },
     };
-    const resultState = formGroupReducerInternal(state, new UnfocusAction(FORM_CONTROL_INNER_ID) as any);
+    const resultState = formGroupReducer(state, new UnfocusAction(FORM_CONTROL_INNER_ID) as any);
     expect(resultState.controls.inner.isFocused).toEqual(false);
     expect(resultState.controls.inner.isUnfocused).toEqual(true);
   });
 
   it(`should forward add ${AddArrayControlAction.name}s to children`, () => {
-    const resultState = formGroupReducerInternal<FormGroupValue>(INITIAL_STATE_FULL, new AddArrayControlAction<any>(FORM_CONTROL_INNER5_ID, ''));
+    const resultState = formGroupReducer<FormGroupValue>(INITIAL_STATE_FULL, new AddArrayControlAction<any>(FORM_CONTROL_INNER5_ID, ''));
     expect(resultState.controls.inner5!.controls[1]).toBeDefined();
   });
 
   it(`should forward remove ${RemoveArrayControlAction.name}s to children`, () => {
-    const resultState = formGroupReducerInternal(INITIAL_STATE_FULL, new RemoveArrayControlAction(FORM_CONTROL_INNER5_ID, 0));
+    const resultState = formGroupReducer(INITIAL_STATE_FULL, new RemoveArrayControlAction(FORM_CONTROL_INNER5_ID, 0));
     expect(resultState.controls.inner5!.controls[0]).toBeUndefined();
   });
 
   it('should not update state if no child was updated', () => {
-    const resultState = formGroupReducerInternal(INITIAL_STATE, new SetValueAction(FORM_CONTROL_INNER_ID, '') as any);
+    const resultState = formGroupReducer(INITIAL_STATE, new SetValueAction(FORM_CONTROL_INNER_ID, '') as any);
     expect(resultState).toBe(INITIAL_STATE);
   });
 
   it('should not update state value if no child value was updated', () => {
-    const resultState = formGroupReducerInternal(INITIAL_STATE, new MarkAsDirtyAction(FORM_CONTROL_INNER_ID));
+    const resultState = formGroupReducer(INITIAL_STATE, new MarkAsDirtyAction(FORM_CONTROL_INNER_ID));
     expect(resultState.value).toBe(INITIAL_STATE.value);
   });
 
   it('should not reset child states', () => {
     const value = 'A';
-    const state = formGroupReducerInternal(INITIAL_STATE, new SetValueAction(FORM_CONTROL_INNER_ID, value) as any);
-    const resultState = formGroupReducerInternal(state, new MarkAsSubmittedAction(FORM_CONTROL_ID));
+    const state = formGroupReducer(INITIAL_STATE, new SetValueAction(FORM_CONTROL_INNER_ID, value) as any);
+    const resultState = formGroupReducer(state, new MarkAsSubmittedAction(FORM_CONTROL_ID));
     expect(resultState.controls.inner.value).toBe(value);
   });
 
   it('should not be stateful', () => {
-    formGroupReducerInternal(INITIAL_STATE_FULL, new SetValueAction(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE));
-    expect(() => formGroupReducerInternal(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_ID))).not.toThrowError();
+    formGroupReducer(INITIAL_STATE_FULL, new SetValueAction(FORM_CONTROL_ID, INITIAL_FORM_CONTROL_VALUE));
+    expect(() => formGroupReducer(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_ID))).not.toThrowError();
   });
 
   it('should preserve the order of properties when stringified', () => {
     const expected = JSON.stringify(INITIAL_STATE_FULL);
-    let state = formGroupReducerInternal(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_ID));
-    state = formGroupReducerInternal(state, new MarkAsPristineAction(FORM_CONTROL_ID));
+    let state = formGroupReducer(INITIAL_STATE_FULL, new MarkAsDirtyAction(FORM_CONTROL_ID));
+    state = formGroupReducer(state, new MarkAsPristineAction(FORM_CONTROL_ID));
     expect(JSON.stringify(state)).toEqual(expected);
   });
 
   it('should throw if trying to set a date as value', () => {
     const state = createFormGroupState<any>(FORM_CONTROL_ID, {});
-    expect(() => formGroupReducerInternal(state, new SetValueAction(FORM_CONTROL_ID, new Date()))).toThrowError();
+    expect(() => formGroupReducer(state, new SetValueAction(FORM_CONTROL_ID, new Date()))).toThrowError();
   });
 
   it('should throw if trying to set a date as a child value', () => {
     const state = createFormGroupState<any>(FORM_CONTROL_ID, { inner: null });
-    expect(() => formGroupReducerInternal(state, new SetValueAction(FORM_CONTROL_INNER_ID, new Date()))).toThrowError();
+    expect(() => formGroupReducer(state, new SetValueAction(FORM_CONTROL_INNER_ID, new Date()))).toThrowError();
   });
 
   it('should throw if state is undefined', () => {
@@ -120,12 +120,12 @@ describe('form group reducer', () => {
   });
 
   it('should throw if state is not a group state', () => {
-    expect(() => formGroupReducerInternal(INITIAL_STATE.controls.inner as any, new MarkAsDirtyAction(FORM_CONTROL_ID))).toThrowError();
+    expect(() => formGroupReducer(INITIAL_STATE.controls.inner as any, new MarkAsDirtyAction(FORM_CONTROL_ID))).toThrowError();
   });
 
   describe(SetValueAction.name, () => {
     it('should update state', () => {
-      const resultState = formGroupReducerInternal(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, { inner: 'A' }));
+      const resultState = formGroupReducer(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, { inner: 'A' }));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
@@ -133,7 +133,7 @@ describe('form group reducer', () => {
   describe(SetErrorsAction.name, () => {
     it('should update state', () => {
       const errors = { required: true };
-      const resultState = formGroupReducerInternal(INITIAL_STATE, new SetErrorsAction(FORM_CONTROL_ID, errors));
+      const resultState = formGroupReducer(INITIAL_STATE, new SetErrorsAction(FORM_CONTROL_ID, errors));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
@@ -141,7 +141,7 @@ describe('form group reducer', () => {
   describe(StartAsyncValidationAction.name, () => {
     it('should update state', () => {
       const name = 'required';
-      const resultState = formGroupReducerInternal(INITIAL_STATE, new StartAsyncValidationAction(FORM_CONTROL_ID, name));
+      const resultState = formGroupReducer(INITIAL_STATE, new StartAsyncValidationAction(FORM_CONTROL_ID, name));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
@@ -151,7 +151,7 @@ describe('form group reducer', () => {
       const name = 'required';
       const value = true;
       const state = { ...INITIAL_STATE, pendingValidations: [name], isValidationPending: true };
-      const resultState = formGroupReducerInternal<typeof state.value>(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+      const resultState = formGroupReducer<typeof state.value>(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
@@ -168,14 +168,14 @@ describe('form group reducer', () => {
         isValidationPending: true,
       };
 
-      const resultState = formGroupReducerInternal(state, new ClearAsyncErrorAction(FORM_CONTROL_ID, name));
+      const resultState = formGroupReducer(state, new ClearAsyncErrorAction(FORM_CONTROL_ID, name));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
 
   describe(MarkAsDirtyAction.name, () => {
     it('should update state', () => {
-      const resultState = formGroupReducerInternal(INITIAL_STATE, new MarkAsDirtyAction(FORM_CONTROL_ID));
+      const resultState = formGroupReducer(INITIAL_STATE, new MarkAsDirtyAction(FORM_CONTROL_ID));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
@@ -183,7 +183,7 @@ describe('form group reducer', () => {
   describe(MarkAsPristineAction.name, () => {
     it('should update state', () => {
       const state = { ...INITIAL_STATE, isDirty: true, isPristine: false };
-      const resultState = formGroupReducerInternal(state, new MarkAsPristineAction(FORM_CONTROL_ID));
+      const resultState = formGroupReducer(state, new MarkAsPristineAction(FORM_CONTROL_ID));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
@@ -191,21 +191,21 @@ describe('form group reducer', () => {
   describe(EnableAction.name, () => {
     it('should update state', () => {
       const state = { ...INITIAL_STATE, isEnabled: false, isDisabled: true };
-      const resultState = formGroupReducerInternal(state, new EnableAction(FORM_CONTROL_ID));
+      const resultState = formGroupReducer(state, new EnableAction(FORM_CONTROL_ID));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
 
   describe(DisableAction.name, () => {
     it('should update state', () => {
-      const resultState = formGroupReducerInternal(INITIAL_STATE, new DisableAction(FORM_CONTROL_ID));
+      const resultState = formGroupReducer(INITIAL_STATE, new DisableAction(FORM_CONTROL_ID));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
 
   describe(MarkAsTouchedAction.name, () => {
     it('should update state', () => {
-      const resultState = formGroupReducerInternal(INITIAL_STATE, new MarkAsTouchedAction(FORM_CONTROL_ID));
+      const resultState = formGroupReducer(INITIAL_STATE, new MarkAsTouchedAction(FORM_CONTROL_ID));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
@@ -213,14 +213,14 @@ describe('form group reducer', () => {
   describe(MarkAsUntouchedAction.name, () => {
     it('should update state', () => {
       const state = { ...INITIAL_STATE, isTouched: true, isUntouched: false };
-      const resultState = formGroupReducerInternal(state, new MarkAsUntouchedAction(FORM_CONTROL_ID));
+      const resultState = formGroupReducer(state, new MarkAsUntouchedAction(FORM_CONTROL_ID));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
 
   describe(MarkAsSubmittedAction.name, () => {
     it('should update state', () => {
-      const resultState = formGroupReducerInternal(INITIAL_STATE, new MarkAsSubmittedAction(FORM_CONTROL_ID));
+      const resultState = formGroupReducer(INITIAL_STATE, new MarkAsSubmittedAction(FORM_CONTROL_ID));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
@@ -228,7 +228,7 @@ describe('form group reducer', () => {
   describe(MarkAsUnsubmittedAction.name, () => {
     it('should update state', () => {
       const state = { ...INITIAL_STATE, isSubmitted: true, isUnsubmitted: false };
-      const resultState = formGroupReducerInternal(state, new MarkAsUnsubmittedAction(FORM_CONTROL_ID));
+      const resultState = formGroupReducer(state, new MarkAsUnsubmittedAction(FORM_CONTROL_ID));
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
@@ -236,7 +236,7 @@ describe('form group reducer', () => {
   describe(AddGroupControlAction.name, () => {
     it('should update state', () => {
       const action = new AddGroupControlAction<FormGroupValue>(FORM_CONTROL_ID, 'inner2', '');
-      const resultState = formGroupReducerInternal<FormGroupValue>(INITIAL_STATE, action);
+      const resultState = formGroupReducer<FormGroupValue>(INITIAL_STATE, action);
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
@@ -244,7 +244,7 @@ describe('form group reducer', () => {
   describe(RemoveGroupControlAction.name, () => {
     it('should update state', () => {
       const action = new RemoveGroupControlAction<FormGroupValue>(FORM_CONTROL_ID, 'inner2');
-      const resultState = formGroupReducerInternal<FormGroupValue>(INITIAL_STATE_FULL, action);
+      const resultState = formGroupReducer<FormGroupValue>(INITIAL_STATE_FULL, action);
       expect(resultState).not.toBe(INITIAL_STATE_FULL);
     });
   });
@@ -252,7 +252,7 @@ describe('form group reducer', () => {
   describe(SetUserDefinedPropertyAction.name, () => {
     it('should update state', () => {
       const action = new SetUserDefinedPropertyAction(FORM_CONTROL_ID, 'prop', 12);
-      const resultState = formGroupReducerInternal<FormGroupValue>(INITIAL_STATE_FULL, action);
+      const resultState = formGroupReducer<FormGroupValue>(INITIAL_STATE_FULL, action);
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
@@ -261,7 +261,7 @@ describe('form group reducer', () => {
     it('should update state', () => {
       const action = new ResetAction(FORM_CONTROL_ID);
       const state = { ...INITIAL_STATE, isSubmitted: true, isUnsubmitted: false };
-      const resultState = formGroupReducerInternal<FormGroupValue>(state, action);
+      const resultState = formGroupReducer<FormGroupValue>(state, action);
       expect(resultState).not.toBe(INITIAL_STATE);
     });
   });
