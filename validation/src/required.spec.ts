@@ -1,6 +1,15 @@
 import { required } from './required';
 
 describe(required.name, () => {
+  it('should return an error for undefined', () => {
+    const value = undefined;
+    expect(required(value)).toEqual({
+      required: {
+        actual: value,
+      },
+    });
+  });
+
   it('should return an error for null', () => {
     const value = null;
     expect(required(value)).toEqual({
