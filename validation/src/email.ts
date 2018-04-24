@@ -4,6 +4,18 @@ import { ValidationErrors } from 'ngrx-forms';
 // tslint:disable-next-line:max-line-length
 export const NGRX_FORMS_EMAIL_VALIDATION_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
 
+export interface EmailValidationError {
+  pattern: string;
+  actual: string;
+}
+
+// @ts-ignore
+declare module 'ngrx-forms/src/state' {
+  export interface ValidationErrors {
+    email?: EmailValidationError;
+  }
+}
+
 /**
  * A validation function that requires a value to be a valid e-mail address.
  * Considers `null`, `undefined`, and `''` as valid. Combine this function with the

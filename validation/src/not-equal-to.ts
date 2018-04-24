@@ -1,5 +1,17 @@
 import { ValidationErrors } from 'ngrx-forms';
 
+export interface NotEqualToValidationError<T> {
+  comparand: T;
+  actual: T;
+}
+
+// @ts-ignore
+declare module 'ngrx-forms/src/state' {
+  export interface ValidationErrors {
+    notEqualTo?: NotEqualToValidationError<any>;
+  }
+}
+
 /**
  * A validation function that requires the value to be strictly not equal (i.e. `!==`)
  * to another value.

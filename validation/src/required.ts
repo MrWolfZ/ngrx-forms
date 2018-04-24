@@ -1,5 +1,16 @@
 import { ValidationErrors } from 'ngrx-forms';
 
+export interface RequiredValidationError<T> {
+  actual: T | null | undefined;
+}
+
+// @ts-ignore
+declare module 'ngrx-forms/src/state' {
+  export interface ValidationErrors {
+    required?: RequiredValidationError<any>;
+  }
+}
+
 /**
  * A validation function that requires the value to be non-`undefined`, non-'null',
  * and non-empty.

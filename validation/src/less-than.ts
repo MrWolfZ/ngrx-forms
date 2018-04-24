@@ -1,5 +1,17 @@
 import { ValidationErrors } from 'ngrx-forms';
 
+export interface LessThanValidationError {
+  comparand: number;
+  actual: number;
+}
+
+// @ts-ignore
+declare module 'ngrx-forms/src/state' {
+  export interface ValidationErrors {
+    lessThan?: LessThanValidationError;
+  }
+}
+
 /**
  * A validation function that requires the value to be less than a number.
  * Considers `null` and `undefined` as valid. Combine this function with the `required`

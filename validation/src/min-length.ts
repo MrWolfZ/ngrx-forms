@@ -1,5 +1,18 @@
 import { ValidationErrors } from 'ngrx-forms';
 
+export interface MinLengthValidationError {
+  minLength: number;
+  value: string;
+  actualLength: number;
+}
+
+// @ts-ignore
+declare module 'ngrx-forms/src/state' {
+  export interface ValidationErrors {
+    minLength?: MinLengthValidationError;
+  }
+}
+
 /**
  * A validation function that requires a `string` or `array` value to have a minimum length.
  * Considers `null` and `undefined` as valid. Combine this function with the `required`

@@ -1,5 +1,17 @@
 import { ValidationErrors } from 'ngrx-forms';
 
+export interface EqualToValidationError<T> {
+  comparand: T;
+  actual: T;
+}
+
+// @ts-ignore
+declare module 'ngrx-forms/src/state' {
+  export interface ValidationErrors {
+    equalTo?: EqualToValidationError<any>;
+  }
+}
+
 /**
  * A validation function that requires the value to be strictly equal (i.e. `===`)
  * to another value.

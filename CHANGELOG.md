@@ -31,6 +31,7 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
 * add `notEqualTo` validation function ([851a1ed](https://github.com/MrWolfZ/ngrx-forms/commit/851a1ed))
 * enhance all form state reducers to match type signature for `ActionReducer` (they will still throw an error if the state is `undefined`) ([f3b5fea](https://github.com/MrWolfZ/ngrx-forms/commit/f3b5fea))
 * add support for `undefined` values for all validation functions ([6cce8d0](https://github.com/MrWolfZ/ngrx-forms/commit/6cce8d0), thanks @romankhrystynych for his contribution in [#65](https://github.com/MrWolfZ/ngrx-forms/pull/65)), closes [#64](https://github.com/MrWolfZ/ngrx-forms/issues/64)
+* improve typing of `errors` property on form states by using module augmentation inside of validation module to add well defined error properties to `ValidationErrors` interface
 
 #### Bugfixes
 

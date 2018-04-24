@@ -5,16 +5,16 @@
  * MIT license.
  * https://github.com/MrWolfZ/ngrx-forms
  */
-export { email } from './src/email';
-export { equalTo } from './src/equal-to';
-export { greaterThan } from './src/greater-than';
-export { greaterThanOrEqualTo } from './src/greater-than-or-equal-to';
-export { lessThan } from './src/less-than';
-export { lessThanOrEqualTo } from './src/less-than-or-equal-to';
-export { maxLength } from './src/max-length';
-export { minLength } from './src/min-length';
-export { notEqualTo } from './src/not-equal-to';
-export { pattern } from './src/pattern';
-export { required } from './src/required';
-export { requiredFalse } from './src/required-false';
-export { requiredTrue } from './src/required-true';
+export { email, EmailValidationError } from './src/email';
+export { equalTo, EqualToValidationError } from './src/equal-to';
+export { greaterThan, GreaterThanValidationError } from './src/greater-than';
+export { greaterThanOrEqualTo, GreaterThanOrEqualToValidationError } from './src/greater-than-or-equal-to';
+export { lessThan, LessThanValidationError } from './src/less-than';
+export { lessThanOrEqualTo, LessThanOrEqualToValidationError } from './src/less-than-or-equal-to';
+export { maxLength, MaxLengthValidationError } from './src/max-length';
+export { minLength, MinLengthValidationError } from './src/min-length';
+export { notEqualTo, NotEqualToValidationError } from './src/not-equal-to';
+export { pattern, PatternValidationError } from './src/pattern';
+export { required, RequiredValidationError } from './src/required';
+export { requiredFalse, RequiredFalseValidationError } from './src/required-false';
+export { requiredTrue, RequiredTrueValidationError } from './src/required-true';

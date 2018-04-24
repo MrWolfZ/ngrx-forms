@@ -1,5 +1,18 @@
 import { ValidationErrors } from 'ngrx-forms';
 
+export interface MaxLengthValidationError {
+  maxLength: number;
+  value: string;
+  actualLength: number;
+}
+
+// @ts-ignore
+declare module 'ngrx-forms/src/state' {
+  export interface ValidationErrors {
+    maxLength?: MaxLengthValidationError;
+  }
+}
+
 /**
  * A validation function that requires a `string` or `array` value to have a maximum length.
  * Considers `null` and `undefined` as valid. Combine this function with the `required`

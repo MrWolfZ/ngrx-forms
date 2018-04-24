@@ -1,5 +1,17 @@
 import { ValidationErrors } from 'ngrx-forms';
 
+export interface PatternValidationError {
+  pattern: string;
+  actual: string;
+}
+
+// @ts-ignore
+declare module 'ngrx-forms/src/state' {
+  export interface ValidationErrors {
+    pattern?: PatternValidationError;
+  }
+}
+
 /**
  * A validation function that requires a value to match a regex.
  * Considers `null`, `undefined`, and `''` as valid. Combine this function with the
