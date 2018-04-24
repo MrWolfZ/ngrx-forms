@@ -71,7 +71,7 @@ export const validateAndUpdateForm = updateGroup<FormValue>({
       password: validate(required, minLength(8)),
     });
   },
-  agreeToTermsOfUse: validate<boolean>(requiredTrue),
+  agreeToTermsOfUse: validate(requiredTrue),
 });
 
 export const reducers: ActionReducerMap<State['syncValidation']> = {

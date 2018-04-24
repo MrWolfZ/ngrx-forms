@@ -59,11 +59,11 @@ const validationFormGroupReducer = createFormGroupReducerWithUpdate<FormValue>({
 
     state = enable(state);
     return updateGroup<PasswordValue>(state, {
-      password: validate([required, minLength(8)]),
+      password: validate(required, minLength(8)),
       confirmPassword: validate(equalTo(state.value.password)),
     });
   },
-  agreeToTermsOfUse: validate<boolean>(requiredTrue),
+  agreeToTermsOfUse: validate(requiredTrue),
 });
 
 export const reducers: ActionReducerMap<State['material']> = {
