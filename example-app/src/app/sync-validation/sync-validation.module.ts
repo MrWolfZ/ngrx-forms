@@ -6,9 +6,9 @@ import { NgrxFormsModule } from 'ngrx-forms';
 
 import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
-import { SyncValidationPageComponent } from './sync-validation.component';
 import { SyncValidationComponent } from './form/form.component';
-import { reducer } from './sync-validation.reducer';
+import { SyncValidationPageComponent } from './sync-validation.component';
+import { reducers } from './sync-validation.reducer';
 
 export const COMPONENTS = [
   SyncValidationPageComponent,
@@ -24,8 +24,7 @@ export const COMPONENTS = [
     RouterModule.forChild([
       { path: '', component: SyncValidationPageComponent },
     ]),
-
-    StoreModule.forFeature('syncValidation', reducer),
+    StoreModule.forFeature('syncValidation', reducers),
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS,

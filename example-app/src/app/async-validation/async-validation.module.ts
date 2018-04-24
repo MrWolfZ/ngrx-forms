@@ -9,7 +9,7 @@ import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
 import { AsyncValidationPageComponent } from './async-validation.component';
 import { AsyncValidationEffects } from './async-validation.effects';
-import { reducer } from './async-validation.reducer';
+import { reducers } from './async-validation.reducer';
 import { AsyncValidationFormComponent } from './form/form.component';
 
 export const COMPONENTS = [
@@ -27,7 +27,7 @@ export const COMPONENTS = [
       { path: '', component: AsyncValidationPageComponent },
     ]),
 
-    StoreModule.forFeature('asyncValidation', reducer),
+    StoreModule.forFeature('asyncValidation', reducers),
     EffectsModule.forFeature([AsyncValidationEffects]),
   ],
   declarations: COMPONENTS,

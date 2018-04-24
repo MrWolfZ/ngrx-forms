@@ -8,7 +8,7 @@ import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
 import { DynamicFormComponent } from './form/form.component';
 import { DynamicPageComponent } from './material.component';
-import { reducer } from './material.reducer';
+import { reducers } from './material.reducer';
 
 export const COMPONENTS = [
   DynamicPageComponent,
@@ -24,8 +24,7 @@ export const COMPONENTS = [
     RouterModule.forChild([
       { path: '', component: DynamicPageComponent },
     ]),
-
-    StoreModule.forFeature('material', reducer),
+    StoreModule.forFeature('material', reducers),
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS,

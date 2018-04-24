@@ -8,7 +8,7 @@ import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
 import { RecursiveUpdateFormComponent } from './form/form.component';
 import { RecursiveUpdatePageComponent } from './recursive-update.component';
-import { reducer } from './recursive-update.reducer';
+import { reducers } from './recursive-update.reducer';
 
 export const COMPONENTS = [
   RecursiveUpdatePageComponent,
@@ -24,8 +24,7 @@ export const COMPONENTS = [
     RouterModule.forChild([
       { path: '', component: RecursiveUpdatePageComponent },
     ]),
-
-    StoreModule.forFeature('recursiveUpdate', reducer),
+    StoreModule.forFeature('recursiveUpdate', reducers),
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS,

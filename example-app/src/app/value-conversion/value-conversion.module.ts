@@ -8,7 +8,7 @@ import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
 import { ValueConversionFormComponent } from './form/form.component';
 import { ValueConversionPageComponent } from './value-conversion.component';
-import { reducer } from './value-conversion.reducer';
+import { reducers } from './value-conversion.reducer';
 
 export const COMPONENTS = [
   ValueConversionPageComponent,
@@ -24,8 +24,7 @@ export const COMPONENTS = [
     RouterModule.forChild([
       { path: '', component: ValueConversionPageComponent },
     ]),
-
-    StoreModule.forFeature('valueConversion', reducer),
+    StoreModule.forFeature('valueConversion', reducers),
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS,

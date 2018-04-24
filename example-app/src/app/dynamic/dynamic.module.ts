@@ -7,7 +7,7 @@ import { NgrxFormsModule } from 'ngrx-forms';
 import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
 import { DynamicPageComponent } from './dynamic.component';
-import { reducer } from './dynamic.reducer';
+import { reducers } from './dynamic.reducer';
 import { DynamicFormComponent } from './form/form.component';
 
 export const COMPONENTS = [
@@ -24,8 +24,7 @@ export const COMPONENTS = [
     RouterModule.forChild([
       { path: '', component: DynamicPageComponent },
     ]),
-
-    StoreModule.forFeature('dynamic', reducer),
+    StoreModule.forFeature('dynamic', reducers),
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS,

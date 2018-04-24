@@ -7,7 +7,7 @@ import { NgrxFormsModule } from 'ngrx-forms';
 import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
 import { ArrayPageComponent } from './array.component';
-import { reducer } from './array.reducer';
+import { reducers } from './array.reducer';
 import { ArrayFormComponent } from './form/form.component';
 
 export const COMPONENTS = [
@@ -24,8 +24,7 @@ export const COMPONENTS = [
     RouterModule.forChild([
       { path: '', component: ArrayPageComponent },
     ]),
-
-    StoreModule.forFeature('array', reducer),
+    StoreModule.forFeature('array', reducers),
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS,
