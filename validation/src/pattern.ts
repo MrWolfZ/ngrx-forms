@@ -2,7 +2,7 @@ import { ValidationErrors } from 'ngrx-forms';
 
 /**
  * A validation function that requires a value to match a regex.
- * Considers `null` and `''` as valid. Combine this function with the
+ * Considers `null`, `undefined`, and `''` as valid. Combine this function with the
  * `required` validation function if these values should be considered invalid.
  *
  * The validation error returned by this validation function has the following shape:
@@ -31,8 +31,8 @@ export function pattern(patternParam: RegExp) {
     throw new Error(`The pattern Validation function requires the pattern parameter to be a non-null string or regular expression, got ${patternParam}!`);
   }
 
-  return (value: string | null): ValidationErrors => {
-    if (value === null || value.length === 0) {
+  return (value: string | null | undefined): ValidationErrors => {
+    if (value === null || value === undefined || value.length === 0) {
       return {};
     }
 

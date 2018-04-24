@@ -13,6 +13,10 @@ describe(pattern.name, () => {
     expect(pattern(/a/g)(null)).toEqual({});
   });
 
+  it('should not return an error for undefined', () => {
+    expect(pattern(/a/g)(undefined)).toEqual({});
+  });
+
   it('should not return an error for empty string', () => {
     expect(pattern(/a/g)('')).toEqual({});
   });

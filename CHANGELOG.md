@@ -30,6 +30,7 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
 * add `updateArrayWithFilter` update function which works the same as `updateArray` except that it also takes a filter function that is applied to each array element to determine whether the update function should be applied ([0b66a6f](https://github.com/MrWolfZ/ngrx-forms/commit/0b66a6f))
 * add `notEqualTo` validation function ([851a1ed](https://github.com/MrWolfZ/ngrx-forms/commit/851a1ed))
 * enhance all form state reducers to match type signature for `ActionReducer` (they will still throw an error if the state is `undefined`) ([f3b5fea](https://github.com/MrWolfZ/ngrx-forms/commit/f3b5fea))
+* add support for `undefined` values for all validation functions (thanks @romankhrystynych for his contribution in [#65](https://github.com/MrWolfZ/ngrx-forms/pull/65)), closes [#64](https://github.com/MrWolfZ/ngrx-forms/issues/64)
 
 #### Bugfixes
 

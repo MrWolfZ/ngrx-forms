@@ -5,6 +5,10 @@ describe(requiredTrue.name, () => {
     expect(requiredTrue(null)).toEqual({});
   });
 
+  it('should not return an error for undefined', () => {
+    expect(requiredTrue(undefined)).toEqual({});
+  });
+
   it('should not return an error for true', () => {
     expect(requiredTrue(true)).toEqual({});
   });

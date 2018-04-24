@@ -6,7 +6,7 @@ export const NGRX_FORMS_EMAIL_VALIDATION_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!
 
 /**
  * A validation function that requires a value to be a valid e-mail address.
- * Considers `null` and `''` as valid. Combine this function with the
+ * Considers `null`, `undefined`, and `''` as valid. Combine this function with the
  * `required` validation function if these values should be considered invalid.
  *
  * The validation error returned by this validation function has the following shape:
@@ -29,8 +29,8 @@ export const NGRX_FORMS_EMAIL_VALIDATION_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!
  * })
  * ```
  */
-export function email(value: string | null): ValidationErrors {
-  if (value === null || value.length === 0) {
+export function email(value: string | null | undefined): ValidationErrors {
+  if (value === null || value === undefined || value.length === 0) {
     return {};
   }
 

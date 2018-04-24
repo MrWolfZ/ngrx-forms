@@ -1,7 +1,8 @@
 import { ValidationErrors } from 'ngrx-forms';
 
 /**
- * A validation function that requires the value to be strictly equal (i.e. `===`) to another value.
+ * A validation function that requires the value to be strictly equal (i.e. `===`)
+ * to another value.
  *
  * The validation error returned by this validation function has the following shape:
  *

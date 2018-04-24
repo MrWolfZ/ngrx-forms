@@ -13,6 +13,10 @@ describe(maxLength.name, () => {
     expect(maxLength(2)(null)).toEqual({});
   });
 
+  it('should not return an error for undefined', () => {
+    expect(maxLength(2)(undefined)).toEqual({});
+  });
+
   it('should return an error if string value\'s length is greater than maxLength', () => {
     expect(maxLength(2)('abc')).not.toEqual({});
   });

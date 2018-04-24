@@ -1,9 +1,9 @@
 import { ValidationErrors } from 'ngrx-forms';
 
 /**
- * A validation function that requires the value to be `false`.
- * Considers `null` as valid. Combine this function with the `required` validation
- * function if `null` should be considered invalid.
+ * A validation function that requires the value to be `false`. Considers `null` and
+ * `undefined` as valid. Combine this function with the `required` validation
+ * function if `null` or `undefined` should be considered invalid.
  *
  * The validation error returned by this validation function has the following shape:
  *
@@ -23,9 +23,12 @@ import { ValidationErrors } from 'ngrx-forms';
  *  disagreeWithTermsOfService: validate(requiredFalse),
  * })
  * ```
+ *
+ * Note that this function is generic to allow the compiler to properly infer the type
+ * of the `validate` function for both optional and non-optional controls.
  */
-export function requiredFalse(value: boolean | null): ValidationErrors {
-  if (value === null) {
+export function requiredFalse<T extends boolean | null | undefined>(value: T): ValidationErrors {
+  if (value === null || value === undefined) {
     return {};
   }
 

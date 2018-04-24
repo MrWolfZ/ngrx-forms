@@ -13,6 +13,10 @@ describe(minLength.name, () => {
     expect(minLength(2)(null)).toEqual({});
   });
 
+  it('should not return an error for undefined', () => {
+    expect(minLength(2)(undefined)).toEqual({});
+  });
+
   it('should not return an error if string value\'s length is greater than minLength', () => {
     expect(minLength(2)('abc')).toEqual({});
   });

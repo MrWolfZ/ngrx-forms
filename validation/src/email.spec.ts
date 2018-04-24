@@ -7,6 +7,10 @@ describe(email.name, () => {
     expect(email(null)).toEqual({});
   });
 
+  it('should not return an error for undefined', () => {
+    expect(email(undefined)).toEqual({});
+  });
+
   it('should not return an error for empty string', () => {
     expect(email('')).toEqual({});
   });
