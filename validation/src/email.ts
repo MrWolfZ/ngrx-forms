@@ -40,13 +40,16 @@ declare module 'ngrx-forms/src/state' {
  *  userMailAddress: validate(email),
  * })
  * ```
+ *
+ * Note that this function is generic to allow the compiler to properly infer the type
+ * of the `validate` function for both optional and non-optional controls.
  */
-export function email(value: string | null | undefined): ValidationErrors {
+export function email<T extends string | null | undefined>(value: T): ValidationErrors {
   if (value === null || value === undefined || value.length === 0) {
     return {};
   }
 
-  if (NGRX_FORMS_EMAIL_VALIDATION_REGEXP.test(value)) {
+  if (NGRX_FORMS_EMAIL_VALIDATION_REGEXP.test(value as string)) {
     return {};
   }
 

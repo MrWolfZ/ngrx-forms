@@ -36,6 +36,9 @@ declare module 'ngrx-forms/src/state' {
  *  numberWithPeriodsOrCommas: validate(pattern(/^[0-9.,]+$/)),
  * })
  * ```
+ *
+ * Note that this function is generic to allow the compiler to properly infer the type
+ * of the `validate` function for both optional and non-optional controls.
  */
 export function pattern(patternParam: RegExp) {
   // tslint:disable-next-line:strict-type-predicates (guard for users without strict type checking)
@@ -43,12 +46,12 @@ export function pattern(patternParam: RegExp) {
     throw new Error(`The pattern Validation function requires the pattern parameter to be a non-null string or regular expression, got ${patternParam}!`);
   }
 
-  return (value: string | null | undefined): ValidationErrors => {
+  return <T extends string | null | undefined>(value: T): ValidationErrors => {
     if (value === null || value === undefined || value.length === 0) {
       return {};
     }
 
-    if (patternParam.test(value)) {
+    if (patternParam.test(value as string)) {
       return {};
     }
 

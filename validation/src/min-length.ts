@@ -37,6 +37,10 @@ declare module 'ngrx-forms/src/state' {
  * updateGroup<MyFormValue>({
  *  password: validate(minLength(8)),
  * })
+ * ```
+ *
+ * Note that this function is generic to allow the compiler to properly infer the type
+ * of the `validate` function for both optional and non-optional controls.
  */
 export function minLength(minLengthParam: number) {
   // tslint:disable-next-line:strict-type-predicates (guard for users without strict type checking)
@@ -44,7 +48,7 @@ export function minLength(minLengthParam: number) {
     throw new Error(`The minLength Validation function requires the minLength parameter to be a non-null number, got ${minLengthParam}!`);
   }
 
-  return (value: string | any[] | null | undefined): ValidationErrors => {
+  return <T extends string | any[] | null | undefined>(value: T): ValidationErrors => {
     if (value === null || value === undefined) {
       return {};
     }

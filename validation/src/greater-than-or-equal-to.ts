@@ -36,6 +36,9 @@ declare module 'ngrx-forms/src/state' {
  *  amount: validate(greaterThanOrEqualTo(10)),
  * })
  * ```
+ *
+ * Note that this function is generic to allow the compiler to properly infer the type
+ * of the `validate` function for both optional and non-optional controls.
  */
 export function greaterThanOrEqualTo(comparand: number) {
   // tslint:disable-next-line:strict-type-predicates (guard for users without strict type checking)
@@ -43,7 +46,7 @@ export function greaterThanOrEqualTo(comparand: number) {
     throw new Error(`The greaterThanOrEqualTo Validation function requires the comparand parameter to be a non-null number, got ${comparand}!`);
   }
 
-  return (value: number | null | undefined): ValidationErrors => {
+  return <T extends number | null | undefined>(value: T): ValidationErrors => {
     if (value === null || value === undefined) {
       return {};
     }
