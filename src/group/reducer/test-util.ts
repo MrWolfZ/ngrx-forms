@@ -40,7 +40,7 @@ function setPropertyRecursively<TValue>(
     const controls = state.controls;
     const newControls = Object.keys(controls).reduce((res, key) => {
       const s = setPropertyRecursively(controls[key], property, value, ...excludeIds);
-      res[key] = s;
+      Object.assign(res, { [key]: s });
       return res;
     }, {} as FormGroupControls<any>);
 
