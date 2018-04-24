@@ -13,11 +13,11 @@ function updateGroupControlsState<TValue extends KeyValue>(updateFns: StateUpdat
     let hasChanged = false;
     const newControls = Object.keys(state.controls).reduce((res, key) => {
       const control = state.controls[key];
-      res[key] = control;
+      Object.assign(res, { [key]: control });
       if (updateFns.hasOwnProperty(key)) {
         const newControl = updateFns[key]!(control, state);
         hasChanged = hasChanged || newControl !== control;
-        res[key] = newControl;
+        Object.assign(res, { [key]: newControl });
       }
       return res;
     }, {} as FormGroupControls<TValue>);

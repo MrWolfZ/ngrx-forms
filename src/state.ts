@@ -6,7 +6,7 @@ export type NgrxFormControlId = string;
 /**
  * This type represents a collection of named errors.
  */
-export interface ValidationErrors { [key: string]: any; }
+export interface ValidationErrors { readonly [key: string]: any; }
 export interface KeyValue { [key: string]: any; }
 
 /**
@@ -18,40 +18,40 @@ export interface AbstractControlState<TValue> {
    * of the control in the form value prefixed by the ID of the containing
    * group or array, e.g. `MY_FORM.someTextInput` or `MY_FORM.0`.
    */
-  id: string;
+  readonly id: string;
 
   /**
    * The value of the form state.
    */
-  value: TValue;
+  readonly value: TValue;
 
   /**
    * This property is `true` if the state does not have any errors.
    */
-  isValid: boolean;
+  readonly isValid: boolean;
 
   /**
    * This property is `true` if the state has at least one error.
    */
-  isInvalid: boolean;
+  readonly isInvalid: boolean;
 
   /**
    * The errors of the state. This property always has a value.
    * If the state has no errors the property is set to `{}`.
    */
-  errors: ValidationErrors;
+  readonly errors: ValidationErrors;
 
   /**
    * The names of all asynchronous validations currently running
    * for the state.
    */
-  pendingValidations: string[];
+  readonly pendingValidations: ReadonlyArray<string>;
 
   /**
    * This property indicates whether the control is currently being
    * asynchronously validated.
    */
-  isValidationPending: boolean;
+  readonly isValidationPending: boolean;
 
   /**
    * This property indicates whether the state is enabled. When it
@@ -59,7 +59,7 @@ export interface AbstractControlState<TValue> {
    * always valid if disabled) and `pendingValidations` is always `[]`
    * (i.e. all pending validations are cancelled).
    */
-  isEnabled: boolean;
+  readonly isEnabled: boolean;
 
   /**
    * This property indicates whether the state is disabled. When it
@@ -67,37 +67,37 @@ export interface AbstractControlState<TValue> {
    * always valid if disabled) and `pendingValidations` is always `[]`
    * (i.e. all pending validations are cancelled).
    */
-  isDisabled: boolean;
+  readonly isDisabled: boolean;
 
   /**
    * This property is set to `true` as soon as the state's value changes.
    */
-  isDirty: boolean;
+  readonly isDirty: boolean;
 
   /**
    * This property is `true` as long as the state's value never changed.
    */
-  isPristine: boolean;
+  readonly isPristine: boolean;
 
   /**
    * This property is set to `true` as soon as the state is touched.
    */
-  isTouched: boolean;
+  readonly isTouched: boolean;
 
   /**
    * This property is `true` as long as the state is not touched.
    */
-  isUntouched: boolean;
+  readonly isUntouched: boolean;
 
   /**
    * This property is set to `true` as soon as the state is submitted.
    */
-  isSubmitted: boolean;
+  readonly isSubmitted: boolean;
 
   /**
    * This property is `true` as long as the state is not submitted.
    */
-  isUnsubmitted: boolean;
+  readonly isUnsubmitted: boolean;
 
   /**
    * This property is a container for user-defined metadata (e.g. if
@@ -108,7 +108,7 @@ export interface AbstractControlState<TValue> {
    * `userDefinedProperties` allow you to store your own metadata
    * directly in the state.
    */
-  userDefinedProperties: KeyValue;
+  readonly userDefinedProperties: KeyValue;
 }
 
 /**
@@ -121,36 +121,36 @@ export interface FormControlState<TValue extends FormControlValueTypes> extends 
    * type `string`, `number`, `boolean`, `null`, and `undefined` to
    * keep the state string serializable.
    */
-  value: TValue;
+  readonly value: TValue;
 
   /**
    * This property is `true` if the form control does not have any errors.
    */
-  isValid: boolean;
+  readonly isValid: boolean;
 
   /**
    * This property is `true` if the form control has at least one error.
    */
-  isInvalid: boolean;
+  readonly isInvalid: boolean;
 
   /**
    * The errors of the form control. This property always has a value.
    * If the control has no errors the property is set to `{}`.
    */
-  errors: ValidationErrors;
+  readonly errors: ValidationErrors;
 
   /**
    * The names of all asynchronous validations currently running for the
    * form control.
    */
-  pendingValidations: string[];
+  readonly pendingValidations: ReadonlyArray<string>;
 
   /**
    * This property indicates whether the control is currently being
    * asynchronously validated (i.e. this is `true` if and only if
    * `pendingValidations` is not empty).
    */
-  isValidationPending: boolean;
+  readonly isValidationPending: boolean;
 
   /**
    * This property indicates whether the form control is enabled.
@@ -158,7 +158,7 @@ export interface FormControlState<TValue extends FormControlValueTypes> extends 
    * control is always valid if disabled) and `pendingValidations`
    * is always `[]` (i.e. all pending validations are cancelled).
    */
-  isEnabled: boolean;
+  readonly isEnabled: boolean;
 
   /**
    * This property indicates whether the form control is disabled.
@@ -166,45 +166,45 @@ export interface FormControlState<TValue extends FormControlValueTypes> extends 
    * control is always valid if disabled) and `pendingValidations`
    * is always `[]` (i.e. all pending validations are cancelled).
    */
-  isDisabled: boolean;
+  readonly isDisabled: boolean;
 
   /**
    * This property is set to `true` as soon as the underlying
    * `FormViewAdapter` or `ControlValueAccessor` reports a new
    * value for the first time.
    */
-  isDirty: boolean;
+  readonly isDirty: boolean;
 
   /**
    * This property is `true` as long as the underlying
    * `FormViewAdapter` or `ControlValueAccessor` has never
    * reported a new value.
    */
-  isPristine: boolean;
+  readonly isPristine: boolean;
 
   /**
    * This property is set to `true` based on the rules of the
    * underlying `FormViewAdapter` (usually on `blur` for most form
    * elements).
    */
-  isTouched: boolean;
+  readonly isTouched: boolean;
 
   /**
    * This property is `true` as long as the control is not touched.
    */
-  isUntouched: boolean;
+  readonly isUntouched: boolean;
 
   /**
    * This property is set to `true` as soon as the group or array
    * containing this form control is submitted. A form control can
    * never be submitted on its own.
    */
-  isSubmitted: boolean;
+  readonly isSubmitted: boolean;
 
   /**
    * This property is `true` as long as the state is not submitted.
    */
-  isUnsubmitted: boolean;
+  readonly isUnsubmitted: boolean;
 
   /**
    * This property is set to `true` if the form control currently
@@ -216,13 +216,13 @@ export interface FormControlState<TValue extends FormControlValueTypes> extends 
    *       [ngrxEnableFocusTracking]="true" />
    * ```
    */
-  isFocused: boolean;
+  readonly isFocused: boolean;
 
   /**
    * This property is `true` if the control currently does not have
    * focus or focus tracking is not enabled for the form control.
    */
-  isUnfocused: boolean;
+  readonly isUnfocused: boolean;
 }
 
 /**
@@ -250,7 +250,7 @@ export type InferredControlState<T> =
  * This type represents the child control states of a form group.
  */
 export type FormGroupControls<TValue> = {
-  [controlId in keyof TValue]: InferredControlState<TValue[controlId]>;
+  readonly [controlId in keyof TValue]: InferredControlState<TValue[controlId]>;
 };
 
 /**
@@ -272,19 +272,19 @@ export interface FormGroupState<TValue extends KeyValue> extends AbstractControl
    * }
    * ```
    */
-  value: TValue;
+  readonly value: TValue;
 
   /**
    * This property is `true` if the form group does not have any errors
    * itself and none of its children have any errors.
    */
-  isValid: boolean;
+  readonly isValid: boolean;
 
   /**
    * This property is `true` if the form group or any of its children
    * have at least one error.
    */
-  isInvalid: boolean;
+  readonly isInvalid: boolean;
 
   /**
    * The errors of the form group. This property is computed by merging
@@ -304,19 +304,19 @@ export interface FormGroupState<TValue extends KeyValue> extends AbstractControl
    * If neither the group nor any children have errors the property is
    * set to `{}`.
    */
-  errors: ValidationErrors;
+  readonly errors: ValidationErrors;
 
   /**
    * The names of all asynchronous validations currently running for the
    * form group.
    */
-  pendingValidations: string[];
+  readonly pendingValidations: ReadonlyArray<string>;
 
   /**
    * This property indicates whether the group or any of its children
    * are currently being asynchronously validated.
    */
-  isValidationPending: boolean;
+  readonly isValidationPending: boolean;
 
   /**
    * This property indicates whether the form group is enabled. It is
@@ -325,7 +325,7 @@ export interface FormGroupState<TValue extends KeyValue> extends AbstractControl
    * the form group is always valid if disabled) and `pendingValidations`
    * is always `[]` (i.e. all pending validations are cancelled).
    */
-  isEnabled: boolean;
+  readonly isEnabled: boolean;
 
   /**
    * This property indicates whether the form group is disabled. It is
@@ -334,31 +334,31 @@ export interface FormGroupState<TValue extends KeyValue> extends AbstractControl
    * is always valid if disabled) and `pendingValidations` is always
    * `[]` (i.e. all pending validations are cancelled).
    */
-  isDisabled: boolean;
+  readonly isDisabled: boolean;
 
   /**
    * This property is `true` if and only if at least one of the form
    * group's child states is marked as dirty.
    */
-  isDirty: boolean;
+  readonly isDirty: boolean;
 
   /**
    * This property is `true` if and only if all of the form group's
    * child states are pristine.
    */
-  isPristine: boolean;
+  readonly isPristine: boolean;
 
   /**
    * This property is `true` if and only if at least one of the form
    * group's child states is marked as touched.
    */
-  isTouched: boolean;
+  readonly isTouched: boolean;
 
   /**
    * This property is `true` if and only if all of the form group's
    * child states are untouched.
    */
-  isUntouched: boolean;
+  readonly isUntouched: boolean;
 
   /**
    * This property is set to `true` as soon as the form group is
@@ -373,12 +373,12 @@ export interface FormGroupState<TValue extends KeyValue> extends AbstractControl
    * Note that applying this directive to a form prevents normal form
    * submission since that does not make much sense for ngrx forms.
    */
-  isSubmitted: boolean;
+  readonly isSubmitted: boolean;
 
   /**
    * This property is `true` as long as the state is not submitted.
    */
-  isUnsubmitted: boolean;
+  readonly isUnsubmitted: boolean;
 
   /**
    * This property contains all child states of the form group. As
@@ -388,7 +388,7 @@ export interface FormGroupState<TValue extends KeyValue> extends AbstractControl
    * until [conditional mapped types](https://github.com/Microsoft/TypeScript/issues/12424)
    * are added to TypeScript.
    */
-  controls: FormGroupControls<TValue>;
+  readonly controls: FormGroupControls<TValue>;
 }
 
 /**
@@ -396,24 +396,24 @@ export interface FormGroupState<TValue extends KeyValue> extends AbstractControl
  * plain state arrays. The state of an array is determined almost
  * fully by its child states.
  */
-export interface FormArrayState<TValue> extends AbstractControlState<TValue[]> {
+export interface FormArrayState<TValue> extends AbstractControlState<ReadonlyArray<TValue>> {
   /**
    * The aggregated value of the form array. The value is computed by
    * aggregating the values of all children into an array.
    */
-  value: TValue[];
+  readonly value: ReadonlyArray<TValue>;
 
   /**
    * This property is `true` if the form array does not have any errors
    * itself and none of its children have any errors.
    */
-  isValid: boolean;
+  readonly isValid: boolean;
 
   /**
    * This property is `true` if the form array or any of its children
    * have at least one error.
    */
-  isInvalid: boolean;
+  readonly isInvalid: boolean;
 
   /**
    * The errors of the form array. This property is computed by merging
@@ -433,19 +433,19 @@ export interface FormArrayState<TValue> extends AbstractControlState<TValue[]> {
    * If neither the array nor any children have errors the property is
    * set to `{}`.
    */
-  errors: ValidationErrors;
+  readonly errors: ValidationErrors;
 
   /**
    * The names of all asynchronous validations currently running for the
    * form array.
    */
-  pendingValidations: string[];
+  readonly pendingValidations: ReadonlyArray<string>;
 
   /**
    * This property indicates whether the array or any of its children
    * are currently being asynchronously validated.
    */
-  isValidationPending: boolean;
+  readonly isValidationPending: boolean;
 
   /**
    * This property indicates whether the form array is enabled. It is
@@ -454,7 +454,7 @@ export interface FormArrayState<TValue> extends AbstractControlState<TValue[]> {
    * the form array is always valid if disabled) and `pendingValidations`
    * is always `[]` (i.e. all pending validations are cancelled).
    */
-  isEnabled: boolean;
+  readonly isEnabled: boolean;
 
   /**
    * This property indicates whether the form array is disabled. It is
@@ -463,31 +463,31 @@ export interface FormArrayState<TValue> extends AbstractControlState<TValue[]> {
    * is always valid if disabled) and `pendingValidations` is always
    * `[]` (i.e. all pending validations are cancelled).
    */
-  isDisabled: boolean;
+  readonly isDisabled: boolean;
 
   /**
    * This property is `true` if and only if at least one of the form
    * array's child states is marked as dirty.
    */
-  isDirty: boolean;
+  readonly isDirty: boolean;
 
   /**
    * This property is `true` if and only if all of the form array's
    * child states are pristine.
    */
-  isPristine: boolean;
+  readonly isPristine: boolean;
 
   /**
    * This property is `true` if and only if at least one of the form
    * array's child states is marked as touched.
    */
-  isTouched: boolean;
+  readonly isTouched: boolean;
 
   /**
    * This property is `true` if and only if all of the form array's
    * child states are untouched.
    */
-  isUntouched: boolean;
+  readonly isUntouched: boolean;
 
   /**
    * This property is set to `true` as soon as the form array is
@@ -502,12 +502,12 @@ export interface FormArrayState<TValue> extends AbstractControlState<TValue[]> {
    * Note that applying this directive to a form prevents normal form
    * submission since that does not make much sense for ngrx forms.
    */
-  isSubmitted: boolean;
+  readonly isSubmitted: boolean;
 
   /**
    * This property is `true` as long as the state is not submitted.
    */
-  isUnsubmitted: boolean;
+  readonly isUnsubmitted: boolean;
 
   /**
    * This property contains all child states of the form array. As
@@ -517,7 +517,7 @@ export interface FormArrayState<TValue> extends AbstractControlState<TValue[]> {
    * until [conditional mapped types](https://github.com/Microsoft/TypeScript/issues/12424)
    * are added to TypeScript.
    */
-  controls: InferredControlState<TValue>[];
+  readonly controls: ReadonlyArray<InferredControlState<TValue>>;
 }
 
 /**
@@ -610,7 +610,7 @@ export function getFormGroupErrors<TValue extends KeyValue>(
     const controlErrors = controls[key].errors;
     if (!isEmpty(controlErrors)) {
       hasChanged = hasChanged || originalErrors[`_${key}`] !== controlErrors;
-      res[`_${key}`] = controls[key].errors;
+      Object.assign(res, { [`_${key}`]: controls[key].errors });
     } else {
       hasChanged = hasChanged || originalErrors.hasOwnProperty(`_${key}`);
     }
@@ -628,7 +628,7 @@ export function computeGroupState<TValue extends KeyValue>(
   controls: FormGroupControls<TValue>,
   value: TValue,
   errors: ValidationErrors,
-  pendingValidations: string[],
+  pendingValidations: ReadonlyArray<string>,
   userDefinedProperties: KeyValue,
 ): FormGroupState<TValue> {
   value = getFormGroupValue<TValue>(controls, value);
@@ -679,9 +679,9 @@ export function createFormGroupState<TValue extends KeyValue>(
 }
 
 function getFormArrayValue<TValue>(
-  controls: AbstractControlState<TValue>[],
-  originalValue: TValue[],
-): TValue[] {
+  controls: ReadonlyArray<AbstractControlState<TValue>>,
+  originalValue: ReadonlyArray<TValue>,
+): ReadonlyArray<TValue> {
   let hasChanged = Object.keys(originalValue).length !== Object.keys(controls).length;
   const newValue = controls.map((state, i) => {
     hasChanged = hasChanged || originalValue[i] !== state.value;
@@ -692,7 +692,7 @@ function getFormArrayValue<TValue>(
 }
 
 function getFormArrayErrors<TValue>(
-  controls: AbstractControlState<TValue>[],
+  controls: ReadonlyArray<AbstractControlState<TValue>>,
   originalErrors: ValidationErrors,
 ): ValidationErrors {
   let hasChanged = false;
@@ -705,7 +705,7 @@ function getFormArrayErrors<TValue>(
     const controlErrors = state.errors;
     if (!isEmpty(controlErrors)) {
       hasChanged = hasChanged || originalErrors[`_${i}`] !== controlErrors;
-      res[`_${i}`] = controlErrors;
+      Object.assign(res, { [`_${i}`]: controlErrors });
     } else {
       hasChanged = hasChanged || originalErrors.hasOwnProperty(`_${i}`);
     }
@@ -720,13 +720,13 @@ function getFormArrayErrors<TValue>(
 
 export function computeArrayState<TValue>(
   id: string,
-  inferredControls: InferredControlState<TValue>[],
-  value: TValue[],
+  inferredControls: ReadonlyArray<InferredControlState<TValue>>,
+  value: ReadonlyArray<TValue>,
   errors: ValidationErrors,
-  pendingValidations: string[],
+  pendingValidations: ReadonlyArray<string>,
   userDefinedProperties: KeyValue,
 ): FormArrayState<TValue> {
-  const controls = inferredControls as AbstractControlState<any>[];
+  const controls = inferredControls as ReadonlyArray<AbstractControlState<any>>;
 
   value = getFormArrayValue<TValue>(controls, value);
   errors = getFormArrayErrors(controls, errors);

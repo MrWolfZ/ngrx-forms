@@ -9,7 +9,7 @@ export function dispatchActionPerChild<TValue extends KeyValue>(
   let hasChanged = false;
   const newControls = Object.keys(controls)
     .reduce((c, key) => {
-      c[key] = inferredStateReducer(controls[key], actionCreator(controls[key].id));
+      Object.assign(c, { [key]: inferredStateReducer(controls[key], actionCreator(controls[key].id)) });
       hasChanged = hasChanged || c[key] !== controls[key];
       return c;
     }, {} as FormGroupControls<TValue>);

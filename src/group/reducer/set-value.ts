@@ -29,9 +29,9 @@ export function setValueReducer<TValue extends KeyValue>(
     .reduce((c, key) => {
       // tslint:disable-next-line:prefer-conditional-expression
       if (!state.controls[key]) {
-        c[key] = createChildState<TValue[string]>(`${state.id}.${key}`, value[key]);
+        Object.assign(c, { [key]: createChildState<TValue[string]>(`${state.id}.${key}`, value[key]) });
       } else {
-        c[key] = inferredStateReducer(state.controls[key], new SetValueAction(state.controls[key].id, value[key]));
+        Object.assign(c, { [key]: inferredStateReducer(state.controls[key], new SetValueAction(state.controls[key].id, value[key])) });
       }
       return c;
     }, {} as FormGroupControls<TValue>);
