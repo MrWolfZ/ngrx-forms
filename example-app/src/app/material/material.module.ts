@@ -1,23 +1,20 @@
 import { NgModule } from '@angular/core';
-import {
-  MAT_PLACEHOLDER_GLOBAL_OPTIONS,
-  MatButtonModule,
-  MatCardModule,
-  MatCheckboxModule,
-  MatDatepickerModule,
-  MatIconModule,
-  MatInputModule,
-  MatListModule,
-  MatNativeDateModule,
-  MatRadioModule,
-  MatSelectModule,
-  MatSidenavModule,
-  MatTabsModule,
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MAT_PLACEHOLDER_GLOBAL_OPTIONS, MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { CustomErrorStateMatcherDirective } from './error-state-matcher';
-import { NgrxMatSelectValueAccessor } from './mat-select-value-accessor';
 import { MatListOptionFixDirective } from './mat-list-option-fix';
+import { NgrxMatSelectValueAccessor } from './mat-select-value-accessor';
 
 @NgModule({
   imports: [
@@ -57,7 +54,7 @@ import { MatListOptionFixDirective } from './mat-list-option-fix';
     MatListOptionFixDirective,
   ],
   providers: [
-    { provide: MAT_PLACEHOLDER_GLOBAL_OPTIONS, useValue: { float: 'always' } }
-  ]
+    { provide: MAT_PLACEHOLDER_GLOBAL_OPTIONS, useValue: { float: 'always' } },
+  ],
 })
 export class MaterialModule { }

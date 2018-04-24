@@ -7,7 +7,7 @@ import { FormValue } from '../async-validation.reducer';
   selector: 'ngf-async-validation-example',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AsyncValidationFormComponent {
   @Input() formState: FormGroupState<FormValue>;

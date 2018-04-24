@@ -8,7 +8,7 @@ import { FormValue, INITIAL_STATE } from '../sync-validation.reducer';
   selector: 'ngf-sync-validation-example',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SyncValidationComponent {
   @Input() formState: FormGroupState<FormValue>;

@@ -3,8 +3,8 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/concat';
 import 'rxjs/add/operator/distinct';
 import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
 
 import { HttpClient } from '@angular/common/http';
@@ -43,7 +43,7 @@ export class AsyncValidationEffects {
             params: {
               q: fs.value.searchTerm,
               maxResults: `${fs.value.numberOfResultsToShow}`,
-            }
+            },
           }
         )
           .flatMap((resp: any) => {
@@ -68,7 +68,7 @@ export class AsyncValidationEffects {
               ),
             ];
           })
-          .catch(resp => [
+          .catch(_ => [
             new SetSearchResultAction([]),
             new SetAsyncErrorAction(
               fs.controls.searchTerm.id,

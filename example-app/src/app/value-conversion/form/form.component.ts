@@ -7,7 +7,7 @@ import { FormValue } from '../value-conversion.reducer';
   selector: 'ngf-value-conversion-example',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ValueConversionFormComponent {
   @Input() formState: FormGroupState<FormValue>;

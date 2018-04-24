@@ -1,4 +1,4 @@
-import { Action, ActionReducerMap, combineReducers } from '@ngrx/store';
+import { Action, ActionReducerMap } from '@ngrx/store';
 import { createFormGroupState, formGroupReducer, FormGroupState } from 'ngrx-forms';
 
 import { State as RootState } from '../app.reducer';

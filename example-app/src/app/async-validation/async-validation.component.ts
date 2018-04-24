@@ -1,5 +1,5 @@
-import { Store } from '@ngrx/store';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { FormGroupState } from 'ngrx-forms';
 import { Observable } from 'rxjs/Rx';
 

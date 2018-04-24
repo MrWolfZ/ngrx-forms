@@ -8,7 +8,7 @@ import { CreateGroupElementAction, FormValue, RemoveGroupElementAction } from '.
   selector: 'ngf-dynamic-example',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DynamicFormComponent {
   @Input() formState: FormGroupState<FormValue>;
@@ -45,7 +45,7 @@ export class DynamicFormComponent {
     return index;
   }
 
-  trackById(index: number, id: string) {
+  trackById(_: number, id: string) {
     return id;
   }
 }

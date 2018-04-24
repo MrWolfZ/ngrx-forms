@@ -8,7 +8,7 @@ import { FormValue, INITIAL_STATE } from '../material.reducer';
   selector: 'ngf-material-example',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DynamicFormComponent {
   @Input() formState: FormGroupState<FormValue>;

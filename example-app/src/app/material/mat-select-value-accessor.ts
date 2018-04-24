@@ -1,6 +1,7 @@
 import { Directive, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatOption, MatSelect } from '@angular/material';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
 
 // tslint:disable:directive-selector
 // tslint:disable:directive-class-suffix
@@ -10,8 +11,8 @@ import { MatOption, MatSelect } from '@angular/material';
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NgrxMatSelectValueAccessor),
-    multi: true
-  }]
+    multi: true,
+  }],
 })
 export class NgrxMatSelectValueAccessor implements ControlValueAccessor {
   constructor(private matSelect: MatSelect) { }
@@ -22,7 +23,7 @@ export class NgrxMatSelectValueAccessor implements ControlValueAccessor {
     const selectedOption = this.matSelect.selected;
     if (selectedOption) {
       if (Object.prototype.toString.call(selectedOption) !== '[object Array]') {
-        const selectedValue = (<MatOption>selectedOption).value;
+        const selectedValue = (selectedOption as MatOption).value;
         if (value === selectedValue) {
           return;
         }

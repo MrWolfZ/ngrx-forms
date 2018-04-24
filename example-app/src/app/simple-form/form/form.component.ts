@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 import { FormGroupState, ResetAction, SetValueAction } from 'ngrx-forms';
 
-import { INITIAL_STATE, FormValue } from '../simple-form.reducer';
+import { FormValue, INITIAL_STATE } from '../simple-form.reducer';
 
 @Component({
   selector: 'ngf-simple-form-example',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SimpleFormComponent {
   @Input() formState: FormGroupState<FormValue>;

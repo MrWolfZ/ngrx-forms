@@ -1,4 +1,4 @@
-import { Action, ActionReducerMap, combineReducers } from '@ngrx/store';
+import { Action, ActionReducerMap } from '@ngrx/store';
 import {
   AddArrayControlAction,
   addGroupControl,
@@ -97,6 +97,7 @@ export const reducers: ActionReducerMap<State['dynamic'], any> = {
       case AddArrayControlAction.TYPE: {
         const maxIndex = s.maxIndex + 1;
         const options = [...s.options];
+        // tslint:disable-next-line:no-unnecessary-type-assertion
         options.splice(a.index!, 0, maxIndex);
         return {
           maxIndex,
@@ -106,6 +107,7 @@ export const reducers: ActionReducerMap<State['dynamic'], any> = {
 
       case RemoveArrayControlAction.TYPE: {
         const options = [...s.options];
+        // tslint:disable-next-line:no-unnecessary-type-assertion
         options.splice(a.index!, 1);
         return {
           ...s,

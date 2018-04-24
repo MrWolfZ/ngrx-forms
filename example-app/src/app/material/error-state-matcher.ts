@@ -1,9 +1,10 @@
-import { Directive, Host, Optional } from '@angular/core';
-import { Input } from '@angular/core';
-import { MatInput, MatSelect } from '@angular/material';
+import { Directive, Host, Input, Optional } from '@angular/core';
+import { MatInput } from '@angular/material/input';
+import { MatSelect } from '@angular/material/select';
 import { FormControlState } from 'ngrx-forms';
 
 @Directive({
+  // tslint:disable-next-line:directive-selector
   selector: '[ngrxFormControlState]',
 })
 export class CustomErrorStateMatcherDirective {

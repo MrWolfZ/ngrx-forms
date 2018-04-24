@@ -12,7 +12,7 @@ import { BlockUIAction, FormValue, UnblockUIAction } from '../recursive-update.r
   selector: 'ngf-recursive-update-example',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecursiveUpdateFormComponent {
   @Input() formState: FormGroupState<FormValue>;
