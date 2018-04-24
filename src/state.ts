@@ -236,6 +236,10 @@ export type InferredControlState<T> =
   ? never
   : T extends any[]
   ? FormArrayState<T[number]>
+  // this extra clause is required since otherwise the type might be
+  // inferred to just 'true' or 'false', not 'boolean'
+  : T extends boolean
+  ? FormControlState<boolean>
   : T extends FormControlValueTypes
   ? FormControlState<T>
   : T extends KeyValue
