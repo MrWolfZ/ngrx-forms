@@ -226,31 +226,10 @@ export interface FormControlState<TValue extends FormControlValueTypes> extends 
 }
 
 /**
- * This type is a helper type that uses conditional types to infer
- * the type of a child control
- */
-export type InferredControlState<T> =
-  T extends symbol // abuse type 'symbol' to catch 'any' typing without the rule becoming too generic
-  ? AbstractControlState<T>
-  : T extends undefined
-  ? never
-  : T extends any[]
-  ? FormArrayState<T[number]>
-  // this extra clause is required since otherwise the type might be
-  // inferred to just 'true' or 'false', not 'boolean'
-  : T extends boolean
-  ? FormControlState<boolean>
-  : T extends FormControlValueTypes
-  ? FormControlState<T>
-  : T extends KeyValue
-  ? FormGroupState<T>
-  : AbstractControlState<T>;
-
-/**
  * This type represents the child control states of a form group.
  */
 export type FormGroupControls<TValue> = {
-  readonly [controlId in keyof TValue]: InferredControlState<TValue[controlId]>;
+  readonly [controlId in keyof TValue]: FormState<TValue[controlId]>;
 };
 
 /**
@@ -519,6 +498,63 @@ export interface FormArrayState<TValue> extends AbstractControlState<TValue[]> {
    */
   readonly controls: ReadonlyArray<InferredControlState<TValue>>;
 }
+
+/**
+ * This is a helper type that allows working around the distributiveness
+ * of conditional types.
+ */
+export interface InferenceWrapper<T> {
+  t: T;
+}
+
+/**
+ * This is a helper type that infers the correct form state type based
+ * on the type contained in the inference wrapper.
+ */
+export type InferredFormState<T extends InferenceWrapper<any>> =
+  // (ab)use 'symbol' to catch 'any' typing
+  T extends InferenceWrapper<symbol[]> ? AbstractControlState<any>
+  : T extends InferenceWrapper<symbol> ? AbstractControlState<any>
+  : T extends InferenceWrapper<undefined> ? AbstractControlState<any>
+  : T extends InferenceWrapper<null> ? AbstractControlState<any>
+
+  // control
+  : T extends InferenceWrapper<string> ? FormControlState<string>
+  : T extends InferenceWrapper<string | undefined> ? FormControlState<string | undefined>
+  : T extends InferenceWrapper<string | null> ? FormControlState<string | null>
+  : T extends InferenceWrapper<string | undefined | null> ? FormControlState<string | undefined | null>
+  : T extends InferenceWrapper<number> ? FormControlState<number>
+  : T extends InferenceWrapper<number | undefined> ? FormControlState<number | undefined>
+  : T extends InferenceWrapper<number | null> ? FormControlState<number | null>
+  : T extends InferenceWrapper<number | undefined | null> ? FormControlState<number | undefined | null>
+  : T extends InferenceWrapper<boolean> ? FormControlState<boolean>
+  : T extends InferenceWrapper<boolean | undefined> ? FormControlState<boolean | undefined>
+  : T extends InferenceWrapper<boolean | null> ? FormControlState<boolean | null>
+  : T extends InferenceWrapper<boolean | undefined | null> ? FormControlState<boolean | undefined | null>
+
+  // array
+  : T extends InferenceWrapper<(infer U)[]> ? FormArrayState<U>
+  : T extends InferenceWrapper<(infer U)[] | undefined> ? FormArrayState<U> | undefined
+  : T extends InferenceWrapper<(infer U)[] | null> ? FormArrayState<U>
+  : T extends InferenceWrapper<(infer U)[] | undefined | null> ? FormArrayState<U> | undefined
+
+  // group
+  : T extends InferenceWrapper<infer U | undefined | null> ? FormGroupState<U>
+
+  // fallback type (this case should never (no pun intended) be hit)
+  : never;
+
+/**
+ * This is a type that can infer the concrete type of a form state based on the given
+ * type parameter.
+ */
+export type FormState<T> = NonNullable<InferredFormState<InferenceWrapper<T>>>;
+
+/**
+ * This type is a helper type that uses conditional types to infer
+ * the type of a child control
+ */
+export type InferredControlState<T> = FormState<T>;
 
 /**
  * This function determines if a value is a form state.

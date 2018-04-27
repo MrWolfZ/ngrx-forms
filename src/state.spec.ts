@@ -6,7 +6,7 @@ import {
   createFormArrayState,
   createFormControlState,
   createFormGroupState,
-  InferredControlState,
+  FormState,
   isArrayState,
   isGroupState,
 } from './state';
@@ -719,49 +719,78 @@ describe('state', () => {
     });
   });
 
-  describe('InferredControlState', () => {
+  describe('FormState', () => {
     // tslint:disable:no-unused-variable
     it('should correctly infer types of unknown controls', () => {
-      // T should be AbstractControlState<any> | FormArrayState<any> | FormControlState<any> | FormGroupState<any>
+      // T should be AbstractControlState<any>
       // @ts-ignore
-      type T = InferredControlState<any>;
+      type T = FormState<any>;
     });
 
     it('should correctly infer types of controls', () => {
       // T should be FormControlState<string>
       // @ts-ignore
-      type T = InferredControlState<string>;
+      type T = FormState<string>;
+    });
+
+    it('should correctly infer types of optional controls', () => {
+      // T should be FormControlState<string | undefined>
+      // @ts-ignore
+      type T = FormState<string | undefined>;
+    });
+
+    it('should correctly infer types of nullable controls', () => {
+      // T should be FormControlState<string | null>
+      // @ts-ignore
+      type T = FormState<string | null>;
     });
 
     it('should correctly infer types of groups', () => {
       // T should be FormGroupState<{ inner: string }>
+      type T = FormState<{ inner: string }>;
+      type TC = T['controls'];
+
       // @ts-ignore
-      type T = InferredControlState<{ inner: string }>;
+      type TI = TC['inner'];
+    });
+
+    it('should correctly infer types of optional groups', () => {
+      // T should be FormGroupState<{ inner: string }> | undefined
+      // @ts-ignore
+      type T = FormState<{ inner: string } | undefined>;
+    });
+
+    it('should correctly infer types of groups with optional controls', () => {
+      // T should be FormGroupState<{ inner: string | undefined }>
+      type T = FormState<{ inner?: string }>;
+      type TC = T['controls'];
+
+      // TI should be FormControlState<string | undefined> | undefined
+      // @ts-ignore
+      type TI = TC['inner'];
+    });
+
+    it('should correctly infer types of groups with optional groups', () => {
+      // T should be FormGroupState<{ inner: string }>
+      type T = FormState<{ inner?: {} }>;
+      type TC = T['controls'];
+
+      // @ts-ignore
+      type TI = TC['inner'];
     });
 
     it('should correctly infer types of arrays', () => {
       // T should be FormArrayState<string>
       // @ts-ignore
-      type T = InferredControlState<string[]>;
-    });
-
-    it('should correctly infer types of optional controls', () => {
-      // T should be FormControlState<string>
-      // @ts-ignore
-      type T = InferredControlState<string | undefined>;
-    });
-
-    it('should correctly infer types of optional groups', () => {
-      // T should be FormGroupState<{ inner: string }>
-      // @ts-ignore
-      type T = InferredControlState<{ inner: string } | undefined>;
+      type T = FormState<string[]>;
     });
 
     it('should correctly infer types of optional arrays', () => {
-      // T should be FormArrayState<string>
+      // T should be FormArrayState<string> | undefined
       // @ts-ignore
-      type T = InferredControlState<string[] | undefined>;
+      type T = FormState<string[] | undefined>;
     });
+
     // tslint:enable:no-unused-variable
   });
 });

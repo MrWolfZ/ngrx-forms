@@ -15,6 +15,9 @@ export {
   createFormControlState,
   createFormGroupState,
   createFormArrayState,
+  InferenceWrapper,
+  InferredFormState,
+  FormState,
 } from './state';
 
 export { formControlReducer } from './control/reducer';
