@@ -273,45 +273,23 @@ const updatedArrayUncurried = setUserDefinedProperty(array, 'allowedValues', ['f
 const updatedArrayViaAction = formStateReducer(array, new SetUserDefinedPropertyAction(array.id, 'allowedValues', ['foo', 'bar']));
 ```
 
-#### `updateArray`
-This update function takes an update function and returns a projection function that takes an array state, applies the provided update function to each element and recomputes the state of the array afterwards. As with all the functions above this function does not change the reference of the array if the update function does not change any children. See the section below for an example of how this function can be used.
-
-#### `updateArrayWithFilter`
-This update function is the same as `updateArray` except that it also takes a filter function that is applied to each array element to determine whether the update function should be applied.
-
-#### `updateGroup`
-This update function takes a partial object in the shape of the group's value where each key contains an update function for that child and returns a projection function that takes a group state, applies all the provided update functions recursively and recomputes the state of the group afterwards. As with all the functions above this function does not change the reference of the group if none of the child update functions change any children. The best example of how this can be used is simple validation:
+#### Updating groups
+The `updateGroup` update function takes a partial object in the shape of the group's value where each key contains an update function for that child and returns a projection function that takes a group state, applies all the provided update functions recursively and recomputes the state of the group afterwards. `updateGroup` has an overload that takes a form group state directly as the first parameter. As with all the functions above this function does not change the reference of the group if none of the child update functions change any children. The best example of how this can be used is simple validation (see [validation](validation.md) for an explanation of the validation functions used in this example):
 
 ```typescript
-import { updateArray, updateGroup, validate } from 'ngrx-forms';
-
-export interface NestedValue {
-  someNumber: number;
-}
-
 export interface MyFormValue {
   someTextInput: string;
   someCheckbox: boolean;
-  nested: NestedValue;
+  nested: { someNumber: number };
   someNumbers: number[];
-}
-
-function required(value: any) {
-  return !!value ? {} : { required: true };
-}
-
-function min(minValue: number) {
-  return (value: number) => {
-    return value >= minValue ? {} : { min: [value, minValue] };
-  };
 }
 
 const updateMyFormGroup = updateGroup<MyFormValue>({
   someTextInput: validate(required),
-  nested: updateGroup({
-    someNumber: validate([required, min(2)]),
+  nested: updateGroup<MyFormValue['nested']>({
+    someNumber: validate(required, greaterThanOrEqualTo(2)),
   }),
-  someNumbers: updateArray(validate(min(3))),
+  someNumbers: validate(minLength(3)),
 });
 ```
 
@@ -320,41 +298,44 @@ The `updateMyFormGroup` function has a signature of `FormGroupState<MyFormValue>
 In addition, the `updateGroup` function allows specifying as many update function objects as you want and applies all of them after another. This is useful if you have dependencies between your update functions where one function's result may affect the result of another function. The following (contrived) example shows how to set the value of `someNumber` based on the `errors` of `someTextInput`.
 
 ```typescript
-const updateMyFormGroup = updateGroup<MyFormValue>({
-  someTextInput: validate(required),
-  nested: updateGroup({
-    someNumber: validate([required, min(2)]),
-  }),
-  someNumbers: updateArray(validate(min(3))),
-}, {
-  // note that the parent form state is provided as the second argument to update functions;
-  // type annotations added for clarity but are inferred correctly otherwise
-  nested: (nested: AbstractControlState<NestedValue>, myForm: FormGroupState<MyFormValue>) =>
-    updateGroup<NestedValue>({
-      someNumber: (someNumber: AbstractControlState<number>) => {
-        if (myForm.controls.someTextInput.errors.required) {
-          // sets the control's value to 1 and clears all errors
-          return setErrors({}, setValue(1, someNumber));
-        }
+const updateMyFormGroup = updateGroup<MyFormValue>(
+  {
+    someTextInput: validate(required),
+    nested: updateGroup<MyFormValue['nested']>({
+      someNumber: validate(required, greaterThanOrEqualTo(2)),
+    }),
+    someNumbers: validate(minLength(3)),
+  },
+  {
+    // note that the parent form state is provided as the second argument to update functions;
+    // type annotations for parameters added for clarity but are inferred correctly otherwise
+    nested: (nested: FormGroupState<MyFormValue['nested']>, myForm: FormGroupState<MyFormValue>) =>
+      updateGroup<MyFormValue['nested']>(nested, {
+        someNumber: (someNumber: FormControlState<number>) => {
+          if (myForm.controls.someTextInput.errors.required) {
+            // sets the control's value to 1 and clears all errors
+            return setErrors(setValue(someNumber, 1), {});
+          }
 
-        return someNumber;
-      };
-    })(nested)
-});
+          return someNumber;
+        },
+      }),
+  },
+);
 ```
 
 If you need to update the form state based on data not contained in the form state itself you can simply parameterize the form update function. In the following example we validate that `someNumber` is greater than some other number from the state.
 
 ```typescript
-const createMyFormUpdateFunction = (otherNumber: number) => updateGroup<MyFormValue>({
-  nested: updateGroup({
-    otherNumber: validate(v => v > otherNumber ? {} : { tooSmall: otherNumber }),
+const createMyFormValidationFunction = (otherNumber: number) => updateGroup<MyFormValue>({
+  nested: updateGroup<MyFormValue['nested']>({
+    someNumber: validate(v => v > otherNumber ? {} : { tooSmall: otherNumber }),
   }),
 });
 
 export function appReducer(state = initialState, action: Action): AppState {
   let myForm = formGroupReducer(state.myForm, action);
-  myForm = createMyFormUpdateFunction(state.someOtherNumber)(myForm);
+  myForm = createMyFormValidationFunction(state.someOtherNumber)(myForm);
   if (myForm !== state.myForm) {
     state = { ...state, myForm };
   }
@@ -366,7 +347,7 @@ export function appReducer(state = initialState, action: Action): AppState {
 
     case 'some action type of an action that changes `someOtherNumber`':
       // we need to update the form state as well since the parameters changed
-      myForm = createMyFormUpdateFunction(action.someOtherNumber)(state.myForm);
+      myForm = createMyFormValidationFunction(action.someOtherNumber)(state.myForm);
       return {
         ...state,
         someOtherNumber: action.someOtherNumber,
@@ -380,12 +361,38 @@ export function appReducer(state = initialState, action: Action): AppState {
 }
 ```
 
-#### `createFormStateReducerWithUpdate`
-This function combines the `formStateReducer` with a variable number of update functions and returns a reducer function that applies the provided update functions in order after reducing the form state with the action. However, the update functions are only applied if the form state changed as result of applying the action (this provides a performance improvement for large form states). If you need the update functions to be applied regardless of whether the state changed (e.g. because the update function closes over variables that may change independently of the form state) you can simply apply the update manually (e.g. `updateFunction(formStateReducer(state, action))`).
+#### Updating arrays
+
+The `updateArray` update function takes an update function and returns a projection function that takes an array state, applies the provided update function to each element and recomputes the state of the array afterwards. `updateArray` has an overload that takes a form array state directly as the first parameter. As with all the functions above this function does not change the reference of the array if the update function does not change any child states. See the section below for an example of how this function can be used.
+
+```typescript
+const array = createFormArrayState('array ID', ['0', '2']);
+const updatedArray = updateArray<string>(setValue('1'))(array);
+const updatedArrayUncurried = updateArray(array, setValue('1'));
+```
+
+The `updateArrayWithFilter` update function works the same as `updateArray` except that it also takes a filter function that is applied to each array element to determine whether the update function should be applied. The filter function takes two arguments, the child state and the index of the child state. `updateArrayWithFilter` has an overload that takes a form array state directly as the first parameter.
+
+```typescript
+const array = createFormArrayState('array ID', ['0', '2']);
+const updatedArray = updateArrayWithFilter<string>((s, idx) => s.value === '0' && idx === 0, setValue('1'))(array);
+const updatedArrayUncurried = updateArrayWithFilter(array, (s, idx) => s.value === '0' && idx === 0, setValue('1'));
+```
+
+#### Combining reducer with updates
+
+The `createFormStateReducerWithUpdate` function combines the [formStateReducer](type-inference.md) with one or more update functions and returns a reducer function that applies the provided update functions in order after reducing the form state with the action. However, the update functions are only applied if the form state changed as result of applying the action (this provides a performance improvement for large form states). If you need the update functions to be applied regardless of whether the state changed (e.g. because the update function closes over variables that may change independently of the form state) you can simply apply the update manually (e.g. `updateFunction(formStateReducer(state, action))`).
 
 Combining all we have seen so far we could have a reducer that looks something like this:
 
 ```typescript
+export interface MyFormValue {
+  someTextInput: string;
+  someCheckbox: boolean;
+  nested: { someNumber: number };
+  someNumbers: number[];
+}
+
 export interface AppState {
   myForm: FormGroupState<MyFormValue>;
 }
@@ -407,22 +414,22 @@ const initialState: AppState = {
 
 const validateAndUpdateFormState = updateGroup<MyFormValue>({
   someTextInput: validate(required),
-  nested: updateGroup({
-    someNumber: validate([required, min(2)]),
+  nested: updateGroup<MyFormValue['nested']>({
+    someNumber: validate(required, greaterThanOrEqualTo(2)),
   }),
-  someNumbers: updateArray(validate(min(3))),
+  someNumbers: validate(minLength(3)),
 }, {
-  nested: (nested, myForm) =>
-    updateGroup<NestedValue>({
-      someNumber: someNumber => {
-        if (myForm.controls.someTextInput.errors.required) {
-          return setErrors({}, setValue(1, someNumber));
-        }
+    nested: (nested, myForm) =>
+      updateGroup<MyFormValue['nested']>(nested, {
+        someNumber: someNumber => {
+          if (myForm.controls.someTextInput.errors.required) {
+            return setErrors(setValue(someNumber, 1), {});
+          }
 
-        return someNumber;
-      }
-    })(nested)
-});
+          return someNumber;
+        },
+      }),
+  });
 
 const myFormReducer = createFormStateReducerWithUpdate<MyFormValue>(validateAndUpdateFormState);
 
@@ -444,18 +451,17 @@ export function appReducer(state = initialState, action: Action): AppState {
 }
 ```
 
-#### `updateRecursive`
-Sometimes it is useful to apply an update function to all controls in a group or array recursively. This update function takes an update function and returns a projection function that takes any state and applies the provided update function to all its children, its children's children etc. and finally to the state itself. This means when the update function is called for a certain state all of its children will have already been updated. The provided update function takes 2 parameters, the state to update and its parent state. For the top-level state the state itself is passed as the second parameter.
+#### Updating states recursively
+
+Sometimes it is useful to apply an update function to all controls in a group or array recursively. The `updateRecursive` update function takes an update function and returns a projection function that takes any state and applies the provided update function to all its children, its children's children etc. and finally to the state itself. This means when the update function is called for a certain state all of its children will have already been updated. The provided update function takes 2 parameters, the state to update and its parent state. For the top-level state the state itself is passed as the second parameter.
 
 Below you can find an example of how this function can be used. In this example we want to block all form inputs temporarily (e.g. while submitting the form). This can be done by disabling the form state at the root. However, when we unblock all inputs we want their enabled/disabled state to be reset to what it was before blocking the inputs. This could be done by simply storing a complete copy of the state (which might take a lot of space depending on the size of the form state). However, the example below uses a different method. We use the `setUserDefinedProperty` update function to store the enabled/disabled state before blocking the inputs and later restore them to the state they were in.
 
 ```typescript
-import { updateRecursive, setUserDefinedProperty, enable, disable, cast } from 'ngrx-forms';
-
 export function appReducer(state = initialState, action: Action): AppState {
   switch (action.type) {
     case 'BLOCK_INPUTS': {
-      let myForm = updateRecursive<MyFormValue>(s => setUserDefinedProperty('wasDisabled', s.isDisabled)(s))(state.myForm);
+      let myForm = updateRecursive(state.myForm, s => setUserDefinedProperty('wasDisabled', s.isDisabled)(s));
       myForm = disable(myForm);
 
       return {
@@ -466,7 +472,7 @@ export function appReducer(state = initialState, action: Action): AppState {
 
     case 'UNBLOCK_INPUTS': {
       let myForm = enable(state.myForm);
-      myForm = updateRecursive<MyFormValue>(s => s.userDefinedProperties.wasDisabled ? disable(s) : s)(myForm);
+      myForm = updateRecursive(myForm, s => s.userDefinedProperties.wasDisabled ? disable(s) : s);
 
       return {
         ...state,
