@@ -34,7 +34,7 @@ const INITIAL_FORM_STATE = updateGroup<MyFormValue>(
 );
 ```
 
-#### Is it safe to use ngrx-forms together with @angular/forms?
+#### Is it safe to use ngrx-forms together with `@angular/forms`?
 
 Yes, both form mechanisms can be used in the same application. I recommend using **ngrx-forms** for everything though for obvious reasons ;) If you still need to use both please ensure that the `NgrxFormsModule` is imported _after_ the `FormsModule`/`ReactiveFormsModule` since there is an issue with the way `@angular/forms` registers some of their directives (see [this](https://github.com/MrWolfZ/ngrx-forms/issues/32) issue for more details).
 
