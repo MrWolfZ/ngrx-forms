@@ -22,7 +22,7 @@ export {
 export { formControlReducer } from './control/reducer';
 export { formGroupReducer } from './group/reducer';
 export { formArrayReducer } from './array/reducer';
-export { formStateReducer } from './reducer';
+export { formStateReducer, createFormStateReducerWithUpdate } from './reducer';
 
 export * from './update-function/update-array';
 export * from './update-function/update-group';
@@ -47,7 +47,7 @@ export * from './update-function/remove-group-control';
 export * from './update-function/set-user-defined-property';
 export * from './update-function/reset';
 
-export { compose, ProjectFn2 } from './update-function/util';
+export { compose, ProjectFn, ProjectFn2 } from './update-function/util';
 
 export { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter/view-adapter';
 export { NgrxCheckboxViewAdapter } from './view-adapter/checkbox';

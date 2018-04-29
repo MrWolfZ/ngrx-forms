@@ -96,66 +96,6 @@ const updateMyFormGroup = updateGroup<MyFormValue>({
 });
 ```
 
-#### `createFormGroupReducerWithUpdate`
-This update function combines a `formGroupReducer` and the `updateGroup` function by taking update objects of the same shape as `updateGroup` and returns a reducer which first calls the `formGroupReducer` and afterwards applies all update functions by calling `updateGroup` if the form state changes as a result of calling `formGroupReducer`. Combining all we have seen so far our final reducer would therefore look something like this:
-
-```typescript
-export interface AppState {
-  myForm: FormGroupState<MyFormValue>;
-}
-
-const FORM_ID = 'some globally unique string';
-
-const initialFormState = createFormGroupState<MyFormValue>(FORM_ID, {
-  someTextInput: '',
-  someCheckbox: false,
-  nested: {
-    someNumber: 0,
-  },
-  someNumbers: [],
-});
-
-const initialState: AppState = {
-  myForm: initialFormState,
-};
-
-const myFormReducer = createFormGroupReducerWithUpdate<MyFormValue>({
-  someTextInput: validate(required),
-  nested: updateGroup({
-    someNumber: validate([required, min(2)]),
-  }),
-  someNumbers: updateArray(validate(min(3))),
-}, {
-  nested: (nested, myForm) =>
-    updateGroup<NestedValue>({
-      someNumber: someNumber => {
-        if (myForm.controls.someTextInput.errors.required) {
-          return setErrors({}, setValue(1, someNumber));
-        }
-
-        return someNumber;
-      }
-    })(nested)
-});
-
-export function appReducer(state = initialState, action: Action): AppState {
-  const myForm = myFormReducer(state.myForm, action);
-  if (myForm !== state.myForm) {
-    state = { ...state, myForm };
-  }
-
-  switch (action.type) {
-    case 'some action type':
-      // modify state
-      return state;
-
-    default: {
-      return state;
-    }
-  }
-}
-```
-
 If you need to update the form state based on data not contained in the form state itself you can simply parameterize the form update function. In the following example we validate that `someNumber` is greater than some other number from the state.
 
 ```typescript
@@ -185,6 +125,70 @@ export function appReducer(state = initialState, action: Action): AppState {
         someOtherNumber: action.someOtherNumber,
         myForm,
       };
+
+    default: {
+      return state;
+    }
+  }
+}
+```
+
+#### `createFormStateReducerWithUpdate`
+This function combines the `formStateReducer` with a variable number of update functions and returns a reducer function that applies the provided update functions in order after reducing the form state with the action. However, the update functions are only applied if the form state changed as result of applying the action (this provides a performance improvement for large form states). If you need the update functions to be applied regardless of whether the state changed (e.g. because the update function closes over variables that may change independently of the form state) you can simply apply the update manually (e.g. `updateFunction(formStateReducer(state, action))`).
+
+Combining all we have seen so far we could have a reducer that looks something like this:
+
+```typescript
+export interface AppState {
+  myForm: FormGroupState<MyFormValue>;
+}
+
+const FORM_ID = 'some globally unique string';
+
+const initialFormState = createFormGroupState<MyFormValue>(FORM_ID, {
+  someTextInput: '',
+  someCheckbox: false,
+  nested: {
+    someNumber: 0,
+  },
+  someNumbers: [],
+});
+
+const initialState: AppState = {
+  myForm: initialFormState,
+};
+
+const validateAndUpdateFormState = updateGroup<MyFormValue>({
+  someTextInput: validate(required),
+  nested: updateGroup({
+    someNumber: validate([required, min(2)]),
+  }),
+  someNumbers: updateArray(validate(min(3))),
+}, {
+  nested: (nested, myForm) =>
+    updateGroup<NestedValue>({
+      someNumber: someNumber => {
+        if (myForm.controls.someTextInput.errors.required) {
+          return setErrors({}, setValue(1, someNumber));
+        }
+
+        return someNumber;
+      }
+    })(nested)
+});
+
+const myFormReducer = createFormStateReducerWithUpdate<MyFormValue>(validateAndUpdateFormState);
+
+export function appReducer(state = initialState, action: Action): AppState {
+  const myForm = myFormReducer(state.myForm, action);
+  if (myForm !== state.myForm) {
+    state = { ...state, myForm };
+  }
+
+  switch (action.type) {
+    case 'some action type':
+      // modify state
+      return state;
 
     default: {
       return state;

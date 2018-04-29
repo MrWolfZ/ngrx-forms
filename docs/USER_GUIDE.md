@@ -17,7 +17,7 @@ The following sections will explain and showcase the different features of `ngrx
 * [Updating the State](UPDATING_THE_STATE.md)
   * [`updateArray`](UPDATING_THE_STATE.md#updatearray)
   * [`updateGroup`](UPDATING_THE_STATE.md#updategroup)
-  * [`createFormGroupReducerWithUpdate`](UPDATING_THE_STATE.md#createformgroupreducerwithupdate)
+  * [`createFormStateReducerWithUpdate`](UPDATING_THE_STATE.md#createformstatereducerwithupdate)
   * [`updateRecursive`](UPDATING_THE_STATE.md#updaterecursive)
 * [Validation](VALIDATION.md)
   * [Asynchronous Validation](VALIDATION.md#asynchronous-validation)

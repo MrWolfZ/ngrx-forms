@@ -1,6 +1,3 @@
-import { Action } from '@ngrx/store';
-
-import { formGroupReducer } from '../group/reducer';
 import { computeGroupState, FormGroupControls, FormGroupState, FormState, isGroupState, KeyValue } from '../state';
 import { ensureState, ProjectFn2 } from './util';
 
@@ -189,43 +186,4 @@ export function updateGroup<TValue extends KeyValue>(
   let updateFnArr = Array.isArray(stateOrUpdateFnOrUpdateFnArray) ? stateOrUpdateFnOrUpdateFnArray : [stateOrUpdateFnOrUpdateFnArray];
   updateFnArr = updateFnOrUpdateFnArr === undefined ? updateFnArr : updateFnArr.concat(updateFnOrUpdateFnArr);
   return (s: FormGroupState<TValue>) => updateGroup<TValue>(ensureState(s), updateFnArr.concat(rest));
-}
-
-/**
- * This function creates a reducer function that first applies an action to the state
- * and afterwards applies all given update function objects one after another to the
- * resulting form group state. However, the update function objects are only applied
- * if the form state changed as result of applying the action.
- *
- * The following (contrived) example uses this function to create a reducer that after
- * each action validates the child control `name` to be required and sets the child
- * control `email`'s value to be `''` if the name is invalid.
- *
- * ```typescript
- * interface FormValue {
- *   name: string;
- *   email: string;
- * }
- *
- * const reducer = createFormGroupReducerWithUpdate<FormValue>(
- *   {
- *     name: validate(required),
- *   },
- *   {
- *     email: (email, parentGroup) =>
- *       parentGroup.controls.name.isInvalid
- *         ? setValue('', email)
- *         : email,
- *   },
- * );
- * ```
- */
-export function createFormGroupReducerWithUpdate<TValue extends KeyValue>(
-  updateFn: StateUpdateFns<TValue>,
-  ...updateFnsArr: StateUpdateFns<TValue>[]
-) {
-  return (state: FormGroupState<TValue> | undefined, action: Action) => {
-    const newState = formGroupReducer(state, action);
-    return newState === state ? state : updateGroup<TValue>(updateFn, ...updateFnsArr)(newState);
-  };
 }
