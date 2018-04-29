@@ -181,18 +181,97 @@ const submittedArrayViaAction = formStateReducer(array, new MarkAsSubmittedActio
 const unsubmittedArrayViaAction = formStateReducer(submittedArrayViaAction, new MarkAsUnsubmittedAction(array.id));
 ```
 
-|Function|Description|
-|-|-|
-|`reset`|This update function takes a state and marks it as pristine, untouched, and unsubmitted. For groups and arrays this also marks all children as pristine, untouched, and unsubmitted.|
-|`focus`|This update function takes a form control state and marks it as focused (which will also `.focus()` the form element).|
-|`unfocus`|This update function takes a form control state and marks it as not focused (which will also `.blur()` the form element).|
-|`addArrayControl`|This update function takes a value and optionally an index and returns a projection function that adds a child control at the given index or at the end of a form array state. Has an overload that takes a form array state directly as the second parameter and optionally the index as the third parameter.|
-|`removeArrayControl`|This update function takes an index and returns a projection function that removes the child control at the given index from a form array state. Has an overload that takes a form array state directly as the second parameter.|
-|`addGroupControl`|This update function takes a name and a value and returns a projection function that adds a child control with the given name and value to a form group state. Has an overload that takes a form group state directly as the third parameter.|
-|`removeGroupControl`|This update function takes a name and returns a projection function that removes the child control with the given name from a form group state. Has an overload that takes a form group state directly as the second parameter.|
-|`setUserDefinedProperty`|This update function takes a name and a value and returns a projection function that sets a user-defined property on a form state. Has an overload that takes a state directly as the second parameter.|
+#### Resetting
 
-These are the basic functions that perform simple updates on states. The functions below contain the real magic that allows easily updating deeply nested form states.
+The `reset` update function takes a form state and marks it as pristine, untouched, and unsubmitted. For groups and arrays this also marks all children as pristine, untouched, and unsubmitted.
+
+```typescript
+// control
+const control = createFormControlState<string>('control ID', '');
+const updatedControl = markAsSubmitted(markAsTouched(markAsDirty(control)));
+const resetControl = reset(updatedControl);
+const resetControlViaAction = formStateReducer(updatedControl, new ResetAction(control.id));
+
+// group
+const group = createFormGroupState('group ID', { inner: '' });
+const updatedGroup = markAsSubmitted(markAsTouched(markAsDirty(group)));
+const resetGroup = reset(updatedGroup);
+const resetGroupViaAction = formStateReducer(updatedGroup, new ResetAction(group.id));
+
+// array
+const array = createFormArrayState('array ID', ['']);
+const updatedArray = markAsSubmitted(markAsTouched(markAsDirty(array)));
+const resetArray = reset(updatedArray);
+const resetArrayViaAction = formStateReducer(updatedArray, new ResetAction(array.id));
+```
+
+#### Focusing and Unfocusing
+
+The `focus` and `unfocus` update functions take a form control state and mark it as focused/unfocused. If focus tracking is enabled on the connected HTML form element (via ```[ngrxEnableFocusTracking]="true"```) the element will also focused (via `.focus()`) or unfocused (via `.blur()`).
+
+```typescript
+const control = createFormControlState<string>('control ID', '');
+const focusedControl = focus(control);
+const unfocusedControl = unfocus(focusedControl);
+const focusedControlViaAction = formStateReducer(control, new FocusAction(control.id));
+const unfocusedControlViaAction = formStateReducer(focusedControlViaAction, new UnfocusAction(control.id));
+```
+
+#### Adding and removing group controls
+
+The `addGroupControl` and `removeGroupControl` update functions take a form group state and add/remove a child state to/from it. `addGroupControl` takes a name and a value and returns a projection function that adds a child state with the given name and value to the form group state. `addGroupControl` has an overload that takes a form group state directly as the first parameter. `removeGroupControl` takes a name and returns a projection function that removes the child state with the given name from the form group state. `removeGroupControl` has an overload that takes a form group state directly as the first parameter.
+
+```typescript
+interface FormValueWithOptionalControl {
+  someString?: string;
+}
+
+const group = createFormGroupState<FormValueWithOptionalControl>('group ID', {});
+const groupWithControl = addGroupControl<FormValueWithOptionalControl>('someString', '')(group);
+const groupWithoutControl = removeGroupControl<FormValueWithOptionalControl>('someString')(groupWithControl);
+const groupWithControlUncurried = addGroupControl(group, 'someString', '');
+const groupWithoutControlUncurried = removeGroupControl(groupWithControlUncurried, 'someString');
+const groupWithControlViaAction = formStateReducer(group, new AddGroupControlAction(group.id, 'someString', ''));
+const groupWithoutControlViaAction = formStateReducer(groupWithControlViaAction, new RemoveGroupControlAction(group.id, 'someString'));
+```
+
+#### Adding and removing array controls
+
+The `addArrayControl` and `removeArrayControl` update functions take a form array state and add/remove a child state to/from it. `addArrayControl` takes a value and optionall an index and returns a projection function that adds a child control at the given index or at the end of a form array state. `addArrayControl` has an overload that takes a form array state directly as the first parameter. `removeArrayControl` takes an index and returns a projection function that removes the child state with the given index from the form array state. `removeArrayControl` has an overload that takes a form array state directly as the first parameter.
+
+```typescript
+const array = createFormArrayState('array ID', ['0', '2']);
+const arrayWithControl = addArrayControl('1', 1)(array);
+const arrayWithoutControl = removeArrayControl(1)(arrayWithControl);
+const arrayWithControlUncurried = addArrayControl(array, '1', 1);
+const arrayWithoutControlUncurried = removeArrayControl(arrayWithControlUncurried, 1);
+const arrayWithControlViaAction = formStateReducer(array, new AddArrayControlAction(array.id, '1', 1));
+const arrayWithoutControlViaAction = formStateReducer(arrayWithControlViaAction, new RemoveArrayControlAction(array.id, 1));
+```
+
+#### Setting user-defined properties
+
+The `setUserDefinedProperty` update function takes a name and a value and returns a projection function that sets a user-defined property on a form state. `setUserDefinedProperty` has an overload that takes a state directly as the first parameter. User-defined properties can be used to attach any kind of metadata to a form state. Most often this is used to attach a list of valid values for validation (e.g. for an autocomplete control with a pre-defined list of allowed values).
+
+```typescript
+// control
+const control = createFormControlState<string>('control ID', '');
+const updatedControl = setUserDefinedProperty('allowedValues', ['foo', 'bar'])(control);
+const updatedControlUncurried = setUserDefinedProperty(control, 'allowedValues', ['foo', 'bar']);
+const updatedControlViaAction = formStateReducer(control, new SetUserDefinedPropertyAction(control.id, 'allowedValues', ['foo', 'bar']));
+
+// group
+const group = createFormGroupState('group ID', { inner: '' });
+const updatedGroup = setUserDefinedProperty('allowedValues', ['foo', 'bar'])(group);
+const updatedGroupUncurried = setUserDefinedProperty(group, 'allowedValues', ['foo', 'bar']);
+const updatedGroupViaAction = formStateReducer(group, new SetUserDefinedPropertyAction(group.id, 'allowedValues', ['foo', 'bar']));
+
+// array
+const array = createFormArrayState('array ID', ['']);
+const updatedArray = setUserDefinedProperty('allowedValues', ['foo', 'bar'])(array);
+const updatedArrayUncurried = setUserDefinedProperty(array, 'allowedValues', ['foo', 'bar']);
+const updatedArrayViaAction = formStateReducer(array, new SetUserDefinedPropertyAction(array.id, 'allowedValues', ['foo', 'bar']));
+```
 
 #### `updateArray`
 This update function takes an update function and returns a projection function that takes an array state, applies the provided update function to each element and recomputes the state of the array afterwards. As with all the functions above this function does not change the reference of the array if the update function does not change any children. See the section below for an example of how this function can be used.
