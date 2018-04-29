@@ -14,13 +14,13 @@ const updatedControlUncurried = setValue(control, 'newValue');
 const updatedControlViaAction = formStateReducer(control, new SetValueAction(control.id, 'newValue'));
 
 // group
-const group = createFormGroupState<{ inner: string }>('group ID', { inner: '' });
+const group = createFormGroupState('group ID', { inner: '' });
 const updatedGroup = setValue({ inner: 'newValue' })(group);
 const updatedGroupUncurried = setValue(group, { inner: 'newValue' });
 const updatedGroupViaAction = formStateReducer(group, new SetValueAction(group.id, { inner: 'newValue' }));
 
 // array
-const array = createFormArrayState<string>('array ID', ['']);
+const array = createFormArrayState('array ID', ['']);
 const updatedArray = setValue(['newValue'])(array);
 const updatedArrayUncurried = setValue(array, ['newValue']);
 const updatedArrayViaAction = formStateReducer(array, new SetValueAction(array.id, ['newValue']));
@@ -56,19 +56,19 @@ The `setErrors` update function takes one or more error objects and returns a pr
 ```typescript
 // control
 const control = createFormControlState<string>('control ID', '');
-const updatedControl = setErrors<string>({ missing: true })(control);
+const updatedControl = setErrors({ missing: true })(control);
 const updatedControlUncurried = setErrors(control, { missing: true });
 const updatedControlViaAction = formStateReducer(control, new SetErrorsAction(control.id, { missing: true }));
 
 // group
-const group = createFormGroupState<{ inner: string }>('group ID', { inner: '' });
-const updatedGroup = setErrors<{ inner: string }>({ innerMissing: true })(group);
+const group = createFormGroupState('group ID', { inner: '' });
+const updatedGroup = setErrors({ innerMissing: true })(group);
 const updatedGroupUncurried = setErrors(group, { innerMissing: true });
 const updatedGroupViaAction = formStateReducer(group, new SetErrorsAction(group.id, { innerMissing: true }));
 
 // array
-const array = createFormArrayState<string>('array ID', ['']);
-const updatedArray = setErrors<string[]>({ missing: true })(array);
+const array = createFormArrayState('array ID', ['']);
+const updatedArray = setErrors({ missing: true })(array);
 const updatedArrayUncurried = setErrors(array, { missing: true });
 const updatedArrayViaAction = formStateReducer(array, new SetErrorsAction(array.id, { missing: true }));
 ```
@@ -86,14 +86,14 @@ const disabledControlViaAction = formStateReducer(control, new DisableAction(con
 const enabledControlViaAction = formStateReducer(disabledControlViaAction, new EnableAction(control.id));
 
 // group
-const group = createFormGroupState<{ inner: string }>('group ID', { inner: '' });
+const group = createFormGroupState('group ID', { inner: '' });
 const disabledGroup = disable(group);
 const enabledGroup = enable(disabledGroup);
 const disabledGroupViaAction = formStateReducer(group, new DisableAction(group.id));
 const enabledGroupViaAction = formStateReducer(disabledGroupViaAction, new EnableAction(group.id));
 
 // array
-const array = createFormArrayState<string>('array ID', ['']);
+const array = createFormArrayState('array ID', ['']);
 const disabledArray = disable(array);
 const enabledArray = enable(disabledArray);
 const disabledArrayViaAction = formStateReducer(array, new DisableAction(array.id));
@@ -113,14 +113,14 @@ const dirtyControlViaAction = formStateReducer(control, new MarkAsDirtyAction(co
 const pristineControlViaAction = formStateReducer(dirtyControlViaAction, new MarkAsPristineAction(control.id));
 
 // group
-const group = createFormGroupState<{ inner: string }>('group ID', { inner: '' });
+const group = createFormGroupState('group ID', { inner: '' });
 const dirtyGroup = markAsDirty(group);
 const pristineGroup = markAsPristine(dirtyGroup);
 const dirtyGroupViaAction = formStateReducer(group, new MarkAsDirtyAction(group.id));
 const pristineGroupViaAction = formStateReducer(dirtyGroupViaAction, new MarkAsPristineAction(group.id));
 
 // array
-const array = createFormArrayState<string>('array ID', ['']);
+const array = createFormArrayState('array ID', ['']);
 const dirtyArray = markAsDirty(array);
 const pristineArray = markAsPristine(dirtyArray);
 const dirtyArrayViaAction = formStateReducer(array, new MarkAsDirtyAction(array.id));
@@ -140,14 +140,14 @@ const touchedControlViaAction = formStateReducer(control, new MarkAsTouchedActio
 const untouchedControlViaAction = formStateReducer(touchedControlViaAction, new MarkAsUntouchedAction(control.id));
 
 // group
-const group = createFormGroupState<{ inner: string }>('group ID', { inner: '' });
+const group = createFormGroupState('group ID', { inner: '' });
 const touchedGroup = markAsTouched(group);
 const untouchedGroup = markAsUntouched(touchedGroup);
 const touchedGroupViaAction = formStateReducer(group, new MarkAsTouchedAction(group.id));
 const untouchedGroupViaAction = formStateReducer(touchedGroupViaAction, new MarkAsUntouchedAction(group.id));
 
 // array
-const array = createFormArrayState<string>('array ID', ['']);
+const array = createFormArrayState('array ID', ['']);
 const touchedArray = markAsTouched(array);
 const untouchedArray = markAsUntouched(touchedArray);
 const touchedArrayViaAction = formStateReducer(array, new MarkAsTouchedAction(array.id));
@@ -167,14 +167,14 @@ const submittedControlViaAction = formStateReducer(control, new MarkAsSubmittedA
 const unsubmittedControlViaAction = formStateReducer(submittedControlViaAction, new MarkAsUnsubmittedAction(control.id));
 
 // group
-const group = createFormGroupState<{ inner: string }>('group ID', { inner: '' });
+const group = createFormGroupState('group ID', { inner: '' });
 const submittedGroup = markAsSubmitted(group);
 const unsubmittedGroup = markAsUnsubmitted(submittedGroup);
 const submittedGroupViaAction = formStateReducer(group, new MarkAsSubmittedAction(group.id));
 const unsubmittedGroupViaAction = formStateReducer(submittedGroupViaAction, new MarkAsUnsubmittedAction(group.id));
 
 // array
-const array = createFormArrayState<string>('array ID', ['']);
+const array = createFormArrayState('array ID', ['']);
 const submittedArray = markAsSubmitted(array);
 const unsubmittedArray = markAsUnsubmitted(submittedArray);
 const submittedArrayViaAction = formStateReducer(array, new MarkAsSubmittedAction(array.id));
