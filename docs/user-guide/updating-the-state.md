@@ -100,14 +100,89 @@ const disabledArrayViaAction = formStateReducer(array, new DisableAction(array.i
 const enabledArrayViaAction = formStateReducer(disabledArrayViaAction, new EnableAction(array.id));
 ```
 
+#### Marking as dirty or pristine
+
+The `markAsDirty` and `markAsPristine` update functions take a form state and mark it as dirty/pristine. For groups and arrays this also marks all children as dirty/pristine.
+
+```typescript
+// control
+const control = createFormControlState<string>('control ID', '');
+const dirtyControl = markAsDirty(control);
+const pristineControl = markAsPristine(dirtyControl);
+const dirtyControlViaAction = formStateReducer(control, new MarkAsDirtyAction(control.id));
+const pristineControlViaAction = formStateReducer(dirtyControlViaAction, new MarkAsPristineAction(control.id));
+
+// group
+const group = createFormGroupState<{ inner: string }>('group ID', { inner: '' });
+const dirtyGroup = markAsDirty(group);
+const pristineGroup = markAsPristine(dirtyGroup);
+const dirtyGroupViaAction = formStateReducer(group, new MarkAsDirtyAction(group.id));
+const pristineGroupViaAction = formStateReducer(dirtyGroupViaAction, new MarkAsPristineAction(group.id));
+
+// array
+const array = createFormArrayState<string>('array ID', ['']);
+const dirtyArray = markAsDirty(array);
+const pristineArray = markAsPristine(dirtyArray);
+const dirtyArrayViaAction = formStateReducer(array, new MarkAsDirtyAction(array.id));
+const pristineArrayViaAction = formStateReducer(dirtyArrayViaAction, new MarkAsPristineAction(array.id));
+```
+
+#### Marking as touched or untouched
+
+The `markAsTouched` and `markAsUntouched` update functions take a form state and mark it as touched/untouched. For groups and arrays this also marks all children as touched/untouched.
+
+```typescript
+// control
+const control = createFormControlState<string>('control ID', '');
+const touchedControl = markAsTouched(control);
+const untouchedControl = markAsUntouched(touchedControl);
+const touchedControlViaAction = formStateReducer(control, new MarkAsTouchedAction(control.id));
+const untouchedControlViaAction = formStateReducer(touchedControlViaAction, new MarkAsUntouchedAction(control.id));
+
+// group
+const group = createFormGroupState<{ inner: string }>('group ID', { inner: '' });
+const touchedGroup = markAsTouched(group);
+const untouchedGroup = markAsUntouched(touchedGroup);
+const touchedGroupViaAction = formStateReducer(group, new MarkAsTouchedAction(group.id));
+const untouchedGroupViaAction = formStateReducer(touchedGroupViaAction, new MarkAsUntouchedAction(group.id));
+
+// array
+const array = createFormArrayState<string>('array ID', ['']);
+const touchedArray = markAsTouched(array);
+const untouchedArray = markAsUntouched(touchedArray);
+const touchedArrayViaAction = formStateReducer(array, new MarkAsTouchedAction(array.id));
+const untouchedArrayViaAction = formStateReducer(touchedArrayViaAction, new MarkAsUntouchedAction(array.id));
+```
+
+#### Marking as submitted or unsubmitted
+
+The `markAsSubmitted` and `markAsUnsubmitted` update functions take a form state and mark it as submitted/unsubmitted. For groups and arrays this also marks all children as submitted/unsubmitted.
+
+```typescript
+// control
+const control = createFormControlState<string>('control ID', '');
+const submittedControl = markAsSubmitted(control);
+const unsubmittedControl = markAsUnsubmitted(submittedControl);
+const submittedControlViaAction = formStateReducer(control, new MarkAsSubmittedAction(control.id));
+const unsubmittedControlViaAction = formStateReducer(submittedControlViaAction, new MarkAsUnsubmittedAction(control.id));
+
+// group
+const group = createFormGroupState<{ inner: string }>('group ID', { inner: '' });
+const submittedGroup = markAsSubmitted(group);
+const unsubmittedGroup = markAsUnsubmitted(submittedGroup);
+const submittedGroupViaAction = formStateReducer(group, new MarkAsSubmittedAction(group.id));
+const unsubmittedGroupViaAction = formStateReducer(submittedGroupViaAction, new MarkAsUnsubmittedAction(group.id));
+
+// array
+const array = createFormArrayState<string>('array ID', ['']);
+const submittedArray = markAsSubmitted(array);
+const unsubmittedArray = markAsUnsubmitted(submittedArray);
+const submittedArrayViaAction = formStateReducer(array, new MarkAsSubmittedAction(array.id));
+const unsubmittedArrayViaAction = formStateReducer(submittedArrayViaAction, new MarkAsUnsubmittedAction(array.id));
+```
+
 |Function|Description|
 |-|-|
-|`markAsDirty`|This update function takes a state and marks it as dirty. For groups and arrays this also marks all children as dirty.|
-|`markAsPristine`|This update function takes a state and marks it as pristine. For groups and arrays this also marks all children as pristine.|
-|`markAsTouched`|This update function takes a state and marks it as touched. For groups and arrays this also marks all children as touched.|
-|`markAsUntouched`|This update function takes a state and marks it as untouched. For groups and arrays this also marks all children as untouched.|
-|`markAsSubmitted`|This update function takes a state and marks it as submitted. For groups and arrays this also marks all children as submitted.|
-|`markAsUnsubmitted`|This update function takes a state and marks it as unsubmitted. For groups and arrays this also marks all children as unsubmitted.|
 |`reset`|This update function takes a state and marks it as pristine, untouched, and unsubmitted. For groups and arrays this also marks all children as pristine, untouched, and unsubmitted.|
 |`focus`|This update function takes a form control state and marks it as focused (which will also `.focus()` the form element).|
 |`unfocus`|This update function takes a form control state and marks it as not focused (which will also `.blur()` the form element).|
