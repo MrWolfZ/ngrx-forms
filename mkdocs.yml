@@ -1,0 +1,19 @@
+site_name: ngrx-forms
+repo_url: https://github.com/MrWolfZ/ngrx-forms
+site_author: Jonathan Ziller
+copyright: © 2017-2018 Jonathan Ziller
+pages:
+  - ngrx-forms: index.md
+  - User Guide:
+    - Introduction: user-guide/index.md
+    - Concepts: user-guide/concepts.md
+    - Form Controls: user-guide/form-controls.md
+    - Form Groups: user-guide/form-groups.md
+    - Form Arrays: user-guide/form-arrays.md
+    - Form State Type Inference: user-guide/type-inference.md
+    - Updating the State: user-guide/updating-the-state.md
+    - Validation: user-guide/validation.md
+    - Custom HTML Form Elements: user-guide/custom-form-elements.md
+  - FAQ: faq.md
+  - Contributing: contributing.md
+theme: readthedocs

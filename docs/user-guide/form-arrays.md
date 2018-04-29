@@ -1,14 +1,32 @@
-## Form Arrays
+Arrays are similar to [groups](form-groups.md) in that they are a logical grouping of multiple form states. However, instead of each state having an explicit name, form arrays just contain a plain array of form states (with all states usually having the same value type, e.g. `string` etc.).
 
-Form arrays are collections of controls. They are represented as plain state arrays. The state of an array is determined almost fully by its child states. Form array states have the following shape:
+In TypeScript they are represented by the following interface.
 
 ```typescript
-export class FormArrayState<TValue> extends AbstractControlState<TValue[]> {
-  readonly controls: Array<AbstractControlState<TValue>>;
+export class FormArrayState<TValue> {
+  id: string;
+  value: TValue[];
+  isValid: boolean;
+  isInvalid: boolean;
+  errors: { [key: string]: any; };
+  pendingValidations: string[];
+  isValidationPending: boolean;
+  isEnabled: boolean;
+  isDisabled: boolean;
+  isDirty: boolean;
+  isPristine: boolean;
+  isTouched: boolean;
+  isUntouched: boolean;
+  isSubmitted: boolean;
+  isUnsubmitted: boolean;
+  userDefinedProperties: { [key: string]: any; };
+  controls: FormState<TValue>[];
 }
 ```
 
-As you can see most properties are shared with controls via the common base interface `AbstractControlState`. The following table explains each property in the context of an array.
+The `TValue` type parameter describes the value type of all child states and is used for [inferring the type](type-inference.md) of child states.
+
+The following table explains each property of an array.
 
 |Property|Negated|Description|
 |-|-|-|
@@ -22,17 +40,43 @@ As you can see most properties are shared with controls via the common base inte
 |`isDirty`|`isPristine`|The `isDirty` property is `true` if and only if at least one child state is marked as dirty.|
 |`isTouched`|`isUntouched`|The `isTouched` property is `true` if and only if at least one child state is marked as touched.|
 |`isSubmitted`|`isUnsubmitted`|The `isSubmitted` property is set to `true` if the containing group is submitted.|
-|`controls`||This property contains all child states of the array. As you may have noticed the type of each child state is `AbstractControlState` which sometimes forces you to cast the state explicitly. It is not possible to improve this typing until [conditional mapped types](https://github.com/Microsoft/TypeScript/issues/12424) are added to TypeScript.|
+|`controls`||This property contains all child states of the array.|
 |`userDefinedProperties`||`userDefinedProperties` work the same for arrays as they do for controls.|
 
-Array states are completely independent of the DOM. They are updated by intercepting all actions that change their children (i.e. the array's reducer is the parent reducer of all its child reducers and forwards any actions to all children; if any children change it recomputes the state of the array). An array state can be created via `createFormArrayState`. This function takes an initial value and automatically creates all child states recursively.
+Array states are mostly updated by intercepting all actions that change their children (i.e. the array's reducer is the parent reducer of all its child reducers and forwards any actions to all children; if any children change it recomputes the state of the array). An array state can be created via `createFormArrayState`, which takes an initial value and automatically creates all child states recursively. Below is an example of creating a simple form array.
+
+```typescript
+export const FORM_ID = 'exampleForm';
+
+export const INITIAL_STATE = createFormArrayState<string>(FORM_ID, ['A', 'B']);
+```
+
+#### Connecting to the DOM
+
+Only the root [group](form-groups.md) or array of your form state needs to be connected to the DOM. This is done by the `NgrxFormDirective` (which needs to be applied to a form via `[ngrxFormState]="formState"`). Note that applying this directive to a `form` element prevents normal form submission since that does not make much sense for ngrx forms.
+
+#### Status CSS Classes
+
+**ngrx-forms** adds CSS classes to `form` elements depending on the associated form state. The available classes are:
+
+* `ngrx-forms-valid`
+* `ngrx-forms-invalid`
+* `ngrx-forms-dirty`
+* `ngrx-forms-pristine`
+* `ngrx-forms-touched`
+* `ngrx-forms-untouched`
+* `ngrx-forms-submitted`
+* `ngrx-forms-unsubmitted`
+* `ngrx-forms-validation-pending`
+
+A constant `NGRX_STATUS_CLASS_NAMES` is exported to allow accessing these class names in user code without needing to hard-code them.
 
 #### Dynamic Form Arrays
 
 Sometimes you will have to render a variable number of fields in your form. Form arrays support adding and removing controls dynamically. This can be done in two ways:
 
-1) explicitly call the `addArrayControl` and `removeArrayControl` update functions (see the section section on [updating the state](UPDATING_THE_STATE.md) for more details on these functions)
-2) set the value of the form array via `setValue` which will automatically update the form array based on the value you provide
+1) explicitly call the [`addArrayControl`](updating-the-state.md#add-array-control) and [`removeArrayControl`](updating-the-state.md#remove-array-control) update functions
+2) set the value of the form array via [`setValue`](updating-the-state.md#set-value) which will automatically update the form array based on the value you provide
 
 Below you can find an example of how this would look. Assume that we have an action that provides a variable set of objects which each should be mapped to an array with two form controls.
 

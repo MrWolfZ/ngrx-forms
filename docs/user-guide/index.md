@@ -1,4 +1,8 @@
-## Getting Started
+This user guide explains and showcases all of the different features of **ngrx-forms** in detail. Use the navigation menu on the left to browse to the different topics. For newcomers it is recommended to read them in the order they are listed in the navigation menu, starting with the [concepts](concepts.md). Alteratively you can simply follow the steps below to get started right away.
+
+#### Getting Started
+
+Here you can see the minimal code you will need to get started using **ngrx-forms**.
 
 Import the module:
 

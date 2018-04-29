@@ -104,7 +104,7 @@ export interface AbstractControlState<TValue> {
    * you wanted to count the number of times a state's value has been
    * changed, what keys were pressed on an input, or how often a form
    * has been submitted etc.). While it is possible to store this kind
-   * of information outside of `ngrx-forms` in your own state the
+   * of information outside of **ngrx-forms** in your own state the
    * `userDefinedProperties` allow you to store your own metadata
    * directly in the state.
    */

@@ -1,16 +1,34 @@
-## Form Groups
+Groups are a logical grouping of multiple named form states. These states can be of any kind, not only controls, and can therefore be nested arbitrarily. Most parts of a group are computed by aggregating properties of its child states. Most of your forms will be groups.
 
-Form groups are collections of named controls. Just like controls groups are represented as plain state objects. The state of a group is determined almost fully by its child states. Form group states have the following shape:
+In TypeScript they are represented by the following interface.
 
 ```typescript
-export interface KeyValue { [key: string]: any; }
-export type FormGroupControls<TValue> = {[controlId in keyof TValue]: AbstractControlState<TValue[controlId]> };
-export interface FormGroupState<TValue extends KeyValue> extends AbstractControlState<TValue> {
-  controls: FormGroupControls<TValue>;
+export interface FormGroupState<TValue> {
+  id: string;
+  value: TValue;
+  isValid: boolean;
+  isInvalid: boolean;
+  errors: { [key: string]: any; };
+  pendingValidations: string[];
+  isValidationPending: boolean;
+  isEnabled: boolean;
+  isDisabled: boolean;
+  isDirty: boolean;
+  isPristine: boolean;
+  isTouched: boolean;
+  isUntouched: boolean;
+  isSubmitted: boolean;
+  isUnsubmitted: boolean;
+  userDefinedProperties: { [key: string]: any; };
+  controls: { 
+    [controlId in keyof TValue]: FormState<TValue[controlId]>;
+  };
 }
 ```
 
-As you can see most properties are shared with controls via the common base interface `AbstractControlState`. The following table explains each property in the context of a group.
+The `TValue` type parameter describes the shape of the form and is used for [inferring the type](type-inference.md) of child states.
+
+The following table explains each property of a group.
 
 |Property|Negated|Description|
 |-|-|-|
@@ -23,15 +41,35 @@ As you can see most properties are shared with controls via the common base inte
 |`isEnabled`|`isDisabled`|The `isEnabled` property is `true` if and only if at least one child state is enabled.|
 |`isDirty`|`isPristine`|The `isDirty` property is `true` if and only if at least one child state is marked as dirty.|
 |`isTouched`|`isUntouched`|The `isTouched` property is `true` if and only if at least one child state is marked as touched.|
-|`isSubmitted`|`isUnsubmitted`|The `isSubmitted` property is set to `true` if the group is submitted. This is tracked by the `NgrxFormDirective` (which needs to be applied to a form via `[ngrxFormState]="groupState"`). Note that applying this directive to a form prevents normal form submission since that does not make much sense for ngrx forms.|
-|`controls`||This property contains all child states of the group. As you may have noticed the type of each child state is `AbstractControlState` which sometimes forces you to cast the state explicitly. It is not possible to improve this typing until [conditional mapped types](https://github.com/Microsoft/TypeScript/issues/12424) are added to TypeScript.|
-|`userDefinedProperties`||`userDefinedProperties` work the same for groups as they do for controls.|
+|`isSubmitted`|`isUnsubmitted`|The `isSubmitted` property is set to `true` if the group is submitted.|
+|`userDefinedProperties`||Sometimes it is useful to associate your own metadata with a form group (e.g. if you wanted to aggregate some additional state like the number of dirty child states). While it is possible to store this kind of information outside of **ngrx-forms** in your own state the `userDefinedProperties` allow you to store your own metadata directly in a group's state.|
+|`controls`||This property contains all child states of the group.|
 
-Group states are usually completely independent of the DOM (with the exception of root groups that are associated with a `form` via `NgrxFormDirective`). They are updated by intercepting all actions that change their children (i.e. the group's reducer is the parent reducer of all its child reducers and forwards any actions to all children; if any children change it recomputes the state of the group). A group state can be created via `createFormGroupState`. This function takes an initial value and automatically creates all child states recursively.
+Group states are mostly updated by intercepting all actions that change their children (i.e. the group's reducer is the parent reducer of all its child reducers and forwards any actions to all children; if any children change it recomputes the state of the group). A group state can be created via `createFormGroupState`, which takes an initial value and automatically creates all child states recursively. Below is an example of creating a simple form group.
+
+```typescript
+export interface FormValue {
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
+export const FORM_ID = 'exampleForm';
+
+export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
+  firstName: '',
+  lastName: '',
+  email: '',
+});
+```
+
+#### Connecting to the DOM
+
+Only the root group or [array](form-arrays.md) of your form state needs to be connected to the DOM. This is done by the `NgrxFormDirective` (which needs to be applied to a form via `[ngrxFormState]="formState"`). Note that applying this directive to a `form` element prevents normal form submission since that does not make much sense for ngrx forms.
 
 #### Status CSS Classes
 
-ngrx-forms adds CSS classes to `form` elements depending on the state of the form. The available classes are:
+**ngrx-forms** adds CSS classes to `form` elements depending on the associated form state. The available classes are:
 
 * `ngrx-forms-valid`
 * `ngrx-forms-invalid`
@@ -49,8 +87,8 @@ A constant `NGRX_STATUS_CLASS_NAMES` is exported to allow accessing these class 
 
 Sometimes you will have to render a variable number of fields in your form. In such a case you can provide a form value interface that has an index signature and then add and remove controls dynamically. Instead of an index signature you can also use optional fields if the potential members of the form value are statically known. At runtime you can add and remove controls in two ways:
 
-1) explicitly call the `addGroupControl` and `removeGroupControl` update functions (see the section section on [updating the state](UPDATING_THE_STATE.md) for more details on these functions)
-2) set the value of the form group via `setValue` which will automatically update the form group based on the value you provide
+1) explicitly call the [`addGroupControl`](updating-the-state.md#add-group-control) and [`removeGroupControl`](updating-the-state.md#remove-group-control) update functions
+2) set the value of the form group via [`setValue`](updating-the-state.md#set-value) which will automatically update the form group based on the value you provide
 
 Below you can find an example of how this would look. Assume that we have an action that provides a variable set of objects which each should be mapped to a group with two form controls.
 

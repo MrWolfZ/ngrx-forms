@@ -1,0 +1,13 @@
+Everything in **ngrx-forms** revolves around the concept of form states. A form state is a complete representation of one or many form controls including its value, validation errors, and other metadata. Form states are plain objects without behaviour and can be embedded anywhere in your application's state.
+
+There are three different kinds of form states:
+
+* [Form Controls](form-controls.md): The core kind of form state. Each form control represents a single value in your form. Usually form controls are directly associated with an HTML form element, e.g. `input`, `select`, etc. The simplest possible form consists of exactly one form control.
+* [Form Groups](form-groups.md): Groups are a logical grouping of multiple named form states. These states can be of any kind, not only controls, and can therefore be nested arbitrarily. Most parts of a group are computed by aggregating properties of its child states. Most of your forms will be groups.
+* [Form Arrays](form-arrays.md): Arrays are similar to groups in that they are a logical grouping of multiple form states. However, instead of each state having an explicit name, form arrays just contain a plain array of form states (with all states usually having the same value type, e.g. `string` etc.).
+
+**ngrx-forms** determines the type of a form state based on its value. Primitive values result in form controls, non-array objects result in form groups, and arrays result in form arrays. By leveraging TypeScript's advanced type inference features **ngrx-forms** can provide a very minimal API where most of the heavy lifting (and most importantly correctness checking) can be done by the TypeScript compiler. When the type of the value is not known the state is treated as an abstract form state which contains all properties that are common to all kinds of form states.
+
+There are two ways how form states can be modified. The first way is the normal Redux model, i.e. calling a _reducer_ function with the state and an action. The other way are [update functions](updating-the-state.md). **ngrx-forms** provides a number of reducers, actions, and update functions that you can use to manage your form states.
+
+Since the core of **ngrx-forms** is implemented through form states, actions, reducers, and update functions it can be used (and best of all _tested_) without any interaction with the DOM. However, almost always you will connect your form states to HTML form elements. **ngrx-forms** provides directives for connecting [controls](form-controls.md#connecting-to-the-dom), [groups](form-groups.md#connecting-to-the-dom), and [arrays](form-arrays.md#connecting-to-the-dom).

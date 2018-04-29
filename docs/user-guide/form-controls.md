@@ -1,18 +1,14 @@
-## Form Controls
+The core kind of form state. Each form control represents a single value in your form. Usually form controls are directly associated with an HTML form element, e.g. `input`, `select`, etc. The simplest possible form consists of exactly one form control.
 
-Form controls in ngrx-forms are represented as plain state objects. Control states have the following shape:
+In TypeScript they are represented by the following interface.
 
 ```typescript
-export type FormControlValueTypes = string | number | boolean | null | undefined;
-export interface KeyValue { [key: string]: any; }
-export interface ValidationErrors { [key: string]: any; }
-
-export interface AbstractControlState<TValue> {
+export interface FormControlState<TValue> {
   id: string;
   value: TValue;
   isValid: boolean;
   isInvalid: boolean;
-  errors: ValidationErrors;
+  errors: { [key: string]: any; };
   pendingValidations: string[];
   isValidationPending: boolean;
   isEnabled: boolean;
@@ -23,12 +19,9 @@ export interface AbstractControlState<TValue> {
   isUntouched: boolean;
   isSubmitted: boolean;
   isUnsubmitted: boolean;
-  userDefinedProperties: KeyValue;
-}
-
-export interface FormControlState<TValue extends FormControlValueTypes> extends AbstractControlState<TValue> {
   isFocused: boolean;
   isUnfocused: boolean;
+  userDefinedProperties: { [key: string]: any; };
 }
 ```
 
@@ -37,23 +30,25 @@ The following table explains each property.
 |Property|Negated|Description|
 |-|-|-|
 |`id`||The unique ID of the form control. Usually this is the name of the field in the form value prefixed by the ID of the containing group or array, e.g. `MY_FORM.someTextInput`.|
-|`value`||The value of the form control. Controls only support values of type `string`, `number`, `boolean`, `null`, and `undefined` to keep the state string serializable.|
+|`value`||The value of the form control. Controls only support values of type `string`, `number`, `boolean`, `null`, and `undefined` due to the way **ngrx-forms** infers form state kinds.|
 |`isValid`|`isInvalid`|The `isValid` property is `true` if the control does not have any errors.|
 |`errors`||The errors of the control. This property always has a value. If the control has no errors the property is set to `{}`.|
 |`pendingValidations`||The names of all asynchronous validations currently running for the control.|
 |`isValidationPending`||The `isValidationPending` property indicates whether the control is currently being asynchronously validated (i.e. this is `true` if and only if `pendingValidations` is not empty).|
 |`isEnabled`|`isDisabled`|The `isEnabled` property indicates whether the control is enabled. When `isEnabled` is `false` the `errors` are always `{}` (i.e. the control is always valid if disabled) and `pendingValidations` is always `[]` (i.e. all pending validations are cancelled).|
-|`isDirty`|`isPristine`|The `isDirty` property is set to `true` as soon as the the underlying `FormViewAdapter` or `ControlValueAccessor` reports a new value for the first time.|
-|`isTouched`|`isUntouched`|The `isTouched` property is set to `true` based on the rules of the underlying `FormViewAdapter` or `ControlValueAccessor` (usually on `blur` for most form elements).|
+|`isDirty`|`isPristine`|The `isDirty` property is set to `true` as soon as the the underlying [`FormViewAdapter`](custom-form-elements.md) or `ControlValueAccessor` reports a new value for the first time.|
+|`isTouched`|`isUntouched`|The `isTouched` property is set to `true` based on the rules of the underlying [`FormViewAdapter`](custom-form-elements.md) or `ControlValueAccessor` (usually on `blur` for most form elements).|
 |`isSubmitted`|`isUnsubmitted`|The `isSubmitted` property is set to `true` if the containing group or array is submitted.|
 |`isFocused`|`isUnfocused`|The `isFocused` property is set to `true` if the control currently has focus. Note that this feature is opt-in. To enable it you have to add ```[ngrxEnableFocusTracking]="true"``` to your form element.|
-|`userDefinedProperties`||Sometimes it is useful to associate your own metadata with a form control (e.g. if you wanted to count the number of times a control's value has been changed, what keys were pressed on an input, or how often a form has been submitted). While it is possible to store this kind of information outside of `ngrx-forms` in your own state the `userDefinedProperties` allow you to store your own metadata directly in a control's state.|
+|`userDefinedProperties`||Sometimes it is useful to associate your own metadata with a form control (e.g. if you wanted to count the number of times a control's value has been changed, what keys were pressed on an input, or how often a form has been submitted). While it is possible to store this kind of information outside of **ngrx-forms** in your own state the `userDefinedProperties` allow you to store your own metadata directly in a control's state.|
+
+#### Connecting to the DOM
 
 Control states are associated with a form element via the `NgrxFormControlDirective` (applied with `[ngrxFormControlState]="controlState"`). This directive is reponsible for keeping the view and the state in sync. When the state is changed the update is always immediately sync'ed to the view. Additionally the `id` of the HTML element is set to the ID of the form control.
 
 #### Status CSS Classes
 
-ngrx-forms adds CSS classes to form control elements depending on the state of the control. The available classes are:
+**ngrx-forms** adds CSS classes to form control elements depending on the state of the control. The available classes are:
 
 * `ngrx-forms-valid`
 * `ngrx-forms-invalid`
@@ -97,7 +92,11 @@ export class TrackIsEnterPressedDirective {
       return;
     }
 
-    this.actionsSubject.next(new SetUserDefinedPropertyAction(this.ngrxFormControlState.id, IS_ENTER_PRESSED_PROPERTY, true));
+    this.actionsSubject.next(new SetUserDefinedPropertyAction(
+      this.ngrxFormControlState.id,
+      IS_ENTER_PRESSED_PROPERTY,
+      true,
+    ));
   }
 
   @HostListener('keyup', ['$event'])
@@ -106,7 +105,11 @@ export class TrackIsEnterPressedDirective {
       return;
     }
 
-    this.actionsSubject.next(new SetUserDefinedPropertyAction(this.ngrxFormControlState.id, IS_ENTER_PRESSED_PROPERTY, false));
+    this.actionsSubject.next(new SetUserDefinedPropertyAction(
+      this.ngrxFormControlState.id,
+      IS_ENTER_PRESSED_PROPERTY,
+      false,
+    ));
   }
 }
 ```
@@ -122,7 +125,7 @@ export interface NgrxValueConverter<TView, TState> {
 }
 ```
 
-`ngrx-forms` ships with a number of pre-made value converters:
+**ngrx-forms** ships with a number of pre-made value converters:
 
 |Converter|Description|
 |-|-|

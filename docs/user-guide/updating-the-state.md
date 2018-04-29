@@ -1,6 +1,6 @@
 ## Updating the State
 
-All form states are internally updated by ngrx-forms through dispatching actions. While this is of course also possible for you there exist a set of update functions that can be used to update form states. This is mainly useful to change the state as a result of a different action in your reducer. Note that ngrx-forms is coded in such a way that no state references will change if nothing inside the state changes. It is therefore perfectly safe to repeatedly call any of the functions below and the state will be updated exactly once or not at all if nothing changed. Each function can be imported from `ngrx-forms`. The following table explains each function:
+All form states are internally updated by **ngrx-forms** through dispatching actions. While this is of course also possible for you there exist a set of update functions that can be used to update form states. This is mainly useful to change the state as a result of a different action in your reducer. Note that **ngrx-forms** is coded in such a way that no state references will change if nothing inside the state changes. It is therefore perfectly safe to repeatedly call any of the functions below and the state will be updated exactly once or not at all if nothing changed. Each function can be imported from **ngrx-forms**. The following table explains each function:
 
 |Function|Description|
 |-|-|
