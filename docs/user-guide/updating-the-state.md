@@ -2,7 +2,7 @@ All form states are internally updated by **ngrx-forms** through dispatching act
 
 Below you will find a complete list of all update functions provided by **ngrx-forms**. Each section also shows how to use actions directly instead of the update functions (the examples directly call the `formStateReducer` but you can of course dispatch these actions from anywhere in your code).
 
-#### Set Value
+#### Setting the value
 
 The `setValue` update function takes a value and returns a projection function that sets the value of a form state. Setting the value of a group or array will also update the values of all its child states including adding and removing child states on the fly for added/removed properties/items. `setValue` has an overload that takes a state directly as the first parameter.
 
@@ -26,7 +26,7 @@ const updatedArrayUncurried = setValue(array, ['newValue']);
 const updatedArrayViaAction = formStateReducer(array, new SetValueAction(array.id, ['newValue']));
 ```
 
-#### Validate
+#### Validating the value
 
 The `validate` update function takes one or more validation functions and returns a projection function that sets the errors of a form state to the result of applying the given validation function(s) to the state's value. `validate` has an overload that takes a state directly as the first parameter. See [here](validation.md) for more details about validation.
 
@@ -49,7 +49,7 @@ const updatedArrayUncurried = validate(array, value => value.length === 0 ? { mi
 // there is no corresponding action for `validate`, it uses `SetErrorsAction` internally
 ```
 
-#### Set Errors
+#### Setting errors
 
 The `setErrors` update function takes one or more error objects and returns a projection function that sets the errors of a form state. `setErrors` has an overload that takes a state directly as the first parameter.
 
@@ -64,19 +64,44 @@ const updatedControlViaAction = formStateReducer(control, new SetErrorsAction(co
 const group = createFormGroupState<{ inner: string }>('group ID', { inner: '' });
 const updatedGroup = setErrors<{ inner: string }>({ innerMissing: true })(group);
 const updatedGroupUncurried = setErrors(group, { innerMissing: true });
-const updatedGroupViaAction = formStateReducer(group, new SetErrorsAction(control.id, { innerMissing: true }));
+const updatedGroupViaAction = formStateReducer(group, new SetErrorsAction(group.id, { innerMissing: true }));
 
 // array
 const array = createFormArrayState<string>('array ID', ['']);
 const updatedArray = setErrors<string[]>({ missing: true })(array);
 const updatedArrayUncurried = setErrors(array, { missing: true });
-const updatedArrayViaAction = formStateReducer(array, new SetErrorsAction(control.id, { missing: true }));
+const updatedArrayViaAction = formStateReducer(array, new SetErrorsAction(array.id, { missing: true }));
+```
+
+#### Enabling and disabling
+
+The `enable` and `disable` update functions take a form state and enable/disable it. For groups and arrays also enables/disables all children. Disabling a control state will usually also disable the connected HTML form element (as long as the corresponding `FormViewAdapter` or `ControlValueAccessor` supports this). Disabled form states are also excluded from validation. Disabling a state will therefore clear all of its errors (i.e. making it always valid) and will remove all pending validations (thereby effectively cancelling those validations).
+
+```typescript
+// control
+const control = createFormControlState<string>('control ID', '');
+const disabledControl = disable(control);
+const enabledControl = enable(disabledControl);
+const disabledControlViaAction = formStateReducer(control, new DisableAction(control.id));
+const enabledControlViaAction = formStateReducer(disabledControlViaAction, new EnableAction(control.id));
+
+// group
+const group = createFormGroupState<{ inner: string }>('group ID', { inner: '' });
+const disabledGroup = disable(group);
+const enabledGroup = enable(disabledGroup);
+const disabledGroupViaAction = formStateReducer(group, new DisableAction(group.id));
+const enabledGroupViaAction = formStateReducer(disabledGroupViaAction, new EnableAction(group.id));
+
+// array
+const array = createFormArrayState<string>('array ID', ['']);
+const disabledArray = disable(array);
+const enabledArray = enable(disabledArray);
+const disabledArrayViaAction = formStateReducer(array, new DisableAction(array.id));
+const enabledArrayViaAction = formStateReducer(disabledArrayViaAction, new EnableAction(array.id));
 ```
 
 |Function|Description|
 |-|-|
-|`enable`|This update function takes a form state and enables it. For groups and arrays also enables all children.|
-|`disable`|This update function takes a form state and disables it. For groups and arrays also disables all children. Disabling a control will clear all of its errors (i.e. making it always valid) and will remove all pending validations (thereby effectively cancelling those validations).|
 |`markAsDirty`|This update function takes a state and marks it as dirty. For groups and arrays this also marks all children as dirty.|
 |`markAsPristine`|This update function takes a state and marks it as pristine. For groups and arrays this also marks all children as pristine.|
 |`markAsTouched`|This update function takes a state and marks it as touched. For groups and arrays this also marks all children as touched.|
