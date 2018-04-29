@@ -26,13 +26,13 @@ export function setErrors<TValue>(
  * This update function takes a number of error objects and returns a projection
  * function that sets the errors of a form state.
  */
-export function setErrors<TValue>(errors: ValidationErrors, ...rest: ValidationErrors[]): (state: AbstractControlState<TValue>) => FormState<TValue>;
+export function setErrors(errors: ValidationErrors, ...rest: ValidationErrors[]): <TValue>(state: AbstractControlState<TValue>) => FormState<TValue>;
 
 /**
  * This update function takes an array of error objects and returns a projection
  * function that sets the errors of a form state.
  */
-export function setErrors<TValue>(errorsArray: ValidationErrors[]): (state: AbstractControlState<TValue>) => FormState<TValue>;
+export function setErrors(errorsArray: ValidationErrors[]): <TValue>(state: AbstractControlState<TValue>) => FormState<TValue>;
 
 export function setErrors<TValue>(
   errorsOrErrorsArrayOrState: ValidationErrors | ValidationErrors[] | FormState<TValue>,

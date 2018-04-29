@@ -7,7 +7,7 @@ import { ensureState } from './util';
  * This update function takes an index and returns a projection function
  * that removes the child control at the given index from a form array state.
  */
-export function removeArrayControl<TValue>(index: number): (state: FormArrayState<TValue>) => FormArrayState<TValue>;
+export function removeArrayControl(index: number): <TValue>(state: FormArrayState<TValue>) => FormArrayState<TValue>;
 
 /**
  * This update function takes an array form state and an index and removes the

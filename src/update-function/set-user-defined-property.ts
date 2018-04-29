@@ -7,7 +7,7 @@ import { ensureState } from './util';
  * This update function takes a name and a value and returns a projection
  * function that sets a user-defined property on a form state.
  */
-export function setUserDefinedProperty<TValue>(name: string, value: any): (state: AbstractControlState<TValue>) => FormState<TValue>;
+export function setUserDefinedProperty(name: string, value: any): <TValue>(state: AbstractControlState<TValue>) => FormState<TValue>;
 
 /**
  * This update function takes a form state, a name, and a value and sets
