@@ -35,11 +35,11 @@ export function setErrors<TValue>(errors: ValidationErrors, ...rest: ValidationE
 export function setErrors<TValue>(errorsArray: ValidationErrors[]): (state: AbstractControlState<TValue>) => FormState<TValue>;
 
 export function setErrors<TValue>(
-  errorsOrErrorsArrayOrState: ValidationErrors | ValidationErrors[] | AbstractControlState<TValue>,
+  errorsOrErrorsArrayOrState: ValidationErrors | ValidationErrors[] | FormState<TValue>,
   errorsOrErrorsArray?: ValidationErrors | ValidationErrors[],
   ...rest: ValidationErrors[]
 ) {
-  if (isFormState(errorsOrErrorsArrayOrState)) {
+  if (isFormState<TValue>(errorsOrErrorsArrayOrState)) {
     const errorsArray = Array.isArray(errorsOrErrorsArray) ? errorsOrErrorsArray : [errorsOrErrorsArray!];
     const errors = errorsArray.concat(...rest).reduce((agg, err) => Object.assign(agg, err), {} as ValidationErrors);
 

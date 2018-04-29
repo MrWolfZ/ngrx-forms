@@ -15,8 +15,8 @@ export function setUserDefinedProperty<TValue>(name: string, value: any): (state
  */
 export function setUserDefinedProperty<TValue>(state: AbstractControlState<TValue>, name: string, value: any): FormState<TValue>;
 
-export function setUserDefinedProperty<TValue>(nameOrState: string | AbstractControlState<TValue>, valueOrName: any | string, value?: any) {
-  if (isFormState(nameOrState)) {
+export function setUserDefinedProperty<TValue>(nameOrState: string | FormState<TValue>, valueOrName: any | string, value?: any) {
+  if (isFormState<TValue>(nameOrState)) {
     return formStateReducer(nameOrState, new SetUserDefinedPropertyAction(nameOrState.id, valueOrName, value));
   }
 
