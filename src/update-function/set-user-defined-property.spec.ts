@@ -4,12 +4,12 @@ import { updateGroup } from './update-group';
 
 describe(setUserDefinedProperty.name, () => {
   it('should call reducer for controls', () => {
-    const resultState = setUserDefinedProperty<typeof INITIAL_STATE.value.inner>('prop', 12)(INITIAL_STATE.controls.inner);
+    const resultState = setUserDefinedProperty('prop', 12)(INITIAL_STATE.controls.inner);
     expect(resultState).not.toBe(INITIAL_STATE.controls.inner);
   });
 
   it('should call reducer for groups', () => {
-    const resultState = setUserDefinedProperty<typeof INITIAL_STATE.value>('prop', 12)(INITIAL_STATE);
+    const resultState = setUserDefinedProperty('prop', 12)(INITIAL_STATE);
     expect(resultState).not.toBe(INITIAL_STATE);
   });
 
@@ -39,7 +39,7 @@ describe(setUserDefinedProperty.name, () => {
 
   it('should work inside an updateGroup', () => {
     const resultState = updateGroup(INITIAL_STATE, {
-      inner: setUserDefinedProperty<string>('prop', 12),
+      inner: setUserDefinedProperty('prop', 12),
     });
 
     expect(resultState).not.toEqual(INITIAL_STATE);

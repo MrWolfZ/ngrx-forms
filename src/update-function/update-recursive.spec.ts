@@ -7,7 +7,7 @@ describe(updateRecursive.name, () => {
   it('should apply the provided functions to controls', () => {
     const state = createFormControlState(FORM_CONTROL_ID, '');
     const expected = { ...state, value: 'A' };
-    const resultState = updateRecursive<string>(() => expected)(state);
+    const resultState = updateRecursive(() => expected)(state);
     expect(resultState).toBe(expected);
   });
 
@@ -21,7 +21,7 @@ describe(updateRecursive.name, () => {
   it('should apply the provided functions to arrays', () => {
     const state = createFormArrayState(FORM_CONTROL_ID, ['']);
     const expected = { ...state, value: ['A'] };
-    const resultState = updateRecursive<string[]>(() => expected)(state);
+    const resultState = updateRecursive(() => expected)(state);
     expect(resultState).toBe(expected);
   });
 
@@ -35,21 +35,21 @@ describe(updateRecursive.name, () => {
   it('should apply the provided functions to children in an array', () => {
     const state = createFormArrayState(FORM_CONTROL_ID, ['']);
     const expected = { ...state.controls[0], value: 'A' };
-    const resultState = updateRecursive<string[]>(s => s.id === `${FORM_CONTROL_ID}.0` ? expected : s)(state);
+    const resultState = updateRecursive(s => s.id === `${FORM_CONTROL_ID}.0` ? expected : s)(state);
     expect(resultState.controls[0]).toBe(expected);
   });
 
   it('should apply the provided functions to multiple children in an array', () => {
     const state = createFormArrayState(FORM_CONTROL_ID, ['', '']);
     const expected = { ...state.controls[1], value: 'A' };
-    const resultState = updateRecursive<string[]>(s => s.id === `${FORM_CONTROL_ID}.1` ? expected : s)(state);
+    const resultState = updateRecursive(s => s.id === `${FORM_CONTROL_ID}.1` ? expected : s)(state);
     expect(resultState.controls[1]).toBe(expected);
   });
 
   it('should apply the provided functions to groups', () => {
     const state = createFormGroupState(FORM_CONTROL_ID, { inner: '' });
     const expected = { ...state, value: { inner: 'A' } };
-    const resultState = updateRecursive<typeof state.value>(() => expected)(state);
+    const resultState = updateRecursive(() => expected)(state);
     expect(resultState).toBe(expected);
   });
 
@@ -63,14 +63,14 @@ describe(updateRecursive.name, () => {
   it('should apply the provided functions to children in a group', () => {
     const state = createFormGroupState(FORM_CONTROL_ID, { inner: '' });
     const expected = { ...state.controls.inner, value: 'A' };
-    const resultState = updateRecursive<typeof state.value>(s => s.id === FORM_CONTROL_INNER_ID ? expected : s)(state);
+    const resultState = updateRecursive(s => s.id === FORM_CONTROL_INNER_ID ? expected : s)(state);
     expect(resultState.controls.inner).toBe(expected);
   });
 
   it('should apply the provided functions to multiple children in a group', () => {
     const state = createFormGroupState(FORM_CONTROL_ID, { inner: '', inner2: '' });
     const expected = { ...state.controls.inner2, value: 'A' };
-    const resultState = updateRecursive<typeof state.value>(s => s.id === FORM_CONTROL_INNER2_ID ? expected : s)(state);
+    const resultState = updateRecursive(s => s.id === FORM_CONTROL_INNER2_ID ? expected : s)(state);
     expect(resultState.controls.inner2).toBe(expected);
   });
 
@@ -79,7 +79,7 @@ describe(updateRecursive.name, () => {
     const expected1 = { ...state.controls[0], value: 'D' };
     const expected2 = { ...state.controls[1], value: 'E' };
     const expected3 = { ...state.controls[2], value: 'F' };
-    const resultState = updateRecursive<typeof state.value>(
+    const resultState = updateRecursive(
       s => s.value === 'A' ? expected1 : s.value === 'B' ? expected3 : s,
       s => s.value === 'F' ? expected2 : s.value === 'C' ? expected3 : s,
     )(state);
@@ -97,7 +97,7 @@ describe(updateRecursive.name, () => {
       s => s.value === 'A' ? expected1 : s.value === 'B' ? expected3 : s;
     const updateFunction2: ProjectFn2<AbstractControlState<any>, AbstractControlState<any>> =
       s => s.value === 'F' ? expected2 : s.value === 'C' ? expected3 : s;
-    const resultState = updateRecursive<typeof state.value>(
+    const resultState = updateRecursive(
       updateFunction1,
       [updateFunction2] as any,
     )(state);
@@ -111,7 +111,7 @@ describe(updateRecursive.name, () => {
     const expected1 = { ...state.controls[0], value: 'D' };
     const expected2 = { ...state.controls[1], value: 'E' };
     const expected3 = { ...state.controls[2], value: 'F' };
-    const resultState = updateRecursive<typeof state.value>([
+    const resultState = updateRecursive([
       s => s.value === 'A' ? expected1 : s.value === 'B' ? expected3 : s,
       s => s.value === 'F' ? expected2 : s.value === 'C' ? expected3 : s,
     ])(state);
@@ -173,19 +173,19 @@ describe(updateRecursive.name, () => {
 
   it('should not modify state if no update function is provided', () => {
     const state = createFormArrayState(FORM_CONTROL_ID, ['A', 'B', 'C']);
-    const resultState = updateRecursive<typeof state.value>([])(state);
+    const resultState = updateRecursive([])(state);
     expect(resultState).toBe(state);
   });
 
   it('should not modify state if no update function is provided uncurried', () => {
     const state = createFormArrayState(FORM_CONTROL_ID, ['A', 'B', 'C']);
-    const resultState = updateRecursive<typeof state.value>(state, []);
+    const resultState = updateRecursive(state, []);
     expect(resultState).toBe(state);
   });
 
   it('should pass top level state itself as the second parameter for top level state', () => {
     const state = createFormArrayState(FORM_CONTROL_ID, ['', '']);
-    updateRecursive<typeof state.value>((c, p) => {
+    updateRecursive((c, p) => {
       if (c === state) {
         expect(p).toBe(state);
       }
@@ -196,7 +196,7 @@ describe(updateRecursive.name, () => {
 
   it('should pass the parent state as the second parameter for child states', () => {
     const state = createFormArrayState(FORM_CONTROL_ID, ['', '']);
-    updateRecursive<typeof state.value>((c, p) => {
+    updateRecursive((c, p) => {
       if (c !== state) {
         expect(p).toBe(state);
       }

@@ -84,10 +84,10 @@ export function updateRecursive<TValue>(
  * const updatedState = updateFn(state);
  * ```
  */
-export function updateRecursive<TValue>(
+export function updateRecursive(
   updateFn: ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>,
   ...updateFnArr: ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>[]
-): (state: AbstractControlState<TValue>) => FormState<TValue>;
+): <TValue>(state: AbstractControlState<TValue>) => FormState<TValue>;
 
 /**
  * This update function takes an array of update functions and returns
@@ -102,9 +102,9 @@ export function updateRecursive<TValue>(
  * const updatedState = updateFn(state);
  * ```
  */
-export function updateRecursive<TValue>(
+export function updateRecursive(
   updateFnArr: ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>[],
-): (state: AbstractControlState<TValue>) => FormState<TValue>;
+): <TValue>(state: AbstractControlState<TValue>) => FormState<TValue>;
 
 export function updateRecursive<TValue>(
   stateOrFunctionOrFunctionArray:

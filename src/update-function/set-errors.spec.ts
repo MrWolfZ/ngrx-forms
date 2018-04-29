@@ -1,18 +1,18 @@
 import { createFormArrayState, createFormGroupState } from '../state';
 import { setErrors } from './set-errors';
-import { FormGroupValue, INITIAL_STATE } from './test-util';
+import { INITIAL_STATE } from './test-util';
 import { updateGroup } from './update-group';
 
 describe(setErrors.name, () => {
   it('should call reducer for controls', () => {
     const errors = { required: true };
-    const resultState = setErrors<string>(errors)(INITIAL_STATE.controls.inner);
+    const resultState = setErrors(errors)(INITIAL_STATE.controls.inner);
     expect(resultState).not.toBe(INITIAL_STATE.controls.inner);
   });
 
   it('should call reducer for groups', () => {
     const errors = { required: true };
-    const resultState = setErrors<FormGroupValue>(errors)(INITIAL_STATE);
+    const resultState = setErrors(errors)(INITIAL_STATE);
     expect(resultState).not.toBe(INITIAL_STATE);
   });
 
@@ -25,14 +25,14 @@ describe(setErrors.name, () => {
 
   it('should call reducer for arrays', () => {
     const errors = { required: true };
-    const resultState = setErrors<string[]>(errors)(INITIAL_STATE.controls.inner5);
+    const resultState = setErrors(errors)(INITIAL_STATE.controls.inner5);
     expect(resultState).not.toBe(INITIAL_STATE.controls.inner5);
   });
 
   it('should call reducer for empty arrays', () => {
     const errors = { required: true };
-    const state = createFormArrayState<string>('test ID', []);
-    const resultState = setErrors<string[]>(errors)(state);
+    const state = createFormArrayState('test ID', []);
+    const resultState = setErrors(errors)(state);
     expect(resultState).not.toBe(state);
   });
 
@@ -72,7 +72,7 @@ describe(setErrors.name, () => {
     const errors1 = { required: true };
     const errors2 = { min: 1 };
     const mergedErrors = { required: true, min: 1 };
-    const resultState = setErrors<string>(errors1, errors2)(INITIAL_STATE.controls.inner);
+    const resultState = setErrors(errors1, errors2)(INITIAL_STATE.controls.inner);
     expect(resultState.errors).toEqual(mergedErrors);
   });
 
@@ -80,7 +80,7 @@ describe(setErrors.name, () => {
     const errors1 = { required: true };
     const errors2 = { min: 1 };
     const mergedErrors = { required: true, min: 1 };
-    const resultState = setErrors<string>(errors1, [errors2])(INITIAL_STATE.controls.inner);
+    const resultState = setErrors(errors1, [errors2])(INITIAL_STATE.controls.inner);
     expect(resultState.errors).toEqual(mergedErrors);
   });
 
@@ -88,7 +88,7 @@ describe(setErrors.name, () => {
     const errors1 = { required: true };
     const errors2 = { min: 1 };
     const mergedErrors = { required: true, min: 1 };
-    const resultState = setErrors<string>([errors1, errors2])(INITIAL_STATE.controls.inner);
+    const resultState = setErrors([errors1, errors2])(INITIAL_STATE.controls.inner);
     expect(resultState.errors).toEqual(mergedErrors);
   });
 
@@ -96,7 +96,7 @@ describe(setErrors.name, () => {
     const errors1 = { min: 1, required: true };
     const errors2 = { min: 2 };
     const mergedErrors = { required: true, min: 2 };
-    const resultState = setErrors<string>([errors1, errors2])(INITIAL_STATE.controls.inner);
+    const resultState = setErrors([errors1, errors2])(INITIAL_STATE.controls.inner);
     expect(resultState.errors).toEqual(mergedErrors);
   });
 
@@ -126,13 +126,13 @@ describe(setErrors.name, () => {
 
   it('should throw if curried and no state', () => {
     const errors = { required: true };
-    expect(() => setErrors<string>(errors)(undefined as any)).toThrowError();
+    expect(() => setErrors(errors)(undefined as any)).toThrowError();
   });
 
   it('should work inside an updateGroup', () => {
     const errors = { required: true };
     const resultState = updateGroup(INITIAL_STATE, {
-      inner: setErrors<string>(errors),
+      inner: setErrors(errors),
     });
 
     expect(resultState).not.toEqual(INITIAL_STATE);
