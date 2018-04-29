@@ -1,5 +1,5 @@
 import { SetErrorsAction } from '../actions';
-import { inferredStateReducer } from '../inferred-reducer';
+import { formStateReducer } from '../reducer';
 import { AbstractControlState, FormState, isFormState, ValidationErrors } from '../state';
 import { ensureState } from './util';
 
@@ -43,7 +43,7 @@ export function setErrors<TValue>(
     const errorsArray = Array.isArray(errorsOrErrorsArray) ? errorsOrErrorsArray : [errorsOrErrorsArray!];
     const errors = errorsArray.concat(...rest).reduce((agg, err) => Object.assign(agg, err), {} as ValidationErrors);
 
-    return inferredStateReducer(errorsOrErrorsArrayOrState, new SetErrorsAction(errorsOrErrorsArrayOrState.id, errors));
+    return formStateReducer(errorsOrErrorsArrayOrState, new SetErrorsAction(errorsOrErrorsArrayOrState.id, errors));
   }
 
   let errorsArray = Array.isArray(errorsOrErrorsArrayOrState) ? errorsOrErrorsArrayOrState : [errorsOrErrorsArrayOrState];

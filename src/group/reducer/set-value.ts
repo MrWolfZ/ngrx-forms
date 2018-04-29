@@ -1,5 +1,5 @@
 import { Actions, SetValueAction } from '../../actions';
-import { inferredStateReducer } from '../../inferred-reducer';
+import { formStateReducer } from '../../reducer';
 import { computeGroupState, createChildState, FormGroupControls, FormGroupState, KeyValue } from '../../state';
 import { childReducer } from './util';
 
@@ -31,7 +31,7 @@ export function setValueReducer<TValue extends KeyValue>(
       if (!state.controls[key]) {
         Object.assign(c, { [key]: createChildState<TValue[string]>(`${state.id}.${key}`, value[key]) });
       } else {
-        Object.assign(c, { [key]: inferredStateReducer(state.controls[key], new SetValueAction(state.controls[key].id, value[key])) });
+        Object.assign(c, { [key]: formStateReducer(state.controls[key], new SetValueAction(state.controls[key].id, value[key])) });
       }
       return c;
     }, {} as FormGroupControls<TValue>);

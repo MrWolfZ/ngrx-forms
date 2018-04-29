@@ -1,5 +1,5 @@
 import { Actions } from '../../actions';
-import { inferredStateReducer } from '../../inferred-reducer';
+import { formStateReducer } from '../../reducer';
 import { computeGroupState, FormGroupControls, FormGroupState, FormState, KeyValue } from '../../state';
 
 export function dispatchActionPerChild<TValue extends KeyValue>(
@@ -9,7 +9,7 @@ export function dispatchActionPerChild<TValue extends KeyValue>(
   let hasChanged = false;
   const newControls = Object.keys(controls)
     .reduce((c, key) => {
-      Object.assign(c, { [key]: inferredStateReducer(controls[key], actionCreator(controls[key].id)) });
+      Object.assign(c, { [key]: formStateReducer(controls[key], actionCreator(controls[key].id)) });
       hasChanged = hasChanged || c[key] !== controls[key];
       return c;
     }, {} as FormGroupControls<TValue>);
@@ -22,7 +22,7 @@ function callChildReducers<TValue extends { [key: string]: any }>(
 ): FormGroupControls<TValue> {
   let hasChanged = false;
   const newControls = Object.keys(controls)
-    .map(key => [key, inferredStateReducer(controls[key], action)] as [string, FormState<any>])
+    .map(key => [key, formStateReducer(controls[key], action)] as [string, FormState<any>])
     .reduce((res, [key, state]) => {
       hasChanged = hasChanged || state !== controls[key];
       return Object.assign(res, { [key]: state });

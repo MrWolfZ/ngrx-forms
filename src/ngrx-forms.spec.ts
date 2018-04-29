@@ -10,6 +10,7 @@ import {
   formArrayReducer,
   formControlReducer,
   formGroupReducer,
+  formStateReducer,
   isArrayState,
   isGroupState,
   markAsDirty,
@@ -55,6 +56,7 @@ describe('ngrx-forms', () => {
   it(`should export ${formControlReducer.name}`, () => expect(formControlReducer).toBeDefined());
   it(`should export ${formGroupReducer.name}`, () => expect(formGroupReducer).toBeDefined());
   it(`should export ${formArrayReducer.name}`, () => expect(formArrayReducer).toBeDefined());
+  it(`should export ${formStateReducer.name}`, () => expect(formStateReducer).toBeDefined());
   it(`should export ${addArrayControl.name}`, () => expect(addArrayControl).toBeDefined());
   it(`should export ${addGroupControl.name}`, () => expect(addGroupControl).toBeDefined());
   it(`should export ${disable.name}`, () => expect(disable).toBeDefined());

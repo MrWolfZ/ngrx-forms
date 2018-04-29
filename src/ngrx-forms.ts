@@ -22,6 +22,7 @@ export {
 export { formControlReducer } from './control/reducer';
 export { formGroupReducer } from './group/reducer';
 export { formArrayReducer } from './array/reducer';
+export { formStateReducer } from './reducer';
 
 export * from './update-function/update-array';
 export * from './update-function/update-group';

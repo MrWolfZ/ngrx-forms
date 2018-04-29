@@ -1,5 +1,5 @@
 import { SetUserDefinedPropertyAction } from '../actions';
-import { inferredStateReducer } from '../inferred-reducer';
+import { formStateReducer } from '../reducer';
 import { AbstractControlState, FormState, isFormState } from '../state';
 import { ensureState } from './util';
 
@@ -17,7 +17,7 @@ export function setUserDefinedProperty<TValue>(state: AbstractControlState<TValu
 
 export function setUserDefinedProperty<TValue>(nameOrState: string | AbstractControlState<TValue>, valueOrName: any | string, value?: any) {
   if (isFormState(nameOrState)) {
-    return inferredStateReducer(nameOrState, new SetUserDefinedPropertyAction(nameOrState.id, valueOrName, value));
+    return formStateReducer(nameOrState, new SetUserDefinedPropertyAction(nameOrState.id, valueOrName, value));
   }
 
   return (s: AbstractControlState<TValue>) => setUserDefinedProperty(ensureState(s), nameOrState, valueOrName);
