@@ -13,6 +13,7 @@ The following sections will explain and showcase the different features of `ngrx
   * [Dynamic Form Groups](FORM_GROUPS.md#dynamic-form-groups)
 * [Form Arrays](FORM_ARRAYS.md)
   * [Dynamic Form Arrays](FORM_ARRAYS.md#dynamic-form-arrays)
+* [Form State Type Inferece](FORM_STATE_TYPE_INFERENCE.md)
 * [Updating the State](UPDATING_THE_STATE.md)
   * [`updateArray`](UPDATING_THE_STATE.md#updatearray)
   * [`updateGroup`](UPDATING_THE_STATE.md#updategroup)

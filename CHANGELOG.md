@@ -24,7 +24,8 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
 
 #### Features
 
-* use conditional types to infer the type of child controls
+* use conditional types to infer the type of child controls (see the [documentation](docs/FORM_STATE_TYPE_INFERENCE.md) for more details)
+* add `formStateReducer` function, a reducer which can reduce any kind of form state and is correctly typed due to conditional type inference ([48eaaeb](https://github.com/MrWolfZ/ngrx-forms/commit/48eaaeb))
 * rework `updateArray` to support different parameter combinations for update functions (i.e. single function, array of functions, and rest parameters) ([f82abf8](https://github.com/MrWolfZ/ngrx-forms/commit/f82abf8))
 * rework `updateGroup` to support different parameter combinations for update function objects (i.e. single object, array of objects, and rest parameters) which reduces the probability of false type inference results ([0bb1ca7](https://github.com/MrWolfZ/ngrx-forms/commit/0bb1ca7))
 * rework `updateRecursive` to support different parameter combinations for update function objects (i.e. single object, array of objects, and rest parameters) ([96121c3](https://github.com/MrWolfZ/ngrx-forms/commit/96121c3))
@@ -32,7 +33,7 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
 * add `notEqualTo` validation function ([851a1ed](https://github.com/MrWolfZ/ngrx-forms/commit/851a1ed))
 * enhance all form state reducers to match type signature for `ActionReducer` (they will still throw an error if the state is `undefined`) ([f3b5fea](https://github.com/MrWolfZ/ngrx-forms/commit/f3b5fea))
 * add support for `undefined` values for all validation functions ([6cce8d0](https://github.com/MrWolfZ/ngrx-forms/commit/6cce8d0), thanks @romankhrystynych for his contribution in [#65](https://github.com/MrWolfZ/ngrx-forms/pull/65)), closes [#64](https://github.com/MrWolfZ/ngrx-forms/issues/64)
-* improve typing of `errors` property on form states by using module augmentation inside of validation module to add well defined error properties to `ValidationErrors` interface
+* improve typing of `errors` property on form states by using module augmentation inside of validation module to add well defined error properties to `ValidationErrors` interface ([e202e65](https://github.com/MrWolfZ/ngrx-forms/commit/e202e65))
 
 #### Bugfixes
 
