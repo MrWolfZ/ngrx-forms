@@ -1,6 +1,7 @@
 # ngrx-forms
 
 [![Build Status](https://travis-ci.org/MrWolfZ/ngrx-forms.svg?branch=master)](https://travis-ci.org/MrWolfZ/ngrx-forms)
+[![Docs](https://readthedocs.org/projects/ngrx-forms/badge/?version=master)](http://ngrx-forms.readthedocs.io/en/master/?badge=master)
 
 Proper integration of forms in Angular applications using ngrx.
 
