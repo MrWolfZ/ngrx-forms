@@ -3,11 +3,11 @@ import { Action, ActionReducer } from '@ngrx/store';
 import { formArrayReducer } from './array/reducer';
 import { formControlReducer } from './control/reducer';
 import { formGroupReducer } from './group/reducer';
-import { FormControlState, FormState, isArrayState, isFormState, isGroupState } from './state';
+import { AbstractControlState, FormControlState, FormState, isArrayState, isFormState, isGroupState } from './state';
 import { ProjectFn } from './update-function/util';
 
 export function formStateReducer<TValue>(
-  state: FormState<TValue> | undefined,
+  state: FormState<TValue> | AbstractControlState<TValue> | undefined,
   action: Action,
 ): FormState<TValue> {
   if (!state) {
@@ -69,7 +69,7 @@ export function createFormStateReducerWithUpdate<TValue>(
 ): ActionReducer<FormState<TValue>> {
   updateFnArr = [...(Array.isArray(updateFnOrUpdateFnArr) ? updateFnOrUpdateFnArr : [updateFnOrUpdateFnArr]), ...updateFnArr];
   return (state: FormState<TValue> | undefined, action: Action): FormState<TValue> => {
-    const newState = formStateReducer(state, action);
+    const newState = formStateReducer(state as AbstractControlState<TValue>, action);
     return newState === state ? state : updateFnArr.reduce((s, f) => f(s), newState);
   };
 }
