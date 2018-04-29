@@ -1,5 +1,5 @@
 import { MarkAsDirtyAction } from '../actions';
-import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState } from '../state';
+import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState, FormState } from '../state';
 import { abstractControlReducer } from './util';
 
 /**
@@ -21,7 +21,7 @@ export function markAsDirty<TValue>(state: FormGroupState<TValue>): FormGroupSta
  * This update function takes a state and marks it as dirty. For groups and arrays this also marks
  * all children as dirty.
  */
-export function markAsDirty<TValue>(state: AbstractControlState<TValue>): AbstractControlState<TValue>;
+export function markAsDirty<TValue>(state: AbstractControlState<TValue>): FormState<TValue>;
 
 export function markAsDirty<TValue>(state: AbstractControlState<TValue>) {
   return abstractControlReducer(state, new MarkAsDirtyAction(state.id));

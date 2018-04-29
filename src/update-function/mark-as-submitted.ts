@@ -1,5 +1,5 @@
 import { MarkAsSubmittedAction } from '../actions';
-import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState } from '../state';
+import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState, FormState } from '../state';
 import { abstractControlReducer } from './util';
 
 /**
@@ -21,7 +21,7 @@ export function markAsSubmitted<TValue>(state: FormGroupState<TValue>): FormGrou
  * This update function takes a state and marks it as submitted. For groups and arrays this also marks
  * all children as submitted.
  */
-export function markAsSubmitted<TValue>(state: AbstractControlState<TValue>): AbstractControlState<TValue>;
+export function markAsSubmitted<TValue>(state: AbstractControlState<TValue>): FormState<TValue>;
 
 export function markAsSubmitted<TValue>(state: AbstractControlState<TValue>) {
   return abstractControlReducer(state, new MarkAsSubmittedAction(state.id));

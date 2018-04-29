@@ -1,5 +1,5 @@
 import { ResetAction } from '../actions';
-import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState } from '../state';
+import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState, FormState } from '../state';
 import { abstractControlReducer } from './util';
 
 /**
@@ -25,7 +25,7 @@ export function reset<TValue>(state: FormGroupState<TValue>): FormGroupState<TVa
  * unsubmitted. For groups and arrays this also marks all children as pristine,
  * untouched, and unsubmitted.
  */
-export function reset<TValue>(state: AbstractControlState<TValue>): AbstractControlState<TValue>;
+export function reset<TValue>(state: AbstractControlState<TValue>): FormState<TValue>;
 
 export function reset<TValue>(state: AbstractControlState<TValue>) {
   return abstractControlReducer(state, new ResetAction(state.id));

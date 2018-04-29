@@ -1,5 +1,5 @@
 import { DisableAction } from '../actions';
-import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState } from '../state';
+import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState, FormState } from '../state';
 import { abstractControlReducer } from './util';
 
 /**
@@ -29,7 +29,7 @@ export function disable<TValue>(state: FormGroupState<TValue>): FormGroupState<T
  * it always valid) and will remove all pending validations (thereby effectively
  * cancelling those validations).
  */
-export function disable<TValue>(state: AbstractControlState<TValue>): AbstractControlState<TValue>;
+export function disable<TValue>(state: AbstractControlState<TValue>): FormState<TValue>;
 
 export function disable<TValue>(state: AbstractControlState<TValue>) {
   return abstractControlReducer(state, new DisableAction(state.id));

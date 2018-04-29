@@ -1,5 +1,5 @@
 import { MarkAsUnsubmittedAction } from '../actions';
-import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState } from '../state';
+import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState, FormState } from '../state';
 import { abstractControlReducer } from './util';
 
 /**
@@ -21,7 +21,7 @@ export function markAsUnsubmitted<TValue>(state: FormGroupState<TValue>): FormGr
  * This update function takes a state and marks it as unsubmitted. For groups and arrays this also marks
  * all children as unsubmitted.
  */
-export function markAsUnsubmitted<TValue>(state: AbstractControlState<TValue>): AbstractControlState<TValue>;
+export function markAsUnsubmitted<TValue>(state: AbstractControlState<TValue>): FormState<TValue>;
 
 export function markAsUnsubmitted<TValue>(state: AbstractControlState<TValue>) {
   return abstractControlReducer(state, new MarkAsUnsubmittedAction(state.id));
