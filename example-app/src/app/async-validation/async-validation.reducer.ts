@@ -1,5 +1,5 @@
 import { Action, ActionReducerMap } from '@ngrx/store';
-import { createFormGroupReducerWithUpdate, createFormGroupState, FormGroupState, validate } from 'ngrx-forms';
+import { createFormGroupState, createFormStateReducerWithUpdate, FormGroupState, updateGroup, validate } from 'ngrx-forms';
 import { greaterThan, required } from 'ngrx-forms/validation';
 
 import { State as RootState } from '../app.reducer';
@@ -29,10 +29,10 @@ export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
   numberOfResultsToShow: 5,
 });
 
-const formGroupReducerWithUpdate = createFormGroupReducerWithUpdate<FormValue>({
+const formGroupReducerWithUpdate = createFormStateReducerWithUpdate<FormValue>(updateGroup<FormValue>({
   searchTerm: validate(required),
   numberOfResultsToShow: validate(required, greaterThan(0)),
-});
+}));
 
 export const reducers: ActionReducerMap<State['asyncValidation']> = {
   formState(s = INITIAL_STATE, a: Action) {

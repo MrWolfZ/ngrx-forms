@@ -1,7 +1,7 @@
 import { Action, ActionReducerMap } from '@ngrx/store';
 import {
-  createFormGroupReducerWithUpdate,
   createFormGroupState,
+  createFormStateReducerWithUpdate,
   disable,
   enable,
   FormGroupState,
@@ -50,7 +50,7 @@ export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
   agreeToTermsOfUse: false,
 });
 
-const validationFormGroupReducer = createFormGroupReducerWithUpdate<FormValue>({
+const validationFormGroupReducer = createFormStateReducerWithUpdate<FormValue>(updateGroup<FormValue>({
   userName: validate(required),
   password: (state, parentState) => {
     if (!parentState.value.createAccount) {
@@ -64,7 +64,7 @@ const validationFormGroupReducer = createFormGroupReducerWithUpdate<FormValue>({
     });
   },
   agreeToTermsOfUse: validate(requiredTrue),
-});
+}));
 
 export const reducers: ActionReducerMap<State['material']> = {
   formState(s = INITIAL_STATE, a: Action) {
