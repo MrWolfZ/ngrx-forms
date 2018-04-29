@@ -1,10 +1,33 @@
-## Updating the State
+All form states are internally updated by **ngrx-forms** through dispatching actions from the directives. While this is of course also possible for you there exist a set of update functions that can be used to update form states. This is mainly useful to change the state as a result of a different action in your reducer. Note that **ngrx-forms** is coded in such a way that no state references will change if nothing inside the state changes. It is therefore perfectly safe to repeatedly call any of the functions below and the state will be updated exactly once or not at all if nothing changed. Each function can be imported from `'ngrx-forms'` (e.g. `import { setValue } from 'ngrx-forms';`).
 
-All form states are internally updated by **ngrx-forms** through dispatching actions. While this is of course also possible for you there exist a set of update functions that can be used to update form states. This is mainly useful to change the state as a result of a different action in your reducer. Note that **ngrx-forms** is coded in such a way that no state references will change if nothing inside the state changes. It is therefore perfectly safe to repeatedly call any of the functions below and the state will be updated exactly once or not at all if nothing changed. Each function can be imported from **ngrx-forms**. The following table explains each function:
+Below you will find a complete list of all update functions provided by **ngrx-forms**. Each section also shows how to use actions directly instead of the update functions (the examples directly call the `formStateReducer` but you can of course dispatch these actions from anywhere in your code).
+
+###### Set Value
+
+The `setValue` update function takes a value and returns a projection function that sets the value of a form state. Setting the value of a group or array will also update the values of all its child states including adding and removing child states on the fly for added/removed properties/items. `setValue` has an overload that takes a state directly as the first parameter.
+
+```typescript
+// control
+const control = createFormControlState<string>('control ID', '');
+const updatedControl = setValue('new Value')(control);
+const updatedControlUncurried = setValue(control, 'newValue');
+const updatedControlViaAction = formStateReducer(control, new SetValueAction(control.id, 'newValue'));
+
+// group
+const group = createFormGroupState<{ inner: string }>('group ID', { inner: '' });
+const updatedGroup = setValue({ inner: 'newValue' })(group);
+const updatedGroupUncurried = setValue(group, { inner: 'newValue' });
+const updatedGroupViaAction = formStateReducer(group, new SetValueAction(group.id, { inner: 'newValue' }));
+
+// array
+const array = createFormArrayState<string>('array ID', ['']);
+const updatedArray = setValue(['newValue'])(array);
+const updatedArrayUncurried = setValue(array, ['newValue']);
+const updatedArrayViaAction = formStateReducer(array, new SetValueAction(array.id, ['newValue']));
+```
 
 |Function|Description|
 |-|-|
-|`setValue`|This update function takes a value and returns a projection function that sets the value of a form state. Setting the value of a group or array will also update the values of all children including adding and removing children on the fly for added/removed properties/items. Has an overload that takes a state directly as the second parameter.|
 |`validate`|This update function takes a validation function or an array of validation functions and returns a projection function that sets the errors of a form state to the result of applying the given validation function(s) to the state's value. Has an overload that takes a state directly as the second parameter.|
 |`setErrors`|This update function takes an error object or an array of error objects and returns a projection function that sets the errors of a form state. Has an overload that takes a state directly as the second parameter.|
 |`enable`|This update function takes a form state and enables it. For groups and arrays also enables all children.|
