@@ -19,12 +19,12 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
   * `validate`: move `state` parameter to first position for uncurried overload and add rest param overloads
 * due to rework of `updateArray`, `updateGroup`, and `updateRecursive` update functions it is now invalid to call any of these functions without parameters (which made no sense anyway) but it is still possible to call the functions with an empty array as parameter (which is useful in dynamic situations)
 * remove `payload` property from all actions and move corresponding properties into action itself ([6f955e9](https://github.com/MrWolfZ/ngrx-forms/commit/6f955e9))
-* replace `createFormGroupReducerWithUpdate` with `createFormStateReducerWithUpdate` (which takes any kind of form state, see the [user guide](docs/UPDATING_THE_STATE.md#createFormStateReducerWithUpdate) for more details)
+* replace `createFormGroupReducerWithUpdate` with `createFormStateReducerWithUpdate` (which takes any kind of form state, see the [user guide](http://ngrx-forms.readthedocs.io/en/master/user-guide/updating-the-state/#createformstatereducerwithupdate) for more details) ([1b6114c](https://github.com/MrWolfZ/ngrx-forms/commit/1b6114c))
 * mark all state properties as `readonly` to make it more clear the state is not meant to be modified directly ([291e0da](https://github.com/MrWolfZ/ngrx-forms/commit/291e0da))
 
 #### Features
 
-* use conditional types to infer the type of child controls (see the [documentation](docs/FORM_STATE_TYPE_INFERENCE.md) for more details)
+* use conditional types to infer the type of child controls (see the [documentation](http://ngrx-forms.readthedocs.io/en/master/user-guide/type-inference/) for more details)
 * add `formStateReducer` function, a reducer which can reduce any kind of form state and is correctly typed due to conditional type inference ([48eaaeb](https://github.com/MrWolfZ/ngrx-forms/commit/48eaaeb))
 * rework `updateArray` to support different parameter combinations for update functions (i.e. single function, array of functions, and rest parameters) ([f82abf8](https://github.com/MrWolfZ/ngrx-forms/commit/f82abf8))
 * rework `updateGroup` to support different parameter combinations for update function objects (i.e. single object, array of objects, and rest parameters) which reduces the probability of false type inference results ([0bb1ca7](https://github.com/MrWolfZ/ngrx-forms/commit/0bb1ca7))
@@ -34,6 +34,8 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
 * enhance all form state reducers to match type signature for `ActionReducer` (they will still throw an error if the state is `undefined`) ([f3b5fea](https://github.com/MrWolfZ/ngrx-forms/commit/f3b5fea))
 * add support for `undefined` values for all validation functions ([6cce8d0](https://github.com/MrWolfZ/ngrx-forms/commit/6cce8d0), thanks @romankhrystynych for his contribution in [#65](https://github.com/MrWolfZ/ngrx-forms/pull/65)), closes [#64](https://github.com/MrWolfZ/ngrx-forms/issues/64)
 * improve typing of `errors` property on form states by using module augmentation inside of validation module to add well defined error properties to `ValidationErrors` interface ([e202e65](https://github.com/MrWolfZ/ngrx-forms/commit/e202e65))
+* move documentation to [Read the Docs](http://ngrx-forms.readthedocs.io/en/master)
+* add [FAQ](http://ngrx-forms.readthedocs.io/en/master/faq)
 
 #### Bugfixes
 
