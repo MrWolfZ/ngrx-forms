@@ -1,6 +1,6 @@
 import {
   AbstractControlState,
-  InferredControlState,
+  FormState,
   isArrayState,
   isFormState,
   isGroupState,
@@ -48,7 +48,7 @@ export function updateRecursive<TValue>(
   state: AbstractControlState<TValue>,
   updateFn: ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>,
   ...updateFnArr: ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>[]
-): InferredControlState<TValue>;
+): FormState<TValue>;
 
 /**
  * This update function takes a form array state and an array of
@@ -69,7 +69,7 @@ export function updateRecursive<TValue>(
 export function updateRecursive<TValue>(
   state: AbstractControlState<TValue>,
   updateFnArr: ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>[],
-): InferredControlState<TValue>;
+): FormState<TValue>;
 
 /**
  * This update function takes a variable number of update functions and returns
@@ -87,7 +87,7 @@ export function updateRecursive<TValue>(
 export function updateRecursive<TValue>(
   updateFn: ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>,
   ...updateFnArr: ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>[]
-): (state: AbstractControlState<TValue>) => InferredControlState<TValue>;
+): (state: AbstractControlState<TValue>) => FormState<TValue>;
 
 /**
  * This update function takes an array of update functions and returns
@@ -104,7 +104,7 @@ export function updateRecursive<TValue>(
  */
 export function updateRecursive<TValue>(
   updateFnArr: ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>[],
-): (state: AbstractControlState<TValue>) => InferredControlState<TValue>;
+): (state: AbstractControlState<TValue>) => FormState<TValue>;
 
 export function updateRecursive<TValue>(
   stateOrFunctionOrFunctionArray:

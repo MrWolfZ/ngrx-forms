@@ -1,11 +1,11 @@
 import { Action } from '@ngrx/store';
 
 import { formGroupReducer } from '../group/reducer';
-import { computeGroupState, FormGroupControls, FormGroupState, InferredControlState, isGroupState, KeyValue } from '../state';
+import { computeGroupState, FormGroupControls, FormGroupState, FormState, isGroupState, KeyValue } from '../state';
 import { ensureState, ProjectFn2 } from './util';
 
 export type StateUpdateFns<TValue extends KeyValue> = {
-  [controlId in keyof TValue]?: ProjectFn2<InferredControlState<TValue[controlId]>, FormGroupState<TValue>>;
+  [controlId in keyof TValue]?: ProjectFn2<FormState<TValue[controlId]>, FormGroupState<TValue>>;
 };
 
 function updateGroupControlsState<TValue extends KeyValue>(updateFns: StateUpdateFns<TValue>) {

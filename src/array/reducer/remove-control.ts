@@ -1,5 +1,5 @@
 import { Actions, RemoveArrayControlAction } from '../../actions';
-import { computeArrayState, FormArrayState, FormGroupControls, FormGroupState, InferredControlState, isArrayState, isGroupState } from '../../state';
+import { computeArrayState, FormArrayState, FormGroupControls, FormGroupState, FormState, isArrayState, isGroupState } from '../../state';
 import { childReducer } from './util';
 
 function updateIdRecursiveForGroup(state: FormGroupState<any>, newId: string) {
@@ -26,7 +26,7 @@ function updateIdRecursiveForArray(state: FormArrayState<any>, newId: string) {
   };
 }
 
-function updateIdRecursive(state: InferredControlState<any>, newId: string): InferredControlState<any> {
+function updateIdRecursive(state: FormState<any>, newId: string): FormState<any> {
   if (state.id === newId) {
     return state;
   }
@@ -62,7 +62,7 @@ export function removeControlReducer<TValue>(
   }
 
   const index = action.index;
-  const controls = state.controls.filter((_, i) => i !== index).map((c, i) => updateIdRecursive(c, `${state.id}.${i}`)) as InferredControlState<TValue>[];
+  const controls = state.controls.filter((_, i) => i !== index).map((c, i) => updateIdRecursive(c, `${state.id}.${i}`)) as FormState<TValue>[];
 
   return computeArrayState(
     state.id,

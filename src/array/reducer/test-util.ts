@@ -1,4 +1,4 @@
-import { AbstractControlState, createFormArrayState, InferredControlState, isArrayState, isGroupState } from '../../state';
+import { AbstractControlState, createFormArrayState, FormState, isArrayState, isGroupState } from '../../state';
 
 export const FORM_CONTROL_ID = 'test ID';
 export const FORM_CONTROL_0_ID = `${FORM_CONTROL_ID}.0`;
@@ -54,6 +54,6 @@ export function setPropertiesRecursively<TValue>(
   state: AbstractControlState<TValue>,
   properties: [keyof AbstractControlState<TValue>, any][],
   ...excludeIds: string[]
-): InferredControlState<TValue> {
-  return properties.reduce((s, [p, v]) => setPropertyRecursively(s, p, v, ...excludeIds), state) as InferredControlState<TValue>;
+): FormState<TValue> {
+  return properties.reduce((s, [p, v]) => setPropertyRecursively(s, p, v, ...excludeIds), state) as FormState<TValue>;
 }

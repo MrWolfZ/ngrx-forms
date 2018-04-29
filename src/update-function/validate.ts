@@ -1,6 +1,6 @@
 import { SetErrorsAction } from '../actions';
 import { inferredStateReducer } from '../inferred-reducer';
-import { AbstractControlState, InferredControlState, isFormState, ValidationErrors } from '../state';
+import { AbstractControlState, FormState, isFormState, ValidationErrors } from '../state';
 import { ensureState } from './util';
 
 export type ValidationFn<TValue> = (value: TValue) => ValidationErrors;
@@ -14,7 +14,7 @@ export function validate<TValue>(
   state: AbstractControlState<TValue>,
   fn: ValidationFn<TValue>,
   ...rest: ValidationFn<TValue>[]
-): InferredControlState<TValue>;
+): FormState<TValue>;
 
 /**
  * This update function takes an array of validation functions and a form
@@ -24,7 +24,7 @@ export function validate<TValue>(
 export function validate<TValue>(
   state: AbstractControlState<TValue>,
   rest: ValidationFn<TValue>[],
-): InferredControlState<TValue>;
+): FormState<TValue>;
 
 /**
  * This update function takes a variable number of validation functions and
@@ -34,7 +34,7 @@ export function validate<TValue>(
 export function validate<TValue>(
   fn: ValidationFn<TValue>,
   ...rest: ValidationFn<TValue>[]
-): (state: AbstractControlState<TValue>) => InferredControlState<TValue>;
+): (state: AbstractControlState<TValue>) => FormState<TValue>;
 
 /**
  * This update function takes an array of validation functions and returns a
@@ -43,7 +43,7 @@ export function validate<TValue>(
  */
 export function validate<TValue>(
   rest: ValidationFn<TValue>[],
-): (state: AbstractControlState<TValue>) => InferredControlState<TValue>;
+): (state: AbstractControlState<TValue>) => FormState<TValue>;
 
 export function validate<TValue>(
   stateOrFunctionOrFunctionArray: AbstractControlState<TValue> | ValidationFn<TValue> | ValidationFn<TValue>[],

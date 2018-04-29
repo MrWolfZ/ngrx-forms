@@ -496,7 +496,7 @@ export interface FormArrayState<TValue> extends AbstractControlState<TValue[]> {
    * until [conditional mapped types](https://github.com/Microsoft/TypeScript/issues/12424)
    * are added to TypeScript.
    */
-  readonly controls: ReadonlyArray<InferredControlState<TValue>>;
+  readonly controls: ReadonlyArray<FormState<TValue>>;
 }
 
 /**
@@ -534,27 +534,22 @@ export type InferredFormState<T extends InferenceWrapper<any>> =
 
   // array
   : T extends InferenceWrapper<(infer U)[]> ? FormArrayState<U>
-  : T extends InferenceWrapper<(infer U)[] | undefined> ? FormArrayState<U> | undefined
+  : T extends InferenceWrapper<(infer U)[] | undefined> ? FormArrayState<U>
   : T extends InferenceWrapper<(infer U)[] | null> ? FormArrayState<U>
-  : T extends InferenceWrapper<(infer U)[] | undefined | null> ? FormArrayState<U> | undefined
+  : T extends InferenceWrapper<(infer U)[] | undefined | null> ? FormArrayState<U>
 
   // group
   : T extends InferenceWrapper<infer U | undefined | null> ? FormGroupState<U>
 
   // fallback type (this case should never (no pun intended) be hit)
-  : never;
+  : never
+  ;
 
 /**
- * This is a type that can infer the concrete type of a form state based on the given
- * type parameter.
+ * This is a type that can infer the concrete type of a form state based
+ * on the given type parameter.
  */
-export type FormState<T> = NonNullable<InferredFormState<InferenceWrapper<T>>>;
-
-/**
- * This type is a helper type that uses conditional types to infer
- * the type of a child control
- */
-export type InferredControlState<T> = FormState<T>;
+export type FormState<T> = InferredFormState<InferenceWrapper<T>>;
 
 /**
  * This function determines if a value is a form state.
@@ -577,16 +572,16 @@ export function isGroupState<TValue = any>(state: any): state is FormGroupState<
   return isFormState(state) && state.hasOwnProperty('controls') && !Array.isArray((state as any).controls) && typeof (state as any).controls !== 'function';
 }
 
-export function createChildState<TValue>(id: string, childValue: TValue): InferredControlState<TValue> {
+export function createChildState<TValue>(id: string, childValue: TValue): FormState<TValue> {
   if (childValue !== null && Array.isArray(childValue)) {
-    return createFormArrayState(id, childValue) as InferredControlState<TValue>;
+    return createFormArrayState(id, childValue) as FormState<TValue>;
   }
 
   if (childValue !== null && typeof childValue === 'object') {
-    return createFormGroupState(id, childValue) as InferredControlState<TValue>;
+    return createFormGroupState(id, childValue) as FormState<TValue>;
   }
 
-  return createFormControlState<any>(id, childValue) as InferredControlState<TValue>;
+  return createFormControlState<any>(id, childValue) as FormState<TValue>;
 }
 
 /**
@@ -708,7 +703,7 @@ export function createFormGroupState<TValue extends KeyValue>(
   initialValue: TValue,
 ): FormGroupState<TValue> {
   const controls = Object.keys(initialValue)
-    .map((key: keyof TValue) => [key, createChildState(`${id}.${key}`, initialValue[key])] as [string, InferredControlState<any>])
+    .map((key: keyof TValue) => [key, createChildState(`${id}.${key}`, initialValue[key])] as [string, FormState<any>])
     .reduce((res, [controlId, state]) => Object.assign(res, { [controlId]: state }), {} as FormGroupControls<TValue>);
 
   return computeGroupState(id, controls, initialValue, {}, [], {});
@@ -756,7 +751,7 @@ function getFormArrayErrors<TValue>(
 
 export function computeArrayState<TValue>(
   id: string,
-  inferredControls: ReadonlyArray<InferredControlState<TValue>>,
+  inferredControls: ReadonlyArray<FormState<TValue>>,
   value: TValue[],
   errors: ValidationErrors,
   pendingValidations: ReadonlyArray<string>,

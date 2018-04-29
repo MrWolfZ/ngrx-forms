@@ -1,11 +1,11 @@
 import { Actions } from '../../actions';
 import { inferredStateReducer } from '../../inferred-reducer';
-import { computeArrayState, FormArrayState, InferredControlState } from '../../state';
+import { computeArrayState, FormArrayState, FormState } from '../../state';
 
 export function dispatchActionPerChild<TValue>(
-  controls: ReadonlyArray<InferredControlState<TValue>>,
+  controls: ReadonlyArray<FormState<TValue>>,
   actionCreator: (controlId: string) => Actions<TValue>,
-): ReadonlyArray<InferredControlState<TValue>> {
+): ReadonlyArray<FormState<TValue>> {
   let hasChanged = false;
   const newControls = controls
     .map(state => {
@@ -18,9 +18,9 @@ export function dispatchActionPerChild<TValue>(
 }
 
 function callChildReducers<TValue>(
-  controls: ReadonlyArray<InferredControlState<TValue>>,
+  controls: ReadonlyArray<FormState<TValue>>,
   action: Actions<TValue[]>,
-): ReadonlyArray<InferredControlState<TValue>> {
+): ReadonlyArray<FormState<TValue>> {
   let hasChanged = false;
   const newControls = controls
     .map(state => {

@@ -1,6 +1,6 @@
 import { SetErrorsAction } from '../actions';
 import { inferredStateReducer } from '../inferred-reducer';
-import { AbstractControlState, InferredControlState, isFormState, ValidationErrors } from '../state';
+import { AbstractControlState, FormState, isFormState, ValidationErrors } from '../state';
 import { ensureState } from './util';
 
 /**
@@ -11,7 +11,7 @@ export function setErrors<TValue>(
   state: AbstractControlState<TValue>,
   errors: ValidationErrors,
   ...rest: ValidationErrors[]
-): InferredControlState<TValue>;
+): FormState<TValue>;
 
 /**
  * This update function takes a form state and an array of error objects and sets the
@@ -20,19 +20,19 @@ export function setErrors<TValue>(
 export function setErrors<TValue>(
   state: AbstractControlState<TValue>,
   errorsArray: ValidationErrors[],
-): InferredControlState<TValue>;
+): FormState<TValue>;
 
 /**
  * This update function takes a number of error objects and returns a projection
  * function that sets the errors of a form state.
  */
-export function setErrors<TValue>(errors: ValidationErrors, ...rest: ValidationErrors[]): (state: AbstractControlState<TValue>) => InferredControlState<TValue>;
+export function setErrors<TValue>(errors: ValidationErrors, ...rest: ValidationErrors[]): (state: AbstractControlState<TValue>) => FormState<TValue>;
 
 /**
  * This update function takes an array of error objects and returns a projection
  * function that sets the errors of a form state.
  */
-export function setErrors<TValue>(errorsArray: ValidationErrors[]): (state: AbstractControlState<TValue>) => InferredControlState<TValue>;
+export function setErrors<TValue>(errorsArray: ValidationErrors[]): (state: AbstractControlState<TValue>) => FormState<TValue>;
 
 export function setErrors<TValue>(
   errorsOrErrorsArrayOrState: ValidationErrors | ValidationErrors[] | AbstractControlState<TValue>,

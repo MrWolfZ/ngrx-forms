@@ -1,5 +1,5 @@
 import { SetValueAction } from '../actions';
-import { AbstractControlState, InferredControlState, isFormState } from '../state';
+import { AbstractControlState, FormState, isFormState } from '../state';
 import { abstractControlReducer, ensureState } from './util';
 
 /**
@@ -8,7 +8,7 @@ import { abstractControlReducer, ensureState } from './util';
  * also update the values of all children including adding and removing
  * children on the fly for added/removed properties/items.
  */
-export function setValue<TValue>(value: TValue): (state: AbstractControlState<TValue>) => InferredControlState<TValue>;
+export function setValue<TValue>(value: TValue): (state: AbstractControlState<TValue>) => FormState<TValue>;
 
 /**
  * This update function takes a form state and a value and sets the value of
@@ -16,7 +16,7 @@ export function setValue<TValue>(value: TValue): (state: AbstractControlState<TV
  * values of all children including adding and removing children on the fly
  * for added/removed properties/items.
  */
-export function setValue<TValue>(state: AbstractControlState<TValue>, value: TValue): InferredControlState<TValue>;
+export function setValue<TValue>(state: AbstractControlState<TValue>, value: TValue): FormState<TValue>;
 
 export function setValue<TValue>(valueOrState: TValue | AbstractControlState<TValue>, value?: TValue) {
   if (isFormState(valueOrState)) {

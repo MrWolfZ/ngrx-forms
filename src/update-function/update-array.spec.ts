@@ -1,4 +1,4 @@
-import { createFormArrayState, InferredControlState } from '../state';
+import { createFormArrayState, FormState } from '../state';
 import { FORM_CONTROL_ID } from './test-util';
 import { updateArray, updateArrayWithFilter } from './update-array';
 import { updateGroup } from './update-group';
@@ -82,9 +82,9 @@ describe(updateArray.name, () => {
     const expected1 = { ...state.controls[0], value: 'D' };
     const expected2 = { ...state.controls[1], value: 'E' };
     const expected3 = { ...state.controls[2], value: 'F' };
-    const updateFunction1: ProjectFn2<InferredControlState<typeof expected1.value>, typeof state> =
+    const updateFunction1: ProjectFn2<FormState<typeof expected1.value>, typeof state> =
       s => s.value === 'A' ? expected1 : s.value === 'B' ? expected3 : s;
-    const updateFunction2: ProjectFn2<InferredControlState<typeof expected1.value>, typeof state> =
+    const updateFunction2: ProjectFn2<FormState<typeof expected1.value>, typeof state> =
       s => s.value === 'F' ? expected2 : s.value === 'C' ? expected3 : s;
     const resultState = updateArray<typeof expected1.value>(
       updateFunction1,
@@ -129,9 +129,9 @@ describe(updateArray.name, () => {
     const expected1 = { ...state.controls[0], value: 'D' };
     const expected2 = { ...state.controls[1], value: 'E' };
     const expected3 = { ...state.controls[2], value: 'F' };
-    const updateFunction1: ProjectFn2<InferredControlState<typeof expected1.value>, typeof state> =
+    const updateFunction1: ProjectFn2<FormState<typeof expected1.value>, typeof state> =
       s => s.value === 'A' ? expected1 : s.value === 'B' ? expected3 : s;
-    const updateFunction2: ProjectFn2<InferredControlState<typeof expected1.value>, typeof state> =
+    const updateFunction2: ProjectFn2<FormState<typeof expected1.value>, typeof state> =
       s => s.value === 'F' ? expected2 : s.value === 'C' ? expected3 : s;
     const resultState = updateArray<typeof expected1.value>(
       state,
@@ -281,9 +281,9 @@ describe(updateArrayWithFilter.name, () => {
     const expected1 = { ...state.controls[0], value: 'D' };
     const expected2 = { ...state.controls[1], value: 'E' };
     const expected3 = { ...state.controls[2], value: 'F' };
-    const updateFunction1: ProjectFn2<InferredControlState<typeof expected1.value>, typeof state> =
+    const updateFunction1: ProjectFn2<FormState<typeof expected1.value>, typeof state> =
       s => s.value === 'A' ? expected1 : s.value === 'B' ? expected3 : s;
-    const updateFunction2: ProjectFn2<InferredControlState<typeof expected1.value>, typeof state> =
+    const updateFunction2: ProjectFn2<FormState<typeof expected1.value>, typeof state> =
       s => s.value === 'F' ? expected2 : s.value === 'C' ? expected3 : s;
     const resultState = updateArrayWithFilter<typeof expected1.value>(
       () => true,
@@ -333,9 +333,9 @@ describe(updateArrayWithFilter.name, () => {
     const expected1 = { ...state.controls[0], value: 'D' };
     const expected2 = { ...state.controls[1], value: 'E' };
     const expected3 = { ...state.controls[2], value: 'F' };
-    const updateFunction1: ProjectFn2<InferredControlState<typeof expected1.value>, typeof state> =
+    const updateFunction1: ProjectFn2<FormState<typeof expected1.value>, typeof state> =
       s => s.value === 'A' ? expected1 : s.value === 'B' ? expected3 : s;
-    const updateFunction2: ProjectFn2<InferredControlState<typeof expected1.value>, typeof state> =
+    const updateFunction2: ProjectFn2<FormState<typeof expected1.value>, typeof state> =
       s => s.value === 'F' ? expected2 : s.value === 'C' ? expected3 : s;
     const resultState = updateArrayWithFilter<typeof expected1.value>(
       state,

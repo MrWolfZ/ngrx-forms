@@ -9,15 +9,14 @@ export {
   FormGroupControls,
   FormGroupState,
   FormArrayState,
-  InferredControlState,
+  FormState,
+  InferenceWrapper,
+  InferredFormState,
   isArrayState,
   isGroupState,
   createFormControlState,
   createFormGroupState,
   createFormArrayState,
-  InferenceWrapper,
-  InferredFormState,
-  FormState,
 } from './state';
 
 export { formControlReducer } from './control/reducer';
