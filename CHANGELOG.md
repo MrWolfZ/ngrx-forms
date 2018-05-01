@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="2.3.3"></a>
+### 2.3.3
+
+#### Bugfixes
+
+* ensure the `value` attribute of `option` elements is properly set via `[value]` bindings when there is no associated form view adapter (closes [#67](https://github.com/MrWolfZ/ngrx-forms/issues/67), thanks @kmiskiewicz for helping me find this)
+
 <a name="2.3.2"></a>
 ### 2.3.2
 

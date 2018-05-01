@@ -363,4 +363,15 @@ describe(NgrxSelectOption.name, () => {
   it('should work if option is created without view adapter', () => {
     expect(new NgrxSelectOption({} as any, {} as any, null as any)).toBeDefined();
   });
+
+  it('should set the value to the id of the element', () => {
+    option.value = 'value';
+    expect(renderer.setProperty).not.toHaveBeenCalledWith(0);
+  });
+
+  it('should not set the value to the id if no view adapter is provided', () => {
+    option = new NgrxSelectOption({} as any, {} as any, null as any);
+    option.value = 'value';
+    expect(renderer.setProperty).not.toHaveBeenCalled();
+  });
 });

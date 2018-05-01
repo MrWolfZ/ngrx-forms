@@ -23,6 +23,15 @@ export class SelectComponent {
   options = SELECT_OPTIONS;
 }
 
+@Component({
+  // tslint:disable-next-line:component-selector
+  selector: 'select-test-fallback',
+  template: '<select><option *ngFor="let o of options" [value]="o">{{o}} Label</option></select>',
+})
+export class SelectFallbackComponent {
+  options = SELECT_OPTIONS;
+}
+
 describe(SelectComponent.name, () => {
   let component: SelectComponent;
   let fixture: ComponentFixture<SelectComponent>;
@@ -43,7 +52,7 @@ describe(SelectComponent.name, () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NgrxFormsModule],
-      declarations: [SelectComponent],
+      declarations: [SelectComponent, SelectFallbackComponent],
       providers: [{ provide: ActionsSubject, useValue: actionsSubject }],
     }).compileComponents();
   }));
@@ -82,6 +91,17 @@ describe(SelectComponent.name, () => {
 
     element.selectedIndex = 0;
     element.dispatchEvent(new Event('change'));
+  });
+
+  it('should set the value attribute for options without associated form state', () => {
+    const fallbackFixture = TestBed.createComponent(SelectFallbackComponent);
+    fallbackFixture.detectChanges();
+    const nativeElement = fallbackFixture.nativeElement as HTMLElement;
+    element = nativeElement.querySelector('select') as HTMLSelectElement;
+    option1 = nativeElement.querySelectorAll('option')[0] as HTMLOptionElement;
+    option2 = nativeElement.querySelectorAll('option')[1] as HTMLOptionElement;
+    expect(option1.value).toBe(SELECT_OPTIONS[0]);
+    expect(option2.value).toBe(SELECT_OPTIONS[1]);
   });
 });
 

@@ -32,6 +32,7 @@ import {
   NgrxSelectMultipleViewAdapter,
   NgrxSelectOption,
   NgrxSelectViewAdapter,
+  NgrxFallbackSelectOption,
   NgrxStatusCssClassesDirective,
   NgrxValueConverters,
   removeArrayControl,
@@ -92,6 +93,7 @@ describe('ngrx-forms', () => {
   it(`should export ${NgrxRadioViewAdapter.name}`, () => expect(NgrxRadioViewAdapter).toBeDefined());
   it(`should export ${NgrxSelectOption.name}`, () => expect(NgrxSelectOption).toBeDefined());
   it(`should export ${NgrxSelectMultipleOption.name}`, () => expect(NgrxSelectMultipleOption).toBeDefined());
+  it(`should export ${NgrxFallbackSelectOption.name}`, () => expect(NgrxFallbackSelectOption).toBeDefined());
   it(`should export ${NgrxStatusCssClassesDirective.name}`, () => expect(NgrxStatusCssClassesDirective).toBeDefined());
   it(`should export ${NgrxFormsModule.name}`, () => expect(NgrxFormsModule).toBeDefined());
 });

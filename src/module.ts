@@ -5,6 +5,7 @@ import { NgrxFormDirective } from './group/directive';
 import { NgrxCheckboxViewAdapter } from './view-adapter/checkbox';
 import { NgrxDefaultViewAdapter } from './view-adapter/default';
 import { NgrxNumberViewAdapter } from './view-adapter/number';
+import { NgrxFallbackSelectOption } from './view-adapter/option';
 import { NgrxRadioViewAdapter } from './view-adapter/radio';
 import { NgrxRangeViewAdapter } from './view-adapter/range';
 import { NgrxSelectOption, NgrxSelectViewAdapter } from './view-adapter/select';
@@ -23,6 +24,7 @@ const exportsAndDeclarations = [
   NgrxSelectMultipleViewAdapter,
   NgrxSelectOption,
   NgrxSelectViewAdapter,
+  NgrxFallbackSelectOption,
   NgrxStatusCssClassesDirective,
 ];
 
