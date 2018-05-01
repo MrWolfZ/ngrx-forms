@@ -14,7 +14,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 
 import { CustomErrorStateMatcherDirective } from './error-state-matcher';
 import { MatListOptionFixDirective } from './mat-list-option-fix';
-import { NgrxMatSelectValueAccessor } from './mat-select-value-accessor';
+import { NgrxMatSelectViewAdapter } from './mat-select-view-adapter';
 
 @NgModule({
   imports: [
@@ -32,7 +32,7 @@ import { NgrxMatSelectValueAccessor } from './mat-select-value-accessor';
     MatNativeDateModule,
   ],
   declarations: [
-    NgrxMatSelectValueAccessor,
+    NgrxMatSelectViewAdapter,
     CustomErrorStateMatcherDirective,
     MatListOptionFixDirective,
   ],
@@ -49,7 +49,7 @@ import { NgrxMatSelectValueAccessor } from './mat-select-value-accessor';
     MatTabsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    NgrxMatSelectValueAccessor,
+    NgrxMatSelectViewAdapter,
     CustomErrorStateMatcherDirective,
     MatListOptionFixDirective,
   ],

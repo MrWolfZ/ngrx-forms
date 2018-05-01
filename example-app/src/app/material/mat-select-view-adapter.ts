@@ -1,34 +1,34 @@
 import { Directive, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
+import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from 'ngrx-forms';
 
 // tslint:disable:directive-selector
 // tslint:disable:directive-class-suffix
-// necessary since material 2 does not properly declare the md-select as a NG_VALUE_ACCESSOR
+// necessary since material 2 does not properly export the mat-select as a NG_VALUE_ACCESSOR
 @Directive({
   selector: 'mat-select[ngrxFormControlState]',
   providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => NgrxMatSelectValueAccessor),
+    provide: NGRX_FORM_VIEW_ADAPTER,
+    useExisting: forwardRef(() => NgrxMatSelectViewAdapter),
     multi: true,
   }],
 })
-export class NgrxMatSelectValueAccessor implements ControlValueAccessor {
+export class NgrxMatSelectViewAdapter implements FormViewAdapter {
   constructor(private matSelect: MatSelect) { }
 
-  writeValue(value: any) {
+  setViewValue(value: any) {
     // we have to verify that the same value is not set again since that would
-    // cause focs to get lost on the select since it tries to focus the active option
+    // cause focus to get lost on the select since it tries to focus the active option
     const selectedOption = this.matSelect.selected;
     if (selectedOption) {
-      if (Object.prototype.toString.call(selectedOption) !== '[object Array]') {
-        const selectedValue = (selectedOption as MatOption).value;
-        if (value === selectedValue) {
+      if (Array.isArray(selectedOption) && Array.isArray(value)) {
+        if (value.length === selectedOption.length && value.every((v, i) => v === selectedOption[i])) {
           return;
         }
-      } else {
-        // TODO: handle multi selection
+      } else if (!Array.isArray(selectedOption)) {
+        if (value === selectedOption.value) {
+          return;
+        }
       }
     }
 
@@ -37,11 +37,15 @@ export class NgrxMatSelectValueAccessor implements ControlValueAccessor {
     Promise.resolve().then(() => this.matSelect.writeValue(value));
   }
 
-  registerOnChange(fn: any) {
+  setOnChangeCallback(fn: any) {
     this.matSelect.registerOnChange(fn);
   }
 
-  registerOnTouched(fn: any) {
+  setOnTouchedCallback(fn: any) {
     this.matSelect.registerOnTouched(fn);
+  }
+
+  setIsDisabled(isDisabled: boolean) {
+    this.matSelect.setDisabledState(isDisabled);
   }
 }

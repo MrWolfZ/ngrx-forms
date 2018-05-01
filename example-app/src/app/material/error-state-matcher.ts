@@ -1,4 +1,5 @@
 import { Directive, Host, Input, Optional } from '@angular/core';
+import { MatChipList } from '@angular/material/chips';
 import { MatInput } from '@angular/material/input';
 import { MatSelect } from '@angular/material/select';
 import { FormControlState } from 'ngrx-forms';
@@ -20,10 +21,16 @@ export class CustomErrorStateMatcherDirective {
       this.select.errorState = errorsAreShown;
       this.select.stateChanges.next();
     }
+
+    if (this.chipList) {
+      this.chipList.errorState = errorsAreShown;
+      this.chipList.stateChanges.next();
+    }
   }
 
   constructor(
     @Host() @Optional() private input: MatInput,
     @Host() @Optional() private select: MatSelect,
+    @Host() @Optional() private chipList: MatChipList,
   ) { }
 }
