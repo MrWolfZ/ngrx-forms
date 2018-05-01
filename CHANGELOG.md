@@ -5,7 +5,7 @@
 
 #### Bugfixes
 
-* ensure the `value` attribute of `option` elements is properly set via `[value]` bindings when there is no associated form view adapter (closes [#67](https://github.com/MrWolfZ/ngrx-forms/issues/67), thanks @kmiskiewicz for helping me find this)
+* ensure the `value` attribute of `option` elements is properly set via `[value]` bindings when there is no associated form view adapter ([bfaa388](https://github.com/MrWolfZ/ngrx-forms/commit/bfaa388)) (closes [#67](https://github.com/MrWolfZ/ngrx-forms/issues/67), thanks @kmiskiewicz for helping me find this)
 
 <a name="2.3.2"></a>
 ### 2.3.2
