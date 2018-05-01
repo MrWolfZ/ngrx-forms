@@ -1,4 +1,4 @@
-import { Component, getDebugNode } from '@angular/core';
+import { Component, getDebugNode, Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgrxDefaultViewAdapter } from './default';
@@ -50,6 +50,17 @@ describe(NgrxDefaultViewAdapter.name, () => {
     expect(element.id).toBe(newId);
   });
 
+  it('should not set the ID of the element if the ID of the state does not change', () => {
+    const renderer: Renderer2 = jasmine.createSpyObj('renderer', ['setProperty']);
+    const nativeElement: any = {};
+    viewAdapter = new NgrxDefaultViewAdapter(renderer, { nativeElement } as any);
+    viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
+    expect(renderer.setProperty).toHaveBeenCalledTimes(1);
+    nativeElement.id = TEST_ID;
+    viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
+    expect(renderer.setProperty).toHaveBeenCalledTimes(1);
+  });
+
   it('should set the input\'s value', () => {
     const newValue = 'new value';
     viewAdapter.setViewValue(newValue);
@@ -67,6 +78,28 @@ describe(NgrxDefaultViewAdapter.name, () => {
     const newValue = 'new value';
     element.value = newValue;
     element.dispatchEvent(new Event('input'));
+    expect(spy).toHaveBeenCalledWith(newValue);
+  });
+
+  it('should not call the registered function when the value changes and is composing', () => {
+    const spy = jasmine.createSpy('fn');
+    viewAdapter.setOnChangeCallback(spy);
+    const newValue = 'new value';
+    element.value = newValue;
+    viewAdapter.compositionStart();
+    element.dispatchEvent(new Event('input'));
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('should call the registered function on composition end', () => {
+    const spy = jasmine.createSpy('fn');
+    viewAdapter.setOnChangeCallback(spy);
+    const newValue = 'new value';
+    element.value = newValue;
+    element.dispatchEvent(new Event('compositionstart'));
+    element.dispatchEvent(new Event('input'));
+    expect(spy).not.toHaveBeenCalled();
+    element.dispatchEvent(new Event('compositionend'));
     expect(spy).toHaveBeenCalledWith(newValue);
   });
 
@@ -90,5 +123,10 @@ describe(NgrxDefaultViewAdapter.name, () => {
 
   it('should throw if state is undefined', () => {
     expect(() => viewAdapter.ngrxFormControlState = undefined as any).toThrowError();
+  });
+
+  it('should not throw if calling callbacks before they are registered', () => {
+    expect(() => new NgrxDefaultViewAdapter(undefined as any, undefined as any).onChange(undefined)).not.toThrowError();
+    expect(() => new NgrxDefaultViewAdapter(undefined as any, undefined as any).onTouched()).not.toThrowError();
   });
 });

@@ -7,6 +7,7 @@ import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
+import { ControlValueAccessor } from '@angular/forms';
 import { FocusAction, MarkAsDirtyAction, MarkAsTouchedAction, SetValueAction, UnfocusAction } from '../actions';
 import { createFormControlState } from '../state';
 import { FormViewAdapter } from '../view-adapter/view-adapter';
@@ -49,6 +50,11 @@ describe(NgrxFormControlDirective.name, () => {
     expect(() => directive.ngrxFormControlState = undefined!).toThrowError();
   });
 
+  it('should throw if state is not set when component is initialized', () => {
+    directive = new NgrxFormControlDirective<string>(elementRef, document, actionsSubject as any, [viewAdapter], []);
+    expect(() => directive.ngOnInit()).toThrowError();
+  });
+
   describe('writing values and dispatching value and dirty actions', () => {
     beforeEach(() => {
       directive.ngOnInit();
@@ -81,6 +87,11 @@ describe(NgrxFormControlDirective.name, () => {
       expect(spy).toHaveBeenCalledWith(INITIAL_STATE.value);
     });
 
+    it('should not throw if id changes and new state is disabled but adapter does not support disabling', () => {
+      delete viewAdapter.setIsDisabled;
+      expect(() => directive.ngrxFormControlState = { ...INITIAL_STATE, id: `${FORM_CONTROL_ID}1`, isDisabled: true, isEnabled: false }).not.toThrowError();
+    });
+
     it('should write the value when the state value does not change but the id does after a new view value was reported', () => {
       const newValue = 'new value';
       onChange(newValue);
@@ -103,6 +114,12 @@ describe(NgrxFormControlDirective.name, () => {
       const spy = spyOn(viewAdapter, 'setViewValue');
       directive.ngAfterViewInit();
       expect(spy).toHaveBeenCalledWith(newValue);
+    });
+
+    it('should not throw after the view is initialized and adapter does not support disabling', () => {
+      delete viewAdapter.setIsDisabled;
+      directive.ngrxFormControlState = { ...INITIAL_STATE, isDisabled: true, isEnabled: false };
+      expect(() => directive.ngAfterViewInit()).not.toThrowError();
     });
 
     it(`should dispatch a ${SetValueAction.name} if the view value changes`, done => {
@@ -376,6 +393,14 @@ describe(NgrxFormControlDirective.name, () => {
         expect(nativeElement.blur).toHaveBeenCalled();
       });
 
+      it('should not focus the element if state is and was focused', () => {
+        directive.ngOnInit();
+        directive.ngrxFormControlState = { ...INITIAL_STATE, isFocused: true, isUnfocused: false };
+        expect(nativeElement.focus).toHaveBeenCalledTimes(1);
+        directive.ngrxFormControlState = { ...INITIAL_STATE, isFocused: true, isUnfocused: false };
+        expect(nativeElement.focus).toHaveBeenCalledTimes(1);
+      });
+
       it(`should dispatch a ${FocusAction} when element becomes focused and state is not focused`, done => {
         directive.ngOnInit();
 
@@ -426,6 +451,17 @@ describe(NgrxFormControlDirective.name, () => {
 
         directive.onFocusChange();
         actionsSubject.complete();
+      });
+
+      it('should add the cdk focus attribute if state is focused', () => {
+        directive.ngOnInit();
+        directive.ngrxFormControlState = { ...INITIAL_STATE, isFocused: true, isUnfocused: false };
+        expect(directive.focusRegionStartAttr).toBe('');
+      });
+
+      it('should remove the cdk focus attribute if state is unfocused', () => {
+        directive.ngOnInit();
+        expect(directive.focusRegionStartAttr).toBe(null);
       });
     });
 
@@ -516,6 +552,43 @@ describe(NgrxFormControlDirective.name, () => {
 
     it('should throw when trying to enable focus tracking', () => {
       expect(() => directive.ngrxEnableFocusTracking = true).toThrowError();
+    });
+  });
+
+  describe('ControlValueAccessor integration', () => {
+    it('should adapt a control value accessor to a form view adapter if no form view adapter is provided', () => {
+      const controlValueAccessor: ControlValueAccessor = jasmine.createSpyObj('controlValueAccessor', [
+        'writeValue',
+        'registerOnChange',
+        'registerOnTouched',
+        'setDisabledState',
+      ]);
+
+      directive = new NgrxFormControlDirective<string>(elementRef, document, actionsSubject as any, null as any, [controlValueAccessor]);
+
+      directive.state = { ...INITIAL_STATE, isDisabled: true, isEnabled: false };
+      directive.ngOnInit();
+      expect(controlValueAccessor.writeValue).toHaveBeenCalledWith(INITIAL_STATE.value);
+      expect(controlValueAccessor.setDisabledState).toHaveBeenCalledWith(true);
+      expect(controlValueAccessor.registerOnChange).toHaveBeenCalled();
+      expect(controlValueAccessor.registerOnTouched).toHaveBeenCalled();
+    });
+
+    it('should adapt a control value accessor without disabling support', () => {
+      const controlValueAccessor: ControlValueAccessor = jasmine.createSpyObj('controlValueAccessor', [
+        'writeValue',
+        'registerOnChange',
+        'registerOnTouched',
+      ]);
+
+      directive = new NgrxFormControlDirective<string>(elementRef, document, actionsSubject as any, null as any, [controlValueAccessor]);
+
+      directive.state = { ...INITIAL_STATE, isDisabled: true, isEnabled: false };
+      expect(() => directive.ngOnInit()).not.toThrow();
+    });
+
+    it('should throw if more than one control value accessor is provided', () => {
+      expect(() => new NgrxFormControlDirective<string>(elementRef, document, actionsSubject as any, [], [{} as any, {} as any])).toThrowError();
     });
   });
 });

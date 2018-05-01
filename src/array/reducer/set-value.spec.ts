@@ -158,4 +158,9 @@ describe(`form array ${setValueReducer.name}`, () => {
     expect(resultState.errors).toEqual(errors);
     expect(resultState.controls[0]).toBeUndefined();
   });
+
+  it('should throw if trying to set date as value', () => {
+    const action = new SetValueAction(FORM_CONTROL_ID, new Date() as any);
+    expect(() => setValueReducer(INITIAL_STATE, action)).toThrowError();
+  });
 });

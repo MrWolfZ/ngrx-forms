@@ -108,6 +108,11 @@ describe(NgrxSelectViewAdapter.name, () => {
     it('should throw if state is undefined', () => {
       expect(() => viewAdapter.ngrxFormControlState = undefined as any).toThrowError();
     });
+
+    it('should not throw if calling callbacks before they are registered', () => {
+      expect(() => new NgrxSelectViewAdapter(undefined as any, undefined as any).onChangeFn(undefined)).not.toThrowError();
+      expect(() => new NgrxSelectViewAdapter(undefined as any, undefined as any).onTouched()).not.toThrowError();
+    });
   });
 
   describe('dynamic string options', () => {
@@ -132,6 +137,17 @@ describe(NgrxSelectViewAdapter.name, () => {
       viewAdapter.ngrxFormControlState = { id: newId } as any;
       fixture.detectChanges();
       expect(element.id).toBe(newId);
+    });
+
+    it('should not set the ID of the element if the ID of the state does not change', () => {
+      const renderer: Renderer2 = jasmine.createSpyObj('renderer', ['setProperty']);
+      const nativeElement: any = {};
+      viewAdapter = new NgrxSelectViewAdapter(renderer, { nativeElement } as any);
+      viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
+      expect(renderer.setProperty).toHaveBeenCalledTimes(1);
+      nativeElement.id = TEST_ID;
+      viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
+      expect(renderer.setProperty).toHaveBeenCalledTimes(1);
     });
 
     it('should mark the option as selected if same value is written', () => {

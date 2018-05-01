@@ -1,4 +1,4 @@
-import { Component, getDebugNode } from '@angular/core';
+import { Component, getDebugNode, Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgrxCheckboxViewAdapter } from './checkbox';
@@ -50,6 +50,17 @@ describe(NgrxCheckboxViewAdapter.name, () => {
     expect(element.id).toBe(newId);
   });
 
+  it('should not set the ID of the element if the ID of the state does not change', () => {
+    const renderer: Renderer2 = jasmine.createSpyObj('renderer', ['setProperty']);
+    const nativeElement: any = {};
+    viewAdapter = new NgrxCheckboxViewAdapter(renderer, { nativeElement } as any);
+    viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
+    expect(renderer.setProperty).toHaveBeenCalledTimes(1);
+    nativeElement.id = TEST_ID;
+    viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
+    expect(renderer.setProperty).toHaveBeenCalledTimes(1);
+  });
+
   it('should mark the input as checked', () => {
     const newValue = true;
     viewAdapter.setViewValue(newValue);
@@ -94,5 +105,10 @@ describe(NgrxCheckboxViewAdapter.name, () => {
 
   it('should throw if state is undefined', () => {
     expect(() => viewAdapter.ngrxFormControlState = undefined as any).toThrowError();
+  });
+
+  it('should not throw if calling callbacks before they are registered', () => {
+    expect(() => new NgrxCheckboxViewAdapter(undefined as any, undefined as any).onChange(undefined)).not.toThrowError();
+    expect(() => new NgrxCheckboxViewAdapter(undefined as any, undefined as any).onTouched()).not.toThrowError();
   });
 });

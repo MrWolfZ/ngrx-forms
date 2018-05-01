@@ -88,6 +88,12 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       expect(option2.selected).toBe(false);
     });
 
+    it('should mark options as unselected if null is written', () => {
+      viewAdapter.setViewValue(null);
+      expect(option1.selected).toBe(false);
+      expect(option2.selected).toBe(false);
+    });
+
     it('should call the registered function whenever the value changes', () => {
       const spy = jasmine.createSpy('fn');
       viewAdapter.setOnChangeCallback(spy);
@@ -120,6 +126,15 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
     it('should throw if state is undefined', () => {
       expect(() => viewAdapter.ngrxFormControlState = undefined as any).toThrowError();
     });
+
+    it('should not throw if calling callbacks before they are registered', () => {
+      expect(() => new NgrxSelectMultipleViewAdapter(undefined as any, undefined as any).onChange()).not.toThrowError();
+      expect(() => new NgrxSelectMultipleViewAdapter(undefined as any, undefined as any).onTouched()).not.toThrowError();
+    });
+
+    it('should throw if value is not an array', () => {
+      expect(() => viewAdapter.setViewValue({})).toThrowError();
+    });
   });
 
   describe('dynamic string options', () => {
@@ -144,6 +159,17 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       viewAdapter.ngrxFormControlState = { id: newId } as any;
       fixture.detectChanges();
       expect(element.id).toBe(newId);
+    });
+
+    it('should not set the ID of the element if the ID of the state does not change', () => {
+      const renderer: Renderer2 = jasmine.createSpyObj('renderer', ['setProperty']);
+      const nativeElement: any = {};
+      viewAdapter = new NgrxSelectMultipleViewAdapter(renderer, { nativeElement } as any);
+      viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
+      expect(renderer.setProperty).toHaveBeenCalledTimes(1);
+      nativeElement.id = TEST_ID;
+      viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
+      expect(renderer.setProperty).toHaveBeenCalledTimes(1);
     });
 
     it('should mark a single option as selected if same value is written', () => {

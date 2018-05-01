@@ -1,4 +1,4 @@
-import { Component, getDebugNode } from '@angular/core';
+import { Component, getDebugNode, Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgrxNumberViewAdapter } from './number';
@@ -50,6 +50,17 @@ describe(NgrxNumberViewAdapter.name, () => {
     expect(element.id).toBe(newId);
   });
 
+  it('should not set the ID of the element if the ID of the state does not change', () => {
+    const renderer: Renderer2 = jasmine.createSpyObj('renderer', ['setProperty']);
+    const nativeElement: any = {};
+    viewAdapter = new NgrxNumberViewAdapter(renderer, { nativeElement } as any);
+    viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
+    expect(renderer.setProperty).toHaveBeenCalledTimes(1);
+    nativeElement.id = TEST_ID;
+    viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
+    expect(renderer.setProperty).toHaveBeenCalledTimes(1);
+  });
+
   it('should set the input\'s value', () => {
     const newValue = 10;
     viewAdapter.setViewValue(newValue);
@@ -79,6 +90,14 @@ describe(NgrxNumberViewAdapter.name, () => {
     expect(spy).toHaveBeenCalledWith(newValue);
   });
 
+  it('should call the registered function with null if value is empty string', () => {
+    const spy = jasmine.createSpy('fn');
+    viewAdapter.setOnChangeCallback(spy);
+    element.value = '';
+    element.dispatchEvent(new Event('change'));
+    expect(spy).toHaveBeenCalledWith(null);
+  });
+
   it('should call the registered function whenever the input is blurred', () => {
     const spy = jasmine.createSpy('fn');
     viewAdapter.setOnTouchedCallback(spy);
@@ -99,5 +118,10 @@ describe(NgrxNumberViewAdapter.name, () => {
 
   it('should throw if state is undefined', () => {
     expect(() => viewAdapter.ngrxFormControlState = undefined as any).toThrowError();
+  });
+
+  it('should not throw if calling callbacks before they are registered', () => {
+    expect(() => new NgrxNumberViewAdapter(undefined as any, undefined as any).onChange(undefined)).not.toThrowError();
+    expect(() => new NgrxNumberViewAdapter(undefined as any, undefined as any).onTouched()).not.toThrowError();
   });
 });

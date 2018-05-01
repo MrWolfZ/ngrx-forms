@@ -114,6 +114,11 @@ describe(NgrxRadioViewAdapter.name, () => {
     it('should throw if state is undefined', () => {
       expect(() => viewAdapter1.ngrxFormControlState = undefined as any).toThrowError();
     });
+
+    it('should not throw if calling callbacks before they are registered', () => {
+      expect(() => new NgrxRadioViewAdapter(undefined as any, undefined as any).onChange()).not.toThrowError();
+      expect(() => new NgrxRadioViewAdapter(undefined as any, undefined as any).onTouched()).not.toThrowError();
+    });
   });
 
   describe('dynamic string options', () => {
@@ -167,6 +172,14 @@ describe(NgrxRadioViewAdapter.name, () => {
       viewAdapter2.setOnChangeCallback(spy);
       const newValue = 'new value';
       component.stringOptions[0] = newValue;
+      fixture.detectChanges();
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('should not call the registered function when the option\'s value does not change', () => {
+      const spy = jasmine.createSpy('fn');
+      viewAdapter1.setOnChangeCallback(spy);
+      viewAdapter1.value = component.stringOptions[0];
       fixture.detectChanges();
       expect(spy).not.toHaveBeenCalled();
     });
