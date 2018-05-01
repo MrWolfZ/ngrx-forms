@@ -48,10 +48,6 @@ export function deepEquals<T>(_1: T, _2: T, ..._3: T[]) {
       return false;
     }
 
-    if (x.prototype !== y.prototype) {
-      return false;
-    }
-
     // Check for infinitive linking loops
     if (leftChain.indexOf(x) > -1 || rightChain.indexOf(y) > -1) {
       return false;
@@ -69,8 +65,6 @@ export function deepEquals<T>(_1: T, _2: T, ..._3: T[]) {
     // tslint:disable:forin
     for (p in x) {
       if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
-        return false;
-      } else if (typeof y[p] !== typeof x[p]) {
         return false;
       }
 
@@ -100,7 +94,7 @@ export function deepEquals<T>(_1: T, _2: T, ..._3: T[]) {
     return true;
   }
 
-  if (arguments.length < 1) {
+  if (arguments.length <= 1) {
     throw new Error('Need two or more arguments to compare');
   }
 
