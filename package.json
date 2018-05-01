@@ -8,12 +8,12 @@
   "scripts": {
     "build": "node build.js",
     "test": "karma start",
+    "test-no-progress": "karma start --reporters spec,karma-typescript",
     "test-watch": "karma start --single-run=false",
     "lint": "tslint --project .",
     "pack-lib": "npm pack ./dist",
     "publish-lib": "npm publish ./dist",
-    "compodoc": "compodoc -p tsconfig.json",
-    "compodoc-serve": "compodoc -s",
+    "report-coverage": "codecov ./coverage/lcov/lcov.info",
     "example-install": "npm run build && npm pack ./dist && cd example-app && npm install ../ngrx-forms-%npm_package_version%.tgz && cd .."
   },
   "typings": "./forms.d.ts",

@@ -41,6 +41,16 @@ module.exports = function (config) {
         validateSyntax: true,
       },
       tsconfig: './tsconfig.json',
+      reports:
+        {
+          lcovonly: {
+            directory: 'coverage',
+            filename: 'lcov.info',
+            subdirectory: 'lcov'
+          },
+          html: 'coverage',
+          'text-summary': ''
+        }
     },
 
     reporters: ['progress', 'karma-typescript'],

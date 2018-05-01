@@ -14,8 +14,10 @@ before_install:
 install:
   - npm install
 script:
-  - npm test
   - npm run build
+  - npm run test-no-progress
+after_success:
+  - npm run report-coverage
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
