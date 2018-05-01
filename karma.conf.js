@@ -1,64 +1,49 @@
-// Karma configuration for Unit testing
-
 module.exports = function (config) {
   const configuration = {
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
 
-    // frameworks to use
-    // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'karma-typescript'],
 
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
-      require('karma-webpack'),
-      require('karma-sourcemap-loader'),
-      require('karma-spec-reporter')
+      require('karma-spec-reporter'),
+      require('karma-typescript'),
     ],
 
-    // list of files / patterns to load in the browser
     files: [
-      { pattern: 'spec.bundle.js', watched: false }
+      './base.spec.ts',
+      './src/**/*.ts',
+      './validation/**/*.ts',
     ],
 
-    // list of files to exclude
     exclude: [
     ],
 
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'spec.bundle.js': ['webpack', 'sourcemap']
+      './base.spec.ts': ['karma-typescript'],
+      './src/**/*.ts': ['karma-typescript'],
+      './validation/src/**/*.ts': ['karma-typescript'],
     },
 
-    // webpack
-    webpack: {
-      resolve: {
-        extensions: ['.ts', '.js']
+    karmaTypescriptConfig: {
+      bundlerOptions: {
+        entrypoints: /\.spec\.(ts|tsx)$/,
+        resolve: {
+          alias: {
+            'ngrx-forms': '.'
+          },
+          extensions: ['.js', '.json', '.ts'],
+          directories: ['node_modules', '.']
+        },
+        transforms: [require('karma-typescript-es6-transform')()],
+        validateSyntax: true,
       },
-      module: {
-        rules: [
-          {
-            test: /\.ts/,
-            loaders: ['ts-loader', 'source-map-loader'],
-            exclude: /(node_modules|example-app)/
-          }
-        ],
-        exprContextCritical: false
-      },
-      devtool: 'inline-source-map',
-      performance: { hints: false }
+      tsconfig: './tsconfig.json',
     },
 
-    webpackServer: {
-      noInfo: true
-    },
-
-    // test results reporter to use
-    // possible values: 'dots', 'progress'
-    // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['spec'],
+    reporters: ['progress', 'karma-typescript'],
 
     specReporter: {
       maxLogLines: 10,
@@ -67,7 +52,7 @@ module.exports = function (config) {
       suppressPassed: true,
       suppressSkipped: true,
       showSpecTiming: false,
-      failFast: false
+      failFast: false,
     },
 
     // web server port

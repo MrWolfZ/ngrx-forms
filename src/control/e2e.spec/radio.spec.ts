@@ -1,5 +1,6 @@
-// tslint:disable-next-line:import-blacklist
-import 'rxjs';
+import 'rxjs/add/operator/bufferCount';
+import 'rxjs/add/operator/skip';
+import 'rxjs/add/operator/take';
 
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';

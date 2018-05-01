@@ -3,6 +3,6 @@ $ cat .gitignore
 /example-app/node_modules
 /dist
 /example-app/dist
-/documentation
+/coverage
 
 *.log

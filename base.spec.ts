@@ -1,3 +1,5 @@
+// tslint:disable:ordered-imports
+
 import 'core-js';
 import 'zone.js/dist/zone';
 import 'zone.js/dist/long-stack-trace-zone';
@@ -13,18 +15,7 @@ import {
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
 
-import 'rxjs';
-
 getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting()
 );
-
-const coreTestContext = require.context('./src/', true, /\.spec\.ts/);
-const validationTestContext = require.context('./validation/', true, /\.spec\.ts/);
-
-function requireAll(requireContext) {
-  return requireContext.keys().map(requireContext);
-}
-
-const modules = requireAll(coreTestContext).concat(requireAll(validationTestContext));
