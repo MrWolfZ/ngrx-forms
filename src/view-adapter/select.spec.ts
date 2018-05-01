@@ -1,4 +1,4 @@
-import { Component, getDebugNode } from '@angular/core';
+import { Component, getDebugNode, Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgrxSelectOption, NgrxSelectViewAdapter } from './select';
@@ -350,7 +350,28 @@ describe(NgrxSelectViewAdapter.name, () => {
 });
 
 describe(NgrxSelectOption.name, () => {
+  let viewAdapter: NgrxSelectViewAdapter;
+  let option: NgrxSelectOption;
+  let renderer: Renderer2;
+
+  beforeEach(() => {
+    renderer = jasmine.createSpyObj('renderer2', ['setProperty']);
+    viewAdapter = new NgrxSelectViewAdapter(renderer, {} as any);
+    option = new NgrxSelectOption({} as any, renderer, viewAdapter);
+  });
+
   it('should work if option is created without view adapter', () => {
     expect(new NgrxSelectOption({} as any, {} as any, null as any)).toBeDefined();
+  });
+
+  it('should set the value to the id of the element', () => {
+    option.value = 'value';
+    expect(renderer.setProperty).not.toHaveBeenCalledWith(0);
+  });
+
+  it('should not set the value to the id if no view adapter is provided', () => {
+    option = new NgrxSelectOption({} as any, {} as any, null as any);
+    option.value = 'value';
+    expect(renderer.setProperty).not.toHaveBeenCalled();
   });
 });

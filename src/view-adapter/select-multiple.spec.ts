@@ -360,7 +360,12 @@ describe(NgrxSelectMultipleOption.name, () => {
     expect(new NgrxSelectMultipleOption({} as any, {} as any, null as any)).toBeDefined();
   });
 
-  it('ngOnInit should not change the element if no matching view adapter is injected', () => {
+  it('should set the value to the id of the element', () => {
+    option.ngOnInit();
+    expect(renderer.setProperty).not.toHaveBeenCalledWith(0);
+  });
+
+  it('should not set the value to the id if no view adapter is provided', () => {
     option = new NgrxSelectMultipleOption({} as any, renderer, null as any);
     option.ngOnInit();
     expect(renderer.setProperty).not.toHaveBeenCalled();

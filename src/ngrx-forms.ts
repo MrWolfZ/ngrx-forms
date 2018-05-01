@@ -53,6 +53,7 @@ export { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter/view-ada
 export { NgrxCheckboxViewAdapter } from './view-adapter/checkbox';
 export { NgrxDefaultViewAdapter } from './view-adapter/default';
 export { NgrxNumberViewAdapter } from './view-adapter/number';
+export { NgrxFallbackSelectOption } from './view-adapter/option';
 export { NgrxRadioViewAdapter } from './view-adapter/radio';
 export { NgrxRangeViewAdapter } from './view-adapter/range';
 export { NgrxSelectViewAdapter, NgrxSelectOption } from './view-adapter/select';

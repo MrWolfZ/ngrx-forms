@@ -114,6 +114,10 @@ const NULL_VIEW_ADAPTER: NgrxSelectViewAdapter = {
   updateOptionValue: () => void 0,
 } as any;
 
+const NULL_RENDERER: Renderer2 = {
+  setProperty: () => void 0,
+} as any;
+
 @Directive({
   // tslint:disable-next-line:directive-selector
   selector: 'option',
@@ -127,18 +131,20 @@ export class NgrxSelectOption implements OnDestroy {
     private renderer: Renderer2,
     @Host() @Optional() private viewAdapter: NgrxSelectViewAdapter,
   ) {
+    this.renderer = viewAdapter ? renderer : NULL_RENDERER;
     this.viewAdapter = viewAdapter || NULL_VIEW_ADAPTER;
     this.id = this.viewAdapter.createOptionId();
   }
 
   @Input('value')
   set value(value: any) {
+    // this cannot be done inside ngOnInit since the value property
+    // must be already set when the option value is updated in the view
+    // adapter and the initial binding of 'value' happens before
+    // ngOnInit runs
     if (!this.isInitialized) {
       this.isInitialized = true;
-
-      if (this.id) {
-        this.renderer.setProperty(this.element.nativeElement, 'value', this.id);
-      }
+      this.renderer.setProperty(this.element.nativeElement, 'value', this.id);
     }
 
     this.viewAdapter.updateOptionValue(this.id, value);
