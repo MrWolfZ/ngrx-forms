@@ -29,10 +29,10 @@ function updateArraySingle<TValue>(filterFn: FilterFn<TValue>, updateFn: Project
 }
 
 /**
- * This update function takes a filter function and a variable number of update
- * functions and returns a projection function that applies all update functions
- * one after another to each element of the form array state for which the filter
- * function returns `true`.
+ * This update function takes a filter function and one or more update functions
+ * and returns a projection function that applies all update functions one after
+ * another to each element of the form array state for which the filter function
+ * returns `true`.
  *
  * The following (contrived) example uses this function to validate all its
  * children to be required and mark them as dirty.
@@ -149,8 +149,8 @@ export function updateArrayWithFilter<TValue>(
 }
 
 /**
- * This update function takes a variable number of update functions and returns
- * a projection function that applies all update functions one after another to
+ * This update function takes one or more update functions and returns a
+ * projection function that applies all update functions one after another to
  * each element of the form array state.
  *
  * The following (contrived) example uses this function to validate all its
@@ -190,9 +190,9 @@ export function updateArray<TValue>(
 ): (state: FormArrayState<TValue>) => FormArrayState<TValue>;
 
 /**
- * This update function takes a form array state and a variable number of update
- * functions and applies all update functions one after another to each element of
- * the form array state.
+ * This update function takes a form array state and one or more update functions
+ * and applies all update functions one after another to each element of the form
+ * array state.
  *
  * The following (contrived) example uses this function to validate all its
  * children to be required and mark them as dirty.

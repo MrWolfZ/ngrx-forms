@@ -6,9 +6,9 @@ import { ensureState } from './util';
 export type ValidationFn<TValue> = (value: TValue) => ValidationErrors;
 
 /**
- * This update function takes a variable number of validation functions and
- * a form state and sets the errors of the state to the result of applying
- * the given validation function(s) to the state's value.
+ * This update function takes one or more validation functions and a form
+ * state and sets the errors of the state to the result of applying the
+ * given validation function(s) to the state's value.
  */
 export function validate<TValue>(
   state: AbstractControlState<TValue>,
@@ -27,9 +27,9 @@ export function validate<TValue>(
 ): FormState<TValue>;
 
 /**
- * This update function takes a variable number of validation functions and
- * returns a projection function that sets the errors of a form state to the
- * result of applying the given validation function(s) to the state's value.
+ * This update function takes one or more validation functions and returns
+ * a projection function that sets the errors of a form state to the result
+ * of applying the given validation function(s) to the state's value.
  */
 export function validate<TValue>(
   fn: ValidationFn<TValue>,

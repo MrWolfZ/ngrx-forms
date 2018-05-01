@@ -32,9 +32,9 @@ function updateGroupSingle<TValue extends KeyValue>(updateFns: StateUpdateFns<TV
 }
 
 /**
- * This update function takes a variable number of update function objects and
- * returns a projection function that applies all objects one after another to
- * a form group state.
+ * This update function takes one or more update function objects and returns
+ * a projection function that applies all objects one after another to a form
+ * group state.
  *
  * The following (contrived) example uses this function to validate the child
  * control `name` to be required and set the child control `email`'s value to
@@ -101,7 +101,7 @@ export function updateGroup<TValue>(
 ): (state: FormGroupState<TValue>) => FormGroupState<TValue>;
 
 /**
- * This update function takes a form group state and a variable number of update
+ * This update function takes a form group state and one or more update
  * function objects and applies all objects one after another to the state.
  * Providing multiple update function objects is mainly useful if the result
  * of a later object depends on the result of previous objects.

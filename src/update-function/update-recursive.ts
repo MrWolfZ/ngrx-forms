@@ -29,9 +29,9 @@ function updateRecursiveSingle(parent: AbstractControlState<any>, updateFn: Proj
 }
 
 /**
- * This update function takes a form array state and a variable number of
- * update functions applies all update functions one after another to the
- * state recursively, i.e. the function is applied to the state's children,
+ * This update function takes a form array state and one or more update
+ * functions applies all update functions one after another to the state
+ * recursively, i.e. the function is applied to the state's children,
  * their children etc.
  *
  * The following example uses this function to validate all controls in a
@@ -72,8 +72,8 @@ export function updateRecursive<TValue>(
 ): FormState<TValue>;
 
 /**
- * This update function takes a variable number of update functions and returns
- * a projection function that applies all update functions one after another to
+ * This update function takes one or more update functions and returns a
+ * projection function that applies all update functions one after another to
  * a form state.
  *
  * The following example uses this function to validate all controls in a
