@@ -205,7 +205,7 @@ const resetArray = reset(updatedArray);
 const resetArrayViaAction = formStateReducer(updatedArray, new ResetAction(array.id));
 ```
 
-#### Focusing and Unfocusing
+#### Focusing and unfocusing
 
 The `focus` and `unfocus` update functions take a form control state and mark it as focused/unfocused. If focus tracking is enabled on the connected HTML form element (via ```[ngrxEnableFocusTracking]="true"```) the element will also focused (via `.focus()`) or unfocused (via `.blur()`).
 

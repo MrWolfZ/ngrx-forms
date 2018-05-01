@@ -44,7 +44,7 @@ The following table explains each property.
 
 #### Connecting to the DOM
 
-Control states are associated with a form element via the `NgrxFormControlDirective` (applied with `[ngrxFormControlState]="controlState"`). This directive is reponsible for keeping the view and the state in sync. When the state is changed the update is always immediately sync'ed to the view. Additionally the `id` of the HTML element is set to the ID of the form control.
+Control states are associated with a form element via the `NgrxFormControlDirective` (applied with `[ngrxFormControlState]="controlState"`). This directive is reponsible for keeping the view and the state in sync. When the state is changed the update is always immediately sync'ed to the view. Additionally the `id` of the HTML element is set to the ID of the form control (except for `input[type=radio]` since there would be multiple elements with the same `id`, therefore for these elements the `name` property is set to the `id` of the form state).
 
 #### Status CSS Classes
 
@@ -62,9 +62,9 @@ Control states are associated with a form element via the `NgrxFormControlDirect
 
 A constant `NGRX_STATUS_CLASS_NAMES` is exported to allow accessing these class names in user code without needing to hard-code them.
 
-#### `ngrxUpdateOn`
+#### Choosing when to sync the view to the state
 
-It is possible to control when view values changes are pushed to the state with the `ngrxUpdateOn` attribute. The supported values are `change` (pushed immediately when the view value changes; default) and `blur` (pushed when the form element loses focus). Note that by changing the time value changes are pushed to the state you are also changing the time at which validation and other state updates that depend on the value happen.
+It is possible to control when view values changes are pushed to the state with the `ngrxUpdateOn` attribute. The supported values are `change` (pushed immediately when the view value changes; default) and `blur` (pushed when the form element loses focus). Note that by changing this value to something different than `change` (and thereby changing the time at which value changes are pushed to the state) you are also changing the time at which validation and other state updates that depend on the value happen.
 
 #### User Defined Properties
 
