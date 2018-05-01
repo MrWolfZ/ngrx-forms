@@ -36,6 +36,7 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
 * improve typing of `errors` property on form states by using module augmentation inside of validation module to add well defined error properties to `ValidationErrors` interface ([e202e65](https://github.com/MrWolfZ/ngrx-forms/commit/e202e65))
 * move documentation to [Read the Docs](http://ngrx-forms.readthedocs.io/en/master)
 * add [FAQ](http://ngrx-forms.readthedocs.io/en/master/faq)
+* add some reducer tests for example application to showcase how **ngrx-forms** can be tested, closes [#58](https://github.com/MrWolfZ/ngrx-forms/issues/58)
 
 #### Bugfixes
 

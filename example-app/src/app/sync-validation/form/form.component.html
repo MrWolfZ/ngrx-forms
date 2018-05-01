@@ -83,7 +83,7 @@
     {{ formState.errors._password._password.minLength.minLength }}
     characters long.
   </li>
-  <li *ngIf="formState.errors._password?.match">
+  <li *ngIf="formState.errors._password?.passwordMatch">
     The passwords do not match
   </li>
   <li *ngIf="formState.errors._agreeToTermsOfUse?.required">

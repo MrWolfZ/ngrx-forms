@@ -10,6 +10,7 @@ import {
 } from 'ngrx-forms';
 import { minLength, required, requiredTrue } from 'ngrx-forms/validation';
 
+import { ValidationErrors } from '@angular/forms';
 import { State as RootState } from '../app.reducer';
 
 export interface PasswordValue {
@@ -48,13 +49,20 @@ export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
   agreeToTermsOfUse: false,
 });
 
-function validatePasswordsMatch(value: PasswordValue) {
+// @ts-ignore
+declare module 'ngrx-forms/src/state' {
+  interface ValidationErrors {
+    passwordMatch?: PasswordValue;
+  }
+}
+
+function validatePasswordsMatch(value: PasswordValue): ValidationErrors {
   if (value.password === value.confirmPassword) {
     return {};
   }
 
   return {
-    match: value,
+    passwordMatch: value,
   };
 }
 
