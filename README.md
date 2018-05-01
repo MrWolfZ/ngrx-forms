@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/MrWolfZ/ngrx-forms.svg?branch=master)](https://travis-ci.org/MrWolfZ/ngrx-forms)
 [![Docs](https://readthedocs.org/projects/ngrx-forms/badge/?version=master)](http://ngrx-forms.readthedocs.io/en/master/?badge=master)
+[![npm version](https://badge.fury.io/js/ngrx-forms.png)](https://www.npmjs.com/package/ngrx-forms)
+[![license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 
 **ngrx-forms** brings the strengths of the redux state management model to the world of forms in applications that are using Angular and ngrx. The mechanisms that Angular provides for working with forms are inherently mutable, local, and hard to debug. This library offers a different model for working with forms. Instead of storing the state of form controls inside the components we put them in the ngrx store. We update the state with actions which allows easy debugging just like any other redux application. **ngrx-forms** also provides powerful mechanisms to update, validate and generally manage large complex forms. It contains APIs for synchronous and asynchronous validation, creating dynamic forms, integrating with custom form elements, and much more.
 
@@ -19,6 +21,6 @@ This library has a peer dependency on versions `>=4.0.0` of `@angular/core`, `@a
 Please see the [documentation](http://ngrx-forms.readthedocs.io/en/master/contributing/).
 
 #### License
-MIT
+Everything in this repository is [licensed under the MIT License](LICENSE) unless otherwise specified.
 
-Copyright &copy; 2017-2018 Jonathan Ziller
+Copyright (c) 2017-2018 Jonathan Ziller

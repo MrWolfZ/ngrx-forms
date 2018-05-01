@@ -16,4 +16,5 @@ pages:
     - Custom HTML Form Elements: user-guide/custom-form-elements.md
   - FAQ: faq.md
   - Contributing: contributing.md
+  - License: license.md
 theme: readthedocs
