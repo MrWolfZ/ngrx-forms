@@ -102,6 +102,15 @@ describe(`form group ${removeControlReducer.name}`, () => {
     expect(resultState.controls[0]).toBeUndefined();
   });
 
+  it('should be dirty when we add an item', () => {
+    const action = new RemoveArrayControlAction(FORM_CONTROL_ID, 0);
+    const resultState = removeControlReducer<string>(INITIAL_STATE, action);
+
+    expect(resultState.isDirty).toBe(true);
+    expect(resultState.isTouched).toBe(true);
+    expect(resultState.isPristine).toBe(false);
+  });
+
   it('should throw if trying to remove non-existing control', () => {
     const action = new RemoveArrayControlAction(FORM_CONTROL_ID, 2);
     expect(() => removeControlReducer<string>(INITIAL_STATE, action)).toThrowError();

@@ -31,5 +31,6 @@ export function addControlReducer<TValue>(
     state.errors,
     state.pendingValidations,
     state.userDefinedProperties,
+    true
   );
 }

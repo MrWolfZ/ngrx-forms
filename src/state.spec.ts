@@ -546,6 +546,13 @@ describe('state', () => {
       const state = computeArrayState(FORM_CONTROL_ID, CONTROLS, [], {}, [], {});
       expect(state.isValidationPending).toEqual(false);
     });
+
+    it('should mark as dirty if we force it', () => {
+      const state = computeArrayState(FORM_CONTROL_ID, CONTROLS, [], {}, [], {}, true);
+      expect(state.isDirty).toEqual(true);
+      expect(state.isTouched).toEqual(true);
+      expect(state.isPristine).toEqual(false);
+    });
   });
 
   describe(computeGroupState.name, () => {

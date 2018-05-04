@@ -54,6 +54,15 @@ describe(`form array ${addControlReducer.name}`, () => {
     expect(resultState.controls[2].id).toEqual(FORM_CONTROL_ID + '.2');
   });
 
+  it('should be dirty when we add an item', () => {
+    const value = ['A'];
+    const action = new AddArrayControlAction<string[]>(FORM_CONTROL_ID, value);
+    const resultState = addControlReducer<string[]>(INITIAL_STATE_NESTED_ARRAY, action);
+    expect(resultState.isDirty).toBe(true);
+    expect(resultState.isTouched).toBe(true);
+    expect(resultState.isPristine).toBe(false);
+  });
+
   it('should throw if trying to add control at out of bounds index', () => {
     const action = new AddArrayControlAction<string>(FORM_CONTROL_ID, '', 3);
     expect(() => addControlReducer<string>(INITIAL_STATE, action)).toThrowError();

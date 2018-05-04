@@ -70,5 +70,6 @@ export function removeControlReducer<TValue>(
     state.errors,
     state.pendingValidations,
     state.userDefinedProperties,
+    true
   );
 }
