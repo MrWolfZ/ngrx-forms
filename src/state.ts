@@ -753,13 +753,14 @@ export function computeArrayState<TValue>(
   errors: ValidationErrors,
   pendingValidations: string[],
   userDefinedProperties: KeyValue,
+  forceDirty: boolean = false
 ): FormArrayState<TValue> {
   value = getFormArrayValue<TValue>(controls, value);
   errors = getFormArrayErrors(controls, errors);
   const isValid = isEmpty(errors);
-  const isDirty = controls.some(state => state.isDirty);
+  const isDirty = forceDirty || controls.some(state => state.isDirty);
   const isEnabled = controls.length === 0 || controls.some(state => state.isEnabled);
-  const isTouched = controls.some(state => state.isTouched);
+  const isTouched = forceDirty || controls.some(state => state.isTouched);
   const isSubmitted = controls.some(state => state.isSubmitted);
   const isValidationPending = pendingValidations.length > 0 || controls.some(state => state.isValidationPending);
   return {
