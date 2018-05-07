@@ -1,6 +1,6 @@
-import { Actions, AddArrayControlAction } from '../../actions';
-import { computeArrayState, createChildState, FormArrayState } from '../../state';
-import { childReducer } from './util';
+import {Actions, AddArrayControlAction} from '../../actions';
+import {computeArrayState, createChildState, FormArrayState} from '../../state';
+import {childReducer, updateIdRecursive} from './util';
 
 export function addControlReducer<TValue>(
   state: FormArrayState<TValue>,
@@ -22,7 +22,10 @@ export function addControlReducer<TValue>(
 
   let controls = [...state.controls];
   controls.splice(index, 0, createChildState(`${state.id}.${index}`, action.payload.value));
-  controls = controls.map((c, i) => ({ ...c, id: `${state.id}.${i}` }));
+
+  // Deep update IDs of subsequent controls in the formArray
+  controls = controls.map((c, i) =>
+    i >= index ? updateIdRecursive(c, `${state.id}.${i}`) : c);
 
   return computeArrayState(
     state.id,

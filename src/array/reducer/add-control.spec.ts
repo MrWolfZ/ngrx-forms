@@ -1,7 +1,14 @@
-import { AddArrayControlAction } from '../../actions';
-import { cast } from '../../state';
-import { addControlReducer } from './add-control';
-import { FORM_CONTROL_ID, INITIAL_STATE, INITIAL_STATE_NESTED_ARRAY, INITIAL_STATE_NESTED_GROUP } from './test-util';
+import {AddArrayControlAction} from '../../actions';
+import {cast} from '../../state';
+import {addControlReducer} from './add-control';
+import {
+  FORM_CONTROL_ID,
+  IInitialFormArrayValueDeeplyNestedGroup,
+  INITIAL_FORM_ARRAY_STATE_DEEPLY_NESTED_GROUPS,
+  INITIAL_STATE,
+  INITIAL_STATE_NESTED_ARRAY,
+  INITIAL_STATE_NESTED_GROUP
+} from './test-util';
 
 describe(`form array ${addControlReducer.name}`, () => {
   it('should create child state for control child', () => {
@@ -13,7 +20,7 @@ describe(`form array ${addControlReducer.name}`, () => {
   });
 
   it('should create child state for group child', () => {
-    const value = { inner: 'D' };
+    const value = {inner: 'D'};
     const action = new AddArrayControlAction<{ inner: string }>(FORM_CONTROL_ID, value);
     const resultState = addControlReducer<{ inner: string }>(INITIAL_STATE_NESTED_GROUP, action);
     expect(resultState.value).toEqual([...INITIAL_STATE_NESTED_GROUP.value, value]);
@@ -62,5 +69,28 @@ describe(`form array ${addControlReducer.name}`, () => {
   it('should throw if trying to add control at negative index', () => {
     const action = new AddArrayControlAction<string>(FORM_CONTROL_ID, '', -1);
     expect(() => addControlReducer<string>(INITIAL_STATE, action)).toThrowError();
+  });
+
+  it('should update deeply nested child IDs after an insertion', () => {
+    const value: IInitialFormArrayValueDeeplyNestedGroup = {
+      i: 'NEW_CONTROL',
+      deep: {
+        inners: [{inner: 'NEW_INNER_0'}, {inner: 'NEW_INNER_1'}, {inner: 'NEW_INNER_2'}],
+      },
+    };
+    const action = new AddArrayControlAction<IInitialFormArrayValueDeeplyNestedGroup>(FORM_CONTROL_ID, value, 0);
+    const resultState = addControlReducer<IInitialFormArrayValueDeeplyNestedGroup>(INITIAL_FORM_ARRAY_STATE_DEEPLY_NESTED_GROUPS, action);
+
+    expect(resultState.controls[0].value).toEqual(value);
+    resultState.controls.forEach((control, index) => {
+      expect(control.id).toEqual(FORM_CONTROL_ID + `.${index}`);
+      expect(cast(control).controls.i.id).toEqual(FORM_CONTROL_ID + `.${index}.i`);
+      expect(cast(control).controls.deep.id).toEqual(FORM_CONTROL_ID + `.${index}.deep`);
+      expect(cast(cast(control).controls.deep).controls.inners.id).toEqual(FORM_CONTROL_ID + `.${index}.deep.inners`);
+      cast(cast(cast(control).controls.deep).controls.inners).controls.forEach((deepControl, deepIndex) => {
+        expect(deepControl.id).toEqual(FORM_CONTROL_ID + `.${index}.deep.inners.${deepIndex}`);
+        expect(cast<{ inner: string }>(deepControl).controls.inner.id).toEqual(FORM_CONTROL_ID + `.${index}.deep.inners.${deepIndex}.inner`);
+      });
+    });
   });
 });
