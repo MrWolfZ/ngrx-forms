@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="2.3.4"></a>
+### 2.3.4
+
+#### Bugfixes
+
+* recursively update nested controls IDs when adding controls to arrays ([7b1de7c](https://github.com/MrWolfZ/ngrx-forms/commit/7b1de7c)), closes [#72](https://github.com/MrWolfZ/ngrx-forms/pull/72) (thanks @solnat for this fix)
+
 <a name="2.3.3"></a>
 ### 2.3.3
 
