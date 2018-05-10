@@ -21,6 +21,10 @@ describe(NgrxDefaultViewAdapter.name, () => {
   let viewAdapter: NgrxDefaultViewAdapter;
   let element: HTMLInputElement;
 
+  // tslint:disable-next-line:max-line-length
+  const androidUserAgent = 'Mozilla/5.0 (Linux; Android 5.1.1; Nexus 5 Build/LMY48B; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/43.0.2357.65 Mobile Safari/537.36';
+  const androidNavigator: Navigator = { userAgent: androidUserAgent } as any;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -91,6 +95,20 @@ describe(NgrxDefaultViewAdapter.name, () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
+  it('should call the registered function when the value changes and is composing but composition is not supported', () => {
+    const renderer: Renderer2 = jasmine.createSpyObj('renderer', ['setProperty']);
+    const nativeElement: any = {};
+    viewAdapter = new NgrxDefaultViewAdapter(renderer, { nativeElement } as any, androidNavigator);
+    viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
+    const spy = jasmine.createSpy('fn');
+    viewAdapter.setOnChangeCallback(spy);
+    const newValue = 'new value';
+    element.value = newValue;
+    viewAdapter.compositionStart();
+    viewAdapter.handleInput({ target: element } as any);
+    expect(spy).toHaveBeenCalledWith(newValue);
+  });
+
   it('should call the registered function on composition end', () => {
     const spy = jasmine.createSpy('fn');
     viewAdapter.setOnChangeCallback(spy);
@@ -101,6 +119,22 @@ describe(NgrxDefaultViewAdapter.name, () => {
     expect(spy).not.toHaveBeenCalled();
     element.dispatchEvent(new Event('compositionend'));
     expect(spy).toHaveBeenCalledWith(newValue);
+  });
+
+  it('should not call the registered function on composition end if composition is not supported', () => {
+    const renderer: Renderer2 = jasmine.createSpyObj('renderer', ['setProperty']);
+    const nativeElement: any = {};
+    viewAdapter = new NgrxDefaultViewAdapter(renderer, { nativeElement } as any, androidNavigator);
+    viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
+    const spy = jasmine.createSpy('fn');
+    viewAdapter.setOnChangeCallback(spy);
+    const newValue = 'new value';
+    element.value = newValue;
+    viewAdapter.compositionStart();
+    viewAdapter.handleInput({ target: element } as any);
+    expect(spy).toHaveBeenCalledTimes(1);
+    viewAdapter.compositionEnd({ target: element } as any);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should call the registered function whenever the input is blurred', () => {

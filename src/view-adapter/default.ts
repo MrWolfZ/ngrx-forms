@@ -1,5 +1,4 @@
-import { Directive, ElementRef, forwardRef, HostListener, Input, Renderer2 } from '@angular/core';
-import { ɵgetDOM as getDOM } from '@angular/platform-browser';
+import { Directive, ElementRef, forwardRef, HostListener, Inject, InjectionToken, Input, Optional, Renderer2 } from '@angular/core';
 
 import { FormControlState } from '../state';
 import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
@@ -8,9 +7,8 @@ import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
  * We must check whether the agent is Android because composition events
  * behave differently between iOS and Android.
  */
-function isAndroid(): boolean {
-  const userAgent = getDOM() ? getDOM().getUserAgent() : '';
-  return /android (\d+)/.test(userAgent.toLowerCase());
+function isAndroid(navigator: Navigator): boolean {
+  return /android (\d+)/.test(navigator.userAgent.toLowerCase());
 }
 
 // tslint:disable:directive-class-suffix
@@ -46,9 +44,15 @@ export class NgrxDefaultViewAdapter implements FormViewAdapter {
 
   /** Whether the user is creating a composition string (IME events). */
   private isComposing = false;
-  private isCompositionSupported = !isAndroid();
+  private isCompositionSupported: boolean;
 
-  constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
+  constructor(
+    private renderer: Renderer2,
+    private elementRef: ElementRef,
+    @Optional() @Inject(new InjectionToken('never')) navigator: Navigator | null = null,
+  ) {
+    this.isCompositionSupported = !isAndroid(navigator || window.navigator);
+  }
 
   setViewValue(value: any): void {
     const normalizedValue = value == null ? '' : value;
