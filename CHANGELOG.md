@@ -21,8 +21,8 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
 * remove `payload` property from all actions and move corresponding properties into action itself ([6f955e9](https://github.com/MrWolfZ/ngrx-forms/commit/6f955e9))
 * replace `createFormGroupReducerWithUpdate` with `createFormStateReducerWithUpdate` (which takes any kind of form state, see the [user guide](http://ngrx-forms.readthedocs.io/en/master/user-guide/updating-the-state/#createformstatereducerwithupdate) for more details) ([1b6114c](https://github.com/MrWolfZ/ngrx-forms/commit/1b6114c))
 * mark all state properties as `readonly` to make it more clear the state is not meant to be modified directly ([291e0da](https://github.com/MrWolfZ/ngrx-forms/commit/291e0da))
-* change form arrays and groups to preserve the values of `isDirty`, `isEnabled`, `isTouched`, and `isSubmitted` when the state is changed instead of always recomputing the values of these properties based on the state's child states (e.g. the state is not automatically disabled when all its child states are disabled, it is not automatically marked as pristine if it was dirty and all its child states are marked as pristine or all children are removed, etc.), closes [#68](https://github.com/MrWolfZ/ngrx-forms/issues/68)
-* mark arrays and groups as dirty when adding or removing controls
+* change form arrays and groups to preserve the values of `isDirty`, `isEnabled`, `isTouched`, and `isSubmitted` when the state is changed instead of always recomputing the values of these properties based on the state's child states (e.g. the state is not automatically disabled when all its child states are disabled, it is not automatically marked as pristine if it was dirty and all its child states are marked as pristine or all children are removed, etc.) ([9202d1e](https://github.com/MrWolfZ/ngrx-forms/commit/9202d1e)), closes [#68](https://github.com/MrWolfZ/ngrx-forms/issues/68)
+* mark arrays and groups as dirty when adding or removing controls ([9202d1e](https://github.com/MrWolfZ/ngrx-forms/commit/9202d1e))
 
 #### Features
 
