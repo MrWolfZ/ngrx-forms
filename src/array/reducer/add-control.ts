@@ -17,7 +17,7 @@ export function addControlReducer<TValue>(
   const index = action.index === undefined ? state.controls.length : action.index;
 
   if (index > state.controls.length || index < 0) {
-    throw new Error(`Index ${index} is out of bounds for array '${state.id}' with length ${state.controls.length}!`); // `;
+    throw new Error(`Index ${index} is out of bounds for array '${state.id}' with length ${state.controls.length}!`);
   }
 
   let controls = [...state.controls];
@@ -31,5 +31,11 @@ export function addControlReducer<TValue>(
     state.errors,
     state.pendingValidations,
     state.userDefinedProperties,
+    {
+      wasOrShouldBeDirty: true,
+      wasOrShouldBeEnabled: state.isEnabled,
+      wasOrShouldBeTouched: state.isTouched,
+      wasOrShouldBeSubmitted: state.isSubmitted,
+    },
   );
 }

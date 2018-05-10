@@ -1,14 +1,6 @@
 import { MarkAsSubmittedAction } from '../../actions';
 import { markAsSubmittedReducer } from './mark-as-submitted';
-import {
-  FORM_CONTROL_ID,
-  FORM_CONTROL_INNER3_ID,
-  FORM_CONTROL_INNER5_ID,
-  FORM_CONTROL_INNER_ID,
-  INITIAL_STATE,
-  INITIAL_STATE_FULL,
-  setPropertiesRecursively,
-} from './test-util';
+import { FORM_CONTROL_ID, INITIAL_STATE, INITIAL_STATE_FULL, setPropertiesRecursively } from './test-util';
 
 describe(`form group ${markAsSubmittedReducer.name}`, () => {
   const INITIAL_STATE_FULL_SUBMITTED = setPropertiesRecursively(INITIAL_STATE_FULL, [['isSubmitted', true], ['isUnsubmitted', false]]);
@@ -59,21 +51,8 @@ describe(`form group ${markAsSubmittedReducer.name}`, () => {
     expect(resultState.controls.inner5!.isUnsubmitted).toEqual(false);
   });
 
-  it('should mark state as submitted if control child is marked as submitted', () => {
-    const resultState = markAsSubmittedReducer(INITIAL_STATE, new MarkAsSubmittedAction(FORM_CONTROL_INNER_ID));
-    expect(resultState.isSubmitted).toEqual(true);
-    expect(resultState.isUnsubmitted).toEqual(false);
-  });
-
-  it('should mark state as submitted if group child is marked as submitted', () => {
-    const resultState = markAsSubmittedReducer(INITIAL_STATE_FULL, new MarkAsSubmittedAction(FORM_CONTROL_INNER3_ID));
-    expect(resultState.isSubmitted).toEqual(true);
-    expect(resultState.isUnsubmitted).toEqual(false);
-  });
-
-  it('should mark state as submitted if array child is marked as submitted', () => {
-    const resultState = markAsSubmittedReducer(INITIAL_STATE_FULL, new MarkAsSubmittedAction(FORM_CONTROL_INNER5_ID));
-    expect(resultState.isSubmitted).toEqual(true);
-    expect(resultState.isUnsubmitted).toEqual(false);
+  it('should forward actions to children', () => {
+    const resultState = markAsSubmittedReducer(INITIAL_STATE, new MarkAsSubmittedAction(INITIAL_STATE.controls.inner.id));
+    expect(resultState).not.toBe(INITIAL_STATE);
   });
 });

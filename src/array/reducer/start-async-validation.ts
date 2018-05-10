@@ -20,5 +20,18 @@ export function startAsyncValidationReducer<TValue>(
 
   const pendingValidations = [...state.pendingValidations, action.name];
 
-  return computeArrayState(state.id, state.controls, state.value, state.errors, pendingValidations, state.userDefinedProperties);
+  return computeArrayState(
+    state.id,
+    state.controls,
+    state.value,
+    state.errors,
+    pendingValidations,
+    state.userDefinedProperties,
+    {
+      wasOrShouldBeDirty: state.isDirty,
+      wasOrShouldBeEnabled: state.isEnabled,
+      wasOrShouldBeTouched: state.isTouched,
+      wasOrShouldBeSubmitted: state.isSubmitted,
+    },
+  );
 }

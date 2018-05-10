@@ -140,6 +140,9 @@ describe('state', () => {
         INITIAL_STATE.errors,
         INITIAL_STATE.pendingValidations,
         INITIAL_STATE.userDefinedProperties,
+        {
+          wasOrShouldBeEnabled: true,
+        },
       );
 
       expect(state.id).toBe(INITIAL_STATE.id);
@@ -168,6 +171,9 @@ describe('state', () => {
         initialState.errors,
         initialState.pendingValidations,
         initialState.userDefinedProperties,
+        {
+          wasOrShouldBeEnabled: true,
+        },
       );
 
       expect(state.id).toBe(initialState.id);
@@ -287,6 +293,9 @@ describe('state', () => {
         INITIAL_STATE.errors,
         INITIAL_STATE.pendingValidations,
         INITIAL_STATE.userDefinedProperties,
+        {
+          wasOrShouldBeEnabled: true,
+        },
       );
 
       expect(state.id).toBe(INITIAL_STATE.id);
@@ -315,6 +324,9 @@ describe('state', () => {
         initialState.errors,
         initialState.pendingValidations,
         initialState.userDefinedProperties,
+        {
+          wasOrShouldBeEnabled: true,
+        },
       );
 
       expect(state.id).toBe(initialState.id);
@@ -384,7 +396,7 @@ describe('state', () => {
     const CONTROLS = [CONTROL_1, CONTROL_2];
 
     it('should aggregate child values', () => {
-      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], {}, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], {}, [], {}, {});
       expect(state.value).toEqual(VALUE);
     });
 
@@ -396,7 +408,7 @@ describe('state', () => {
         isValid: false,
         isInvalid: true,
       };
-      const state = computeArrayState<string>(FORM_CONTROL_ID, [controlWithError, CONTROL_2], [], {}, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, [controlWithError, CONTROL_2], [], {}, [], {}, {});
       expect(state.errors).toEqual({ _0: childError });
     });
 
@@ -409,58 +421,81 @@ describe('state', () => {
         isValid: false,
         isInvalid: true,
       };
-      const state = computeArrayState<string>(FORM_CONTROL_ID, [controlWithError, CONTROL_2], [], ownError, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, [controlWithError, CONTROL_2], [], ownError, [], {}, {});
       expect(state.errors).toEqual({ _0: childError, ...ownError });
     });
 
     it('should mark as valid if there are no errors', () => {
-      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], {}, [], {});
-      expect(state.isValid).toEqual(true);
-      expect(state.isInvalid).toEqual(false);
+      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], {}, [], {}, {});
+      expect(state.isValid).toBe(true);
+      expect(state.isInvalid).toBe(false);
     });
 
     it('should mark as invalid if there are errors', () => {
       const errors = { max: true };
-      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], errors, [], {});
-      expect(state.isValid).toEqual(false);
-      expect(state.isInvalid).toEqual(true);
+      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], errors, [], {}, {});
+      expect(state.isValid).toBe(false);
+      expect(state.isInvalid).toBe(true);
     });
 
-    it('should mark as pristine if no child is dirty', () => {
-      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], {}, [], {});
-      expect(state.isDirty).toEqual(false);
-      expect(state.isPristine).toEqual(true);
+    it('should mark as pristine if no child is dirty and state was not dirty', () => {
+      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], {}, [], {}, {});
+      expect(state.isDirty).toBe(false);
+      expect(state.isPristine).toBe(true);
     });
 
-    it('should mark as dirty if some child is dirty', () => {
+    it('should mark as dirty if some child is dirty and state was not dirty', () => {
       const dirtyControl = {
         ...CONTROL_1,
         isDirty: true,
         isPristine: false,
       };
-      const state = computeArrayState<string>(FORM_CONTROL_ID, [dirtyControl, CONTROL_2], [], {}, [], {});
-      expect(state.isDirty).toEqual(true);
-      expect(state.isPristine).toEqual(false);
+      const state = computeArrayState(FORM_CONTROL_ID, [dirtyControl, CONTROL_2], [], {}, [], {}, {});
+      expect(state.isDirty).toBe(true);
+      expect(state.isPristine).toBe(false);
     });
 
-    it('should mark as pristine if array is empty', () => {
-      const state = computeArrayState(FORM_CONTROL_ID, [], [], {}, [], {});
+    it('should mark as dirty if no child is dirty and state was dirty', () => {
+      const state = computeArrayState(FORM_CONTROL_ID, CONTROLS, [], {}, [], {}, { wasOrShouldBeDirty: true });
+      expect(state.isDirty).toBe(true);
+      expect(state.isPristine).toBe(false);
+    });
+
+    it('should mark as pristine if array is empty and state was not dirty', () => {
+      const state = computeArrayState(FORM_CONTROL_ID, [], [], {}, [], {}, {});
       expect(state.isDirty).toBe(false);
       expect(state.isPristine).toBe(true);
     });
 
-    it('should mark as enabled if some child is enabled', () => {
+    it('should mark as dirty if array is empty and state was dirty', () => {
+      const state = computeArrayState(FORM_CONTROL_ID, [], [], {}, [], {}, { wasOrShouldBeDirty: true });
+      expect(state.isDirty).toBe(true);
+      expect(state.isPristine).toBe(false);
+    });
+
+    it('should mark as enabled if some child is enabled and state was enabled', () => {
       const disabledControl = {
         ...CONTROL_1,
         isEnabled: false,
         isDisabled: true,
       };
-      const state = computeArrayState<string>(FORM_CONTROL_ID, [disabledControl, CONTROL_2], [], {}, [], {});
-      expect(state.isEnabled).toEqual(true);
-      expect(state.isDisabled).toEqual(false);
+      const state = computeArrayState(FORM_CONTROL_ID, [disabledControl, CONTROL_2], [], {}, [], {}, { wasOrShouldBeEnabled: true });
+      expect(state.isEnabled).toBe(true);
+      expect(state.isDisabled).toBe(false);
     });
 
-    it('should mark as disabled if all children are disabled', () => {
+    it('should mark as enabled if some child is enabled and state was not enabled', () => {
+      const disabledControl = {
+        ...CONTROL_1,
+        isEnabled: false,
+        isDisabled: true,
+      };
+      const state = computeArrayState(FORM_CONTROL_ID, [disabledControl, CONTROL_2], [], {}, [], {}, { wasOrShouldBeEnabled: false });
+      expect(state.isEnabled).toBe(true);
+      expect(state.isDisabled).toBe(false);
+    });
+
+    it('should mark as enabled if all children are disabled and state was enabled', () => {
       const disabledControl1 = {
         ...CONTROL_1,
         isEnabled: false,
@@ -471,60 +506,107 @@ describe('state', () => {
         isEnabled: false,
         isDisabled: true,
       };
-      const state = computeArrayState<string>(FORM_CONTROL_ID, [disabledControl1, disabledControl2], [], {}, [], {});
-      expect(state.isEnabled).toEqual(false);
-      expect(state.isDisabled).toEqual(true);
-    });
-
-    it('should mark as enabled if array is empty', () => {
-      const state = computeArrayState(FORM_CONTROL_ID, [], [], {}, [], {});
+      const state = computeArrayState(FORM_CONTROL_ID, [disabledControl1, disabledControl2], [], {}, [], {}, { wasOrShouldBeEnabled: true });
       expect(state.isEnabled).toBe(true);
       expect(state.isDisabled).toBe(false);
     });
 
-    it('should mark as untouched if no child is touched', () => {
-      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], {}, [], {});
-      expect(state.isTouched).toEqual(false);
-      expect(state.isUntouched).toEqual(true);
+    it('should mark as disabled if all children are disabled and state was not enabled', () => {
+      const disabledControl1 = {
+        ...CONTROL_1,
+        isEnabled: false,
+        isDisabled: true,
+      };
+      const disabledControl2 = {
+        ...CONTROL_1,
+        isEnabled: false,
+        isDisabled: true,
+      };
+      const state = computeArrayState(FORM_CONTROL_ID, [disabledControl1, disabledControl2], [], {}, [], {}, { wasOrShouldBeEnabled: false });
+      expect(state.isEnabled).toBe(false);
+      expect(state.isDisabled).toBe(true);
     });
 
-    it('should mark as touched if some child is touched', () => {
+    it('should mark as enabled if group is empty and state was enabled', () => {
+      const state = computeArrayState(FORM_CONTROL_ID, [], [], {}, [], {}, { wasOrShouldBeEnabled: true });
+      expect(state.isEnabled).toBe(true);
+      expect(state.isDisabled).toBe(false);
+    });
+
+    it('should mark as disabled if group is empty and state was not enabled', () => {
+      const state = computeArrayState(FORM_CONTROL_ID, [], [], {}, [], {}, { wasOrShouldBeEnabled: false });
+      expect(state.isEnabled).toBe(false);
+      expect(state.isDisabled).toBe(true);
+    });
+
+    it('should mark as untouched if no child is touched and state was not touched', () => {
+      const state = computeArrayState(FORM_CONTROL_ID, CONTROLS, [], {}, [], {}, { wasOrShouldBeTouched: false });
+      expect(state.isTouched).toBe(false);
+      expect(state.isUntouched).toBe(true);
+    });
+
+    it('should mark as touched if no child is touched and state was touched', () => {
+      const state = computeArrayState(FORM_CONTROL_ID, CONTROLS, [], {}, [], {}, { wasOrShouldBeTouched: true });
+      expect(state.isTouched).toBe(true);
+      expect(state.isUntouched).toBe(false);
+    });
+
+    it('should mark as touched if some child is touched and state was not touched', () => {
       const touchedControl = {
         ...CONTROL_1,
         isTouched: true,
         isUntouched: false,
       };
-      const state = computeArrayState<string>(FORM_CONTROL_ID, [touchedControl, CONTROL_2], [], {}, [], {});
-      expect(state.isTouched).toEqual(true);
-      expect(state.isUntouched).toEqual(false);
+      const state = computeArrayState(FORM_CONTROL_ID, [touchedControl, CONTROL_2], [], {}, [], {}, { wasOrShouldBeTouched: false });
+      expect(state.isTouched).toBe(true);
+      expect(state.isUntouched).toBe(false);
     });
 
-    it('should mark as untouched if array is empty', () => {
-      const state = computeArrayState(FORM_CONTROL_ID, [], [], {}, [], {});
-      expect(state.isTouched).toEqual(false);
+    it('should mark as untouched if array is empty and state was not touched', () => {
+      const state = computeArrayState(FORM_CONTROL_ID, [], [], {}, [], {}, { wasOrShouldBeTouched: false });
+      expect(state.isTouched).toBe(false);
       expect(state.isUntouched).toBe(true);
     });
 
-    it('should mark as unsubmitted if no child is submitted', () => {
-      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], {}, [], {});
-      expect(state.isSubmitted).toEqual(false);
-      expect(state.isUnsubmitted).toEqual(true);
+    it('should mark as touched if array is empty and state was touched', () => {
+      const state = computeArrayState(FORM_CONTROL_ID, [], [], {}, [], {}, { wasOrShouldBeTouched: true });
+      expect(state.isTouched).toBe(true);
+      expect(state.isUntouched).toBe(false);
     });
 
-    it('should mark as submitted if some child is submitted', () => {
+    it('should mark as unsubmitted if no child is submitted and state was not submitted', () => {
+      const state = computeArrayState(FORM_CONTROL_ID, CONTROLS, [], {}, [], {}, { wasOrShouldBeSubmitted: false });
+      expect(state.isSubmitted).toBe(false);
+      expect(state.isUnsubmitted).toBe(true);
+    });
+
+    it('should mark as submitted if no child is submitted and state was submitted', () => {
+      const state = computeArrayState(FORM_CONTROL_ID, CONTROLS, [], {}, [], {}, { wasOrShouldBeSubmitted: true });
+      expect(state.isSubmitted).toBe(true);
+      expect(state.isUnsubmitted).toBe(false);
+    });
+
+    it('should mark as submitted if some child is submitted and state was not submitted', () => {
       const submittedControl = {
         ...CONTROL_1,
         isSubmitted: true,
         isUnsubmitted: false,
       };
-      const state = computeArrayState<string>(FORM_CONTROL_ID, [submittedControl, CONTROL_2], [], {}, [], {});
-      expect(state.isSubmitted).toEqual(true);
-      expect(state.isUnsubmitted).toEqual(false);
+      const state = computeArrayState(FORM_CONTROL_ID, [submittedControl, CONTROL_2], [], {}, [], {}, { wasOrShouldBeSubmitted: false });
+      expect(state.isSubmitted).toBe(true);
+      expect(state.isUnsubmitted).toBe(false);
     });
 
-    it('should mark as unsubmitted if array is empty', () => {
-      const state = computeArrayState(FORM_CONTROL_ID, [], [], {}, [], {});
+    it('should mark as unsubmitted if array is empty and state was not submitted', () => {
+      const state = computeArrayState(FORM_CONTROL_ID, [], [], {}, [], {}, { wasOrShouldBeSubmitted: false });
+      expect(state.isSubmitted).toBe(false);
       expect(state.isUnsubmitted).toBe(true);
+    });
+
+    it('should mark as submitted if array is empty and state was submitted', () => {
+      const state = computeArrayState(FORM_CONTROL_ID, [], [], {}, [], {}, { wasOrShouldBeSubmitted: true });
+      expect(state.isSubmitted).toBe(true);
+      expect(state.isUnsubmitted).toBe(false);
     });
 
     it('should mark as validation pending if child has pending validations', () => {
@@ -533,17 +615,17 @@ describe('state', () => {
         pendingValidations: ['test'],
         isValidationPending: true,
       };
-      const state = computeArrayState<string>(FORM_CONTROL_ID, [validationPendingControl, CONTROL_2], [], {}, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, [validationPendingControl, CONTROL_2], [], {}, [], {}, {});
       expect(state.isValidationPending).toEqual(true);
     });
 
     it('should mark as validation pending if array has pending validations', () => {
-      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], {}, ['test'], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], {}, ['test'], {}, {});
       expect(state.isValidationPending).toEqual(true);
     });
 
     it('should mark as no validation pending if no validations are pending', () => {
-      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], {}, [], {});
+      const state = computeArrayState<string>(FORM_CONTROL_ID, CONTROLS, [], {}, [], {}, {});
       expect(state.isValidationPending).toEqual(false);
     });
   });
@@ -555,7 +637,7 @@ describe('state', () => {
     const CONTROLS = { inner1: CONTROL_1, inner2: CONTROL_2 };
 
     it('should aggregate child values', () => {
-      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, CONTROLS, { inner1: '', inner2: '' }, {}, [], {});
+      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, CONTROLS, { inner1: '', inner2: '' }, {}, [], {}, {});
       expect(state.value).toEqual(VALUE);
     });
 
@@ -567,7 +649,7 @@ describe('state', () => {
         isValid: false,
         isInvalid: true,
       };
-      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, { inner1: controlWithError, inner2: CONTROL_2 }, VALUE, {}, [], {});
+      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, { inner1: controlWithError, inner2: CONTROL_2 }, VALUE, {}, [], {}, {});
       expect(state.errors).toEqual({ _inner1: childError });
     });
 
@@ -580,58 +662,81 @@ describe('state', () => {
         isValid: false,
         isInvalid: true,
       };
-      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, { inner1: controlWithError, inner2: CONTROL_2 }, VALUE, ownError, [], {});
+      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, { inner1: controlWithError, inner2: CONTROL_2 }, VALUE, ownError, [], {}, {});
       expect(state.errors).toEqual({ _inner1: childError, ...ownError });
     });
 
     it('should mark as valid if there are no errors', () => {
-      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, CONTROLS, VALUE, {}, [], {});
-      expect(state.isValid).toEqual(true);
-      expect(state.isInvalid).toEqual(false);
+      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, CONTROLS, VALUE, {}, [], {}, {});
+      expect(state.isValid).toBe(true);
+      expect(state.isInvalid).toBe(false);
     });
 
     it('should mark as invalid if there are errors', () => {
       const errors = { max: true };
-      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, CONTROLS, VALUE, errors, [], {});
-      expect(state.isValid).toEqual(false);
-      expect(state.isInvalid).toEqual(true);
+      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, CONTROLS, VALUE, errors, [], {}, {});
+      expect(state.isValid).toBe(false);
+      expect(state.isInvalid).toBe(true);
     });
 
-    it('should mark as pristine if no child is dirty', () => {
-      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, CONTROLS, VALUE, {}, [], {});
-      expect(state.isDirty).toEqual(false);
-      expect(state.isPristine).toEqual(true);
+    it('should mark as pristine if no child is dirty and state was not dirty', () => {
+      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, CONTROLS, VALUE, {}, [], {}, { wasOrShouldBeDirty: false });
+      expect(state.isDirty).toBe(false);
+      expect(state.isPristine).toBe(true);
     });
 
-    it('should mark as dirty if some child is dirty', () => {
+    it('should mark as dirty if no child is dirty and state was dirty', () => {
+      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, CONTROLS, VALUE, {}, [], {}, { wasOrShouldBeDirty: true });
+      expect(state.isDirty).toBe(true);
+      expect(state.isPristine).toBe(false);
+    });
+
+    it('should mark as dirty if some child is dirty and state was not dirty', () => {
       const dirtyControl = {
         ...CONTROL_1,
         isDirty: true,
         isPristine: false,
       };
-      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, { inner1: dirtyControl, inner2: CONTROL_2 }, VALUE, {}, [], {});
-      expect(state.isDirty).toEqual(true);
-      expect(state.isPristine).toEqual(false);
+      const state = computeGroupState(FORM_CONTROL_ID, { inner1: dirtyControl, inner2: CONTROL_2 }, VALUE, {}, [], {}, { wasOrShouldBeDirty: false });
+      expect(state.isDirty).toBe(true);
+      expect(state.isPristine).toBe(false);
     });
 
-    it('should mark as pristine if group is empty', () => {
-      const state = computeGroupState(FORM_CONTROL_ID, {}, {}, {}, [], {});
+    it('should mark as pristine if group is empty and state was not dirty', () => {
+      const state = computeGroupState(FORM_CONTROL_ID, {}, {}, {}, [], {}, { wasOrShouldBeDirty: false });
       expect(state.isDirty).toBe(false);
       expect(state.isPristine).toBe(true);
     });
 
-    it('should mark as enabled if some child is enabled', () => {
+    it('should mark as dirty if group is empty and state was dirty', () => {
+      const state = computeGroupState(FORM_CONTROL_ID, {}, {}, {}, [], {}, { wasOrShouldBeDirty: true });
+      expect(state.isDirty).toBe(true);
+      expect(state.isPristine).toBe(false);
+    });
+
+    it('should mark as enabled if some child is enabled and state was enabled', () => {
       const disabledControl = {
         ...CONTROL_1,
         isEnabled: false,
         isDisabled: true,
       };
-      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, { inner1: disabledControl, inner2: CONTROL_2 }, VALUE, {}, [], {});
-      expect(state.isEnabled).toEqual(true);
-      expect(state.isDisabled).toEqual(false);
+      const state = computeGroupState(FORM_CONTROL_ID, { inner1: disabledControl, inner2: CONTROL_2 }, VALUE, {}, [], {}, { wasOrShouldBeEnabled: true });
+      expect(state.isEnabled).toBe(true);
+      expect(state.isDisabled).toBe(false);
     });
 
-    it('should mark as disabled if all children are disabled', () => {
+    it('should mark as enabled if some child is enabled and state was not enabled', () => {
+      const disabledControl = {
+        ...CONTROL_1,
+        isEnabled: false,
+        isDisabled: true,
+      };
+      const state = computeGroupState(FORM_CONTROL_ID, { inner1: disabledControl, inner2: CONTROL_2 }, VALUE, {}, [], {}, { wasOrShouldBeEnabled: false });
+      expect(state.isEnabled).toBe(true);
+      expect(state.isDisabled).toBe(false);
+    });
+
+    it('should mark as enabled if all children are disabled and state was enabled', () => {
       const disabledControl1 = {
         ...CONTROL_1,
         isEnabled: false,
@@ -642,60 +747,109 @@ describe('state', () => {
         isEnabled: false,
         isDisabled: true,
       };
-      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, { inner1: disabledControl1, inner2: disabledControl2 }, VALUE, {}, [], {});
-      expect(state.isEnabled).toEqual(false);
-      expect(state.isDisabled).toEqual(true);
-    });
-
-    it('should mark as enabled if group is empty', () => {
-      const state = computeGroupState(FORM_CONTROL_ID, {}, {}, {}, [], {});
+      const disabledControls = { inner1: disabledControl1, inner2: disabledControl2 };
+      const state = computeGroupState(FORM_CONTROL_ID, disabledControls, VALUE, {}, [], {}, { wasOrShouldBeEnabled: true });
       expect(state.isEnabled).toBe(true);
       expect(state.isDisabled).toBe(false);
     });
 
-    it('should mark as untouched if no child is touched', () => {
-      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, CONTROLS, VALUE, {}, [], {});
-      expect(state.isTouched).toEqual(false);
-      expect(state.isUntouched).toEqual(true);
+    it('should mark as disabled if all children are disabled and state was not enabled', () => {
+      const disabledControl1 = {
+        ...CONTROL_1,
+        isEnabled: false,
+        isDisabled: true,
+      };
+      const disabledControl2 = {
+        ...CONTROL_1,
+        isEnabled: false,
+        isDisabled: true,
+      };
+      const disabledControls = { inner1: disabledControl1, inner2: disabledControl2 };
+      const state = computeGroupState(FORM_CONTROL_ID, disabledControls, VALUE, {}, [], {}, { wasOrShouldBeEnabled: false });
+      expect(state.isEnabled).toBe(false);
+      expect(state.isDisabled).toBe(true);
     });
 
-    it('should mark as touched if some child is touched', () => {
+    it('should mark as enabled if group is empty and state was enabled', () => {
+      const state = computeGroupState(FORM_CONTROL_ID, {}, {}, {}, [], {}, { wasOrShouldBeEnabled: true });
+      expect(state.isEnabled).toBe(true);
+      expect(state.isDisabled).toBe(false);
+    });
+
+    it('should mark as disabled if group is empty and state was not enabled', () => {
+      const state = computeGroupState(FORM_CONTROL_ID, {}, {}, {}, [], {}, { wasOrShouldBeEnabled: false });
+      expect(state.isEnabled).toBe(false);
+      expect(state.isDisabled).toBe(true);
+    });
+
+    it('should mark as untouched if no child is touched and state was not touched', () => {
+      const state = computeGroupState(FORM_CONTROL_ID, CONTROLS, VALUE, {}, [], {}, { wasOrShouldBeTouched: false });
+      expect(state.isTouched).toBe(false);
+      expect(state.isUntouched).toBe(true);
+    });
+
+    it('should mark as touched if no child is touched and state was touched', () => {
+      const state = computeGroupState(FORM_CONTROL_ID, CONTROLS, VALUE, {}, [], {}, { wasOrShouldBeTouched: true });
+      expect(state.isTouched).toBe(true);
+      expect(state.isUntouched).toBe(false);
+    });
+
+    it('should mark as touched if some child is touched and state was not touched', () => {
       const touchedControl = {
         ...CONTROL_1,
         isTouched: true,
         isUntouched: false,
       };
-      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, { inner1: touchedControl, inner2: CONTROL_2 }, VALUE, {}, [], {});
-      expect(state.isTouched).toEqual(true);
-      expect(state.isUntouched).toEqual(false);
+      const state = computeGroupState(FORM_CONTROL_ID, { inner1: touchedControl, inner2: CONTROL_2 }, VALUE, {}, [], {}, { wasOrShouldBeTouched: false });
+      expect(state.isTouched).toBe(true);
+      expect(state.isUntouched).toBe(false);
     });
 
-    it('should mark as untouched if group is empty', () => {
-      const state = computeGroupState(FORM_CONTROL_ID, {}, {}, {}, [], {});
-      expect(state.isTouched).toEqual(false);
+    it('should mark as untouched if group is empty and state was not touched', () => {
+      const state = computeGroupState(FORM_CONTROL_ID, {}, {}, {}, [], {}, { wasOrShouldBeTouched: false });
+      expect(state.isTouched).toBe(false);
       expect(state.isUntouched).toBe(true);
     });
 
-    it('should mark as unsubmitted if no child is submitted', () => {
-      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, CONTROLS, VALUE, {}, [], {});
-      expect(state.isSubmitted).toEqual(false);
-      expect(state.isUnsubmitted).toEqual(true);
+    it('should mark as touched if group is empty and state was touched', () => {
+      const state = computeGroupState(FORM_CONTROL_ID, {}, {}, {}, [], {}, { wasOrShouldBeTouched: true });
+      expect(state.isTouched).toBe(true);
+      expect(state.isUntouched).toBe(false);
     });
 
-    it('should mark as submitted if some child is submitted', () => {
+    it('should mark as unsubmitted if no child is submitted and state was not submitted', () => {
+      const state = computeGroupState(FORM_CONTROL_ID, CONTROLS, VALUE, {}, [], {}, { wasOrShouldBeSubmitted: false });
+      expect(state.isSubmitted).toBe(false);
+      expect(state.isUnsubmitted).toBe(true);
+    });
+
+    it('should mark as submitted if no child is submitted and state was submitted', () => {
+      const state = computeGroupState(FORM_CONTROL_ID, CONTROLS, VALUE, {}, [], {}, { wasOrShouldBeSubmitted: true });
+      expect(state.isSubmitted).toBe(true);
+      expect(state.isUnsubmitted).toBe(false);
+    });
+
+    it('should mark as submitted if some child is submitted and state was not submitted', () => {
       const submittedControl = {
         ...CONTROL_1,
         isSubmitted: true,
         isUnsubmitted: false,
       };
-      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, { inner1: submittedControl, inner2: CONTROL_2 }, VALUE, {}, [], {});
-      expect(state.isSubmitted).toEqual(true);
-      expect(state.isUnsubmitted).toEqual(false);
+      const state = computeGroupState(FORM_CONTROL_ID, { inner1: submittedControl, inner2: CONTROL_2 }, VALUE, {}, [], {}, { wasOrShouldBeSubmitted: false });
+      expect(state.isSubmitted).toBe(true);
+      expect(state.isUnsubmitted).toBe(false);
     });
 
-    it('should mark as unsubmitted if group is empty', () => {
-      const state = computeGroupState(FORM_CONTROL_ID, {}, {}, {}, [], {});
+    it('should mark as unsubmitted if group is empty and state was not submitted', () => {
+      const state = computeGroupState(FORM_CONTROL_ID, {}, {}, {}, [], {}, { wasOrShouldBeSubmitted: false });
+      expect(state.isSubmitted).toBe(false);
       expect(state.isUnsubmitted).toBe(true);
+    });
+
+    it('should mark as submitted if group is empty and state was submitted', () => {
+      const state = computeGroupState(FORM_CONTROL_ID, {}, {}, {}, [], {}, { wasOrShouldBeSubmitted: true });
+      expect(state.isSubmitted).toBe(true);
+      expect(state.isUnsubmitted).toBe(false);
     });
 
     it('should mark as validation pending if child has pending validations', () => {
@@ -704,18 +858,18 @@ describe('state', () => {
         pendingValidations: ['test'],
         isValidationPending: true,
       };
-      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, { inner1: validationPendingControl, inner2: CONTROL_2 }, VALUE, {}, [], {});
-      expect(state.isValidationPending).toEqual(true);
+      const state = computeGroupState(FORM_CONTROL_ID, { inner1: validationPendingControl, inner2: CONTROL_2 }, VALUE, {}, [], {}, {});
+      expect(state.isValidationPending).toBe(true);
     });
 
     it('should mark as validation pending if group has pending validations', () => {
-      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, CONTROLS, VALUE, {}, ['test'], {});
-      expect(state.isValidationPending).toEqual(true);
+      const state = computeGroupState(FORM_CONTROL_ID, CONTROLS, VALUE, {}, ['test'], {}, {});
+      expect(state.isValidationPending).toBe(true);
     });
 
     it('should mark as no validation pending if no validations are pending', () => {
-      const state = computeGroupState<typeof VALUE>(FORM_CONTROL_ID, CONTROLS, VALUE, {}, [], {});
-      expect(state.isValidationPending).toEqual(false);
+      const state = computeGroupState(FORM_CONTROL_ID, CONTROLS, VALUE, {}, [], {}, {});
+      expect(state.isValidationPending).toBe(false);
     });
   });
 

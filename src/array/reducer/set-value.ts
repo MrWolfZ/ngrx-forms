@@ -34,5 +34,18 @@ export function setValueReducer<TValue>(
       return formStateReducer(state.controls[i], new SetValueAction(state.controls[i].id, v));
     });
 
-  return computeArrayState(state.id, controls, value, state.errors, state.pendingValidations, state.userDefinedProperties);
+  return computeArrayState(
+    state.id,
+    controls,
+    value,
+    state.errors,
+    state.pendingValidations,
+    state.userDefinedProperties,
+    {
+      wasOrShouldBeDirty: state.isDirty,
+      wasOrShouldBeEnabled: state.isEnabled,
+      wasOrShouldBeTouched: state.isTouched,
+      wasOrShouldBeSubmitted: state.isSubmitted,
+    },
+  );
 }

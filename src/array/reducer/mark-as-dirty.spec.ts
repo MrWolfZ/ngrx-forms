@@ -1,7 +1,6 @@
 import { MarkAsDirtyAction } from '../../actions';
 import { markAsDirtyReducer } from './mark-as-dirty';
 import {
-  FORM_CONTROL_0_ID,
   FORM_CONTROL_ID,
   INITIAL_STATE,
   INITIAL_STATE_NESTED_ARRAY,
@@ -58,21 +57,8 @@ describe(`form array ${markAsDirtyReducer.name}`, () => {
     expect(resultState.controls[0].isPristine).toEqual(false);
   });
 
-  it('should mark state as dirty if control child is marked as dirty', () => {
-    const resultState = markAsDirtyReducer(INITIAL_STATE, new MarkAsDirtyAction(FORM_CONTROL_0_ID));
-    expect(resultState.isDirty).toEqual(true);
-    expect(resultState.isPristine).toEqual(false);
-  });
-
-  it('should mark state as dirty if group child is marked as dirty', () => {
-    const resultState = markAsDirtyReducer(INITIAL_STATE_NESTED_GROUP, new MarkAsDirtyAction(FORM_CONTROL_0_ID));
-    expect(resultState.isDirty).toEqual(true);
-    expect(resultState.isPristine).toEqual(false);
-  });
-
-  it('should mark state as dirty if array child is marked as dirty', () => {
-    const resultState = markAsDirtyReducer(INITIAL_STATE_NESTED_ARRAY, new MarkAsDirtyAction(FORM_CONTROL_0_ID));
-    expect(resultState.isDirty).toEqual(true);
-    expect(resultState.isPristine).toEqual(false);
+  it('should forward actions to children', () => {
+    const resultState = markAsDirtyReducer(INITIAL_STATE, new MarkAsDirtyAction(INITIAL_STATE.controls[0].id));
+    expect(resultState).not.toBe(INITIAL_STATE);
   });
 });

@@ -1,14 +1,6 @@
 import { DisableAction } from '../../actions';
 import { disableReducer } from './disable';
-import {
-  FORM_CONTROL_ID,
-  FORM_CONTROL_INNER3_ID,
-  FORM_CONTROL_INNER5_ID,
-  FORM_CONTROL_INNER_ID,
-  INITIAL_STATE,
-  INITIAL_STATE_FULL,
-  setPropertiesRecursively,
-} from './test-util';
+import { FORM_CONTROL_ID, INITIAL_STATE, INITIAL_STATE_FULL } from './test-util';
 
 describe(`form group ${disableReducer.name}`, () => {
   it('should update state if enabled', () => {
@@ -57,29 +49,8 @@ describe(`form group ${disableReducer.name}`, () => {
     expect(resultState.controls.inner5!.isDisabled).toBe(true);
   });
 
-  it('should disable if all children are disabled when control child is disabled', () => {
-    const resultState = disableReducer(INITIAL_STATE, new DisableAction(FORM_CONTROL_INNER_ID));
-    expect(resultState.isEnabled).toBe(false);
-    expect(resultState.isDisabled).toBe(true);
-  });
-
-  it('should not disable if not all children are disabled when child is disabled', () => {
-    const resultState = disableReducer(INITIAL_STATE_FULL, new DisableAction(FORM_CONTROL_INNER_ID));
-    expect(resultState.isEnabled).toBe(true);
-    expect(resultState.isDisabled).toBe(false);
-  });
-
-  it('should disable if all children are disabled when group child is disabled', () => {
-    const state = setPropertiesRecursively(INITIAL_STATE_FULL, [['isEnabled', false], ['isDisabled', false]], FORM_CONTROL_INNER3_ID);
-    const resultState = disableReducer(state, new DisableAction(FORM_CONTROL_INNER3_ID));
-    expect(resultState.isEnabled).toBe(false);
-    expect(resultState.isDisabled).toBe(true);
-  });
-
-  it('should disable if all children are disabled when array child is disabled', () => {
-    const state = setPropertiesRecursively(INITIAL_STATE_FULL, [['isEnabled', false], ['isDisabled', false]], FORM_CONTROL_INNER5_ID);
-    const resultState = disableReducer(state, new DisableAction(FORM_CONTROL_INNER5_ID));
-    expect(resultState.isEnabled).toBe(false);
-    expect(resultState.isDisabled).toBe(true);
+  it('should forward actions to children', () => {
+    const resultState = disableReducer(INITIAL_STATE, new DisableAction(INITIAL_STATE.controls.inner.id));
+    expect(resultState).not.toBe(INITIAL_STATE);
   });
 });

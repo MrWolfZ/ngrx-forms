@@ -1,8 +1,6 @@
 import { MarkAsUnsubmittedAction } from '../../actions';
 import { markAsUnsubmittedReducer } from './mark-as-unsubmitted';
 import {
-  FORM_CONTROL_0_ID,
-  FORM_CONTROL_1_ID,
   FORM_CONTROL_ID,
   INITIAL_STATE,
   INITIAL_STATE_NESTED_ARRAY,
@@ -44,31 +42,9 @@ describe(`form array ${markAsUnsubmittedReducer.name}`, () => {
     expect(resultState.controls[0].isUnsubmitted).toEqual(true);
   });
 
-  it('should mark state as unsubmitted if all children are pristine when control child is updated', () => {
-    const state = setPropertiesRecursively(INITIAL_STATE, [['isSubmitted', true], ['isUnsubmitted', false]], FORM_CONTROL_0_ID);
-    const resultState = markAsUnsubmittedReducer(state, new MarkAsUnsubmittedAction(FORM_CONTROL_1_ID));
-    expect(resultState.isSubmitted).toEqual(false);
-    expect(resultState.isUnsubmitted).toEqual(true);
-  });
-
-  it('should not mark state as unsubmitted if not all children are pristine when control child is updated', () => {
+  it('should forward actions to children', () => {
     const state = setPropertiesRecursively(INITIAL_STATE, [['isSubmitted', true], ['isUnsubmitted', false]]);
-    const resultState = markAsUnsubmittedReducer(state, new MarkAsUnsubmittedAction(FORM_CONTROL_0_ID));
-    expect(resultState.isSubmitted).toEqual(true);
-    expect(resultState.isUnsubmitted).toEqual(false);
-  });
-
-  it('should mark state as unsubmitted if all children are pristine when group child is updated', () => {
-    const state = setPropertiesRecursively(INITIAL_STATE_NESTED_GROUP, [['isSubmitted', true], ['isUnsubmitted', false]], FORM_CONTROL_0_ID);
-    const resultState = markAsUnsubmittedReducer(state, new MarkAsUnsubmittedAction(FORM_CONTROL_1_ID));
-    expect(resultState.isSubmitted).toEqual(false);
-    expect(resultState.isUnsubmitted).toEqual(true);
-  });
-
-  it('should mark state as unsubmitted if all children are pristine when array child is updated', () => {
-    const state = setPropertiesRecursively(INITIAL_STATE_NESTED_ARRAY, [['isSubmitted', true], ['isUnsubmitted', false]], FORM_CONTROL_0_ID);
-    const resultState = markAsUnsubmittedReducer(state, new MarkAsUnsubmittedAction(FORM_CONTROL_1_ID));
-    expect(resultState.isSubmitted).toEqual(false);
-    expect(resultState.isUnsubmitted).toEqual(true);
+    const resultState = markAsUnsubmittedReducer(state, new MarkAsUnsubmittedAction(state.controls[0].id));
+    expect(resultState).not.toBe(state);
   });
 });

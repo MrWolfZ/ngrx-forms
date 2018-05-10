@@ -27,5 +27,11 @@ export function enableReducer<TValue>(
     state.errors,
     state.pendingValidations,
     state.userDefinedProperties,
+    {
+      wasOrShouldBeDirty: state.isDirty,
+      wasOrShouldBeEnabled: true,
+      wasOrShouldBeTouched: state.isTouched,
+      wasOrShouldBeSubmitted: state.isSubmitted,
+    },
   );
 }

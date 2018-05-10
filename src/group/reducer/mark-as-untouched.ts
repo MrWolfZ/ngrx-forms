@@ -25,5 +25,11 @@ export function markAsUntouchedReducer<TValue extends KeyValue>(
     state.errors,
     state.pendingValidations,
     state.userDefinedProperties,
+    {
+      wasOrShouldBeDirty: state.isDirty,
+      wasOrShouldBeEnabled: state.isEnabled,
+      wasOrShouldBeTouched: false,
+      wasOrShouldBeSubmitted: state.isSubmitted,
+    },
   );
 }

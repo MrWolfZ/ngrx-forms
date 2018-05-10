@@ -39,7 +39,20 @@ export function childReducer<TValue>(state: FormArrayState<TValue>, action: Acti
     return state;
   }
 
-  return computeArrayState(state.id, controls, state.value, state.errors, state.pendingValidations, state.userDefinedProperties);
+  return computeArrayState(
+    state.id,
+    controls,
+    state.value,
+    state.errors,
+    state.pendingValidations,
+    state.userDefinedProperties,
+    {
+      wasOrShouldBeDirty: state.isDirty,
+      wasOrShouldBeEnabled: state.isEnabled,
+      wasOrShouldBeTouched: state.isTouched,
+      wasOrShouldBeSubmitted: state.isSubmitted,
+    },
+  );
 }
 
 export function updateIdRecursiveForGroup<TValue>(state: FormGroupState<TValue>, newId: string): FormGroupState<TValue> {

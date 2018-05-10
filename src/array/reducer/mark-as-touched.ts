@@ -27,5 +27,11 @@ export function markAsTouchedReducer<TValue>(
     state.errors,
     state.pendingValidations,
     state.userDefinedProperties,
+    {
+      wasOrShouldBeDirty: state.isDirty,
+      wasOrShouldBeEnabled: state.isEnabled,
+      wasOrShouldBeTouched: true,
+      wasOrShouldBeSubmitted: state.isSubmitted,
+    },
   );
 }

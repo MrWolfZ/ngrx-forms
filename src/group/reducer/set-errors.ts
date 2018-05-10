@@ -46,5 +46,18 @@ export function setErrorsReducer<TValue extends KeyValue>(
 
   const newErrors = Object.assign(childAndAsyncErrors, action.errors);
 
-  return computeGroupState(state.id, state.controls, state.value, newErrors, state.pendingValidations, state.userDefinedProperties);
+  return computeGroupState(
+    state.id,
+    state.controls,
+    state.value,
+    newErrors,
+    state.pendingValidations,
+    state.userDefinedProperties,
+    {
+      wasOrShouldBeDirty: state.isDirty,
+      wasOrShouldBeEnabled: state.isEnabled,
+      wasOrShouldBeTouched: state.isTouched,
+      wasOrShouldBeSubmitted: state.isSubmitted,
+    },
+  );
 }

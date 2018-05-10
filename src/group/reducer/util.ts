@@ -37,5 +37,18 @@ export function childReducer<TValue extends KeyValue>(state: FormGroupState<TVal
     return state;
   }
 
-  return computeGroupState(state.id, controls, state.value, state.errors, state.pendingValidations, state.userDefinedProperties);
+  return computeGroupState(
+    state.id,
+    controls,
+    state.value,
+    state.errors,
+    state.pendingValidations,
+    state.userDefinedProperties,
+    {
+      wasOrShouldBeDirty: state.isDirty,
+      wasOrShouldBeEnabled: state.isEnabled,
+      wasOrShouldBeTouched: state.isTouched,
+      wasOrShouldBeSubmitted: state.isSubmitted,
+    },
+  );
 }

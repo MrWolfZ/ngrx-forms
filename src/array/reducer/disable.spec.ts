@@ -1,9 +1,6 @@
 import { DisableAction } from '../../actions';
-import { setPropertiesRecursively } from '../../group/reducer/test-util';
 import { disableReducer } from './disable';
 import {
-  FORM_CONTROL_0_ID,
-  FORM_CONTROL_1_ID,
   FORM_CONTROL_ID,
   INITIAL_STATE,
   INITIAL_STATE_NESTED_ARRAY,
@@ -59,33 +56,8 @@ describe(`form array ${disableReducer.name}`, () => {
     expect(resultState.controls[0].isDisabled).toBe(true);
   });
 
-  it('should disable if all children are disabled when control child is disabled', () => {
-    let state = setPropertiesRecursively(INITIAL_STATE, [['isEnabled', false], ['isDisabled', true]], FORM_CONTROL_0_ID);
-    state = setPropertiesRecursively(state, [['isEnabled', true], ['isDisabled', false]], FORM_CONTROL_1_ID);
-    const resultState = disableReducer(state, new DisableAction(FORM_CONTROL_0_ID));
-    expect(resultState.isEnabled).toBe(false);
-    expect(resultState.isDisabled).toBe(true);
-  });
-
-  it('should not disable if not all children are disabled when control child is disabled', () => {
-    const resultState = disableReducer(INITIAL_STATE, new DisableAction(FORM_CONTROL_0_ID));
-    expect(resultState.isEnabled).toBe(true);
-    expect(resultState.isDisabled).toBe(false);
-  });
-
-  it('should disable if all children are disabled when group child is disabled', () => {
-    let state = setPropertiesRecursively(INITIAL_STATE_NESTED_GROUP, [['isEnabled', false], ['isDisabled', true]], FORM_CONTROL_0_ID);
-    state = setPropertiesRecursively(state, [['isEnabled', true], ['isDisabled', false]], FORM_CONTROL_1_ID);
-    const resultState = disableReducer(state, new DisableAction(FORM_CONTROL_0_ID));
-    expect(resultState.isEnabled).toBe(false);
-    expect(resultState.isDisabled).toBe(true);
-  });
-
-  it('should disable if all children are disabled when array child is disabled', () => {
-    let state = setPropertiesRecursively(INITIAL_STATE_NESTED_ARRAY, [['isEnabled', false], ['isDisabled', true]], FORM_CONTROL_0_ID);
-    state = setPropertiesRecursively(state, [['isEnabled', true], ['isDisabled', false]], FORM_CONTROL_1_ID);
-    const resultState = disableReducer(state, new DisableAction(FORM_CONTROL_0_ID));
-    expect(resultState.isEnabled).toBe(false);
-    expect(resultState.isDisabled).toBe(true);
+  it('should forward actions to children', () => {
+    const resultState = disableReducer(INITIAL_STATE, new DisableAction(INITIAL_STATE.controls[0].id));
+    expect(resultState).not.toBe(INITIAL_STATE);
   });
 });

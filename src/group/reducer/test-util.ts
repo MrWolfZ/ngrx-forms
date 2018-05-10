@@ -17,19 +17,14 @@ function setPropertyRecursively<TValue>(
   state: AbstractControlState<TValue>,
   property: keyof AbstractControlState<TValue>,
   value: any,
-  ...excludeIds: string[]
 ): AbstractControlState<TValue> {
-  if (excludeIds.indexOf(state.id) >= 0) {
-    return state;
-  }
-
   state = {
     ...state,
     [property]: value,
   };
 
   if (isArrayState(state)) {
-    const controls = state.controls.map(s => setPropertyRecursively(s, property, value, ...excludeIds));
+    const controls = state.controls.map(s => setPropertyRecursively(s, property, value));
     return {
       ...state,
       controls,
@@ -39,7 +34,7 @@ function setPropertyRecursively<TValue>(
   if (isGroupState(state)) {
     const controls = state.controls;
     const newControls = Object.keys(controls).reduce((res, key) => {
-      const s = setPropertyRecursively(controls[key], property, value, ...excludeIds);
+      const s = setPropertyRecursively(controls[key], property, value);
       Object.assign(res, { [key]: s });
       return res;
     }, {} as FormGroupControls<any>);
@@ -56,7 +51,6 @@ function setPropertyRecursively<TValue>(
 export function setPropertiesRecursively<TValue>(
   state: AbstractControlState<TValue>,
   properties: [keyof AbstractControlState<TValue>, any][],
-  ...excludeIds: string[]
 ): FormState<TValue> {
-  return properties.reduce((s, [p, v]) => setPropertyRecursively(s, p, v, ...excludeIds), state) as FormState<TValue>;
+  return properties.reduce((s, [p, v]) => setPropertyRecursively(s, p, v), state) as FormState<TValue>;
 }

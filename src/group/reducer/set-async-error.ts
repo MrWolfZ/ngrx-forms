@@ -33,5 +33,18 @@ export function setAsyncErrorReducer<TValue extends KeyValue>(
   const errors = { ...state.errors, [name]: value };
   const pendingValidations = state.pendingValidations.filter(v => v !== action.name);
 
-  return computeGroupState(state.id, state.controls, state.value, errors, pendingValidations, state.userDefinedProperties);
+  return computeGroupState(
+    state.id,
+    state.controls,
+    state.value,
+    errors,
+    pendingValidations,
+    state.userDefinedProperties,
+    {
+      wasOrShouldBeDirty: state.isDirty,
+      wasOrShouldBeEnabled: state.isEnabled,
+      wasOrShouldBeTouched: state.isTouched,
+      wasOrShouldBeSubmitted: state.isSubmitted,
+    },
+  );
 }

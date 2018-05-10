@@ -1,14 +1,6 @@
 import { MarkAsTouchedAction } from '../../actions';
 import { markAsTouchedReducer } from './mark-as-touched';
-import {
-  FORM_CONTROL_ID,
-  FORM_CONTROL_INNER3_ID,
-  FORM_CONTROL_INNER5_ID,
-  FORM_CONTROL_INNER_ID,
-  INITIAL_STATE,
-  INITIAL_STATE_FULL,
-  setPropertiesRecursively,
-} from './test-util';
+import { FORM_CONTROL_ID, INITIAL_STATE, INITIAL_STATE_FULL, setPropertiesRecursively } from './test-util';
 
 describe(`form group ${markAsTouchedReducer.name}`, () => {
   const INITIAL_STATE_FULL_TOUCHED = setPropertiesRecursively(INITIAL_STATE_FULL, [['isTouched', true], ['isUntouched', false]]);
@@ -59,21 +51,8 @@ describe(`form group ${markAsTouchedReducer.name}`, () => {
     expect(resultState.controls.inner5!.isUntouched).toEqual(false);
   });
 
-  it('should mark state as touched if control child is marked as touched', () => {
-    const resultState = markAsTouchedReducer(INITIAL_STATE, new MarkAsTouchedAction(FORM_CONTROL_INNER_ID));
-    expect(resultState.isTouched).toEqual(true);
-    expect(resultState.isUntouched).toEqual(false);
-  });
-
-  it('should mark state as touched if group child is marked as touched', () => {
-    const resultState = markAsTouchedReducer(INITIAL_STATE_FULL, new MarkAsTouchedAction(FORM_CONTROL_INNER3_ID));
-    expect(resultState.isTouched).toEqual(true);
-    expect(resultState.isUntouched).toEqual(false);
-  });
-
-  it('should mark state as touched if array child is marked as touched', () => {
-    const resultState = markAsTouchedReducer(INITIAL_STATE_FULL, new MarkAsTouchedAction(FORM_CONTROL_INNER5_ID));
-    expect(resultState.isTouched).toEqual(true);
-    expect(resultState.isUntouched).toEqual(false);
+  it('should forward actions to children', () => {
+    const resultState = markAsTouchedReducer(INITIAL_STATE, new MarkAsTouchedAction(INITIAL_STATE.controls.inner.id));
+    expect(resultState).not.toBe(INITIAL_STATE);
   });
 });

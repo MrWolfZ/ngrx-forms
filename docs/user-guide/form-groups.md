@@ -1,4 +1,4 @@
-Groups are a logical grouping of multiple named form states. These states can be of any kind, not only controls, and can therefore be nested arbitrarily. Most parts of a group are computed by aggregating properties of its child states. Most of your forms will be groups.
+Groups are a logical grouping of multiple named form states. These states can be of any kind, not only controls, and can therefore be nested arbitrarily. Many parts of a group are calculated based on the properties of its child states. Most of your forms will be groups.
 
 In TypeScript they are represented by the following interface.
 
@@ -38,9 +38,9 @@ The following table explains each property of a group.
 |`errors`||The errors of the group. This property is computed by merging the errors of the group with the errors of all its children where the child errors are a property of the `errors` object prefixed with an underscore (e.g. `{ groupError: true, _child: { childError: true } }`). If neither the group nor any children have errors the property is set to `{}`.|
 |`pendingValidations`||The names of all asynchronous validations currently running for the group.|
 |`isValidationPending`||The `isValidationPending` property indicates whether the group or any of its children are currently being asynchronously validated.|
-|`isEnabled`|`isDisabled`|The `isEnabled` property is `true` if and only if at least one child state is enabled.|
-|`isDirty`|`isPristine`|The `isDirty` property is `true` if and only if at least one child state is marked as dirty.|
-|`isTouched`|`isUntouched`|The `isTouched` property is `true` if and only if at least one child state is marked as touched.|
+|`isEnabled`|`isDisabled`|The `isEnabled` property is `true` if at least one child state is enabled or the state itself is directly enabled.|
+|`isDirty`|`isPristine`|The `isDirty` property is `true` if at least one child state is marked as dirty or the state itself is directly marked as dirty.|
+|`isTouched`|`isUntouched`|The `isTouched` property is `true` if at least one child state is marked as touched or the state itself is directly marked as touched.|
 |`isSubmitted`|`isUnsubmitted`|The `isSubmitted` property is set to `true` if the group is submitted.|
 |`userDefinedProperties`||Sometimes it is useful to associate your own metadata with a form group (e.g. if you wanted to aggregate some additional state like the number of dirty child states). While it is possible to store this kind of information outside of **ngrx-forms** in your own state the `userDefinedProperties` allow you to store your own metadata directly in a group's state.|
 |`controls`||This property contains all child states of the group.|

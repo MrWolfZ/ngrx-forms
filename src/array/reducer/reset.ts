@@ -25,5 +25,11 @@ export function resetReducer<TValue>(
     state.errors,
     state.pendingValidations,
     state.userDefinedProperties,
+    {
+      wasOrShouldBeDirty: false,
+      wasOrShouldBeEnabled: state.isEnabled,
+      wasOrShouldBeTouched: false,
+      wasOrShouldBeSubmitted: false,
+    },
   );
 }

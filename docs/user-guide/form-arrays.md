@@ -36,10 +36,10 @@ The following table explains each property of an array.
 |`errors`||The errors of the array. This property is computed by merging the errors of the control with the errors of all its children where the child errors are a property of the `errors` object prefixed with an underscore (e.g. `{ arrayError: true, _0: { childError: true } }`). If neither the array nor any children have errors the property is set to `{}`.|
 |`pendingValidations`||The names of all asynchronous validations currently running for the array.|
 |`isValidationPending`||The `isValidationPending` property indicates whether the array or any of its children are currently being asynchronously validated.|
-|`isEnabled`|`isDisabled`|The `isEnabled` property is `true` if and only if at least one child state is enabled.|
-|`isDirty`|`isPristine`|The `isDirty` property is `true` if and only if at least one child state is marked as dirty.|
-|`isTouched`|`isUntouched`|The `isTouched` property is `true` if and only if at least one child state is marked as touched.|
-|`isSubmitted`|`isUnsubmitted`|The `isSubmitted` property is set to `true` if the containing group is submitted.|
+|`isEnabled`|`isDisabled`|The `isEnabled` property is `true` if at least one child state is enabled or the state itself is directly enabled.|
+|`isDirty`|`isPristine`|The `isDirty` property is `true` if at least one child state is marked as dirty or the state itself is directly marked as dirty.|
+|`isTouched`|`isUntouched`|The `isTouched` property is `true` if at least one child state is marked as touched or the state itself is directly marked as touched.|
+|`isSubmitted`|`isUnsubmitted`|The `isSubmitted` property is set to `true` if the array is submitted.|
 |`controls`||This property contains all child states of the array.|
 |`userDefinedProperties`||`userDefinedProperties` work the same for arrays as they do for controls.|
 

@@ -1,8 +1,6 @@
 import { MarkAsPristineAction } from '../../actions';
 import { markAsPristineReducer } from './mark-as-pristine';
 import {
-  FORM_CONTROL_0_ID,
-  FORM_CONTROL_1_ID,
   FORM_CONTROL_ID,
   INITIAL_STATE,
   INITIAL_STATE_NESTED_ARRAY,
@@ -44,31 +42,9 @@ describe(`form array ${markAsPristineReducer.name}`, () => {
     expect(resultState.controls[0].isPristine).toEqual(true);
   });
 
-  it('should mark state as pristine if all children are pristine when control child is updated', () => {
-    const state = setPropertiesRecursively(INITIAL_STATE, [['isDirty', true], ['isPristine', false]], FORM_CONTROL_0_ID);
-    const resultState = markAsPristineReducer(state, new MarkAsPristineAction(FORM_CONTROL_1_ID));
-    expect(resultState.isDirty).toEqual(false);
-    expect(resultState.isPristine).toEqual(true);
-  });
-
-  it('should not mark state as pristine if not all children are pristine when control child is updated', () => {
+  it('should forward actions to children', () => {
     const state = setPropertiesRecursively(INITIAL_STATE, [['isDirty', true], ['isPristine', false]]);
-    const resultState = markAsPristineReducer(state, new MarkAsPristineAction(FORM_CONTROL_0_ID));
-    expect(resultState.isDirty).toEqual(true);
-    expect(resultState.isPristine).toEqual(false);
-  });
-
-  it('should mark state as pristine if all children are pristine when group child is updated', () => {
-    const state = setPropertiesRecursively(INITIAL_STATE_NESTED_GROUP, [['isDirty', true], ['isPristine', false]], FORM_CONTROL_0_ID);
-    const resultState = markAsPristineReducer(state, new MarkAsPristineAction(FORM_CONTROL_1_ID));
-    expect(resultState.isDirty).toEqual(false);
-    expect(resultState.isPristine).toEqual(true);
-  });
-
-  it('should mark state as pristine if all children are pristine when array child is updated', () => {
-    const state = setPropertiesRecursively(INITIAL_STATE_NESTED_ARRAY, [['isDirty', true], ['isPristine', false]], FORM_CONTROL_0_ID);
-    const resultState = markAsPristineReducer(state, new MarkAsPristineAction(FORM_CONTROL_1_ID));
-    expect(resultState.isDirty).toEqual(false);
-    expect(resultState.isPristine).toEqual(true);
+    const resultState = markAsPristineReducer(state, new MarkAsPristineAction(state.controls[0].id));
+    expect(resultState).not.toBe(state);
   });
 });

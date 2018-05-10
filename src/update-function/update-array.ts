@@ -23,7 +23,20 @@ function updateArraySingle<TValue>(filterFn: FilterFn<TValue>, updateFn: Project
   return (state: FormArrayState<TValue>): FormArrayState<TValue> => {
     const newControls = updateArrayControlsState<TValue>(filterFn, updateFn)(state);
     return newControls !== state.controls
-      ? computeArrayState<TValue>(state.id, newControls, state.value, state.errors, state.pendingValidations, state.userDefinedProperties)
+      ? computeArrayState<TValue>(
+        state.id,
+        newControls,
+        state.value,
+        state.errors,
+        state.pendingValidations,
+        state.userDefinedProperties,
+        {
+          wasOrShouldBeDirty: state.isDirty,
+          wasOrShouldBeEnabled: state.isEnabled,
+          wasOrShouldBeTouched: state.isTouched,
+          wasOrShouldBeSubmitted: state.isSubmitted,
+        },
+      )
       : state;
   };
 }

@@ -36,5 +36,18 @@ export function setValueReducer<TValue extends KeyValue>(
       return c;
     }, {} as FormGroupControls<TValue>);
 
-  return computeGroupState(state.id, controls, value, state.errors, state.pendingValidations, state.userDefinedProperties);
+  return computeGroupState(
+    state.id,
+    controls,
+    value,
+    state.errors,
+    state.pendingValidations,
+    state.userDefinedProperties,
+    {
+      wasOrShouldBeDirty: state.isDirty,
+      wasOrShouldBeEnabled: state.isEnabled,
+      wasOrShouldBeTouched: state.isTouched,
+      wasOrShouldBeSubmitted: state.isSubmitted,
+    },
+  );
 }
