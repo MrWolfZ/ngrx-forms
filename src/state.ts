@@ -1,6 +1,7 @@
+import { Boxed, isBoxed } from './boxing';
 import { isEmpty } from './util';
 
-export type FormControlValueTypes = string | number | boolean | null | undefined;
+export type FormControlValueTypes = Boxed<any> | string | number | boolean | null | undefined;
 export type NgrxFormControlId = string;
 
 /**
@@ -519,6 +520,10 @@ export type InferredFormState<T extends InferenceWrapper<any>> =
   : T extends InferenceWrapper<null> ? AbstractControlState<any>
 
   // control
+  : T extends InferenceWrapper<Boxed<infer U>> ? FormControlState<Boxed<U>>
+  : T extends InferenceWrapper<Boxed<infer U> | undefined> ? FormControlState<Boxed<U> | undefined>
+  : T extends InferenceWrapper<Boxed<infer U> | null> ? FormControlState<Boxed<U> | null>
+  : T extends InferenceWrapper<Boxed<infer U> | undefined | null> ? FormControlState<Boxed<U> | undefined | null>
   : T extends InferenceWrapper<string> ? FormControlState<string>
   : T extends InferenceWrapper<string | undefined> ? FormControlState<string | undefined>
   : T extends InferenceWrapper<string | null> ? FormControlState<string | null>
@@ -573,6 +578,10 @@ export function isGroupState<TValue = any>(state: any): state is FormGroupState<
 }
 
 export function createChildState<TValue>(id: string, childValue: TValue): FormState<TValue> {
+  if (isBoxed(childValue)) {
+    return createFormControlState<any>(id, childValue) as FormState<TValue>;
+  }
+
   if (childValue !== null && Array.isArray(childValue)) {
     return createFormArrayState(id, childValue) as FormState<TValue>;
   }

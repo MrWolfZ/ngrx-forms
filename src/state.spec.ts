@@ -1,8 +1,10 @@
 import { FORM_CONTROL_0_ID, FORM_CONTROL_1_ID } from './array/reducer/test-util';
+import { box } from './boxing';
 import { FORM_CONTROL_INNER2_ID, FORM_CONTROL_INNER_ID } from './group/reducer/test-util';
 import {
   computeArrayState,
   computeGroupState,
+  createChildState,
   createFormArrayState,
   createFormControlState,
   createFormGroupState,
@@ -62,6 +64,12 @@ describe('state', () => {
 
     it('should set empty user-defined properties', () => {
       expect(INITIAL_STATE.userDefinedProperties).toEqual({});
+    });
+
+    it('should create a form control state for a boxed value', () => {
+      const value = box({ inner: 'A' });
+      const state = createFormControlState('ID', value);
+      expect(state.value).toEqual(value);
     });
   });
 
@@ -191,6 +199,29 @@ describe('state', () => {
       expect(state.isSubmitted).toEqual(initialState.isSubmitted);
       expect(state.isUnsubmitted).toEqual(initialState.isUnsubmitted);
       expect(state.userDefinedProperties).toEqual(initialState.userDefinedProperties);
+    });
+
+    it('should create the correct state shape for nested boxed values', () => {
+      const value = {
+        s: 'A',
+        object: {
+          inner: 'A',
+        },
+        array: ['A'],
+        boxedObject: box({
+          inner: 'A',
+        }),
+        boxedArray: box(['A']),
+      };
+
+      const state = createFormGroupState(FORM_CONTROL_ID, value);
+      expect(state.controls.s.isFocused).toBeDefined();
+      expect(state.controls.boxedObject.isFocused).toBeDefined();
+      expect(state.controls.boxedArray.isFocused).toBeDefined();
+      expect(state.controls.object.controls).toBeDefined();
+      expect(Array.isArray(state.controls.object.controls)).toBe(false);
+      expect(state.controls.array.controls).toBeDefined();
+      expect(Array.isArray(state.controls.array.controls)).toBe(true);
     });
   });
 
@@ -344,6 +375,40 @@ describe('state', () => {
       expect(state.isSubmitted).toEqual(initialState.isSubmitted);
       expect(state.isUnsubmitted).toEqual(initialState.isUnsubmitted);
       expect(state.userDefinedProperties).toEqual(initialState.userDefinedProperties);
+    });
+  });
+
+  describe(createChildState.name, () => {
+    it('should create a form control for string values', () => {
+      expect(createChildState('', 'A').isFocused).toBeDefined();
+    });
+
+    it('should create a form control for number values', () => {
+      expect(createChildState('', 1).isFocused).toBeDefined();
+    });
+
+    it('should create a form control for boolean values', () => {
+      expect(createChildState('', true).isFocused).toBeDefined();
+    });
+
+    it('should create a form array for array values', () => {
+      const state = createChildState('', ['A']);
+      expect(state.controls).toBeDefined();
+      expect(Array.isArray(state.controls)).toBe(true);
+    });
+
+    it('should create a form group for object values', () => {
+      const state = createChildState('', { inner: 'A' });
+      expect(state.controls).toBeDefined();
+      expect(Array.isArray(state.controls)).toBe(false);
+    });
+
+    it('should create a form control for boxed array values', () => {
+      expect(createChildState('', box(['A'])).isFocused).toBeDefined();
+    });
+
+    it('should create a form control for boxed object values', () => {
+      expect(createChildState('', box({ inner: 'A' })).isFocused).toBeDefined();
     });
   });
 

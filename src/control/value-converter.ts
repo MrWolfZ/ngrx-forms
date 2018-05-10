@@ -1,3 +1,5 @@
+import { box, Boxed, unboxAny } from '../boxing';
+
 export interface NgrxValueConverter<TView, TState> {
   convertViewToStateValue(value: TView): TState;
   convertStateToViewValue(value: TState): TView;
@@ -5,11 +7,11 @@ export interface NgrxValueConverter<TView, TState> {
 
 // tslint:disable-next-line:variable-name
 export const NgrxValueConverters = {
-  identity<T>() {
+  default<T>() {
     return {
-      convertViewToStateValue: value => value,
-      convertStateToViewValue: value => value,
-    } as NgrxValueConverter<T, T>;
+      convertViewToStateValue: value => typeof value === 'object' ? box(value) : value,
+      convertStateToViewValue: unboxAny,
+    } as NgrxValueConverter<T, Boxed<T> | T>;
   },
   dateToISOString: {
     convertViewToStateValue: date => date === null ? null : date.toISOString(),
