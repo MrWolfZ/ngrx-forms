@@ -42,10 +42,18 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
 
 * do not set the `id` attribute for `input[type=radio]` form elements ([cbfd654](https://github.com/MrWolfZ/ngrx-forms/commit/cbfd654)), closes [#63](https://github.com/MrWolfZ/ngrx-forms/issues/63)
 
+<a name="2.3.4"></a>
+### 2.3.4
+
+#### Bugfixes
+
+* recursively update nested controls IDs when adding controls to arrays ([7b1de7c](https://github.com/MrWolfZ/ngrx-forms/commit/7b1de7c)), closes [#72](https://github.com/MrWolfZ/ngrx-forms/pull/72) (thanks @solnat for this fix)
+
 <a name="2.3.3"></a>
 ### 2.3.3
 
 #### Bugfixes
+
 * ensure the `value` attribute of `option` elements is properly set via `[value]` bindings when there is no associated form view adapter ([bfaa388](https://github.com/MrWolfZ/ngrx-forms/commit/bfaa388)) (closes [#67](https://github.com/MrWolfZ/ngrx-forms/issues/67), thanks @kmiskiewicz for helping me find this)
 
 <a name="2.3.2"></a>

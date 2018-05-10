@@ -1,6 +1,6 @@
 import { Actions, AddArrayControlAction } from '../../actions';
 import { computeArrayState, createChildState, FormArrayState, FormState } from '../../state';
-import { childReducer } from './util';
+import { childReducer, updateIdRecursive } from './util';
 
 export function addControlReducer<TValue>(
   state: FormArrayState<TValue>,
@@ -22,7 +22,7 @@ export function addControlReducer<TValue>(
 
   let controls = [...state.controls];
   controls.splice(index, 0, createChildState(`${state.id}.${index}`, action.value) as FormState<TValue>);
-  controls = controls.map((c, i) => ({ ...(c as any), id: `${state.id}.${i}` }));
+  controls = controls.map((c, i) => updateIdRecursive(c, `${state.id}.${i}`));
 
   return computeArrayState(
     state.id,

@@ -1,7 +1,14 @@
 import { AddArrayControlAction } from '../../actions';
 import { createFormArrayState } from '../../state';
 import { addControlReducer } from './add-control';
-import { FORM_CONTROL_ID, INITIAL_STATE, INITIAL_STATE_NESTED_ARRAY, INITIAL_STATE_NESTED_GROUP } from './test-util';
+import {
+  DeeplyNestedGroupFormValue,
+  FORM_CONTROL_ID,
+  INITIAL_DEEPLY_NESTED_GROUPS_FORM_STATE,
+  INITIAL_STATE,
+  INITIAL_STATE_NESTED_ARRAY,
+  INITIAL_STATE_NESTED_GROUP,
+} from './test-util';
 
 describe(`form array ${addControlReducer.name}`, () => {
   it('should create child state for control child', () => {
@@ -71,5 +78,33 @@ describe(`form array ${addControlReducer.name}`, () => {
     const resultState = addControlReducer(state, action);
     expect(resultState.controls[0].value).toEqual([...state.controls[0].value, value]);
     expect(resultState.controls[0].controls[1].value).toEqual(value);
+  });
+
+  it('should update deeply nested child IDs after an insertion', () => {
+    const value: DeeplyNestedGroupFormValue = {
+      i: 'NEW_CONTROL',
+      deep: {
+        inners: [
+          { inner: 'NEW_INNER_0' },
+          { inner: 'NEW_INNER_1' },
+          { inner: 'NEW_INNER_2' },
+        ],
+      },
+    };
+
+    const action = new AddArrayControlAction<DeeplyNestedGroupFormValue>(FORM_CONTROL_ID, value, 0);
+    const resultState = addControlReducer<DeeplyNestedGroupFormValue>(INITIAL_DEEPLY_NESTED_GROUPS_FORM_STATE, action);
+
+    expect(resultState.controls[0].value).toEqual(value);
+    resultState.controls.forEach((control, index) => {
+      expect(control.id).toEqual(`${FORM_CONTROL_ID}.${index}`);
+      expect(control.controls.i.id).toEqual(`${FORM_CONTROL_ID}.${index}.i`);
+      expect(control.controls.deep.id).toEqual(`${FORM_CONTROL_ID}.${index}.deep`);
+      expect(control.controls.deep.controls.inners.id).toEqual(`${FORM_CONTROL_ID}.${index}.deep.inners`);
+      control.controls.deep.controls.inners.controls.forEach((deepControl, deepIndex) => {
+        expect(deepControl.id).toEqual(`${FORM_CONTROL_ID}.${index}.deep.inners.${deepIndex}`);
+        expect(deepControl.controls.inner.id).toEqual(`${FORM_CONTROL_ID}.${index}.deep.inners.${deepIndex}.inner`);
+      });
+    });
   });
 });

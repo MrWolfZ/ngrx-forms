@@ -10,6 +10,47 @@ export const INITIAL_STATE = createFormArrayState(FORM_CONTROL_ID, INITIAL_FORM_
 export const INITIAL_STATE_NESTED_GROUP = createFormArrayState(FORM_CONTROL_ID, INITIAL_FORM_ARRAY_VALUE_NESTED_GROUP);
 export const INITIAL_STATE_NESTED_ARRAY = createFormArrayState(FORM_CONTROL_ID, INITIAL_FORM_ARRAY_VALUE_NESTED_ARRAY);
 
+export interface DeeplyNestedGroupFormValue {
+  i: string;
+  deep: {
+    inners: {
+      inner: string;
+    }[];
+  };
+}
+
+export const INITIAL_DEEPLY_NESTED_GROUPS_FORM_VALUE: DeeplyNestedGroupFormValue[] = [
+  {
+    i: '0',
+    deep: {
+      inners: [
+        { inner: 'inner-0-0' },
+        { inner: 'inner-0-1' },
+      ],
+    },
+  },
+  {
+    i: '1',
+    deep: {
+      inners: [
+        { inner: 'inner-1-0' },
+        { inner: 'inner-1-1' },
+        { inner: 'inner-1-2' },
+      ],
+    },
+  },
+  {
+    i: '2',
+    deep: {
+      inners: [
+        { inner: 'inner-2-0' },
+      ],
+    },
+  },
+];
+
+export const INITIAL_DEEPLY_NESTED_GROUPS_FORM_STATE = createFormArrayState(FORM_CONTROL_ID, INITIAL_DEEPLY_NESTED_GROUPS_FORM_VALUE);
+
 function setPropertyRecursively<TValue>(
   state: AbstractControlState<TValue>,
   property: keyof AbstractControlState<TValue>,
