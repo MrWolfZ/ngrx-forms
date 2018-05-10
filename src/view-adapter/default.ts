@@ -3,6 +3,10 @@ import { Directive, ElementRef, forwardRef, HostListener, Inject, InjectionToken
 import { FormControlState } from '../state';
 import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
 
+export interface Navigator {
+  userAgent: string;
+}
+
 /**
  * We must check whether the agent is Android because composition events
  * behave differently between iOS and Android.
