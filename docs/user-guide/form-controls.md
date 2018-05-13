@@ -30,7 +30,7 @@ The following table explains each property.
 |Property|Negated|Description|
 |-|-|-|
 |`id`||The unique ID of the form control. Usually this is the name of the field in the form value prefixed by the ID of the containing group or array, e.g. `MY_FORM.someTextInput`.|
-|`value`||The value of the form control. Controls only support values of type `string`, `number`, `boolean`, `null`, and `undefined` due to the way **ngrx-forms** infers form state kinds.|
+|`value`||The value of the form control. Controls directly support values of type `string`, `number`, `boolean`, `null`, and `undefined`. For object and array values you have to use [value boxing](value-boxing.md).|
 |`isValid`|`isInvalid`|The `isValid` property is `true` if the control does not have any errors.|
 |`errors`||The errors of the control. This property always has a value. If the control has no errors the property is set to `{}`.|
 |`pendingValidations`||The names of all asynchronous validations currently running for the control.|
@@ -129,6 +129,7 @@ export interface NgrxValueConverter<TView, TState> {
 
 |Converter|Description|
 |-|-|
+|`default`|This is the default value converter. It automatically boxes and unboxes values as required (see [value boxing](value-boxing.md) for more details).|
 |`dateToISOString`|Converts `Date` values to ISO date strings (and vice versa)|
 |`objectToJSON`|Converts any object to a JSON string via `JSON.stringify` (and vice versa via `JSON.parse`)|
 
