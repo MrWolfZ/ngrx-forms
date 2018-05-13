@@ -15,8 +15,6 @@ export class DynamicFormComponent {
   submittedValue: FormValue;
   hobbyOptions = ['Sports', 'Video Games'];
 
-  objectToJSON = NgrxValueConverters.objectToJSON;
-
   dateValueConverter: NgrxValueConverter<Date | null, string | null> = {
     convertViewToStateValue(value) {
       if (value === null) {

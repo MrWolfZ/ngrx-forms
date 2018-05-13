@@ -17,6 +17,8 @@ export class DynamicPageComponent {
   reducerCode = `
 import { Action } from '@ngrx/store';
 import {
+  box,
+  Boxed,
   createFormGroupReducerWithUpdate,
   createFormGroupState,
   disable,
@@ -43,7 +45,7 @@ export interface FormValue {
   password: PasswordValue;
   sex: string;
   favoriteColor: string;
-  hobbies: string;
+  hobbies: Boxed<string[]>;
   dateOfBirth: string;
   agreeToTermsOfUse: boolean;
 }
@@ -59,7 +61,7 @@ export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
   },
   sex: '',
   favoriteColor: '',
-  hobbies: '[]',
+  hobbies: box([]),
   dateOfBirth: new Date(Date.UTC(1970, 0, 1)).toISOString(),
   agreeToTermsOfUse: false,
 });
@@ -104,8 +106,6 @@ export class DynamicFormComponent {
   @Input() formState: FormGroupState<FormValue>;
   submittedValue: FormValue;
   hobbyOptions = ['Sports', 'Video Games'];
-
-  objectToJSON = NgrxValueConverters.objectToJSON;
 
   dateValueConverter: NgrxValueConverter<Date | null, string | null> = {
     convertViewToStateValue(value) {
@@ -197,8 +197,7 @@ export class DynamicFormComponent {
   </div>
   <div>
     Hobbies:
-    <mat-selection-list [ngrxFormControlState]="formState.controls.hobbies"
-                        [ngrxValueConverter]="objectToJSON">
+    <mat-selection-list [ngrxFormControlState]="formState.controls.hobbies">
       <mat-list-option *ngFor="let op of hobbyOptions"
                        [value]="op">
         {{ op }}

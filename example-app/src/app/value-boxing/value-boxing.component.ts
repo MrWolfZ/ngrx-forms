@@ -3,33 +3,35 @@ import { Store } from '@ngrx/store';
 import { FormGroupState } from 'ngrx-forms';
 import { Observable } from 'rxjs/Rx';
 
-import { FormValue, State } from './value-conversion.reducer';
+import { FormValue, State } from './value-boxing.reducer';
 
 @Component({
-  selector: 'ngf-value-conversion',
-  templateUrl: './value-conversion.component.html',
-  styleUrls: ['./value-conversion.component.scss'],
+  selector: 'ngf-value-boxing',
+  templateUrl: './value-boxing.component.html',
+  styleUrls: ['./value-boxing.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ValueConversionPageComponent {
+export class ValueBoxingPageComponent {
   formState$: Observable<FormGroupState<FormValue>>;
 
   reducerCode = `
 import { Action } from '@ngrx/store';
 import {
+  box,
+  Boxed,
   createFormGroupState,
   formGroupReducer,
   FormGroupState,
 } from 'ngrx-forms';
 
 export interface FormValue {
-  date: string;
+  selection: Boxed<number[]>;
 }
 
-export const FORM_ID = 'valueConversion';
+export const FORM_ID = 'valueBoxing';
 
 export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
-  date: '',
+  selection: box([2, 4]),
 });
 
 export const reducers = {
@@ -41,41 +43,46 @@ export const reducers = {
 
   componentCode = `
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { FormGroupState, NgrxValueConverters } from 'ngrx-forms';
+import { FormGroupState, unbox } from 'ngrx-forms';
 
-import { FormValue } from '../value-conversion.reducer';
+import { FormValue } from '../value-boxing.reducer';
 
 @Component({
-  selector: 'ngf-value-conversion-example',
+  selector: 'ngf-value-boxing-example',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ValueConversionFormComponent {
+export class ValueBoxingFormComponent {
   @Input() formState: FormGroupState<FormValue>;
 
-  dateToISOString = NgrxValueConverters.dateToISOString;
+  unbox = unbox;
 }
   `;
 
   componentHtml = `
 <form>
   <div>
-    <mat-form-field>
-      <input matInput
-             [matDatepicker]="picker"
-             placeholder="Date"
-             [ngrxFormControlState]="formState.controls.date"
-             [ngrxValueConverter]="dateToISOString">
-      <mat-datepicker-toggle matSuffix
-                             [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+    <label>Options</label>
+    <div>
+      <select multiple
+              size="5"
+              [ngrxFormControlState]="formState.controls.selection">
+        <option *ngFor="let o of [1,2,3,4,5]"
+                [value]="o">Option {{ o }}</option>
+      </select>
+    </div>
   </div>
 </form>
+<br />
+<div>
+  Unboxed form value:
+  <br />
+  <pre>{{ unbox(formState.value) | json }}</pre>
+</div>
   `;
 
   constructor(store: Store<State>) {
-    this.formState$ = store.select(s => s.valueConversion.formState);
+    this.formState$ = store.select(s => s.valueBoxing.formState);
   }
 }
