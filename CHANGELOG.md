@@ -5,7 +5,7 @@
 
 #### Bugfixes
 
-* fix typing of action `type` and `TYPE` properties to properly use literal string type, closes [#75](https://github.com/MrWolfZ/ngrx-forms/issues/75), thanks @bufke for helping me find this
+* fix typing of action `type` and `TYPE` properties to properly use literal string type ([0cd07b6](https://github.com/MrWolfZ/ngrx-forms/commit/0cd07b6)), closes [#75](https://github.com/MrWolfZ/ngrx-forms/issues/75), thanks @bufke for helping me find this
 
 <a name="2.3.4"></a>
 ### 2.3.4
