@@ -1,7 +1,5 @@
-export const BOXED_TYPE = 'ngrx-forms/boxed';
-
 export interface Boxed<T> {
-  __marker: typeof BOXED_TYPE;
+  __boxed: '';
   value: T;
 }
 
@@ -50,12 +48,12 @@ export type Unboxed<T> =
   : UnboxedObject<T>;
 
 export function isBoxed<T = any>(value: any): value is Boxed<T> {
-  return !!value && (value as Boxed<any>).__marker === BOXED_TYPE;
+  return !!value && (value as Boxed<any>).__boxed === '';
 }
 
 export function box<T>(value: T): Boxed<T> {
   return {
-    __marker: BOXED_TYPE,
+    __boxed: '',
     value,
   };
 }

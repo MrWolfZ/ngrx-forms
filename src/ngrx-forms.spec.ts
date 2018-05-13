@@ -2,7 +2,6 @@ import {
   addArrayControl,
   addGroupControl,
   box,
-  BOXED_TYPE,
   compose,
   createFormArrayState,
   createFormControlState,
@@ -105,5 +104,4 @@ describe('ngrx-forms', () => {
   it(`should export ${box.name}`, () => expect(box).toBeDefined());
   it(`should export ${unbox.name}`, () => expect(unbox).toBeDefined());
   it(`should export ${isBoxed.name}`, () => expect(isBoxed).toBeDefined());
-  it(`should export BOXED_TYPE`, () => expect(BOXED_TYPE).toBeDefined());
 });
