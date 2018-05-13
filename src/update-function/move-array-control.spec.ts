@@ -1,0 +1,23 @@
+import {cast, createFormArrayState} from '../state';
+import {FORM_CONTROL_ID} from './test-util';
+import {moveArrayControl} from './move-array-control';
+
+describe('moveArrayControl', () => {
+  const INITIAL_ARRAY_STATE = createFormArrayState(FORM_CONTROL_ID, [0, 1, 2, 3]);
+
+  it('should call reducer for arrays', () => {
+    const resultState = moveArrayControl<number>(1, 0)(INITIAL_ARRAY_STATE);
+    expect(resultState).not.toBe(cast(INITIAL_ARRAY_STATE));
+    expect(resultState.value).toEqual([1, 0, 2, 3]);
+  });
+
+  it('should call reducer for arrays uncurried', () => {
+    const resultState = moveArrayControl<number>(0, 2, INITIAL_ARRAY_STATE);
+    expect(resultState).not.toBe(cast(INITIAL_ARRAY_STATE));
+    expect(resultState.value).toEqual([1, 2, 0, 3]);
+  });
+
+  it('should throw if curried and no state', () => {
+    expect(() => moveArrayControl<number>(0, 1)(undefined as any)).toThrowError();
+  });
+});

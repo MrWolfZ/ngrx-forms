@@ -1,32 +1,27 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
-import {
-  Actions,
-  AddGroupControlAction,
-  FocusAction,
-  isNgrxFormsAction,
-  RemoveGroupControlAction,
-  UnfocusAction,
-} from '../actions';
-import { FormArrayState, isArrayState } from '../state';
-import { addControlReducer } from './reducer/add-control';
-import { clearAsyncErrorReducer } from './reducer/clear-async-error';
-import { disableReducer } from './reducer/disable';
-import { enableReducer } from './reducer/enable';
-import { markAsDirtyReducer } from './reducer/mark-as-dirty';
-import { markAsPristineReducer } from './reducer/mark-as-pristine';
-import { markAsSubmittedReducer } from './reducer/mark-as-submitted';
-import { markAsTouchedReducer } from './reducer/mark-as-touched';
-import { markAsUnsubmittedReducer } from './reducer/mark-as-unsubmitted';
-import { markAsUntouchedReducer } from './reducer/mark-as-untouched';
-import { removeControlReducer } from './reducer/remove-control';
-import { resetReducer } from './reducer/reset';
-import { setAsyncErrorReducer } from './reducer/set-async-error';
-import { setErrorsReducer } from './reducer/set-errors';
-import { setUserDefinedPropertyReducer } from './reducer/set-user-defined-property';
-import { setValueReducer } from './reducer/set-value';
-import { startAsyncValidationReducer } from './reducer/start-async-validation';
-import { childReducer } from './reducer/util';
+import {Actions, AddGroupControlAction, FocusAction, isNgrxFormsAction, RemoveGroupControlAction, UnfocusAction} from '../actions';
+import {FormArrayState, isArrayState} from '../state';
+import {addControlReducer} from './reducer/add-control';
+import {clearAsyncErrorReducer} from './reducer/clear-async-error';
+import {disableReducer} from './reducer/disable';
+import {enableReducer} from './reducer/enable';
+import {markAsDirtyReducer} from './reducer/mark-as-dirty';
+import {markAsPristineReducer} from './reducer/mark-as-pristine';
+import {markAsSubmittedReducer} from './reducer/mark-as-submitted';
+import {markAsTouchedReducer} from './reducer/mark-as-touched';
+import {markAsUnsubmittedReducer} from './reducer/mark-as-unsubmitted';
+import {markAsUntouchedReducer} from './reducer/mark-as-untouched';
+import {removeControlReducer} from './reducer/remove-control';
+import {resetReducer} from './reducer/reset';
+import {setAsyncErrorReducer} from './reducer/set-async-error';
+import {setErrorsReducer} from './reducer/set-errors';
+import {setUserDefinedPropertyReducer} from './reducer/set-user-defined-property';
+import {setValueReducer} from './reducer/set-value';
+import {startAsyncValidationReducer} from './reducer/start-async-validation';
+import {childReducer} from './reducer/util';
+import {swapControlReducer} from './reducer/swap-control';
+import {moveControlReducer} from './reducer/move-control';
 
 export function formArrayReducerInternal<TValue>(state: FormArrayState<TValue>, action: Actions<TValue[]>) {
   if (!isArrayState(state)) {
@@ -66,6 +61,8 @@ export function formArrayReducerInternal<TValue>(state: FormArrayState<TValue>, 
   state = resetReducer(state, action);
   state = addControlReducer(state, action);
   state = removeControlReducer(state, action);
+  state = swapControlReducer(state, action);
+  state = moveControlReducer(state, action);
 
   return state;
 }

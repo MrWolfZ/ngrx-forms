@@ -1,6 +1,6 @@
-import { Action } from '@ngrx/store';
-import { ValidationErrors } from '@angular/forms';
-import { NgrxFormControlId, KeyValue } from './state';
+import {Action} from '@ngrx/store';
+import {ValidationErrors} from '@angular/forms';
+import {KeyValue, NgrxFormControlId} from './state';
 
 export class SetValueAction<TValue> implements Action {
   static readonly TYPE = 'ngrx/forms/SET_VALUE';
@@ -16,7 +16,7 @@ export class SetValueAction<TValue> implements Action {
     value: TValue,
   ) {
     this.controlId = controlId;
-    this.payload = { value };
+    this.payload = {value};
   }
 }
 
@@ -219,7 +219,7 @@ export class AddArrayControlAction<TValue> implements Action {
     index: number | null = null,
   ) {
     this.controlId = controlId;
-    this.payload = { index, value };
+    this.payload = {index, value};
   }
 }
 
@@ -239,7 +239,7 @@ export class AddGroupControlAction<TValue extends KeyValue, TControlKey extends 
     value: TValue[TControlKey],
   ) {
     this.controlId = controlId;
-    this.payload = { name, value };
+    this.payload = {name, value};
   }
 }
 
@@ -257,7 +257,61 @@ export class RemoveArrayControlAction implements Action {
     index: number,
   ) {
     this.controlId = controlId;
-    this.payload = { index };
+    this.payload = {index};
+  }
+}
+
+export class SwapArrayControlAction implements Action {
+  static readonly TYPE = 'ngrx/forms/SWAP_ARRAY_CONTROL';
+  readonly type = SwapArrayControlAction.TYPE;
+  readonly controlId: NgrxFormControlId;
+
+  readonly payload: {
+    readonly from: number;
+    readonly to: number;
+  };
+
+  constructor(
+    controlId: string,
+    from: number,
+    to: number
+  ) {
+    if (from === to) {
+      throw new Error('Swap indices cannot be equal');
+    }
+    if (from < 0 || to < 0) {
+      throw new Error('Swap indices cannot be negative.');
+    }
+
+    this.controlId = controlId;
+    this.payload = {from, to};
+  }
+}
+
+export class MoveArrayControlAction implements Action {
+  static readonly TYPE = 'ngrx/forms/MOVE_ARRAY_CONTROL';
+  readonly type = MoveArrayControlAction.TYPE;
+  readonly controlId: NgrxFormControlId;
+
+  readonly payload: {
+    readonly from: number;
+    readonly to: number;
+  };
+
+  constructor(
+    controlId: string,
+    from: number,
+    to: number
+  ) {
+    if (from === to) {
+      throw new Error('Move indices cannot be equal');
+    }
+    if (from < 0 || to < 0) {
+      throw new Error('Move indices cannot be negative.');
+    }
+
+    this.controlId = controlId;
+    this.payload = {from, to};
   }
 }
 
@@ -275,7 +329,7 @@ export class RemoveGroupControlAction<TValue> implements Action {
     name: keyof TValue,
   ) {
     this.controlId = controlId;
-    this.payload = { name };
+    this.payload = {name};
   }
 }
 
@@ -295,7 +349,7 @@ export class SetUserDefinedPropertyAction implements Action {
     value: any,
   ) {
     this.controlId = controlId;
-    this.payload = { name, value };
+    this.payload = {name, value};
   }
 }
 
@@ -331,6 +385,8 @@ export type Actions<TValue> =
   | RemoveArrayControlAction
   | SetUserDefinedPropertyAction
   | ResetAction
+  | SwapArrayControlAction
+  | MoveArrayControlAction
   ;
 
 export function isNgrxFormsAction(action: Action) {
