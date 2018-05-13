@@ -7,3 +7,4 @@ $ cat .gitignore
 
 *.log
 /*.tgz
+.idea/
