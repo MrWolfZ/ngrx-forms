@@ -11,6 +11,7 @@ pages:
     - Form Groups: user-guide/form-groups.md
     - Form Arrays: user-guide/form-arrays.md
     - Form State Type Inference: user-guide/type-inference.md
+    - Value Boxing: user-guide/value-boxing.md
     - Updating the State: user-guide/updating-the-state.md
     - Validation: user-guide/validation.md
     - Custom HTML Form Elements: user-guide/custom-form-elements.md

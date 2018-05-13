@@ -1,14 +1,14 @@
 <form>
   <div>
-    <label>Options</label>
-    <div>
-      <select multiple
-              size="5"
-              [ngrxFormControlState]="formState.controls.selection"
-              [ngrxValueConverter]="jsonValueConverter">
-        <option *ngFor="let o of [1,2,3,4,5]"
-                [value]="o">Option {{ o }}</option>
-      </select>
-    </div>
+    <mat-form-field>
+      <input matInput
+             [matDatepicker]="picker"
+             placeholder="Date"
+             [ngrxFormControlState]="formState.controls.date"
+             [ngrxValueConverter]="dateToISOString">
+      <mat-datepicker-toggle matSuffix
+                             [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
   </div>
 </form>

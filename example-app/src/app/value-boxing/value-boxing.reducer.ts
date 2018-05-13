@@ -1,25 +1,25 @@
 import { Action, ActionReducerMap } from '@ngrx/store';
-import { createFormGroupState, formGroupReducer, FormGroupState } from 'ngrx-forms';
+import { box, Boxed, createFormGroupState, formGroupReducer, FormGroupState } from 'ngrx-forms';
 
 import { State as RootState } from '../app.reducer';
 
 export interface FormValue {
-  date: string;
+  selection: Boxed<number[]>;
 }
 
 export interface State extends RootState {
-  valueConversion: {
+  valueBoxing: {
     formState: FormGroupState<FormValue>;
   };
 }
 
-export const FORM_ID = 'valueConversion';
+export const FORM_ID = 'valueBoxing';
 
 export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
-  date: '',
+  selection: box([2, 4]),
 });
 
-export const reducers: ActionReducerMap<State['valueConversion']> = {
+export const reducers: ActionReducerMap<State['valueBoxing']> = {
   formState(s = INITIAL_STATE, a: Action) {
     return formGroupReducer(s, a);
   },

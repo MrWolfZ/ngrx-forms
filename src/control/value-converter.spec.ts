@@ -1,15 +1,36 @@
+import { box } from '../boxing';
 import { NgrxValueConverters } from './value-converter';
 
 describe('NgrxValueConverters', () => {
-  describe('identity', () => {
-    it('should return the same view value', () => {
-      const viewValue = new Date();
-      expect(NgrxValueConverters.identity<Date>().convertViewToStateValue(viewValue)).toBe(viewValue);
+  describe('default', () => {
+    it('should return the same primitive view value', () => {
+      const viewValue = 'A';
+      expect(NgrxValueConverters.default<typeof viewValue>().convertViewToStateValue(viewValue)).toBe(viewValue);
     });
 
-    it('should return the same state value', () => {
-      const stateValue = new Date();
-      expect(NgrxValueConverters.identity<Date>().convertStateToViewValue(stateValue)).toBe(stateValue);
+    it('should return the same primitive state value', () => {
+      const stateValue = 'A';
+      expect(NgrxValueConverters.default<typeof stateValue>().convertStateToViewValue(stateValue)).toBe(stateValue);
+    });
+
+    it('should return a boxed object view value', () => {
+      const viewValue = { v: 'A' };
+      expect(NgrxValueConverters.default<typeof viewValue>().convertViewToStateValue(viewValue)).toEqual(box(viewValue));
+    });
+
+    it('should return an unboxed object state value', () => {
+      const stateValue = box({ v: 'A' });
+      expect(NgrxValueConverters.default<typeof stateValue.value>().convertStateToViewValue(stateValue)).toEqual(stateValue.value);
+    });
+
+    it('should return a boxed array view value', () => {
+      const viewValue = ['A'];
+      expect(NgrxValueConverters.default<typeof viewValue>().convertViewToStateValue(viewValue)).toEqual(box(viewValue));
+    });
+
+    it('should return an unboxed array state value', () => {
+      const stateValue = box(['A']);
+      expect(NgrxValueConverters.default<typeof stateValue.value>().convertStateToViewValue(stateValue)).toEqual(stateValue.value);
     });
   });
 

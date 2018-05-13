@@ -1,6 +1,7 @@
-import { isEmpty } from './util';
+import { Boxed, isBoxed } from './boxing';
+import { deepEquals, isEmpty } from './util';
 
-export type FormControlValueTypes = string | number | boolean | null | undefined;
+export type FormControlValueTypes = Boxed<any> | string | number | boolean | null | undefined;
 export type NgrxFormControlId = string;
 
 /**
@@ -519,6 +520,10 @@ export type InferredFormState<T extends InferenceWrapper<any>> =
   : T extends InferenceWrapper<null> ? AbstractControlState<any>
 
   // control
+  : T extends InferenceWrapper<Boxed<infer U>> ? FormControlState<Boxed<U>>
+  : T extends InferenceWrapper<Boxed<infer U> | undefined> ? FormControlState<Boxed<U> | undefined>
+  : T extends InferenceWrapper<Boxed<infer U> | null> ? FormControlState<Boxed<U> | null>
+  : T extends InferenceWrapper<Boxed<infer U> | undefined | null> ? FormControlState<Boxed<U> | undefined | null>
   : T extends InferenceWrapper<string> ? FormControlState<string>
   : T extends InferenceWrapper<string | undefined> ? FormControlState<string | undefined>
   : T extends InferenceWrapper<string | null> ? FormControlState<string | null>
@@ -573,6 +578,10 @@ export function isGroupState<TValue = any>(state: any): state is FormGroupState<
 }
 
 export function createChildState<TValue>(id: string, childValue: TValue): FormState<TValue> {
+  if (isBoxed(childValue)) {
+    return createFormControlState<any>(id, childValue) as FormState<TValue>;
+  }
+
   if (childValue !== null && Array.isArray(childValue)) {
     return createFormArrayState(id, childValue) as FormState<TValue>;
   }
@@ -584,6 +593,26 @@ export function createChildState<TValue>(id: string, childValue: TValue): FormSt
   return createFormControlState<any>(id, childValue) as FormState<TValue>;
 }
 
+export function verifyFormControlValueIsValid<TValue>(value: TValue) {
+  if (value === null || ['string', 'number', 'boolean', 'undefined'].indexOf(typeof value) >= 0) {
+    return value;
+  }
+
+  if (!isBoxed(value)) {
+    const errorMsg = 'Form control states only support undefined, null, string, number, and boolean values as well as boxed values';
+    throw new Error(`${errorMsg}; got ${JSON.stringify(value)} of type ${typeof value}`); // `;
+  }
+
+  const serialized = JSON.stringify(value);
+  const deserialized = JSON.parse(serialized);
+
+  if (deepEquals(value, deserialized)) {
+    return value;
+  }
+
+  throw new Error(`A form control value must be serializable (i.e. value === JSON.parse(JSON.stringify(value))), got: ${JSON.stringify(value)}`);
+}
+
 /**
  * This function creates a form control state with an ID and a value.
  */
@@ -593,7 +622,7 @@ export function createFormControlState<TValue extends FormControlValueTypes>(
 ): FormControlState<TValue> {
   return {
     id,
-    value,
+    value: verifyFormControlValueIsValid(value),
     errors: {},
     pendingValidations: [],
     isValidationPending: false,

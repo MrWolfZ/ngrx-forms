@@ -81,7 +81,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     this.focusTrackingIsEnabled = value;
   }
 
-  @Input() ngrxValueConverter: NgrxValueConverter<TViewValue, TStateValue> = NgrxValueConverters.identity<any>();
+  @Input() ngrxValueConverter: NgrxValueConverter<TViewValue, TStateValue> = NgrxValueConverters.default<any>();
 
   // TODO: move this into a separate directive
   // automatically apply the attribute that's used by the CDK to set initial focus

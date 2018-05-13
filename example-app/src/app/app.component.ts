@@ -34,6 +34,11 @@ export class AppComponent {
       label: 'Dynamic Form',
     },
     {
+      path: '/valueBoxing',
+      hint: 'How to use objects and arrays as form control values',
+      label: 'Value Boxing',
+    },
+    {
       path: '/valueConversion',
       hint: 'How to convert values between the view and the state',
       label: 'Value Conversion',

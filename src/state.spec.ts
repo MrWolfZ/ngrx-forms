@@ -1,14 +1,17 @@
 import { FORM_CONTROL_0_ID, FORM_CONTROL_1_ID } from './array/reducer/test-util';
+import { box } from './boxing';
 import { FORM_CONTROL_INNER2_ID, FORM_CONTROL_INNER_ID } from './group/reducer/test-util';
 import {
   computeArrayState,
   computeGroupState,
+  createChildState,
   createFormArrayState,
   createFormControlState,
   createFormGroupState,
   FormState,
   isArrayState,
   isGroupState,
+  verifyFormControlValueIsValid,
 } from './state';
 
 describe('state', () => {
@@ -62,6 +65,20 @@ describe('state', () => {
 
     it('should set empty user-defined properties', () => {
       expect(INITIAL_STATE.userDefinedProperties).toEqual({});
+    });
+
+    it('should create a form control state for a boxed value', () => {
+      const value = box({ inner: 'A' });
+      const state = createFormControlState('ID', value);
+      expect(state.value).toEqual(value);
+    });
+
+    it('createFormControlState should throw for non-serializable values', () => {
+      expect(() => createFormControlState('', (() => void 0) as any)).toThrowError();
+    });
+
+    it('createFormControlState should throw for non-serializable boxed values', () => {
+      expect(() => createFormControlState('', box({ f: () => void 0 }))).toThrowError();
     });
   });
 
@@ -191,6 +208,29 @@ describe('state', () => {
       expect(state.isSubmitted).toEqual(initialState.isSubmitted);
       expect(state.isUnsubmitted).toEqual(initialState.isUnsubmitted);
       expect(state.userDefinedProperties).toEqual(initialState.userDefinedProperties);
+    });
+
+    it('should create the correct state shape for nested boxed values', () => {
+      const value = {
+        s: 'A',
+        object: {
+          inner: 'A',
+        },
+        array: ['A'],
+        boxedObject: box({
+          inner: 'A',
+        }),
+        boxedArray: box(['A']),
+      };
+
+      const state = createFormGroupState(FORM_CONTROL_ID, value);
+      expect(state.controls.s.isFocused).toBeDefined();
+      expect(state.controls.boxedObject.isFocused).toBeDefined();
+      expect(state.controls.boxedArray.isFocused).toBeDefined();
+      expect(state.controls.object.controls).toBeDefined();
+      expect(Array.isArray(state.controls.object.controls)).toBe(false);
+      expect(state.controls.array.controls).toBeDefined();
+      expect(Array.isArray(state.controls.array.controls)).toBe(true);
     });
   });
 
@@ -344,6 +384,80 @@ describe('state', () => {
       expect(state.isSubmitted).toEqual(initialState.isSubmitted);
       expect(state.isUnsubmitted).toEqual(initialState.isUnsubmitted);
       expect(state.userDefinedProperties).toEqual(initialState.userDefinedProperties);
+    });
+  });
+
+  describe(createChildState.name, () => {
+    it('should create a form control for string values', () => {
+      expect(createChildState('', 'A').isFocused).toBeDefined();
+    });
+
+    it('should create a form control for number values', () => {
+      expect(createChildState('', 1).isFocused).toBeDefined();
+    });
+
+    it('should create a form control for boolean values', () => {
+      expect(createChildState('', true).isFocused).toBeDefined();
+    });
+
+    it('should create a form array for array values', () => {
+      const state = createChildState('', ['A']);
+      expect(state.controls).toBeDefined();
+      expect(Array.isArray(state.controls)).toBe(true);
+    });
+
+    it('should create a form group for object values', () => {
+      const state = createChildState('', { inner: 'A' });
+      expect(state.controls).toBeDefined();
+      expect(Array.isArray(state.controls)).toBe(false);
+    });
+
+    it('should create a form control for boxed array values', () => {
+      expect(createChildState('', box(['A'])).isFocused).toBeDefined();
+    });
+
+    it('should create a form control for boxed object values', () => {
+      expect(createChildState('', box({ inner: 'A' })).isFocused).toBeDefined();
+    });
+  });
+
+  describe(verifyFormControlValueIsValid.name, () => {
+    it('should return valid control values unmodified', () => {
+      const stringValue = 'A';
+      const numberValue = 101;
+      const booleanValue = true;
+      expect(verifyFormControlValueIsValid(stringValue)).toBe(stringValue);
+      expect(verifyFormControlValueIsValid(numberValue)).toBe(numberValue);
+      expect(verifyFormControlValueIsValid(booleanValue)).toBe(booleanValue);
+    });
+
+    it('should throw for invalid values', () => {
+      const objectValue = { v: 'A' };
+      const arrayValue = ['A'];
+      const functionValue = () => void 0;
+      expect(() => verifyFormControlValueIsValid(objectValue)).toThrowError();
+      expect(() => verifyFormControlValueIsValid(arrayValue)).toThrowError();
+      expect(() => verifyFormControlValueIsValid(functionValue)).toThrowError();
+    });
+
+    it('should return boxed serializable values unmodified', () => {
+      const boxedStringValue = box('A');
+      const boxedNumberValue = box(1);
+      const boxedBooleanValue = box(true);
+      const boxedObjectValue = box({ v: 'A' });
+      const boxedArrayValue = box(['A']);
+      expect(verifyFormControlValueIsValid(boxedStringValue)).toBe(boxedStringValue);
+      expect(verifyFormControlValueIsValid(boxedNumberValue)).toBe(boxedNumberValue);
+      expect(verifyFormControlValueIsValid(boxedBooleanValue)).toBe(boxedBooleanValue);
+      expect(verifyFormControlValueIsValid(boxedObjectValue)).toBe(boxedObjectValue);
+      expect(verifyFormControlValueIsValid(boxedArrayValue)).toBe(boxedArrayValue);
+    });
+
+    it('should throw for non-serializable boxed values', () => {
+      const boxedFunctionValue = box(() => void 0);
+      const boxedObjectWithFunctionValue = box({ f: () => void 0 });
+      expect(() => verifyFormControlValueIsValid(boxedFunctionValue)).toThrowError();
+      expect(() => verifyFormControlValueIsValid(boxedObjectWithFunctionValue)).toThrowError();
     });
   });
 

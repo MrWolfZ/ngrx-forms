@@ -1,6 +1,8 @@
 import {
   addArrayControl,
   addGroupControl,
+  box,
+  compose,
   createFormArrayState,
   createFormControlState,
   createFormGroupState,
@@ -12,6 +14,7 @@ import {
   formGroupReducer,
   formStateReducer,
   isArrayState,
+  isBoxed,
   isGroupState,
   markAsDirty,
   markAsPristine,
@@ -41,6 +44,7 @@ import {
   setErrors,
   setUserDefinedProperty,
   setValue,
+  unbox,
   unfocus,
   updateArray,
   updateGroup,
@@ -49,6 +53,7 @@ import {
 } from './ngrx-forms';
 
 describe('ngrx-forms', () => {
+  it(`should export ${compose.name}`, () => expect(compose).toBeDefined());
   it(`should export ${isArrayState.name}`, () => expect(isArrayState).toBeDefined());
   it(`should export ${isGroupState.name}`, () => expect(isGroupState).toBeDefined());
   it(`should export ${createFormControlState.name}`, () => expect(createFormControlState).toBeDefined());
@@ -96,4 +101,7 @@ describe('ngrx-forms', () => {
   it(`should export ${NgrxFallbackSelectOption.name}`, () => expect(NgrxFallbackSelectOption).toBeDefined());
   it(`should export ${NgrxStatusCssClassesDirective.name}`, () => expect(NgrxStatusCssClassesDirective).toBeDefined());
   it(`should export ${NgrxFormsModule.name}`, () => expect(NgrxFormsModule).toBeDefined());
+  it(`should export ${box.name}`, () => expect(box).toBeDefined());
+  it(`should export ${unbox.name}`, () => expect(unbox).toBeDefined());
+  it(`should export ${isBoxed.name}`, () => expect(isBoxed).toBeDefined());
 });

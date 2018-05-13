@@ -27,6 +27,10 @@ export const routes: Routes = [
     loadChildren: './dynamic/dynamic.module#DynamicModule',
   },
   {
+    path: 'valueBoxing',
+    loadChildren: './value-boxing/value-boxing.module#ValueBoxingModule',
+  },
+  {
     path: 'valueConversion',
     loadChildren: './value-conversion/value-conversion.module#ValueConversionModule',
   },

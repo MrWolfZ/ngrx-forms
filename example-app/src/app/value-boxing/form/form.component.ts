@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { FormGroupState, NgrxValueConverters } from 'ngrx-forms';
+import { FormGroupState, unbox } from 'ngrx-forms';
 
-import { FormValue } from '../value-conversion.reducer';
+import { FormValue } from '../value-boxing.reducer';
 
 @Component({
-  selector: 'ngf-value-conversion-example',
+  selector: 'ngf-value-boxing-example',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ValueConversionFormComponent {
+export class ValueBoxingFormComponent {
   @Input() formState: FormGroupState<FormValue>;
 
-  dateToISOString = NgrxValueConverters.dateToISOString;
+  unbox = unbox;
 }

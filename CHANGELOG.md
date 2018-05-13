@@ -27,6 +27,7 @@ This release requires TypeScript >=2.8.0 for the conditional type support.
 #### Features
 
 * use conditional types to infer the type of child controls (see the [documentation](http://ngrx-forms.readthedocs.io/en/master/user-guide/type-inference/) for more details)
+* add support for using arrays and objects as control values via boxing (see the [documentation](http://ngrx-forms.readthedocs.io/en/master/user-guide/value-boxing/) for more details)
 * add `formStateReducer` function, a reducer which can reduce any kind of form state and is correctly typed due to conditional type inference ([48eaaeb](https://github.com/MrWolfZ/ngrx-forms/commit/48eaaeb))
 * rework `updateArray` to support different parameter combinations for update functions (i.e. single function, array of functions, and rest parameters) ([f82abf8](https://github.com/MrWolfZ/ngrx-forms/commit/f82abf8))
 * rework `updateGroup` to support different parameter combinations for update function objects (i.e. single object, array of objects, and rest parameters) which reduces the probability of false type inference results ([0bb1ca7](https://github.com/MrWolfZ/ngrx-forms/commit/0bb1ca7))

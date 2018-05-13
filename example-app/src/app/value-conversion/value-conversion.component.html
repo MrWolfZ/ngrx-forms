@@ -2,10 +2,9 @@
                   [componentCode]="componentCode"
                   [componentHtml]="componentHtml"
                   [formState]="formState$ | async">
-  This example shows how to use value converters to use form elements which require non-primitive values. The following example
-  contains a select that allows to select multiple elements. The value of such a form element is an array of the selected
-  options. However, since arrays cannot be used directly as values for form controls we use a built-in value converter that
-  converts the array to a JSON string.
+  This example shows how to use value converters. The following example contains a date input. The value of such a
+  form element is a JavaScript date object. However, since date objects cannot be used directly as values for form
+  controls we use a built-in value converter that converts the date to an ISO string.
   <br />
   <br />
   <ngf-value-conversion-example [formState]="formState$ | async"></ngf-value-conversion-example>
