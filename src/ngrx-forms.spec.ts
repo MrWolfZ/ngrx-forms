@@ -46,7 +46,6 @@ import {
   setUserDefinedProperty,
   setValue,
   unbox,
-  unboxAny,
   unfocus,
   updateArray,
   updateGroup,
@@ -105,7 +104,6 @@ describe('ngrx-forms', () => {
   it(`should export ${NgrxFormsModule.name}`, () => expect(NgrxFormsModule).toBeDefined());
   it(`should export ${box.name}`, () => expect(box).toBeDefined());
   it(`should export ${unbox.name}`, () => expect(unbox).toBeDefined());
-  it(`should export ${unboxAny.name}`, () => expect(unboxAny).toBeDefined());
   it(`should export ${isBoxed.name}`, () => expect(isBoxed).toBeDefined());
   it(`should export BOXED_TYPE`, () => expect(BOXED_TYPE).toBeDefined());
 });

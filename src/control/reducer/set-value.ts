@@ -1,6 +1,5 @@
 import { Actions, SetValueAction } from '../../actions';
-import { isBoxed } from '../../boxing';
-import { FormControlState, FormControlValueTypes } from '../../state';
+import { FormControlState, FormControlValueTypes, verifyFormControlValueIsValid } from '../../state';
 
 export function setValueReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,
@@ -14,15 +13,8 @@ export function setValueReducer<TValue extends FormControlValueTypes>(
     return state;
   }
 
-  const value = action.value;
-  const valueType = typeof value;
-  if (value !== null && ['string', 'number', 'boolean', 'undefined'].indexOf(valueType) === -1 && !isBoxed(value)) {
-    const errorMsg = 'Form control states only support undefined, null, string, number, and boolean values as well as boxed values';
-    throw new Error(`${errorMsg}; got ${JSON.stringify(action.value)} of type "${valueType}"`); // `;
-  }
-
   return {
     ...state,
-    value: action.value,
+    value: verifyFormControlValueIsValid(action.value),
   };
 }

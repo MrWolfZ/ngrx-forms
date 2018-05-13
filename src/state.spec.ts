@@ -11,6 +11,7 @@ import {
   FormState,
   isArrayState,
   isGroupState,
+  verifyFormControlValueIsValid,
 } from './state';
 
 describe('state', () => {
@@ -70,6 +71,14 @@ describe('state', () => {
       const value = box({ inner: 'A' });
       const state = createFormControlState('ID', value);
       expect(state.value).toEqual(value);
+    });
+
+    it('createFormControlState should throw for non-serializable values', () => {
+      expect(() => createFormControlState('', (() => void 0) as any)).toThrowError();
+    });
+
+    it('createFormControlState should throw for non-serializable boxed values', () => {
+      expect(() => createFormControlState('', box({ f: () => void 0 }))).toThrowError();
     });
   });
 
@@ -409,6 +418,46 @@ describe('state', () => {
 
     it('should create a form control for boxed object values', () => {
       expect(createChildState('', box({ inner: 'A' })).isFocused).toBeDefined();
+    });
+  });
+
+  describe(verifyFormControlValueIsValid.name, () => {
+    it('should return valid control values unmodified', () => {
+      const stringValue = 'A';
+      const numberValue = 101;
+      const booleanValue = true;
+      expect(verifyFormControlValueIsValid(stringValue)).toBe(stringValue);
+      expect(verifyFormControlValueIsValid(numberValue)).toBe(numberValue);
+      expect(verifyFormControlValueIsValid(booleanValue)).toBe(booleanValue);
+    });
+
+    it('should throw for invalid values', () => {
+      const objectValue = { v: 'A' };
+      const arrayValue = ['A'];
+      const functionValue = () => void 0;
+      expect(() => verifyFormControlValueIsValid(objectValue)).toThrowError();
+      expect(() => verifyFormControlValueIsValid(arrayValue)).toThrowError();
+      expect(() => verifyFormControlValueIsValid(functionValue)).toThrowError();
+    });
+
+    it('should return boxed serializable values unmodified', () => {
+      const boxedStringValue = box('A');
+      const boxedNumberValue = box(1);
+      const boxedBooleanValue = box(true);
+      const boxedObjectValue = box({ v: 'A' });
+      const boxedArrayValue = box(['A']);
+      expect(verifyFormControlValueIsValid(boxedStringValue)).toBe(boxedStringValue);
+      expect(verifyFormControlValueIsValid(boxedNumberValue)).toBe(boxedNumberValue);
+      expect(verifyFormControlValueIsValid(boxedBooleanValue)).toBe(boxedBooleanValue);
+      expect(verifyFormControlValueIsValid(boxedObjectValue)).toBe(boxedObjectValue);
+      expect(verifyFormControlValueIsValid(boxedArrayValue)).toBe(boxedArrayValue);
+    });
+
+    it('should throw for non-serializable boxed values', () => {
+      const boxedFunctionValue = box(() => void 0);
+      const boxedObjectWithFunctionValue = box({ f: () => void 0 });
+      expect(() => verifyFormControlValueIsValid(boxedFunctionValue)).toThrowError();
+      expect(() => verifyFormControlValueIsValid(boxedObjectWithFunctionValue)).toThrowError();
     });
   });
 

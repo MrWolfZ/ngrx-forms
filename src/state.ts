@@ -1,5 +1,5 @@
 import { Boxed, isBoxed } from './boxing';
-import { isEmpty } from './util';
+import { deepEquals, isEmpty } from './util';
 
 export type FormControlValueTypes = Boxed<any> | string | number | boolean | null | undefined;
 export type NgrxFormControlId = string;
@@ -593,6 +593,26 @@ export function createChildState<TValue>(id: string, childValue: TValue): FormSt
   return createFormControlState<any>(id, childValue) as FormState<TValue>;
 }
 
+export function verifyFormControlValueIsValid<TValue>(value: TValue) {
+  if (value === null || ['string', 'number', 'boolean', 'undefined'].indexOf(typeof value) >= 0) {
+    return value;
+  }
+
+  if (!isBoxed(value)) {
+    const errorMsg = 'Form control states only support undefined, null, string, number, and boolean values as well as boxed values';
+    throw new Error(`${errorMsg}; got ${JSON.stringify(value)} of type ${typeof value}`); // `;
+  }
+
+  const serialized = JSON.stringify(value);
+  const deserialized = JSON.parse(serialized);
+
+  if (deepEquals(value, deserialized)) {
+    return value;
+  }
+
+  throw new Error(`A form control value must be serializable (i.e. value === JSON.parse(JSON.stringify(value))), got: ${JSON.stringify(value)}`);
+}
+
 /**
  * This function creates a form control state with an ID and a value.
  */
@@ -602,7 +622,7 @@ export function createFormControlState<TValue extends FormControlValueTypes>(
 ): FormControlState<TValue> {
   return {
     id,
-    value,
+    value: verifyFormControlValueIsValid(value),
     errors: {},
     pendingValidations: [],
     isValidationPending: false,

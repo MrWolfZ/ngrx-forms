@@ -1,4 +1,4 @@
-import { box, isBoxed, unbox, unboxAny } from './boxing';
+import { box, isBoxed, unbox } from './boxing';
 
 describe(box.name, () => {
   it('should box a string value', () => {
@@ -10,51 +10,56 @@ describe(box.name, () => {
 describe(unbox.name, () => {
   it('should unbox a string value', () => {
     const value = 'A';
-    expect(unbox(box(value))).toBe(value);
-  });
-});
-
-describe(unboxAny.name, () => {
-  it('should unbox a string value', () => {
-    const value = 'A';
-    expect(unboxAny(value)).toBe(value);
+    expect(unbox(value)).toBe(value);
   });
 
   it('should unbox a number value', () => {
     const value = 1;
-    expect(unboxAny(value)).toBe(value);
+    expect(unbox(value)).toBe(value);
   });
 
   it('should unbox a boolean value', () => {
     const value = true;
-    expect(unboxAny(value)).toBe(value);
+    expect(unbox(value)).toBe(value);
   });
 
   it('should unbox a undefined value', () => {
     const value = undefined;
-    expect(unboxAny(value)).toBe(value);
+    expect(unbox(value)).toBe(value);
   });
 
   it('should unbox a null value', () => {
     const value = null;
-    expect(unboxAny(value)).toBe(value);
+    expect(unbox(value)).toBe(value);
   });
 
   it('should unbox a boxed string value', () => {
     const value = 'A';
-    expect(unboxAny(box(value))).toBe(value);
+    expect(unbox(box(value))).toBe(value);
   });
 
   it('should unbox an array value', () => {
     const innerValue = 'A';
+    const value = box([innerValue]);
+    expect(unbox(value)).toEqual([innerValue]);
+  });
+
+  it('should unbox a value in an array', () => {
+    const innerValue = 'A';
     const value = [box(innerValue)];
-    expect(unboxAny(value)).toEqual([innerValue]);
+    expect(unbox(value)).toEqual([innerValue]);
   });
 
   it('should unbox an object value', () => {
     const innerValue = 'A';
+    const value = box({ inner: innerValue });
+    expect(unbox(value)).toEqual({ inner: innerValue });
+  });
+
+  it('should unbox a value in an object', () => {
+    const innerValue = 'A';
     const value = { inner: box(innerValue) };
-    expect(unboxAny(value)).toEqual({ inner: innerValue });
+    expect(unbox(value)).toEqual({ inner: innerValue });
   });
 });
 

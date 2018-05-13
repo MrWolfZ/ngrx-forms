@@ -53,4 +53,9 @@ describe('form control setValueReducer', () => {
     const resultState = setValueReducer(state, new SetValueAction(FORM_CONTROL_ID, value));
     expect(resultState.value).toEqual(value);
   });
+
+  it('should throw if boxed value is not serializable', () => {
+    const value = box({ inner: () => void 0 });
+    expect(() => setValueReducer(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, value as any))).toThrowError();
+  });
 });

@@ -1,7 +1,7 @@
 export const BOXED_TYPE = 'ngrx-forms/boxed';
 
 export interface Boxed<T> {
-  __type: typeof BOXED_TYPE;
+  __marker: typeof BOXED_TYPE;
   value: T;
 }
 
@@ -50,21 +50,17 @@ export type Unboxed<T> =
   : UnboxedObject<T>;
 
 export function isBoxed<T = any>(value: any): value is Boxed<T> {
-  return !!value && value.__type === BOXED_TYPE;
+  return !!value && (value as Boxed<any>).__marker === BOXED_TYPE;
 }
 
 export function box<T>(value: T): Boxed<T> {
   return {
-    __type: BOXED_TYPE,
+    __marker: BOXED_TYPE,
     value,
   };
 }
 
-export function unbox<T>(boxed: Boxed<T>): T {
-  return boxed.value;
-}
-
-export function unboxAny<T>(value: T): Unboxed<T> {
+export function unbox<T>(value: T): Unboxed<T> {
   if (['string', 'boolean', 'number', 'undefined'].indexOf(typeof value) >= 0 || value === null) {
     return value as Unboxed<T>;
   }
@@ -74,8 +70,8 @@ export function unboxAny<T>(value: T): Unboxed<T> {
   }
 
   if (Array.isArray(value)) {
-    return value.map(unboxAny) as Unboxed<T>;
+    return value.map(unbox) as Unboxed<T>;
   }
 
-  return Object.keys(value).reduce((a, k) => Object.assign(a, { [k]: unboxAny(value[k as keyof T]) }), {} as Unboxed<T>);
+  return Object.keys(value).reduce((a, k) => Object.assign(a, { [k]: unbox(value[k as keyof T]) }), {} as Unboxed<T>);
 }
