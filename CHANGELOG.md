@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="2.3.5"></a>
+### 2.3.5
+
+#### Bugfixes
+
+* fix typing of action `type` and `TYPE` properties to properly use literal string type, closes [#75](https://github.com/MrWolfZ/ngrx-forms/issues/75), thanks @bufke for helping me find this
+
 <a name="2.3.4"></a>
 ### 2.3.4
 
