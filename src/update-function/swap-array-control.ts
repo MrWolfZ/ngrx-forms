@@ -10,7 +10,7 @@ import { ensureState } from './util';
 export function swapArrayControl<TValue>(from: number, to: number): (state: FormArrayState<TValue>) => FormArrayState<TValue>;
 
 /**
- * This update function takes a source index, a destination index, a form array state, and swap the
+ * This update function takes a source index, a destination index, a form array state, and swaps the
  * child controls at the source and destination indices in the form array state.
  */
 export function swapArrayControl<TValue>(from: number, to: number, state: FormArrayState<TValue>): FormArrayState<TValue>;
