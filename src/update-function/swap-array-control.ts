@@ -11,7 +11,7 @@ export function swapArrayControl<TValue>(from: number, to: number): (state: Form
 
 /**
  * This update function takes a source index, a destination index, a form array state, and swaps the
- * child controls at the source and destination indices in the form array state.
+ * child controls at the source and destination indices in a form array state.
  */
 export function swapArrayControl<TValue>(from: number, to: number, state: FormArrayState<TValue>): FormArrayState<TValue>;
 
