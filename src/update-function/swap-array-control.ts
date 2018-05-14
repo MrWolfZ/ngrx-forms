@@ -4,7 +4,7 @@ import { FormArrayState } from '../state';
 import { ensureState } from './util';
 
 /**
- * This update function takes an index and returns a projection function
+ * This update function takes a source index, a destination index, and returns a projection function
  * that swaps the child controls at the source and destination indices in a form array state.
  */
 export function swapArrayControl<TValue>(from: number, to: number): (state: FormArrayState<TValue>) => FormArrayState<TValue>;
