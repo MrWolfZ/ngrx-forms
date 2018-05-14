@@ -4,5 +4,6 @@ $ cat .gitignore
 /dist
 /example-app/dist
 /coverage
-
+.idea
+.vscode
 *.log
