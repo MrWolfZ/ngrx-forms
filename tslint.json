@@ -267,6 +267,21 @@
     "block-spacing": [
       true,
       "always"
+    ],
+    "ter-indent": [
+      true,
+      2,
+      {
+        "SwitchCase": 1,
+        "FunctionDeclaration": {
+          "parameters": 1,
+          "body": 1
+        },
+        "FunctionExpression": {
+          "parameters": 1,
+          "body": 1
+        }
+      }
     ]
   },
   "rulesDirectory": [
