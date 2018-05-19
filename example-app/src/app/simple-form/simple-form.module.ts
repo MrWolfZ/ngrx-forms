@@ -6,14 +6,8 @@ import { NgrxFormsModule } from 'ngrx-forms';
 
 import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
-import { SimpleFormComponent } from './form/form.component';
 import { SimpleFormPageComponent } from './simple-form.component';
 import { reducers } from './simple-form.reducer';
-
-export const COMPONENTS = [
-  SimpleFormPageComponent,
-  SimpleFormComponent,
-];
 
 @NgModule({
   imports: [
@@ -26,7 +20,8 @@ export const COMPONENTS = [
     ]),
     StoreModule.forFeature('simpleForm', reducers),
   ],
-  declarations: COMPONENTS,
-  exports: COMPONENTS,
+  declarations: [
+    SimpleFormPageComponent,
+  ],
 })
 export class SimpleFormModule { }

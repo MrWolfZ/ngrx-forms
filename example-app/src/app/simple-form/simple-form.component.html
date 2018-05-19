@@ -1,9 +1,94 @@
-<ngf-form-example [reducerCode]="reducerCode"
-                  [componentCode]="componentCode"
-                  [componentHtml]="componentHtml"
+<ngf-form-example exampleName="Simple Form"
                   [formState]="formState$ | async">
   This example shows a basic form without any extras.
   <br />
   <br />
-  <ngf-simple-form-example [formState]="formState$ | async"></ngf-simple-form-example>
+  <form [ngrxFormState]="formState$ | async"
+        (submit)="submit()">
+    <div>
+      <label>First Name</label>
+      <div>
+        <input type="text"
+               placeholder="First Name"
+               [ngrxFormControlState]="(formState$ | async).controls.firstName" />
+      </div>
+    </div>
+    <div>
+      <label>Last Name</label>
+      <div>
+        <input type="text"
+               placeholder="Last Name"
+               [ngrxFormControlState]="(formState$ | async).controls.lastName" />
+      </div>
+    </div>
+    <div>
+      <label>Email</label>
+      <div>
+        <input type="email"
+               placeholder="Email"
+               [ngrxFormControlState]="(formState$ | async).controls.email" />
+      </div>
+    </div>
+    <div>
+      <label>Sex</label>
+      <div>
+        <label>
+          <input type="radio"
+                 value="male"
+                 [ngrxFormControlState]="(formState$ | async).controls.sex" /> Male
+        </label>
+        <label>
+          <input type="radio"
+                 value="female"
+                 [ngrxFormControlState]="(formState$ | async).controls.sex" /> Female
+        </label>
+      </div>
+    </div>
+    <div>
+      <label>Favorite Color</label>
+      <div>
+        <select [ngrxFormControlState]="(formState$ | async).controls.favoriteColor">
+          <option value=""></option>
+          <option value="ff0000">Red</option>
+          <option value="00ff00">Green</option>
+          <option value="0000ff">Blue</option>
+        </select>
+      </div>
+    </div>
+    <div>
+      <label>Employed</label>
+      <div>
+        <input type="checkbox"
+               [ngrxFormControlState]="(formState$ | async).controls.employed" />
+      </div>
+    </div>
+    <div>
+      <label>Notes</label>
+      <div>
+        <textarea [ngrxFormControlState]="(formState$ | async).controls.notes">
+        </textarea>
+      </div>
+    </div>
+    <div class="buttons">
+      <div></div>
+      <div>
+        <button type="submit">
+          Submit
+        </button>
+        <button type="button"
+                [disabled]="(formState$ | async).isPristine
+                            && (formState$ | async).isUntouched
+                            && (formState$ | async).isUnsubmitted"
+                (click)="reset()">
+          Reset
+        </button>
+      </div>
+    </div>
+  </form>
+  <br />
+  <div *ngIf="(formState$ | async).isSubmitted">
+    The form was submitted with the following value:
+    <br />
+    <pre>{{ submittedValue | json }}</pre>
+  </div>
 </ngf-form-example>

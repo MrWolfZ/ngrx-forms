@@ -1,25 +1,19 @@
 <mat-card class="example">
   <mat-card-content>
-    <mat-tab-group [class.small]="!!formattedEffectsCode">
-      <mat-tab label="Example">
-        <div class="form">
-          <ng-content></ng-content>
-        </div>
-      </mat-tab>
-      <mat-tab label="reducer.ts">
-        <pre><code [innerHtml]="formattedReducerCode"></code></pre>
-      </mat-tab>
-      <mat-tab label="component.ts">
-        <pre><code [innerHtml]="formattedComponentCode"></code></pre>
-      </mat-tab>
-      <mat-tab label="effects.ts"
-               *ngIf="!!formattedEffectsCode">
-        <pre><code [innerHtml]="formattedEffectsCode"></code></pre>
-      </mat-tab>
-      <mat-tab label="component.html">
-        <pre><code [innerHtml]="formattedComponentHtml"></code></pre>
-      </mat-tab>
-    </mat-tab-group>
+    <div class="title-wrapper">
+      <div class="title">
+        {{ exampleName }}
+      </div>
+      <a class="github-link"
+         href="https://github.com/MrWolfZ/ngrx-forms/tree/master/example-app/src/app/{{githubLink}}"
+         target="_blank">
+        View code on GitHub
+        <img src="assets/GitHub-Mark.png" />
+      </a>
+    </div>
+    <div class="form">
+      <ng-content></ng-content>
+    </div>
   </mat-card-content>
 </mat-card>
 <mat-card class="form-state">

@@ -16,7 +16,14 @@ export interface FormValue {
 export interface State extends RootState {
   simpleForm: {
     formState: FormGroupState<FormValue>;
+    submittedValue: FormValue | undefined;
   };
+}
+
+export class SetSubmittedValueAction implements Action {
+  static readonly TYPE = 'simpleForm/SET_SUBMITTED_VALUE';
+  readonly type = SetSubmittedValueAction.TYPE;
+  constructor(public submittedValue: FormValue) { }
 }
 
 export const FORM_ID = 'simpleForm';
@@ -31,8 +38,17 @@ export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
   notes: '',
 });
 
-export const reducers: ActionReducerMap<State['simpleForm']> = {
+export const reducers: ActionReducerMap<State['simpleForm'], any> = {
   formState(s = INITIAL_STATE, a: Action) {
     return formGroupReducer(s, a);
+  },
+  submittedValue(s: FormValue | undefined, a: SetSubmittedValueAction) {
+    switch (a.type) {
+      case SetSubmittedValueAction.TYPE:
+        return a.submittedValue;
+
+      default:
+        return s;
+    }
   },
 };
