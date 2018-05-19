@@ -1,4 +1,4 @@
-import { Directive, ElementRef, forwardRef, HostListener, Inject, InjectionToken, Input, Optional, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, forwardRef, HostListener, Inject, Input, Optional, Renderer2 } from '@angular/core';
 
 import { FormControlState } from '../state';
 import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
@@ -53,7 +53,8 @@ export class NgrxDefaultViewAdapter implements FormViewAdapter {
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef,
-    @Optional() @Inject(new InjectionToken('never')) navigator: Navigator | null = null,
+    // we use a special injection string that should never exist at runtime to allow mocking this dependency for testing
+    @Optional() @Inject('ngrx-forms/never') navigator: Navigator | null = null,
   ) {
     this.isCompositionSupported = !isAndroid(navigator || window.navigator);
   }
