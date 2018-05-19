@@ -56,7 +56,7 @@ export class AsyncValidationEffects {
                   fs.controls.searchTerm.id,
                   'exists',
                 ),
-              ];
+              ] as Action[];
             }
 
             return [

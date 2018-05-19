@@ -29,14 +29,14 @@ export interface State extends RootState {
 }
 
 export class CreateGroupElementAction implements Action {
-  static TYPE = 'dynamic/CREATE_GROUP_ELEMENT';
-  type = CreateGroupElementAction.TYPE;
+  static readonly TYPE = 'dynamic/CREATE_GROUP_ELEMENT';
+  readonly type = CreateGroupElementAction.TYPE;
   constructor(public name: string) { }
 }
 
 export class RemoveGroupElementAction implements Action {
-  static TYPE = 'dynamic/REMOVE_GROUP_ELEMENT';
-  type = RemoveGroupElementAction.TYPE;
+  static readonly TYPE = 'dynamic/REMOVE_GROUP_ELEMENT';
+  readonly type = RemoveGroupElementAction.TYPE;
   constructor(public name: string) { }
 }
 

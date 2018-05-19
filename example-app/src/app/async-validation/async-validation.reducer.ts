@@ -17,8 +17,8 @@ export interface State extends RootState {
 }
 
 export class SetSearchResultAction implements Action {
-  static TYPE = 'asyncValidation/SET_SEARCH_RESULT';
-  type = SetSearchResultAction.TYPE;
+  static readonly TYPE = 'asyncValidation/SET_SEARCH_RESULT';
+  readonly type = SetSearchResultAction.TYPE;
   constructor(public results: string[]) { }
 }
 

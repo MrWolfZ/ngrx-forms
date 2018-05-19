@@ -29,13 +29,13 @@ export interface State extends RootState {
 }
 
 export class BlockUIAction implements Action {
-  static TYPE = 'recursiveUpdate/BLOCK_UI';
-  type = BlockUIAction.TYPE;
+  static readonly TYPE = 'recursiveUpdate/BLOCK_UI';
+  readonly type = BlockUIAction.TYPE;
 }
 
 export class UnblockUIAction implements Action {
-  static TYPE = 'dynamic/UNBLOCK_UI';
-  type = UnblockUIAction.TYPE;
+  static readonly TYPE = 'dynamic/UNBLOCK_UI';
+  readonly type = UnblockUIAction.TYPE;
 }
 
 export const FORM_ID = 'recursiveUpdate';
@@ -54,9 +54,10 @@ export const INITIAL_STATE = updateGroup<FormValue>(
     employed: disable,
     notes: disable,
     sex: disable,
-  });
+  },
+);
 
-export const reducers: ActionReducerMap<State['recursiveUpdate']> = {
+export const reducers: ActionReducerMap<State['recursiveUpdate'], any> = {
   formState(state = INITIAL_STATE, a: BlockUIAction | UnblockUIAction) {
     state = formGroupReducer(state, a);
 
