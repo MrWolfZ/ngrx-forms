@@ -8,8 +8,10 @@
   "scripts": {
     "build": "node build.js",
     "test": "karma start",
+    "test-headless": "karma start --browsers ChromeHeadless",
     "test-no-progress": "karma start --reporters spec,karma-typescript",
     "test-watch": "karma start --single-run=false",
+    "test-watch-headless": "karma start --single-run=false --browsers ChromeHeadless",
     "lint": "tslint --project .",
     "pack-lib": "npm pack ./dist",
     "publish-lib": "npm publish ./dist",
