@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { FormGroupState } from 'ngrx-forms';
-import { Observable } from 'rxjs/Rx';
+import { select, Store } from '@ngrx/store';
+import { FormGroupState, unbox } from 'ngrx-forms';
+import { Observable } from 'rxjs/observable';
 
 import { FormValue, State } from './value-boxing.reducer';
 
@@ -15,6 +15,8 @@ export class ValueBoxingPageComponent {
   formState$: Observable<FormGroupState<FormValue>>;
 
   constructor(store: Store<State>) {
-    this.formState$ = store.select(s => s.valueBoxing.formState);
+    this.formState$ = store.pipe(select(s => s.valueBoxing.formState));
   }
+
+  unbox = unbox;
 }

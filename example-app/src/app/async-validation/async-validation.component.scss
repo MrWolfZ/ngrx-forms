@@ -3,3 +3,26 @@
 :host {
   @extend .page;
 }
+
+.control {
+  display: flex;
+  padding: 5px;
+
+  >label {
+    width: 100px;
+    float: right;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 10px;
+    font-weight: bold;
+    line-height: 21px;
+  }
+
+  >div {
+    flex: 1;
+  }
+}
+
+.error-messages {
+  color: #e20000;
+}

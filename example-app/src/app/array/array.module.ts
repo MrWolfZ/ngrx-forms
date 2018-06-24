@@ -8,12 +8,6 @@ import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
 import { ArrayPageComponent } from './array.component';
 import { reducers } from './array.reducer';
-import { ArrayFormComponent } from './form/form.component';
-
-export const COMPONENTS = [
-  ArrayPageComponent,
-  ArrayFormComponent,
-];
 
 @NgModule({
   imports: [
@@ -26,7 +20,8 @@ export const COMPONENTS = [
     ]),
     StoreModule.forFeature('array', reducers),
   ],
-  declarations: COMPONENTS,
-  exports: COMPONENTS,
+  declarations: [
+    ArrayPageComponent,
+  ],
 })
 export class ArrayModule { }

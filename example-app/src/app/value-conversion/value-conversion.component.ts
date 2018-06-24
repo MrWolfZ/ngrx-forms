@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { FormGroupState } from 'ngrx-forms';
-import { Observable } from 'rxjs/Rx';
+import { select, Store } from '@ngrx/store';
+import { FormGroupState, NgrxValueConverters } from 'ngrx-forms';
+import { Observable } from 'rxjs/observable';
 
 import { FormValue, State } from './value-conversion.reducer';
 
@@ -15,6 +15,8 @@ export class ValueConversionPageComponent {
   formState$: Observable<FormGroupState<FormValue>>;
 
   constructor(store: Store<State>) {
-    this.formState$ = store.select(s => s.valueConversion.formState);
+    this.formState$ = store.pipe(select(s => s.valueConversion.formState));
   }
+
+  dateToISOString = NgrxValueConverters.dateToISOString;
 }

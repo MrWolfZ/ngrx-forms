@@ -89,6 +89,6 @@
   <div *ngIf="(formState$ | async).isSubmitted">
     The form was submitted with the following value:
     <br />
-    <pre>{{ submittedValue | json }}</pre>
+    <pre>{{ submittedValue$ | async | json }}</pre>
   </div>
 </ngf-form-example>

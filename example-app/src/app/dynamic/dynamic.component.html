@@ -6,7 +6,59 @@
   the corresponding update functions.
   <br />
   <br />
-  <ngf-dynamic-example [formState]="formState$ | async"
-                       [arrayOptions]="arrayOptions$ | async"
-                       [groupOptions]="groupOptions$ | async"></ngf-dynamic-example>
+  <form>
+    <div>
+      <span class="section-heading">Array options:</span>
+      <button (click)="addArrayOption(0)"
+              type="button"
+              class="add-btn">
+        +
+      </button>
+      <div *ngFor="let o of (arrayOptions$ | async);
+                 trackBy: trackByIndex;
+                 let i = index"
+           class="array-option">
+        <div>
+          <label>Option {{ o }}</label>
+          <div>
+            <input type="checkbox"
+                   [ngrxFormControlState]="(formState$ | async).controls.array.controls[i]" />
+          </div>
+          <button (click)="removeArrayOption(i)"
+                  type="button"
+                  class="remove-btn">
+            -
+          </button>
+        </div>
+        <button (click)="addArrayOption(i + 1)"
+                type="button"
+                class="add-btn">
+          +
+        </button>
+      </div>
+    </div>
+    <div>
+      <span class="section-heading">Group options:</span>
+      <div *ngFor="let o of (groupOptions$ | async); trackBy: trackById"
+           class="group-option">
+        <div>
+          <label>Option {{ o }}</label>
+          <div>
+            <input type="checkbox"
+                   [ngrxFormControlState]="(formState$ | async).controls.group.controls[o]" />
+          </div>
+          <button (click)="removeGroupOption(o)"
+                  type="button"
+                  class="remove-btn">
+            -
+          </button>
+        </div>
+      </div>
+      <button (click)="addGroupOption()"
+              type="button"
+              class="add-btn">
+        +
+      </button>
+    </div>
+  </form>
 </ngf-form-example>

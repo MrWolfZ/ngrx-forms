@@ -31,7 +31,14 @@ export interface FormValue {
 export interface State extends RootState {
   syncValidation: {
     formState: FormGroupState<FormValue>;
+    submittedValue: FormValue | undefined;
   };
+}
+
+export class SetSubmittedValueAction implements Action {
+  static readonly TYPE = 'syncValidation/SET_SUBMITTED_VALUE';
+  readonly type = SetSubmittedValueAction.TYPE;
+  constructor(public submittedValue: FormValue) { }
 }
 
 export const FORM_ID = 'syncValidation';
@@ -82,8 +89,17 @@ export const validateAndUpdateForm = updateGroup<FormValue>({
   agreeToTermsOfUse: validate(requiredTrue),
 });
 
-export const reducers: ActionReducerMap<State['syncValidation']> = {
+export const reducers: ActionReducerMap<State['syncValidation'], any> = {
   formState(s = INITIAL_STATE, a: Action) {
     return validateAndUpdateForm(formGroupReducer(s, a));
+  },
+  submittedValue(s: FormValue | undefined, a: SetSubmittedValueAction) {
+    switch (a.type) {
+      case SetSubmittedValueAction.TYPE:
+        return a.submittedValue;
+
+      default:
+        return s;
+    }
   },
 };

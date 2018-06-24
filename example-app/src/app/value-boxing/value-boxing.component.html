@@ -5,5 +5,23 @@
   options.
   <br />
   <br />
-  <ngf-value-boxing-example [formState]="formState$ | async"></ngf-value-boxing-example>
+  <form>
+    <div>
+      <label>Options</label>
+      <div>
+        <select multiple
+                size="5"
+                [ngrxFormControlState]="(formState$ | async).controls.selection">
+          <option *ngFor="let o of [1,2,3,4,5]"
+                  [value]="o">Option {{ o }}</option>
+        </select>
+      </div>
+    </div>
+  </form>
+  <br />
+  <div>
+    Unboxed form value:
+    <br />
+    <pre>{{ unbox((formState$ | async).value) | json }}</pre>
+  </div>
 </ngf-form-example>

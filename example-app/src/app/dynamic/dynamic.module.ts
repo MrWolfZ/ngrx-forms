@@ -8,12 +8,6 @@ import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
 import { DynamicPageComponent } from './dynamic.component';
 import { reducers } from './dynamic.reducer';
-import { DynamicFormComponent } from './form/form.component';
-
-export const COMPONENTS = [
-  DynamicPageComponent,
-  DynamicFormComponent,
-];
 
 @NgModule({
   imports: [
@@ -26,7 +20,8 @@ export const COMPONENTS = [
     ]),
     StoreModule.forFeature('dynamic', reducers),
   ],
-  declarations: COMPONENTS,
-  exports: COMPONENTS,
+  declarations: [
+    DynamicPageComponent,
+  ],
 })
 export class DynamicModule { }

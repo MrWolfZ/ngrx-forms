@@ -6,6 +6,38 @@
   therefore rate limited. This means sometimes the search will not return a result even if the search term is valid.
   <br />
   <br />
-  <ngf-async-validation-example [formState]="formState$ | async"
-                                [searchResults]="searchResults$ | async"></ngf-async-validation-example>
+  <div class="control">
+    <label>Search Term</label>
+    <div>
+      <input type="text"
+             [ngrxFormControlState]="(formState$ | async).controls.searchTerm" />
+      <span *ngIf="(formState$ | async).isValidationPending">Searching...</span>
+    </div>
+  </div>
+  <div class="control">
+    <label>Nr of results</label>
+    <div>
+      <input type="number"
+             [ngrxFormControlState]="(formState$ | async).controls.numberOfResultsToShow" />
+    </div>
+  </div>
+  
+  <ul *ngIf="(formState$ | async).isInvalid"
+      class="error-messages">
+    <li *ngIf="(formState$ | async).errors._searchTerm?.$exists">
+      The search returned no results
+    </li>
+    <li *ngIf="(formState$ | async).errors._numberOfResultsToShow?.required">
+      The number of results must be specified
+    </li>
+    <li *ngIf="(formState$ | async).errors._numberOfResultsToShow?.greaterThan">
+      The number of results must be at least 1
+    </li>
+  </ul>
+  
+  <ul *ngIf="(searchResults$ | async).length > 0">
+    <li *ngFor="let r of (searchResults$ | async)">
+      {{ r }}
+    </li>
+  </ul>
 </ngf-form-example>

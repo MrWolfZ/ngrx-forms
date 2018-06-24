@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { FormGroupState, ResetAction, SetValueAction } from 'ngrx-forms';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/observable';
+import { map, take } from 'rxjs/operators';
 
 import { FormValue, INITIAL_STATE, SetSubmittedValueAction, State } from './simple-form.reducer';
 
@@ -16,19 +17,19 @@ export class SimpleFormPageComponent {
   submittedValue$: Observable<FormValue | undefined>;
 
   constructor(private store: Store<State>) {
-    this.formState$ = store.select(s => s.simpleForm.formState);
-    this.submittedValue$ = store.select(s => s.simpleForm.submittedValue);
+    this.formState$ = store.pipe(select(s => s.simpleForm.formState));
+    this.submittedValue$ = store.pipe(select(s => s.simpleForm.submittedValue));
   }
 
   reset() {
-    this.store.next(new SetValueAction(INITIAL_STATE.id, INITIAL_STATE.value));
-    this.store.next(new ResetAction(INITIAL_STATE.id));
+    this.store.dispatch(new SetValueAction(INITIAL_STATE.id, INITIAL_STATE.value));
+    this.store.dispatch(new ResetAction(INITIAL_STATE.id));
   }
 
   submit() {
-    this.formState$
-      .take(1)
-      .map(fs => new SetSubmittedValueAction(fs.value))
-      .subscribe(this.store);
+    this.formState$.pipe(
+      take(1),
+      map(fs => new SetSubmittedValueAction(fs.value)),
+    ).subscribe(this.store);
   }
 }

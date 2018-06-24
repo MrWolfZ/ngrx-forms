@@ -6,14 +6,8 @@ import { NgrxFormsModule } from 'ngrx-forms';
 
 import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
-import { ValueConversionFormComponent } from './form/form.component';
 import { ValueConversionPageComponent } from './value-conversion.component';
 import { reducers } from './value-conversion.reducer';
-
-export const COMPONENTS = [
-  ValueConversionPageComponent,
-  ValueConversionFormComponent,
-];
 
 @NgModule({
   imports: [
@@ -26,7 +20,8 @@ export const COMPONENTS = [
     ]),
     StoreModule.forFeature('valueConversion', reducers),
   ],
-  declarations: COMPONENTS,
-  exports: COMPONENTS,
+  declarations: [
+    ValueConversionPageComponent,
+  ],
 })
 export class ValueConversionModule { }

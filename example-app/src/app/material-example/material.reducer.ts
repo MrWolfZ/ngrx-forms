@@ -33,7 +33,14 @@ export interface FormValue {
 export interface State extends RootState {
   material: {
     formState: FormGroupState<FormValue>;
+    submittedValue: FormValue | undefined;
   };
+}
+
+export class SetSubmittedValueAction implements Action {
+  static readonly TYPE = 'material/SET_SUBMITTED_VALUE';
+  readonly type = SetSubmittedValueAction.TYPE;
+  constructor(public submittedValue: FormValue) { }
 }
 
 export const FORM_ID = 'material';
@@ -68,8 +75,17 @@ const validationFormGroupReducer = createFormStateReducerWithUpdate<FormValue>(u
   agreeToTermsOfUse: validate(requiredTrue),
 }));
 
-export const reducers: ActionReducerMap<State['material']> = {
+export const reducers: ActionReducerMap<State['material'], any> = {
   formState(s = INITIAL_STATE, a: Action) {
     return validationFormGroupReducer(s, a);
+  },
+  submittedValue(s: FormValue | undefined, a: SetSubmittedValueAction) {
+    switch (a.type) {
+      case SetSubmittedValueAction.TYPE:
+        return a.submittedValue;
+
+      default:
+        return s;
+    }
   },
 };

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { FormGroupState } from 'ngrx-forms';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/observable';
 
 import { FormValue, State } from './async-validation.reducer';
 
@@ -16,7 +16,7 @@ export class AsyncValidationPageComponent {
   searchResults$: Observable<string[]>;
 
   constructor(store: Store<State>) {
-    this.formState$ = store.select(s => s.asyncValidation.formState);
-    this.searchResults$ = store.select(s => s.asyncValidation.searchResults);
+    this.formState$ = store.pipe(select(s => s.asyncValidation.formState));
+    this.searchResults$ = store.pipe(select(s => s.asyncValidation.searchResults));
   }
 }

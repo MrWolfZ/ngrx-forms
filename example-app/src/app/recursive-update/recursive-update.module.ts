@@ -6,14 +6,8 @@ import { NgrxFormsModule } from 'ngrx-forms';
 
 import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
-import { RecursiveUpdateFormComponent } from './form/form.component';
 import { RecursiveUpdatePageComponent } from './recursive-update.component';
 import { reducers } from './recursive-update.reducer';
-
-export const COMPONENTS = [
-  RecursiveUpdatePageComponent,
-  RecursiveUpdateFormComponent,
-];
 
 @NgModule({
   imports: [
@@ -26,7 +20,8 @@ export const COMPONENTS = [
     ]),
     StoreModule.forFeature('recursiveUpdate', reducers),
   ],
-  declarations: COMPONENTS,
-  exports: COMPONENTS,
+  declarations: [
+    RecursiveUpdatePageComponent,
+  ],
 })
 export class RecursiveUpdateModule { }

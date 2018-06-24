@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { FormGroupState } from 'ngrx-forms';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/observable';
 
 import { FormValue, State } from './array.reducer';
 
@@ -15,6 +15,10 @@ export class ArrayPageComponent {
   formState$: Observable<FormGroupState<FormValue>>;
 
   constructor(store: Store<State>) {
-    this.formState$ = store.select(s => s.array.formState);
+    this.formState$ = store.pipe(select(s => s.array.formState));
+  }
+
+  trackByIndex(index: number) {
+    return index;
   }
 }

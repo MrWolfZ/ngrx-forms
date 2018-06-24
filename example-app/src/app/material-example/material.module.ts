@@ -6,14 +6,8 @@ import { NgrxFormsModule } from 'ngrx-forms';
 
 import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
-import { DynamicFormComponent } from './form/form.component';
 import { DynamicPageComponent } from './material.component';
 import { reducers } from './material.reducer';
-
-export const COMPONENTS = [
-  DynamicPageComponent,
-  DynamicFormComponent,
-];
 
 @NgModule({
   imports: [
@@ -26,7 +20,8 @@ export const COMPONENTS = [
     ]),
     StoreModule.forFeature('material', reducers),
   ],
-  declarations: COMPONENTS,
-  exports: COMPONENTS,
+  declarations: [
+    DynamicPageComponent,
+  ],
 })
 export class MaterialExampleModule { }

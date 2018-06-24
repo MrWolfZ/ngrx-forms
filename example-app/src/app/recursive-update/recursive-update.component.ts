@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { FormGroupState } from 'ngrx-forms';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/observable';
+import { timer } from 'rxjs/observable/timer';
+import { map } from 'rxjs/operators';
 
-import { FormValue, State } from './recursive-update.reducer';
+import { BlockUIAction, FormValue, State, UnblockUIAction } from './recursive-update.reducer';
 
 @Component({
   selector: 'ngf-recursive-update',
@@ -14,7 +16,12 @@ import { FormValue, State } from './recursive-update.reducer';
 export class RecursiveUpdatePageComponent {
   formState$: Observable<FormGroupState<FormValue>>;
 
-  constructor(store: Store<State>) {
-    this.formState$ = store.select(s => s.recursiveUpdate.formState);
+  constructor(private store: Store<State>) {
+    this.formState$ = store.pipe(select(s => s.recursiveUpdate.formState));
+  }
+
+  submit() {
+    this.store.dispatch(new BlockUIAction());
+    timer(1000).pipe(map(() => new UnblockUIAction())).subscribe(this.store);
   }
 }

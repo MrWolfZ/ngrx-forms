@@ -6,14 +6,8 @@ import { NgrxFormsModule } from 'ngrx-forms';
 
 import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
-import { SyncValidationComponent } from './form/form.component';
 import { SyncValidationPageComponent } from './sync-validation.component';
 import { reducers } from './sync-validation.reducer';
-
-export const COMPONENTS = [
-  SyncValidationPageComponent,
-  SyncValidationComponent,
-];
 
 @NgModule({
   imports: [
@@ -26,7 +20,8 @@ export const COMPONENTS = [
     ]),
     StoreModule.forFeature('syncValidation', reducers),
   ],
-  declarations: COMPONENTS,
-  exports: COMPONENTS,
+  declarations: [
+    SyncValidationPageComponent,
+  ],
 })
 export class SyncValidationModule { }

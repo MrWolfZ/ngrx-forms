@@ -10,12 +10,6 @@ import { SharedModule } from '../shared/shared.module';
 import { AsyncValidationPageComponent } from './async-validation.component';
 import { AsyncValidationEffects } from './async-validation.effects';
 import { reducers } from './async-validation.reducer';
-import { AsyncValidationFormComponent } from './form/form.component';
-
-export const COMPONENTS = [
-  AsyncValidationPageComponent,
-  AsyncValidationFormComponent,
-];
 
 @NgModule({
   imports: [
@@ -26,11 +20,11 @@ export const COMPONENTS = [
     RouterModule.forChild([
       { path: '', component: AsyncValidationPageComponent },
     ]),
-
     StoreModule.forFeature('asyncValidation', reducers),
     EffectsModule.forFeature([AsyncValidationEffects]),
   ],
-  declarations: COMPONENTS,
-  exports: COMPONENTS,
+  declarations: [
+    AsyncValidationPageComponent,
+  ],
 })
 export class AsyncValidationModule { }
