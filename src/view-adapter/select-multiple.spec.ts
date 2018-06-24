@@ -19,6 +19,18 @@ const OPTION3_VALUE = 'op3';
   <option value="op3" selected>op2</option>
 </select>
 
+<select multiple [ngrxFormControlState]="state" id="customId">
+  <option value="op1">op1</option>
+  <option value="op2" selected>op2</option>
+  <option value="op3" selected>op2</option>
+</select>
+
+<select multiple [ngrxFormControlState]="state" [id]="boundId">
+  <option value="op1">op1</option>
+  <option value="op2" selected>op2</option>
+  <option value="op3" selected>op2</option>
+</select>
+
 <select multiple [ngrxFormControlState]="state">
   <option *ngFor="let o of stringOptions; trackBy: trackByIndex" [value]="o">{{ o }}</option>
 </select>
@@ -33,6 +45,7 @@ const OPTION3_VALUE = 'op3';
 `,
 })
 export class SelectTestComponent {
+  boundId = 'boundId';
   stringOptions = ['op1', 'op2', 'op3'];
   numberOptions = [1, 2, 3];
   booleanOptions = [true, false];
@@ -71,6 +84,57 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
     });
 
     it('should attach the view adapter', () => expect(viewAdapter).toBeDefined());
+
+    it('should set the ID of the element to the ID of the state if the ID is not already set', () => {
+      expect(element.id).toBe(TEST_ID);
+    });
+
+    it('should not set the ID of the element to the ID of the state if the ID is set in template manually', () => {
+      element = (fixture.nativeElement as HTMLElement).querySelectorAll('select')[1];
+      expect(element.id).toBe('customId');
+    });
+
+    it('should not set the ID of the element to the ID of the state if the ID is set in template via binding', () => {
+      element = (fixture.nativeElement as HTMLElement).querySelectorAll('select')[2];
+      expect(element.id).toBe(component.boundId);
+    });
+
+    it('should set the ID of the element if the ID of the state changes and the ID was set previously', () => {
+      const newId = 'new ID';
+      viewAdapter.ngrxFormControlState = { id: newId } as any;
+      fixture.detectChanges();
+      expect(element.id).toBe(newId);
+    });
+
+    it('should not set the ID of the element if the ID of the state changes and the ID was not set previously due to manual value', () => {
+      element = (fixture.nativeElement as HTMLElement).querySelectorAll('select')[1];
+      viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectMultipleViewAdapter);
+      const newId = 'new ID';
+      viewAdapter.ngrxFormControlState = { id: newId } as any;
+      fixture.detectChanges();
+      expect(element.id).toBe('customId');
+    });
+
+    it('should not set the ID of the element if the ID of the state changes and the ID was not set previously due to other binding', () => {
+      element = (fixture.nativeElement as HTMLElement).querySelectorAll('select')[2];
+      viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectMultipleViewAdapter);
+      const newId = 'new ID';
+      viewAdapter.ngrxFormControlState = { id: newId } as any;
+      fixture.detectChanges();
+      expect(element.id).toBe(component.boundId);
+    });
+
+    it('should not set the ID of the element if the ID of the state does not change', () => {
+      const renderer: Renderer2 = jasmine.createSpyObj('renderer', ['setProperty']);
+      const nativeElement: any = {};
+      viewAdapter = new NgrxSelectMultipleViewAdapter(renderer, { nativeElement } as any);
+      viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
+      viewAdapter.ngAfterViewInit();
+      expect(renderer.setProperty).toHaveBeenCalledTimes(1);
+      nativeElement.id = TEST_ID;
+      viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
+      expect(renderer.setProperty).toHaveBeenCalledTimes(1);
+    });
 
     it('should mark a single option as selected if same value is written', () => {
       viewAdapter.setViewValue([OPTION1_VALUE]);
@@ -143,7 +207,7 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
       const nativeElement = fixture.nativeElement as HTMLElement;
-      element = nativeElement.querySelectorAll('select')[1];
+      element = nativeElement.querySelectorAll('select')[3];
       option1 = element.querySelectorAll('option')[0];
       option2 = element.querySelectorAll('option')[1];
       viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectMultipleViewAdapter);
@@ -159,17 +223,6 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       viewAdapter.ngrxFormControlState = { id: newId } as any;
       fixture.detectChanges();
       expect(element.id).toBe(newId);
-    });
-
-    it('should not set the ID of the element if the ID of the state does not change', () => {
-      const renderer: Renderer2 = jasmine.createSpyObj('renderer', ['setProperty']);
-      const nativeElement: any = {};
-      viewAdapter = new NgrxSelectMultipleViewAdapter(renderer, { nativeElement } as any);
-      viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
-      expect(renderer.setProperty).toHaveBeenCalledTimes(1);
-      nativeElement.id = TEST_ID;
-      viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
-      expect(renderer.setProperty).toHaveBeenCalledTimes(1);
     });
 
     it('should mark a single option as selected if same value is written', () => {
@@ -233,7 +286,7 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
       const nativeElement = fixture.nativeElement as HTMLElement;
-      element = nativeElement.querySelectorAll('select')[2];
+      element = nativeElement.querySelectorAll('select')[4];
       option1 = element.querySelectorAll('option')[0];
       option2 = element.querySelectorAll('option')[1];
       viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectMultipleViewAdapter);
@@ -301,7 +354,7 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
       const nativeElement = fixture.nativeElement as HTMLElement;
-      element = nativeElement.querySelectorAll('select')[3];
+      element = nativeElement.querySelectorAll('select')[5];
       option1 = element.querySelectorAll('option')[0];
       option2 = element.querySelectorAll('option')[1];
       viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectMultipleViewAdapter);
