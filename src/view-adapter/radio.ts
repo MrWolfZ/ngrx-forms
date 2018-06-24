@@ -1,4 +1,4 @@
-import { Directive, ElementRef, forwardRef, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, forwardRef, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
 
 import { FormControlState } from '../state';
 import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
@@ -13,7 +13,10 @@ import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
     multi: true,
   }],
 })
-export class NgrxRadioViewAdapter implements FormViewAdapter, OnInit {
+export class NgrxRadioViewAdapter implements FormViewAdapter, OnInit, AfterViewInit {
+  private state: FormControlState<any>;
+  private nativeNameWasSet = false;
+
   @Input() set value(val: any) {
     if (val !== this.latestValue) {
       this.latestValue = val;
@@ -28,7 +31,10 @@ export class NgrxRadioViewAdapter implements FormViewAdapter, OnInit {
       throw new Error('The control state must not be undefined!');
     }
 
-    if (value.id !== this.elementRef.nativeElement.name) {
+    this.state = value;
+    const nativeName = this.elementRef.nativeElement.name;
+    const shouldSetNativeName = value.id !== nativeName && this.nativeNameWasSet;
+    if (shouldSetNativeName) {
       this.renderer.setProperty(this.elementRef.nativeElement, 'name', value.id);
     }
   }
@@ -49,6 +55,15 @@ export class NgrxRadioViewAdapter implements FormViewAdapter, OnInit {
 
   ngOnInit() {
     this.isChecked = (this.elementRef.nativeElement as HTMLInputElement).checked;
+  }
+
+  ngAfterViewInit() {
+    const nativeName = this.elementRef.nativeElement.name;
+    const shouldSetNativeName = this.state.id !== nativeName && !nativeName;
+    if (shouldSetNativeName) {
+      this.renderer.setProperty(this.elementRef.nativeElement, 'name', this.state.id);
+      this.nativeNameWasSet = true;
+    }
   }
 
   setViewValue(value: any): void {

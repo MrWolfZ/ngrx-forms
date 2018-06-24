@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Directive,
   ElementRef,
   forwardRef,
@@ -24,11 +25,13 @@ import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
     multi: true,
   }],
 })
-export class NgrxSelectMultipleViewAdapter implements FormViewAdapter {
+export class NgrxSelectMultipleViewAdapter implements FormViewAdapter, AfterViewInit {
+  private state: FormControlState<any>;
   private options: { [id: string]: NgrxSelectMultipleOption } = {};
   private optionValues: { [id: string]: any } = {};
   private idCounter = 0;
   private selectedIds: string[] = [];
+  private nativeIdWasSet = false;
 
   onChangeFn: (value: any) => void = () => void 0;
 
@@ -40,12 +43,24 @@ export class NgrxSelectMultipleViewAdapter implements FormViewAdapter {
       throw new Error('The control state must not be undefined!');
     }
 
-    if (value.id !== this.elementRef.nativeElement.id) {
+    this.state = value;
+    const nativeId = this.elementRef.nativeElement.id;
+    const shouldSetNativeId = value.id !== nativeId && this.nativeIdWasSet;
+    if (shouldSetNativeId) {
       this.renderer.setProperty(this.elementRef.nativeElement, 'id', value.id);
     }
   }
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
+
+  ngAfterViewInit() {
+    const nativeId = this.elementRef.nativeElement.id;
+    const shouldSetNativeId = this.state.id !== nativeId && !nativeId;
+    if (shouldSetNativeId) {
+      this.renderer.setProperty(this.elementRef.nativeElement, 'id', this.state.id);
+      this.nativeIdWasSet = true;
+    }
+  }
 
   setViewValue(value: any) {
     if (value === null) {

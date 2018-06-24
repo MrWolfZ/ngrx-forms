@@ -1,4 +1,4 @@
-import { Directive, ElementRef, forwardRef, HostListener, Input, Renderer2 } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, forwardRef, HostListener, Input, Renderer2 } from '@angular/core';
 import { ɵgetDOM as getDOM } from '@angular/platform-browser';
 
 import { FormControlState } from '../state';
@@ -23,7 +23,10 @@ function isAndroid(): boolean {
     multi: true,
   }],
 })
-export class NgrxDefaultViewAdapter implements FormViewAdapter {
+export class NgrxDefaultViewAdapter implements FormViewAdapter, AfterViewInit {
+  private state: FormControlState<any>;
+  private nativeIdWasSet = false;
+
   onChange: (value: any) => void = () => void 0;
 
   @HostListener('blur')
@@ -34,7 +37,10 @@ export class NgrxDefaultViewAdapter implements FormViewAdapter {
       throw new Error('The control state must not be undefined!');
     }
 
-    if (value.id !== this.elementRef.nativeElement.id) {
+    this.state = value;
+    const nativeId = this.elementRef.nativeElement.id;
+    const shouldSetNativeId = value.id !== nativeId && this.nativeIdWasSet;
+    if (shouldSetNativeId) {
       this.renderer.setProperty(this.elementRef.nativeElement, 'id', value.id);
     }
   }
@@ -44,6 +50,15 @@ export class NgrxDefaultViewAdapter implements FormViewAdapter {
   private isCompositionSupported = !isAndroid();
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
+
+  ngAfterViewInit() {
+    const nativeId = this.elementRef.nativeElement.id;
+    const shouldSetNativeId = this.state.id !== nativeId && !nativeId;
+    if (shouldSetNativeId) {
+      this.renderer.setProperty(this.elementRef.nativeElement, 'id', this.state.id);
+      this.nativeIdWasSet = true;
+    }
+  }
 
   setViewValue(value: any): void {
     const normalizedValue = value == null ? '' : value;

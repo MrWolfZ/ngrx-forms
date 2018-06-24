@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="2.3.6"></a>
+### 2.3.6
+
+#### Bugfixes
+
+* do not automatically set `id` of form elements to state's ID for elements that already have an `id` set, closes [#86](https://github.com/MrWolfZ/ngrx-forms/issues/86)
+
 <a name="2.3.5"></a>
 ### 2.3.5
 

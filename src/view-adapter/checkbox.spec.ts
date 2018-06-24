@@ -10,9 +10,12 @@ const TEST_ID = 'test ID';
   selector: 'checkbox-test',
   template: `
 <input type="checkbox" [ngrxFormControlState]="state" />
+<input type="checkbox" [ngrxFormControlState]="state" id="customId" />
+<input type="checkbox" [ngrxFormControlState]="state" [id]="boundId" />
 `,
 })
 export class CheckboxTestComponent {
+  boundId = 'boundId';
   state = { id: TEST_ID } as any;
 }
 
@@ -41,15 +44,43 @@ describe(NgrxCheckboxViewAdapter.name, () => {
 
   it('should attach the view adapter', () => expect(viewAdapter).toBeDefined());
 
-  it('should set the ID of the element to the ID of the state', () => {
+  it('should set the ID of the element to the ID of the state if the ID is not already set', () => {
     expect(element.id).toBe(TEST_ID);
   });
 
-  it('should set the ID of the element if the ID of the state changes', () => {
+  it('should not set the ID of the element to the ID of the state if the ID is set in template manually', () => {
+    element = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[1];
+    expect(element.id).toBe('customId');
+  });
+
+  it('should not set the ID of the element to the ID of the state if the ID is set in template via binding', () => {
+    element = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[2];
+    expect(element.id).toBe(component.boundId);
+  });
+
+  it('should set the ID of the element if the ID of the state changes and the ID was set previously', () => {
     const newId = 'new ID';
     viewAdapter.ngrxFormControlState = { id: newId } as any;
     fixture.detectChanges();
     expect(element.id).toBe(newId);
+  });
+
+  it('should not set the ID of the element if the ID of the state changes and the ID was not set previously due to manual value', () => {
+    element = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[1];
+    viewAdapter = getDebugNode(element)!.injector.get(NgrxCheckboxViewAdapter);
+    const newId = 'new ID';
+    viewAdapter.ngrxFormControlState = { id: newId } as any;
+    fixture.detectChanges();
+    expect(element.id).toBe('customId');
+  });
+
+  it('should not set the ID of the element if the ID of the state changes and the ID was not set previously due to other binding', () => {
+    element = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[2];
+    viewAdapter = getDebugNode(element)!.injector.get(NgrxCheckboxViewAdapter);
+    const newId = 'new ID';
+    viewAdapter.ngrxFormControlState = { id: newId } as any;
+    fixture.detectChanges();
+    expect(element.id).toBe(component.boundId);
   });
 
   it('should mark the input as checked', () => {
