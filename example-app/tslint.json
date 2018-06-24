@@ -29,6 +29,7 @@
     "import-blacklist": [
       true,
       "rxjs",
+      "rxjs/Rx",
       "@angular/material"
     ],
     "import-spacing": true,
