@@ -1,12 +1,8 @@
-import 'rxjs/add/operator/bufferCount';
-import 'rxjs/add/operator/skip';
-import 'rxjs/add/operator/take';
-
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable, Subject } from 'rxjs';
+import { bufferCount, skip, take } from 'rxjs/operators';
 
 import { MarkAsDirtyAction, SetValueAction } from '../../actions';
 import { NgrxFormsModule } from '../../module';
@@ -81,7 +77,7 @@ describe(RadioTestComponent.name, () => {
   });
 
   it(`should trigger a ${SetValueAction.name} with the selected value when an option is selected`, done => {
-    actions$.take(1).subscribe(a => {
+    actions$.pipe(take(1)).subscribe(a => {
       expect(a.type).toBe(SetValueAction.TYPE);
       expect((a as SetValueAction<string>).value).toBe(RADIO_OPTIONS[0]);
       done();
@@ -91,7 +87,7 @@ describe(RadioTestComponent.name, () => {
   });
 
   it(`should trigger a ${MarkAsDirtyAction.name} when an option is selected`, done => {
-    actions$.skip(1).take(1).subscribe(a => {
+    actions$.pipe(skip(1), take(1)).subscribe(a => {
       expect(a.type).toBe(MarkAsDirtyAction.TYPE);
       done();
     });
@@ -100,7 +96,7 @@ describe(RadioTestComponent.name, () => {
   });
 
   it(`should trigger ${SetValueAction.name}s and ${MarkAsDirtyAction.name}s when switching between options`, done => {
-    actions$.bufferCount(4).take(1).subscribe(([a1, a2, a3, a4]) => {
+    actions$.pipe(bufferCount(4), take(1)).subscribe(([a1, a2, a3, a4]) => {
       expect(a1.type).toBe(SetValueAction.TYPE);
       expect(a2.type).toBe(MarkAsDirtyAction.TYPE);
       expect(a3.type).toBe(SetValueAction.TYPE);
@@ -119,7 +115,7 @@ describe(RadioTestComponent.name, () => {
   it(`should trigger a ${SetValueAction.name} if the value of the selected option changes`, done => {
     const newValue = 'new value';
 
-    actions$.take(1).subscribe(a => {
+    actions$.pipe(take(1)).subscribe(a => {
       expect(a.type).toBe(SetValueAction.TYPE);
       expect((a as SetValueAction<string>).value).toBe(newValue);
       done();

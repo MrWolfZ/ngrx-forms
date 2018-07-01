@@ -39,7 +39,7 @@ describe(NgrxNumberViewAdapter.name, () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     element = (fixture.nativeElement as HTMLElement).querySelector('input') as HTMLInputElement;
-    viewAdapter = getDebugNode(element)!.injector.get(NgrxNumberViewAdapter);
+    viewAdapter = getDebugNode(element)!.injector.get<NgrxNumberViewAdapter>(NgrxNumberViewAdapter);
   });
 
   it('should attach the view adapter', () => expect(viewAdapter).toBeDefined());
@@ -67,7 +67,7 @@ describe(NgrxNumberViewAdapter.name, () => {
 
   it('should not set the ID of the element if the ID of the state changes and the ID was not set previously due to manual value', () => {
     element = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[1];
-    viewAdapter = getDebugNode(element)!.injector.get(NgrxNumberViewAdapter);
+    viewAdapter = getDebugNode(element)!.injector.get<NgrxNumberViewAdapter>(NgrxNumberViewAdapter);
     const newId = 'new ID';
     viewAdapter.ngrxFormControlState = { id: newId } as any;
     fixture.detectChanges();
@@ -76,7 +76,7 @@ describe(NgrxNumberViewAdapter.name, () => {
 
   it('should not set the ID of the element if the ID of the state changes and the ID was not set previously due to other binding', () => {
     element = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[2];
-    viewAdapter = getDebugNode(element)!.injector.get(NgrxNumberViewAdapter);
+    viewAdapter = getDebugNode(element)!.injector.get<NgrxNumberViewAdapter>(NgrxNumberViewAdapter);
     const newId = 'new ID';
     viewAdapter.ngrxFormControlState = { id: newId } as any;
     fixture.detectChanges();

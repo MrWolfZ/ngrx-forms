@@ -28,8 +28,6 @@
     "forin": true,
     "import-blacklist": [
       true,
-      "rxjs",
-      "rxjs/Rx",
       "@angular/material"
     ],
     "import-spacing": true,
@@ -109,11 +107,11 @@
     "no-switch-case-fall-through": true,
     "no-this-assignment": true,
     "no-trailing-whitespace": true,
-    "no-unbound-method": true,
+    "no-unbound-method": false,
     "no-unnecessary-callback-wrapper": true,
     "no-unnecessary-initializer": true,
     "no-unnecessary-qualifier": true,
-    "no-unnecessary-type-assertion": true,
+    "no-unnecessary-type-assertion": false,
     "no-unsafe-any": false,
     "no-unsafe-finally": true,
     "no-unused-expression": true,

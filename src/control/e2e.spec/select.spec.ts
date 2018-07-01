@@ -1,11 +1,8 @@
-import 'rxjs/add/operator/first';
-import 'rxjs/add/operator/skip';
-
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable, Subject } from 'rxjs';
+import { first, skip } from 'rxjs/operators';
 
 import { MarkAsDirtyAction, SetValueAction } from '../../actions';
 import { NgrxFormsModule } from '../../module';
@@ -72,7 +69,7 @@ describe(SelectComponent.name, () => {
   });
 
   it(`should trigger a ${SetValueAction.name} with the selected value when an option is selected`, done => {
-    actions$.first().subscribe(a => {
+    actions$.pipe(first()).subscribe(a => {
       expect(a.type).toBe(SetValueAction.TYPE);
       expect((a as SetValueAction<string>).value).toBe(SELECT_OPTIONS[0]);
       done();
@@ -83,7 +80,7 @@ describe(SelectComponent.name, () => {
   });
 
   it(`should trigger a ${MarkAsDirtyAction.name} when an option is selected`, done => {
-    actions$.skip(1).first().subscribe(a => {
+    actions$.pipe(skip(1), first()).subscribe(a => {
       expect(a.type).toBe(MarkAsDirtyAction.TYPE);
       done();
     });
@@ -155,7 +152,7 @@ describe(NumberSelectComponent.name, () => {
   });
 
   it(`should trigger a ${SetValueAction.name} with the selected value when an option is selected`, done => {
-    actions$.first().subscribe(a => {
+    actions$.pipe(first()).subscribe(a => {
       expect(a.type).toBe(SetValueAction.TYPE);
       expect((a as SetValueAction<number>).value).toBe(SELECT_NUMBER_OPTIONS[0]);
       done();
@@ -166,7 +163,7 @@ describe(NumberSelectComponent.name, () => {
   });
 
   it(`should trigger a ${MarkAsDirtyAction.name} when an option is selected`, done => {
-    actions$.skip(1).first().subscribe(a => {
+    actions$.pipe(skip(1), first()).subscribe(a => {
       expect(a.type).toBe(MarkAsDirtyAction.TYPE);
       done();
     });

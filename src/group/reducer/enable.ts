@@ -1,6 +1,6 @@
 import { Actions, EnableAction } from '../../actions';
 import { computeGroupState, FormGroupState, KeyValue } from '../../state';
-import {  childReducer, dispatchActionPerChild } from './util';
+import { childReducer, dispatchActionPerChild } from './util';
 
 export function enableReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,

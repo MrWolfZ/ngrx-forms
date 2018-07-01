@@ -74,7 +74,7 @@ describe(NgrxSelectViewAdapter.name, () => {
       element = nativeElement.querySelector('select')!;
       option1 = element.querySelectorAll('option')[0];
       option2 = element.querySelectorAll('option')[1];
-      viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
+      viewAdapter = getDebugNode(element)!.injector.get<NgrxSelectViewAdapter>(NgrxSelectViewAdapter);
       fixture.detectChanges();
     });
 
@@ -103,7 +103,7 @@ describe(NgrxSelectViewAdapter.name, () => {
 
     it('should not set the ID of the element if the ID of the state changes and the ID was not set previously due to manual value', () => {
       element = (fixture.nativeElement as HTMLElement).querySelectorAll('select')[1];
-      viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
+      viewAdapter = getDebugNode(element)!.injector.get<NgrxSelectViewAdapter>(NgrxSelectViewAdapter);
       const newId = 'new ID';
       viewAdapter.ngrxFormControlState = { id: newId } as any;
       fixture.detectChanges();
@@ -112,7 +112,7 @@ describe(NgrxSelectViewAdapter.name, () => {
 
     it('should not set the ID of the element if the ID of the state changes and the ID was not set previously due to other binding', () => {
       element = (fixture.nativeElement as HTMLElement).querySelectorAll('select')[2];
-      viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
+      viewAdapter = getDebugNode(element)!.injector.get<NgrxSelectViewAdapter>(NgrxSelectViewAdapter);
       const newId = 'new ID';
       viewAdapter.ngrxFormControlState = { id: newId } as any;
       fixture.detectChanges();
@@ -186,7 +186,7 @@ describe(NgrxSelectViewAdapter.name, () => {
       element = nativeElement.querySelectorAll('select')[3];
       option1 = element.querySelectorAll('option')[0];
       option2 = element.querySelectorAll('option')[1];
-      viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
+      viewAdapter = getDebugNode(element)!.injector.get<NgrxSelectViewAdapter>(NgrxSelectViewAdapter);
       viewAdapter.setViewValue(component.stringOptions[1]);
     });
 
@@ -275,7 +275,7 @@ describe(NgrxSelectViewAdapter.name, () => {
       element = nativeElement.querySelectorAll('select')[4];
       option1 = element.querySelectorAll('option')[0];
       option2 = element.querySelectorAll('option')[1];
-      viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
+      viewAdapter = getDebugNode(element)!.injector.get<NgrxSelectViewAdapter>(NgrxSelectViewAdapter);
       viewAdapter.setViewValue(component.numberOptions[1]);
     });
 
@@ -353,7 +353,7 @@ describe(NgrxSelectViewAdapter.name, () => {
       element = nativeElement.querySelectorAll('select')[5];
       option1 = element.querySelectorAll('option')[0];
       option2 = element.querySelectorAll('option')[1];
-      viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectViewAdapter);
+      viewAdapter = getDebugNode(element)!.injector.get<NgrxSelectViewAdapter>(NgrxSelectViewAdapter);
       viewAdapter.setViewValue(component.booleanOptions[1]);
     });
 

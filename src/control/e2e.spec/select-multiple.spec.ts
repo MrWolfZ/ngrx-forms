@@ -1,11 +1,8 @@
-import 'rxjs/add/operator/first';
-import 'rxjs/add/operator/skip';
-
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable, Subject } from 'rxjs';
+import { first, skip } from 'rxjs/operators';
 
 import { MarkAsDirtyAction, SetValueAction } from '../../actions';
 import { box, Boxed } from '../../boxing';
@@ -71,7 +68,7 @@ describe(SelectMultipleComponent.name, () => {
   });
 
   it('should trigger a SetValueAction with the selected value when an option is selected', done => {
-    actions$.first().subscribe(a => {
+    actions$.pipe(first()).subscribe(a => {
       expect(a.type).toBe(SetValueAction.TYPE);
       expect((a as SetValueAction<string>).value).toBe(JSON.stringify(SELECT_OPTIONS));
       done();
@@ -82,7 +79,7 @@ describe(SelectMultipleComponent.name, () => {
   });
 
   it(`should trigger a ${MarkAsDirtyAction.name} when an option is selected`, done => {
-    actions$.skip(1).first().subscribe(a => {
+    actions$.pipe(skip(1), first()).subscribe(a => {
       expect(a.type).toBe(MarkAsDirtyAction.TYPE);
       done();
     });
@@ -147,7 +144,7 @@ describe(SelectMultipleWithoutConverterComponent.name, () => {
   });
 
   it('should trigger a SetValueAction with the selected value when an option is selected', done => {
-    actions$.first().subscribe(a => {
+    actions$.pipe(first()).subscribe(a => {
       expect(a.type).toBe(SetValueAction.TYPE);
       expect((a as SetValueAction<Boxed<string[]>>).value).toEqual(box(SELECT_OPTIONS));
       done();
@@ -158,7 +155,7 @@ describe(SelectMultipleWithoutConverterComponent.name, () => {
   });
 
   it(`should trigger a ${MarkAsDirtyAction.name} when an option is selected`, done => {
-    actions$.skip(1).first().subscribe(a => {
+    actions$.pipe(skip(1), first()).subscribe(a => {
       expect(a.type).toBe(MarkAsDirtyAction.TYPE);
       done();
     });

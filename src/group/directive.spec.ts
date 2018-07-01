@@ -1,9 +1,6 @@
-import 'rxjs/add/operator/count';
-import 'rxjs/add/operator/take';
-
 import { Action } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Observable, ReplaySubject } from 'rxjs';
+import { count, take } from 'rxjs/operators';
 
 import { MarkAsSubmittedAction } from '../actions';
 import { createFormGroupState } from '../state';
@@ -31,7 +28,7 @@ describe(NgrxFormDirective.name, () => {
   });
 
   it(`should dispatch a ${MarkAsSubmittedAction.name} if the form is submitted and the state is unsubmitted`, done => {
-    actions$.take(1).subscribe(a => {
+    actions$.pipe(take(1)).subscribe(a => {
       expect(a).toEqual(new MarkAsSubmittedAction(INITIAL_STATE.id));
       done();
     });
@@ -40,7 +37,7 @@ describe(NgrxFormDirective.name, () => {
   });
 
   it(`should not dispatch a ${MarkAsSubmittedAction.name} if the form is submitted and the state is submitted`, done => {
-    actions$.count().subscribe(c => {
+    actions$.pipe(count()).subscribe(c => {
       expect(c).toEqual(0);
       done();
     });

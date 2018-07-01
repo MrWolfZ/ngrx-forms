@@ -79,7 +79,7 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       element = nativeElement.querySelector('select')!;
       option1 = element.querySelectorAll('option')[0];
       option2 = element.querySelectorAll('option')[1];
-      viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectMultipleViewAdapter);
+      viewAdapter = getDebugNode(element)!.injector.get<NgrxSelectMultipleViewAdapter>(NgrxSelectMultipleViewAdapter);
       fixture.detectChanges();
     });
 
@@ -108,7 +108,7 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
 
     it('should not set the ID of the element if the ID of the state changes and the ID was not set previously due to manual value', () => {
       element = (fixture.nativeElement as HTMLElement).querySelectorAll('select')[1];
-      viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectMultipleViewAdapter);
+      viewAdapter = getDebugNode(element)!.injector.get<NgrxSelectMultipleViewAdapter>(NgrxSelectMultipleViewAdapter);
       const newId = 'new ID';
       viewAdapter.ngrxFormControlState = { id: newId } as any;
       fixture.detectChanges();
@@ -117,7 +117,7 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
 
     it('should not set the ID of the element if the ID of the state changes and the ID was not set previously due to other binding', () => {
       element = (fixture.nativeElement as HTMLElement).querySelectorAll('select')[2];
-      viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectMultipleViewAdapter);
+      viewAdapter = getDebugNode(element)!.injector.get<NgrxSelectMultipleViewAdapter>(NgrxSelectMultipleViewAdapter);
       const newId = 'new ID';
       viewAdapter.ngrxFormControlState = { id: newId } as any;
       fixture.detectChanges();
@@ -210,7 +210,7 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       element = nativeElement.querySelectorAll('select')[3];
       option1 = element.querySelectorAll('option')[0];
       option2 = element.querySelectorAll('option')[1];
-      viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectMultipleViewAdapter);
+      viewAdapter = getDebugNode(element)!.injector.get<NgrxSelectMultipleViewAdapter>(NgrxSelectMultipleViewAdapter);
       viewAdapter.setViewValue([component.stringOptions[1], component.stringOptions[2]]);
     });
 
@@ -289,7 +289,7 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       element = nativeElement.querySelectorAll('select')[4];
       option1 = element.querySelectorAll('option')[0];
       option2 = element.querySelectorAll('option')[1];
-      viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectMultipleViewAdapter);
+      viewAdapter = getDebugNode(element)!.injector.get<NgrxSelectMultipleViewAdapter>(NgrxSelectMultipleViewAdapter);
       viewAdapter.setViewValue([component.numberOptions[1], component.numberOptions[2]]);
     });
 
@@ -357,7 +357,7 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
       element = nativeElement.querySelectorAll('select')[5];
       option1 = element.querySelectorAll('option')[0];
       option2 = element.querySelectorAll('option')[1];
-      viewAdapter = getDebugNode(element)!.injector.get(NgrxSelectMultipleViewAdapter);
+      viewAdapter = getDebugNode(element)!.injector.get<NgrxSelectMultipleViewAdapter>(NgrxSelectMultipleViewAdapter);
       viewAdapter.setViewValue([component.booleanOptions[1]]);
     });
 

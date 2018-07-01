@@ -58,8 +58,8 @@ describe(NgrxRadioViewAdapter.name, () => {
       fixture.detectChanges();
       element1 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[0];
       element2 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[1];
-      viewAdapter1 = getDebugNode(element1)!.injector.get(NgrxRadioViewAdapter);
-      viewAdapter2 = getDebugNode(element2)!.injector.get(NgrxRadioViewAdapter);
+      viewAdapter1 = getDebugNode(element1)!.injector.get<NgrxRadioViewAdapter>(NgrxRadioViewAdapter);
+      viewAdapter2 = getDebugNode(element2)!.injector.get<NgrxRadioViewAdapter>(NgrxRadioViewAdapter);
     });
 
     it('should attach the view adapter', () => expect(viewAdapter1).toBeDefined());
@@ -90,7 +90,7 @@ describe(NgrxRadioViewAdapter.name, () => {
 
     it('should not set the name of the elements when the state\'s ID changes and the name was not set previously due to manual value', () => {
       const element = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[2];
-      const viewAdapter = getDebugNode(element)!.injector.get(NgrxRadioViewAdapter);
+      const viewAdapter = getDebugNode(element)!.injector.get<NgrxRadioViewAdapter>(NgrxRadioViewAdapter);
       const newId = 'new ID';
       viewAdapter.ngrxFormControlState = { id: newId } as any;
       fixture.detectChanges();
@@ -99,7 +99,7 @@ describe(NgrxRadioViewAdapter.name, () => {
 
     it('should not set the name of the elements when the state\'s ID changes and the name was not set previously due to other binding', () => {
       const element = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[3];
-      const viewAdapter = getDebugNode(element)!.injector.get(NgrxRadioViewAdapter);
+      const viewAdapter = getDebugNode(element)!.injector.get<NgrxRadioViewAdapter>(NgrxRadioViewAdapter);
       const newId = 'new ID';
       viewAdapter.ngrxFormControlState = { id: newId } as any;
       fixture.detectChanges();
@@ -172,8 +172,8 @@ describe(NgrxRadioViewAdapter.name, () => {
       fixture.detectChanges();
       element1 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[4];
       element2 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[5];
-      viewAdapter1 = getDebugNode(element1)!.injector.get(NgrxRadioViewAdapter);
-      viewAdapter2 = getDebugNode(element2)!.injector.get(NgrxRadioViewAdapter);
+      viewAdapter1 = getDebugNode(element1)!.injector.get<NgrxRadioViewAdapter>(NgrxRadioViewAdapter);
+      viewAdapter2 = getDebugNode(element2)!.injector.get<NgrxRadioViewAdapter>(NgrxRadioViewAdapter);
       viewAdapter1.setViewValue(component.stringOptions[1]);
       viewAdapter2.setViewValue(component.stringOptions[1]);
     });
@@ -236,7 +236,7 @@ describe(NgrxRadioViewAdapter.name, () => {
       component.stringOptions.push(newValue);
       fixture.detectChanges();
       const newElement = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[6];
-      const newViewAdapter = getDebugNode(newElement)!.injector.get(NgrxRadioViewAdapter);
+      const newViewAdapter = getDebugNode(newElement)!.injector.get<NgrxRadioViewAdapter>(NgrxRadioViewAdapter);
       newViewAdapter.setOnChangeCallback(spy);
       newElement.checked = true;
       newElement.dispatchEvent(new Event('change'));
@@ -251,8 +251,8 @@ describe(NgrxRadioViewAdapter.name, () => {
       fixture.detectChanges();
       element1 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[6];
       element2 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[7];
-      viewAdapter1 = getDebugNode(element1)!.injector.get(NgrxRadioViewAdapter);
-      viewAdapter2 = getDebugNode(element2)!.injector.get(NgrxRadioViewAdapter);
+      viewAdapter1 = getDebugNode(element1)!.injector.get<NgrxRadioViewAdapter>(NgrxRadioViewAdapter);
+      viewAdapter2 = getDebugNode(element2)!.injector.get<NgrxRadioViewAdapter>(NgrxRadioViewAdapter);
       viewAdapter1.setViewValue(component.numberOptions[1]);
       viewAdapter2.setViewValue(component.numberOptions[1]);
     });
@@ -307,7 +307,7 @@ describe(NgrxRadioViewAdapter.name, () => {
       component.numberOptions.push(newValue);
       fixture.detectChanges();
       const newElement = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[8];
-      const newViewAdapter = getDebugNode(newElement)!.injector.get(NgrxRadioViewAdapter);
+      const newViewAdapter = getDebugNode(newElement)!.injector.get<NgrxRadioViewAdapter>(NgrxRadioViewAdapter);
       newViewAdapter.setOnChangeCallback(spy);
       newElement.checked = true;
       newElement.dispatchEvent(new Event('change'));
@@ -322,8 +322,8 @@ describe(NgrxRadioViewAdapter.name, () => {
       fixture.detectChanges();
       element1 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[8];
       element2 = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[9];
-      viewAdapter1 = getDebugNode(element1)!.injector.get(NgrxRadioViewAdapter);
-      viewAdapter2 = getDebugNode(element2)!.injector.get(NgrxRadioViewAdapter);
+      viewAdapter1 = getDebugNode(element1)!.injector.get<NgrxRadioViewAdapter>(NgrxRadioViewAdapter);
+      viewAdapter2 = getDebugNode(element2)!.injector.get<NgrxRadioViewAdapter>(NgrxRadioViewAdapter);
       viewAdapter1.setViewValue(component.booleanOptions[1]);
       viewAdapter2.setViewValue(component.booleanOptions[1]);
     });
@@ -378,7 +378,7 @@ describe(NgrxRadioViewAdapter.name, () => {
       component.booleanOptions.push(newValue);
       fixture.detectChanges();
       const newElement = (fixture.nativeElement as HTMLElement).querySelectorAll('input')[10];
-      const newViewAdapter = getDebugNode(newElement)!.injector.get(NgrxRadioViewAdapter);
+      const newViewAdapter = getDebugNode(newElement)!.injector.get<NgrxRadioViewAdapter>(NgrxRadioViewAdapter);
       newViewAdapter.setOnChangeCallback(spy);
       newElement.checked = true;
       newElement.dispatchEvent(new Event('change'));

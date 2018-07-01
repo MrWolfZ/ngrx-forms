@@ -4,7 +4,6 @@ const resolve = require('rollup-plugin-node-resolve');
 const globals = {
   '@angular/core': 'ng.core',
   '@angular/common': 'ng.common',
-  '@angular/platform-browser': 'ng.platform-browser',
   '@angular/forms': 'ng.forms',
   '@ngrx/store': 'ngrx.store',
 };
