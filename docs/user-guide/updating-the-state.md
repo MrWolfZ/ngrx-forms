@@ -486,3 +486,136 @@ export function appReducer(state = initialState, action: Action): AppState {
   }
 }
 ```
+
+### Declarative vs. imperative updates
+
+Most of the examples in this guide show how to use a certain update function to imperatively update a form state. However, the later examples that show a full reducer use a different style of updating the state. Instead of reacting to certain actions and performing specific updates on the form state we execute the form state update functions every time the reducer is called. If used in this way the update function is declarative, not imperative. We declare the desired state for the form state based on its own value (or any provided auxiliary state) and the update function will ensure these invariants are kept true.
+
+Both styles of updates are fully supported (and you will usually use both in an application), but the declarative style is preferred. Let us examine how both styles would look like for a simple example. Imagine we have to following form shape:
+
+```typescript
+interface FormValue {
+  // most browsers allow a form control's content to be empty in which
+  // case they will report `null` as the value of the control; most
+  // other examples in this guide ignore this fact for simplicity but
+  // to properly type the form value we should explicitly declare that
+  // the value may be `null`
+  someNumber: number | null;
+  someNumberIsEditable: boolean;
+}
+```
+
+The `someNumber` control should only be enabled if `someNumberIsEditable` is `true` and if it is enabled it must have a value between `1` and `10`. In the imperative style we would react to value changes of the control and validate it:
+
+```typescript
+interface AppState {
+  formState: FormGroupState<FormValue>;
+}
+
+// this example code is intentionally verbose to make it easier
+// to understand; much of it could be written much more concisely;
+// we also dispatch actions directly instead of using update functions
+function appReducer(state = INITIAL_APP_STATE, action: Action) {
+  switch (action.type) {
+    // the `SetValueAction` is dispatched internally by ngrx-forms
+    // whenever the HTML form element's value changes
+    case SetValueAction.TYPE: {
+      const a = action as SetValueAction<any>;
+      const someNumberId = state.formState.controls.someNumber.id;
+      const someNumberIsEditableId = state.formState.controls.someNumberIsEditable.id;
+
+      // react to value changes of the `someNumberIsEditable` control
+      if (a.controlId === someNumberIsEditableId) {
+        const value: boolean = a.value;
+
+        if (value) {
+          const formState = formGroupReducer(state.formState, new EnableAction(someNumberId));
+          return {
+            ...state,
+            formState,
+          };
+        }
+        
+        const formState = formGroupReducer(state.formState, new DisableAction(someNumberId));
+        return {
+          ...state,
+          formState,
+        };
+      }
+
+      // react to value changes of the `someNumber` control
+      if (a.controlId === someNumberId) {
+        const value: number | null = a.value;
+        if (value === null) {
+          const formState = formGroupReducer(state.formState, new SetErrorsAction(someNumberId, { valueIsNull: true }));
+          return {
+            ...state,
+            formState,
+          };
+        }
+
+        if (value < 1) {
+          const formState = formGroupReducer(state.formState, new SetErrorsAction(someNumberId, { valueTooSmall: true }));
+          return {
+            ...state,
+            formState,
+          };
+        }
+
+        if (value > 10) {
+          const formState = formGroupReducer(state.formState, new SetErrorsAction(someNumberId, { valueTooLarge: true }));
+          return {
+            ...state,
+            formState,
+          };
+        }
+      }
+
+      return state;
+    }
+
+    default:
+      return state;
+  }
+}
+```
+
+In your application with more complex forms there may of course be other actions that should update the form state and in those cases you would also use this imperative style.
+
+With the declarative style the code would look like this (we have seen similar code already in previous sections of this guide):
+
+```typescript
+const validateFormState = updateGroup<FormValue>({
+  someNumber: (someNumber, parent) => {
+    // this line clearly declares the interaction between the two form controls
+    someNumber = parent.value.someNumberIsEditable ? enable(someNumber) : disable(someNumber);
+
+    // we validate the control regardless of whether it is enabled or disabled at this point;
+    // if it is disabled ngrx-forms will see that and not set any errors
+    return validate(required, greaterThan(0), lessThanOrEqualTo(10))(someNumber);
+  },
+});
+
+export function appReducer(state = INITIAL_APP_STATE, action: Action): AppState {
+  const formState = validateFormState(formGroupReducer(state.formState, action));
+  if (formState !== state.formState) {
+    state = { ...state, formState };
+  }
+
+  switch (action.type) {
+    case 'some action type':
+      // modify state
+      return state;
+
+    default: {
+      return state;
+    }
+  }
+}
+```
+
+While this code is much shorter, that is not the main benefit of this style (although declarative code _is_ usually much more concise than imperative code). As you can see the `validateFormState` function is called on every invocation of the `appReducer` function (which means it is executed for every action that is dispatched within your app).
+
+The major upside of this is that you do not need to worry about why the result of executing the update function may change. As soon as anything happens that affects the result of the function the form state will automatically be updated. In addition, with this style all the logic attached to your form state is usually located in a single place which makes it much easier to reason about the logic (you can of course place nested update functions into separate files but you will still have a single entry point into the update logic).
+
+The major downside is that the code is executed much more often than required. In almost all cases the update function is invoked its result will not change (that is why we perform the reference equality check and also why **ngrx-forms** makes painstakingly sure no object references ever change if nothing inside the object changes). Intuitively this _feels_ like a major inefficiency and waste of CPU time. However, due to the power of the Redux model the update functions are pure functions that are _incredibly_ fast to execute. In apps that I have worked on we had large form states with hundreds of controls with very complex validation logic. In addition, these apps had to run in older browsers. Yet even though every dispatched action would execute hundreds of lines of form validation code that was not noticeable at all in the UI.
