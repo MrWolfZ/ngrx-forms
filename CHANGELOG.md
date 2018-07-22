@@ -3,7 +3,7 @@
 <a name="3.0.0"></a>
 ### 3.0.0
 
-This release requires TypeScript >=2.8.0 for the conditional type support.
+This release requires TypeScript >=2.8.0 for the conditional type support. It also requires Angular >= 6.1.0 for compatibility with that TypeScript version.
 
 #### Breaking Changes
 
