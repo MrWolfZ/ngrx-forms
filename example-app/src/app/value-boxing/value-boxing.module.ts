@@ -6,7 +6,7 @@ import { NgrxFormsModule } from 'ngrx-forms';
 
 import { SharedModule } from '../shared/shared.module';
 import { ValueBoxingPageComponent } from './value-boxing.component';
-import { reducers } from './value-boxing.reducer';
+import { reducer } from './value-boxing.reducer';
 
 @NgModule({
   imports: [
@@ -16,7 +16,7 @@ import { reducers } from './value-boxing.reducer';
     RouterModule.forChild([
       { path: '', component: ValueBoxingPageComponent },
     ]),
-    StoreModule.forFeature('valueBoxing', reducers),
+    StoreModule.forFeature('valueBoxing', reducer),
   ],
   declarations: [
     ValueBoxingPageComponent,

@@ -7,7 +7,7 @@ import { NgrxFormsModule } from 'ngrx-forms';
 import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
 import { SyncValidationPageComponent } from './sync-validation.component';
-import { reducers } from './sync-validation.reducer';
+import { reducer } from './sync-validation.reducer';
 
 @NgModule({
   imports: [
@@ -18,7 +18,7 @@ import { reducers } from './sync-validation.reducer';
     RouterModule.forChild([
       { path: '', component: SyncValidationPageComponent },
     ]),
-    StoreModule.forFeature('syncValidation', reducers),
+    StoreModule.forFeature('syncValidation', reducer),
   ],
   declarations: [
     SyncValidationPageComponent,

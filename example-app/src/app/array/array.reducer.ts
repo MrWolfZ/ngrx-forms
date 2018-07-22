@@ -1,4 +1,4 @@
-import { Action, ActionReducerMap } from '@ngrx/store';
+import { Action, combineReducers } from '@ngrx/store';
 import {
   createFormGroupState,
   formGroupReducer,
@@ -28,8 +28,12 @@ export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
   ],
 });
 
-export const reducers: ActionReducerMap<State['array']> = {
+const reducers = combineReducers<State['array']>({
   formState(s = INITIAL_STATE, a: Action) {
     return formGroupReducer(s, a);
   },
-};
+});
+
+export function reducer(s: State['array'], a: Action) {
+  return reducers(s, a);
+}

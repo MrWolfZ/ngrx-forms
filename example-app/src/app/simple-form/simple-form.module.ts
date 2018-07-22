@@ -7,7 +7,7 @@ import { NgrxFormsModule } from 'ngrx-forms';
 import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
 import { SimpleFormPageComponent } from './simple-form.component';
-import { reducers } from './simple-form.reducer';
+import { reducer } from './simple-form.reducer';
 
 @NgModule({
   imports: [
@@ -18,7 +18,7 @@ import { reducers } from './simple-form.reducer';
     RouterModule.forChild([
       { path: '', component: SimpleFormPageComponent },
     ]),
-    StoreModule.forFeature('simpleForm', reducers),
+    StoreModule.forFeature('simpleForm', reducer),
   ],
   declarations: [
     SimpleFormPageComponent,

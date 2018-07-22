@@ -1,4 +1,4 @@
-import { Action, ActionReducerMap } from '@ngrx/store';
+import { Action, combineReducers } from '@ngrx/store';
 import {
   AddArrayControlAction,
   addGroupControl,
@@ -50,7 +50,7 @@ export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
   },
 });
 
-export const reducers: ActionReducerMap<State['dynamic'], any> = {
+const reducers = combineReducers<State['dynamic'], any>({
   formState(
     s = INITIAL_STATE,
     a: CreateGroupElementAction | RemoveGroupElementAction,
@@ -134,4 +134,8 @@ export const reducers: ActionReducerMap<State['dynamic'], any> = {
         return s;
     }
   },
-};
+});
+
+export function reducer(s: State['dynamic'], a: Action) {
+  return reducers(s, a);
+}

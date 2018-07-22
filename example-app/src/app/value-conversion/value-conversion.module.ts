@@ -7,7 +7,7 @@ import { NgrxFormsModule } from 'ngrx-forms';
 import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
 import { ValueConversionPageComponent } from './value-conversion.component';
-import { reducers } from './value-conversion.reducer';
+import { reducer } from './value-conversion.reducer';
 
 @NgModule({
   imports: [
@@ -18,7 +18,7 @@ import { reducers } from './value-conversion.reducer';
     RouterModule.forChild([
       { path: '', component: ValueConversionPageComponent },
     ]),
-    StoreModule.forFeature('valueConversion', reducers),
+    StoreModule.forFeature('valueConversion', reducer),
   ],
   declarations: [
     ValueConversionPageComponent,

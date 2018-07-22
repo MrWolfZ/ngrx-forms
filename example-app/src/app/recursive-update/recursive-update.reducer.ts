@@ -1,4 +1,4 @@
-import { Action, ActionReducerMap } from '@ngrx/store';
+import { Action, combineReducers } from '@ngrx/store';
 import {
   createFormGroupState,
   disable,
@@ -57,7 +57,7 @@ export const INITIAL_STATE = updateGroup<FormValue>(
   },
 );
 
-export const reducers: ActionReducerMap<State['recursiveUpdate'], any> = {
+const reducers = combineReducers<State['recursiveUpdate'], any>({
   formState(state = INITIAL_STATE, a: BlockUIAction | UnblockUIAction) {
     state = formGroupReducer(state, a);
 
@@ -83,4 +83,8 @@ export const reducers: ActionReducerMap<State['recursiveUpdate'], any> = {
       }
     }
   },
-};
+});
+
+export function reducer(s: State['recursiveUpdate'], a: Action) {
+  return reducers(s, a);
+}

@@ -1,4 +1,4 @@
-import { Action, ActionReducerMap } from '@ngrx/store';
+import { Action, combineReducers } from '@ngrx/store';
 import { createFormGroupState, formGroupReducer, FormGroupState } from 'ngrx-forms';
 
 import { State as RootState } from '../app.reducer';
@@ -38,7 +38,7 @@ export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
   notes: '',
 });
 
-export const reducers: ActionReducerMap<State['simpleForm'], any> = {
+const reducers = combineReducers<State['simpleForm'], any>({
   formState(s = INITIAL_STATE, a: Action) {
     return formGroupReducer(s, a);
   },
@@ -51,4 +51,8 @@ export const reducers: ActionReducerMap<State['simpleForm'], any> = {
         return s;
     }
   },
-};
+});
+
+export function reducer(s: State['simpleForm'], a: Action) {
+  return reducers(s, a);
+}

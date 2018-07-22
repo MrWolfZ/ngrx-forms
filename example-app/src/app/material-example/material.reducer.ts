@@ -1,4 +1,4 @@
-import { Action, ActionReducerMap } from '@ngrx/store';
+import { Action, combineReducers } from '@ngrx/store';
 import {
   box,
   Boxed,
@@ -75,7 +75,7 @@ const validationFormGroupReducer = createFormStateReducerWithUpdate<FormValue>(u
   agreeToTermsOfUse: validate(requiredTrue),
 }));
 
-export const reducers: ActionReducerMap<State['material'], any> = {
+const reducers = combineReducers<State['material'], any>({
   formState(s = INITIAL_STATE, a: Action) {
     return validationFormGroupReducer(s, a);
   },
@@ -88,4 +88,8 @@ export const reducers: ActionReducerMap<State['material'], any> = {
         return s;
     }
   },
-};
+});
+
+export function reducer(s: State['material'], a: Action) {
+  return reducers(s, a);
+}

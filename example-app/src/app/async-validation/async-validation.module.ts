@@ -9,7 +9,7 @@ import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
 import { AsyncValidationPageComponent } from './async-validation.component';
 import { AsyncValidationEffects } from './async-validation.effects';
-import { reducers } from './async-validation.reducer';
+import { reducer } from './async-validation.reducer';
 
 @NgModule({
   imports: [
@@ -20,7 +20,7 @@ import { reducers } from './async-validation.reducer';
     RouterModule.forChild([
       { path: '', component: AsyncValidationPageComponent },
     ]),
-    StoreModule.forFeature('asyncValidation', reducers),
+    StoreModule.forFeature('asyncValidation', reducer),
     EffectsModule.forFeature([AsyncValidationEffects]),
   ],
   declarations: [

@@ -7,7 +7,7 @@ import { NgrxFormsModule } from 'ngrx-forms';
 import { MaterialModule } from '../material';
 import { SharedModule } from '../shared/shared.module';
 import { RecursiveUpdatePageComponent } from './recursive-update.component';
-import { reducers } from './recursive-update.reducer';
+import { reducer } from './recursive-update.reducer';
 
 @NgModule({
   imports: [
@@ -18,7 +18,7 @@ import { reducers } from './recursive-update.reducer';
     RouterModule.forChild([
       { path: '', component: RecursiveUpdatePageComponent },
     ]),
-    StoreModule.forFeature('recursiveUpdate', reducers),
+    StoreModule.forFeature('recursiveUpdate', reducer),
   ],
   declarations: [
     RecursiveUpdatePageComponent,

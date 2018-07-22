@@ -1,4 +1,4 @@
-import { Action, ActionReducerMap } from '@ngrx/store';
+import { Action, combineReducers } from '@ngrx/store';
 import {
   createFormGroupState,
   disable,
@@ -89,7 +89,7 @@ export const validateAndUpdateForm = updateGroup<FormValue>({
   agreeToTermsOfUse: validate(requiredTrue),
 });
 
-export const reducers: ActionReducerMap<State['syncValidation'], any> = {
+const reducers = combineReducers<State['syncValidation'], any>({
   formState(s = INITIAL_STATE, a: Action) {
     return validateAndUpdateForm(formGroupReducer(s, a));
   },
@@ -102,4 +102,8 @@ export const reducers: ActionReducerMap<State['syncValidation'], any> = {
         return s;
     }
   },
-};
+});
+
+export function reducer(s: State['syncValidation'], a: Action) {
+  return reducers(s, a);
+}
