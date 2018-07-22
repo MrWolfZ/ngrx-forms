@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { FormGroupState, NgrxValueConverter, NgrxValueConverters, ResetAction, SetValueAction } from 'ngrx-forms';
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 
 import { FormValue, INITIAL_STATE, SetSubmittedValueAction, State } from './material.reducer';

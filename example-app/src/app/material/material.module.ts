@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MAT_PLACEHOLDER_GLOBAL_OPTIONS, MatNativeDateModule } from '@angular/material/core';
+import { MAT_LABEL_GLOBAL_OPTIONS, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -54,7 +54,7 @@ import { NgrxMatSelectViewAdapter } from './mat-select-view-adapter';
     MatListOptionFixDirective,
   ],
   providers: [
-    { provide: MAT_PLACEHOLDER_GLOBAL_OPTIONS, useValue: { float: 'always' } },
+    { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } },
   ],
 })
 export class MaterialModule { }

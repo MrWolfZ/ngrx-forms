@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AddArrayControlAction, FormGroupState, RemoveArrayControlAction } from 'ngrx-forms';
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { CreateGroupElementAction, FormValue, RemoveGroupElementAction, State } from './dynamic.reducer';

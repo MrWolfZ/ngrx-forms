@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { FormGroupState } from 'ngrx-forms';
-import { Observable } from 'rxjs/observable';
-import { timer } from 'rxjs/observable/timer';
+import { Observable, timer } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { BlockUIAction, FormValue, State, UnblockUIAction } from './recursive-update.reducer';
