@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="3.0.1"></a>
+### 3.0.1
+
+#### Bugfixes
+
+* remove module augmentations for `requiredTrue` and `requiredFalse` validation errors since they conflict with the `required` module augmentation and are already covered by it ([1ab557f](https://github.com/MrWolfZ/ngrx-forms/commit/1ab557f)), closes [#92](https://github.com/MrWolfZ/ngrx-forms/issues/92)
+
 <a name="3.0.0"></a>
 ### 3.0.0
 
