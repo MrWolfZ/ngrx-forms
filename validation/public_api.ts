@@ -16,5 +16,5 @@ export { minLength, MinLengthValidationError } from './src/min-length';
 export { notEqualTo, NotEqualToValidationError } from './src/not-equal-to';
 export { pattern, PatternValidationError } from './src/pattern';
 export { required, RequiredValidationError } from './src/required';
-export { requiredFalse, RequiredFalseValidationError } from './src/required-false';
-export { requiredTrue, RequiredTrueValidationError } from './src/required-true';
+export { requiredFalse } from './src/required-false';
+export { requiredTrue } from './src/required-true';

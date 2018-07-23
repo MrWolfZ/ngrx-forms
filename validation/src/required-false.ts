@@ -1,16 +1,5 @@
 import { ValidationErrors } from 'ngrx-forms';
 
-export interface RequiredFalseValidationError {
-  actual: boolean;
-}
-
-// @ts-ignore
-declare module 'ngrx-forms/src/state' {
-  export interface ValidationErrors {
-    required?: RequiredFalseValidationError;
-  }
-}
-
 /**
  * A validation function that requires the value to be `false`. Considers `null` and
  * `undefined` as valid. Combine this function with the `required` validation
