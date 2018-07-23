@@ -12,7 +12,7 @@
     "strictPropertyInitialization": false,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "target": "es5",
     "typeRoots": [
       "node_modules/@types"
