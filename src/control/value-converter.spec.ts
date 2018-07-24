@@ -32,6 +32,16 @@ describe('NgrxValueConverters', () => {
       const stateValue = box(['A']);
       expect(NgrxValueConverters.default<typeof stateValue.value>().convertStateToViewValue(stateValue)).toEqual(stateValue.value);
     });
+
+    it('should return null view value', () => {
+      const viewValue = null;
+      expect(NgrxValueConverters.default<typeof viewValue>().convertViewToStateValue(viewValue)).toBe(viewValue);
+    });
+
+    it('should return undefined view value', () => {
+      const viewValue = undefined;
+      expect(NgrxValueConverters.default<typeof viewValue>().convertViewToStateValue(viewValue)).toBe(viewValue);
+    });
   });
 
   describe('dateToISOString', () => {

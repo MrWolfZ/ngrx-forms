@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="3.0.2"></a>
+### 3.0.2
+
+#### Bugfixes
+
+* do not treat `null` control values as boxed values, closes [#94](https://github.com/MrWolfZ/ngrx-forms/issues/94)
+
 <a name="3.0.1"></a>
 ### 3.0.1
 

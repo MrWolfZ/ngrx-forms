@@ -9,7 +9,7 @@ export interface NgrxValueConverter<TView, TState> {
 export const NgrxValueConverters = {
   default<T>() {
     return {
-      convertViewToStateValue: value => typeof value === 'object' ? box(value) : value,
+      convertViewToStateValue: value => typeof value === 'object' && value !== null ? box(value) : value,
       convertStateToViewValue: unbox,
     } as NgrxValueConverter<T, Boxed<T> | T>;
   },
