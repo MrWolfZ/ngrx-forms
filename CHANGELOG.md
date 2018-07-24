@@ -5,7 +5,7 @@
 
 #### Bugfixes
 
-* do not treat `null` control values as boxed values, closes [#94](https://github.com/MrWolfZ/ngrx-forms/issues/94)
+* do not treat `null` control values as boxed values ([ae6a618](https://github.com/MrWolfZ/ngrx-forms/commit/ae6a618)), closes [#94](https://github.com/MrWolfZ/ngrx-forms/issues/94)
 
 <a name="3.0.1"></a>
 ### 3.0.1
