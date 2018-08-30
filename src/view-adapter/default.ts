@@ -1,5 +1,5 @@
-import { AfterViewInit, Directive, ElementRef, forwardRef, HostListener, Inject, Input, Optional, Renderer2, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, Directive, ElementRef, forwardRef, HostListener, Inject, Input, Optional, Renderer2, PLATFORM_ID } from '@angular/core';
 
 import { FormControlState } from '../state';
 import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
