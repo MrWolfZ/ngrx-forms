@@ -1,4 +1,5 @@
-import { AfterViewInit, Directive, ElementRef, forwardRef, HostListener, Inject, Input, Optional, Renderer2 } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, forwardRef, HostListener, Inject, Input, Optional, Renderer2, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 import { FormControlState } from '../state';
 import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from './view-adapter';
@@ -60,9 +61,10 @@ export class NgrxDefaultViewAdapter implements FormViewAdapter, AfterViewInit {
     private renderer: Renderer2,
     private elementRef: ElementRef,
     // we use a special injection string that should never exist at runtime to allow mocking this dependency for testing
+    @Inject(PLATFORM_ID) platformId: string,
     @Optional() @Inject('ngrx-forms/never') navigator: Navigator | null = null,
   ) {
-    this.isCompositionSupported = !isAndroid(navigator || window.navigator);
+    this.isCompositionSupported = isPlatformBrowser(platformId) && !isAndroid(navigator || window.navigator);
   }
 
   ngAfterViewInit() {
