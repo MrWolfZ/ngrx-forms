@@ -60,11 +60,11 @@ export class NgrxDefaultViewAdapter implements FormViewAdapter, AfterViewInit {
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef,
-    @Optional() @Inject(PLATFORM_ID) private readonly platformId: string,
+    @Optional() @Inject(PLATFORM_ID) private platformId: string | null = null,
     // we use a special injection string that should never exist at runtime to allow mocking this dependency for testing
     @Optional() @Inject('ngrx-forms/never') navigator: Navigator | null = null,
   ) {
-    this.isCompositionSupported = isPlatformBrowser(this.platformId) && !isAndroid(navigator || window.navigator);
+    this.isCompositionSupported = isPlatformBrowser(this.platformId || '') && !isAndroid(navigator || window.navigator);
   }
 
   ngAfterViewInit() {

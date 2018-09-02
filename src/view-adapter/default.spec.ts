@@ -194,7 +194,7 @@ describe(NgrxDefaultViewAdapter.name, () => {
   });
 
   it('should not throw if calling callbacks before they are registered', () => {
-    expect(() => new NgrxDefaultViewAdapter(undefined as any, undefined as any, undefined as any).onChange(undefined)).not.toThrowError();
-    expect(() => new NgrxDefaultViewAdapter(undefined as any, undefined as any, undefined as any).onTouched()).not.toThrowError();
+    expect(() => new NgrxDefaultViewAdapter(undefined as any, undefined as any).onChange(undefined)).not.toThrowError();
+    expect(() => new NgrxDefaultViewAdapter(undefined as any, undefined as any).onTouched()).not.toThrowError();
   });
 });
