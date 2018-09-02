@@ -1,6 +1,7 @@
-import { Directive, forwardRef } from '@angular/core';
+import { AfterViewInit, Directive, forwardRef, OnDestroy } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
 import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from 'ngrx-forms';
+import { Subscription } from 'rxjs';
 
 // tslint:disable:directive-selector
 // tslint:disable:directive-class-suffix
@@ -13,13 +14,31 @@ import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from 'ngrx-forms';
     multi: true,
   }],
 })
-export class NgrxMatSelectViewAdapter implements FormViewAdapter {
-  constructor(private matSelect: MatSelect) { }
+export class NgrxMatSelectViewAdapter implements FormViewAdapter, AfterViewInit, OnDestroy {
+  private value: any;
+  private subscriptions: Subscription[] = [];
+
+  constructor(private matSelect: MatSelect) {}
+
+  ngAfterViewInit() {
+    this.subscriptions.push(
+      this.matSelect.options.changes.subscribe(() => {
+        Promise.resolve().then(() => this.matSelect.writeValue(this.value));
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(s => s.unsubscribe());
+  }
 
   setViewValue(value: any) {
+    this.value = value;
+
     // we have to verify that the same value is not set again since that would
     // cause focus to get lost on the select since it tries to focus the active option
     const selectedOption = this.matSelect.selected;
+
     if (selectedOption) {
       if (Array.isArray(selectedOption) && Array.isArray(value)) {
         if (value.length === selectedOption.length && value.every((v, i) => v === selectedOption[i])) {
@@ -38,7 +57,10 @@ export class NgrxMatSelectViewAdapter implements FormViewAdapter {
   }
 
   setOnChangeCallback(fn: any) {
-    this.matSelect.registerOnChange(fn);
+    this.matSelect.registerOnChange(value => {
+      this.value = value;
+      fn(value);
+    });
   }
 
   setOnTouchedCallback(fn: any) {
