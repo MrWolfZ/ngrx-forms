@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="3.0.3"></a>
+### 3.0.3
+
+#### Bugfixes
+
+* check if platform is browser in default view adapter to prevent error during server-side rendering ([0646fb7](https://github.com/MrWolfZ/ngrx-forms/commit/0646fb7)), thanks @scott-wyatt for his contribution in [#111](https://github.com/MrWolfZ/ngrx-forms/pull/111)), closes [#110](https://github.com/MrWolfZ/ngrx-forms/issues/110)
+
 <a name="3.0.2"></a>
 ### 3.0.2
 
