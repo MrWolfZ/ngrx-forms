@@ -90,7 +90,7 @@ describe(NgrxDefaultViewAdapter.name, () => {
   it('should not set the ID of the element if the ID of the state does not change', () => {
     const renderer: Renderer2 = jasmine.createSpyObj('renderer', ['setProperty']);
     const nativeElement: any = {};
-    viewAdapter = new NgrxDefaultViewAdapter(renderer, { nativeElement } as any);
+    viewAdapter = new NgrxDefaultViewAdapter(renderer, { nativeElement } as any, 'browser');
     viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
     viewAdapter.ngAfterViewInit();
     expect(renderer.setProperty).toHaveBeenCalledTimes(1);
@@ -132,7 +132,7 @@ describe(NgrxDefaultViewAdapter.name, () => {
   it('should call the registered function when the value changes and is composing but composition is not supported', () => {
     const renderer: Renderer2 = jasmine.createSpyObj('renderer', ['setProperty']);
     const nativeElement: any = {};
-    viewAdapter = new NgrxDefaultViewAdapter(renderer, { nativeElement } as any, androidNavigator);
+    viewAdapter = new NgrxDefaultViewAdapter(renderer, { nativeElement } as any, 'browser', androidNavigator);
     viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
     const spy = jasmine.createSpy('fn');
     viewAdapter.setOnChangeCallback(spy);
@@ -158,7 +158,7 @@ describe(NgrxDefaultViewAdapter.name, () => {
   it('should not call the registered function on composition end if composition is not supported', () => {
     const renderer: Renderer2 = jasmine.createSpyObj('renderer', ['setProperty']);
     const nativeElement: any = {};
-    viewAdapter = new NgrxDefaultViewAdapter(renderer, { nativeElement } as any, androidNavigator);
+    viewAdapter = new NgrxDefaultViewAdapter(renderer, { nativeElement } as any, 'browser', androidNavigator);
     viewAdapter.ngrxFormControlState = { id: TEST_ID } as any;
     const spy = jasmine.createSpy('fn');
     viewAdapter.setOnChangeCallback(spy);
@@ -194,7 +194,7 @@ describe(NgrxDefaultViewAdapter.name, () => {
   });
 
   it('should not throw if calling callbacks before they are registered', () => {
-    expect(() => new NgrxDefaultViewAdapter(undefined as any, undefined as any).onChange(undefined)).not.toThrowError();
-    expect(() => new NgrxDefaultViewAdapter(undefined as any, undefined as any).onTouched()).not.toThrowError();
+    expect(() => new NgrxDefaultViewAdapter(undefined as any, undefined as any, undefined as any).onChange(undefined)).not.toThrowError();
+    expect(() => new NgrxDefaultViewAdapter(undefined as any, undefined as any, undefined as any).onTouched()).not.toThrowError();
   });
 });

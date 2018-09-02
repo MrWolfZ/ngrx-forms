@@ -5,7 +5,7 @@ import { selectViewAdapter } from './util';
 
 describe(selectViewAdapter.name, () => {
   it('should return the default view adapter if it is the only provided', () => {
-    const viewAdapter = new NgrxDefaultViewAdapter(undefined as any, undefined as any);
+    const viewAdapter = new NgrxDefaultViewAdapter(undefined as any, undefined as any, undefined as any);
     const result = selectViewAdapter([viewAdapter]);
     expect(result).toBe(viewAdapter);
   });
