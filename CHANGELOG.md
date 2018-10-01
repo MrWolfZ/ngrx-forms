@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="3.0.4"></a>
+### 3.0.4
+
+#### Bugfixes
+
+* allow setting `null` and `undefined` values with curried version of `setValue`, thanks @chrissena for reporting this bug, closes [#116](https://github.com/MrWolfZ/ngrx-forms/issues/116)
+
 <a name="3.0.3"></a>
 ### 3.0.3
 

@@ -52,4 +52,25 @@ describe(setValue.name, () => {
 
     expect(resultState).not.toEqual(INITIAL_STATE);
   });
+
+  it('should support setting null value curried', () => {
+    const resultState = setValue<string | null>(null)(INITIAL_STATE.controls.inner);
+    expect(resultState).not.toBe(INITIAL_STATE.controls.inner);
+  });
+
+  it('should support setting null value uncurried', () => {
+    const resultState = setValue<string | null>(INITIAL_STATE.controls.inner, null);
+    expect(resultState).not.toBe(INITIAL_STATE.controls.inner);
+  });
+
+  it('should support setting undefined value curried', () => {
+    const resultState = setValue<string | undefined>(undefined)(INITIAL_STATE.controls.inner);
+    expect(resultState).not.toBe(INITIAL_STATE.controls.inner);
+  });
+
+  it('should support setting undefined value uncurried', () => {
+    const resultState = setValue<string | undefined>(INITIAL_STATE.controls.inner, undefined);
+    expect(resultState).not.toBe(INITIAL_STATE.controls.inner);
+  });
+
 });

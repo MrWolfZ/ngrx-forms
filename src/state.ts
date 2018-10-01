@@ -560,7 +560,7 @@ export type FormState<T> = InferredFormState<InferenceWrapper<T>>;
  * This function determines if a value is a form state.
  */
 export function isFormState<TValue = any>(state: any): state is FormState<TValue> {
-  return state.hasOwnProperty('id') && state.hasOwnProperty('value') && state.hasOwnProperty('errors');
+  return !!state && state.hasOwnProperty('id') && state.hasOwnProperty('value') && state.hasOwnProperty('errors');
 }
 
 /**
