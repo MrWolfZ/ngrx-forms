@@ -63,8 +63,8 @@ export function unbox<T>(value: T): Unboxed<T> {
     return value as Unboxed<T>;
   }
 
-  if (isBoxed(value)) {
-    return value.value;
+  if (isBoxed<T>(value)) {
+    return value.value as Unboxed<T>;
   }
 
   if (Array.isArray(value)) {
