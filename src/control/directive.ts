@@ -24,6 +24,12 @@ export interface Document {
   activeElement: any;
 }
 
+export enum NGRX_UPDATE_ON_TYPE {
+  CHANGE = 'change',
+  BLUR = 'blur',
+  NEVER = 'never',
+}
+
 class ControlValueAccessorAdapter implements FormViewAdapter {
   constructor(private valueAccessor: ControlValueAccessor) { }
 
@@ -44,9 +50,6 @@ class ControlValueAccessorAdapter implements FormViewAdapter {
     }
   }
 }
-
-const CHANGE = 'change';
-const BLUR = 'blur';
 
 @Directive({
   // tslint:disable-next-line:directive-selector
@@ -72,7 +75,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     }
   }
 
-  @Input() ngrxUpdateOn: 'change' | 'blur' = CHANGE;
+  @Input() ngrxUpdateOn: NGRX_UPDATE_ON_TYPE = NGRX_UPDATE_ON_TYPE.CHANGE;
   @Input() set ngrxEnableFocusTracking(value: boolean) {
     if (value && !this.dom) {
       throw new Error('focus tracking is only supported on the browser platform');
@@ -188,31 +191,35 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     this.updateViewIfIsDisabledChanged(this.state, undefined);
     this.updateViewIfIsFocusedChanged(this.state, undefined);
 
+    const dispatchMarkAsDirtyAction = () => {
+      if (this.state.isPristine) {
+        this.actionsSubject.next(new MarkAsDirtyAction(this.state.id));
+      }
+    };
+
     const dispatchSetValueAction = () => {
       this.stateValue = this.ngrxValueConverter.convertViewToStateValue(this.viewValue);
       if (this.stateValue !== this.state.value) {
         this.actionsSubject.next(new SetValueAction(this.state.id, this.stateValue));
 
-        if (this.state.isPristine) {
-          this.actionsSubject.next(new MarkAsDirtyAction(this.state.id));
-        }
+        dispatchMarkAsDirtyAction();
       }
     };
 
     this.viewAdapter.setOnChangeCallback((viewValue: TViewValue) => {
       this.viewValue = viewValue;
 
-      if (this.ngrxUpdateOn === CHANGE) {
+      if (this.ngrxUpdateOn === NGRX_UPDATE_ON_TYPE.CHANGE) {
         dispatchSetValueAction();
       }
     });
 
     this.viewAdapter.setOnTouchedCallback(() => {
-      if (!this.state.isTouched) {
+      if (!this.state.isTouched && this.ngrxUpdateOn !== NGRX_UPDATE_ON_TYPE.NEVER) {
         this.actionsSubject.next(new MarkAsTouchedAction(this.state.id));
       }
 
-      if (this.ngrxUpdateOn === BLUR) {
+      if (this.ngrxUpdateOn === NGRX_UPDATE_ON_TYPE.BLUR) {
         dispatchSetValueAction();
       }
     });
