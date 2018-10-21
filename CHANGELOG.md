@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="3.1.0"></a>
+### 3.1.0
+
+#### Features
+
+* add new option `never` for `ngrxUpdateOn` ([ea0b284](https://github.com/MrWolfZ/ngrx-forms/commit/ea0b284)), see [documentation](https://ngrx-forms.readthedocs.io/en/master/user-guide/form-controls/#choosing-when-to-sync-the-view-to-the-state) for more details, thanks @Mr-Eluzive for their contribution in [#119](https://github.com/MrWolfZ/ngrx-forms/pull/119)), closes [#118](https://github.com/MrWolfZ/ngrx-forms/issues/118)
+
 <a name="3.0.4"></a>
 ### 3.0.4
 
