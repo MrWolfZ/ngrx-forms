@@ -7,7 +7,7 @@ import { ControlValueAccessor } from '@angular/forms';
 import { FocusAction, MarkAsDirtyAction, MarkAsTouchedAction, SetValueAction, UnfocusAction } from '../actions';
 import { createFormControlState } from '../state';
 import { FormViewAdapter } from '../view-adapter/view-adapter';
-import { NgrxFormControlDirective } from './directive';
+import { NGRX_UPDATE_ON_TYPE, NgrxFormControlDirective } from './directive';
 import { NgrxValueConverters } from './value-converter';
 
 // tslint:disable:no-unbound-method
@@ -218,7 +218,7 @@ describe(NgrxFormControlDirective.name, () => {
     beforeEach(() => {
       directive.ngOnInit();
       directive.ngrxFormControlState = { ...INITIAL_STATE, isTouched: true, isUntouched: false };
-      directive.ngrxUpdateOn = 'blur';
+      directive.ngrxUpdateOn = NGRX_UPDATE_ON_TYPE.BLUR;
     });
 
     it('should dispatch an action on blur if the view value has changed with ngrxUpdateOn "blur"', done => {
@@ -260,6 +260,26 @@ describe(NgrxFormControlDirective.name, () => {
       const spy = spyOn(viewAdapter, 'setViewValue');
       directive.ngrxFormControlState = { ...INITIAL_STATE };
       expect(spy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('ngrxUpdateOn "never"', () => {
+    beforeEach(() => {
+      directive.ngOnInit();
+      directive.ngrxUpdateOn = NGRX_UPDATE_ON_TYPE.NEVER;
+    });
+
+    it('should not dispatch any action even if the view value changed', done => {
+      const newValue = 'new value';
+
+      actions$.pipe(count()).subscribe(x => {
+        expect(x).toEqual(0);
+        done();
+      });
+
+      onChange(newValue);
+      onTouched();
+      actionsSubject.complete();
     });
   });
 

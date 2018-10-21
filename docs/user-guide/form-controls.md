@@ -64,7 +64,7 @@ A constant `NGRX_STATUS_CLASS_NAMES` is exported to allow accessing these class 
 
 #### Choosing when to sync the view to the state
 
-It is possible to control when view values changes are pushed to the state with the `ngrxUpdateOn` attribute. The supported values are `change` (pushed immediately when the view value changes; default) and `blur` (pushed when the form element loses focus). Note that by changing this value to something different than `change` (and thereby changing the time at which value changes are pushed to the state) you are also changing the time at which validation and other state updates that depend on the value happen.
+It is possible to control when view values changes are pushed to the state with the `ngrxUpdateOn` attribute. The supported values are `change` (pushed immediately when the view value changes; default), `blur` (pushed when the form element loses focus), and `never` (the value is never pushed to the state; this is an advanced feature that is useful if you want full control over when and how the state is updated but it also requires greater understanding of how **ngrx-forms** performs state updates). Note that by changing this value to something different than `change` (and thereby changing the time at which value changes are pushed to the state) you are also changing the time at which validation and other state updates that depend on the value happen. If you change this value to never you will need to perform all state updates yourself (e.g. setting the value, marking as dirty etc.).
 
 #### User Defined Properties
 
