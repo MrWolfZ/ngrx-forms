@@ -16,7 +16,7 @@
     "pack-lib": "npm pack ./dist",
     "publish-lib": "npm publish ./dist",
     "report-coverage": "codecov ./coverage/lcov/lcov.info",
-    "example-install": "npm run build && npm pack ./dist && cd example-app && npm install ../ngrx-forms-%npm_package_version%.tgz && cd .."
+    "example-install": "npm run build && npm pack ./dist && cd example-app && cross-var npm install ../ngrx-forms-$npm_package_version.tgz && cd .."
   },
   "typings": "./forms.d.ts",
   "author": "",
@@ -58,6 +58,7 @@
     "codecov": "3.0.2",
     "codelyzer": "4.4.2",
     "core-js": "2.5.7",
+    "cross-var": "^1.1.0",
     "jasmine-core": "2.6.4",
     "karma": "2.0.4",
     "karma-chrome-launcher": "2.2.0",
