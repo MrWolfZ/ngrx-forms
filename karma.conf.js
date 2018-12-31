@@ -13,6 +13,8 @@ module.exports = function (config) {
     ],
 
     files: [
+      './index.ts',
+      './public_api.ts',
       './base.spec.ts',
       './src/**/*.ts',
       './validation/**/*.ts',
@@ -22,6 +24,8 @@ module.exports = function (config) {
     ],
 
     preprocessors: {
+      './index.ts': ['karma-typescript'],
+      './public_api.ts': ['karma-typescript'],
       './base.spec.ts': ['karma-typescript'],
       './src/**/*.ts': ['karma-typescript'],
       './validation/src/**/*.ts': ['karma-typescript'],
