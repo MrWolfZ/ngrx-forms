@@ -58,7 +58,7 @@
     "codecov": "3.0.2",
     "codelyzer": "4.4.2",
     "core-js": "2.5.7",
-    "cross-var": "^1.1.0",
+    "cross-var": "1.1.0",
     "jasmine-core": "2.6.4",
     "karma": "2.0.4",
     "karma-chrome-launcher": "2.2.0",
