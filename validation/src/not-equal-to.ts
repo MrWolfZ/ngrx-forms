@@ -1,4 +1,4 @@
-import { ValidationErrors } from 'ngrx-forms';
+import { Boxed, unbox, ValidationErrors } from 'ngrx-forms';
 
 export interface NotEqualToValidationError<T> {
   comparand: T;
@@ -37,7 +37,9 @@ declare module 'ngrx-forms/src/state' {
  * ```
  */
 export function notEqualTo<T>(comparand: T) {
-  return (value: T): ValidationErrors => {
+  return (value: T | Boxed<T>): ValidationErrors => {
+    value = unbox(value);
+
     if (value !== comparand) {
       return {};
     }

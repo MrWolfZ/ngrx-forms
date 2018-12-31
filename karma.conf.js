@@ -46,15 +46,15 @@ module.exports = function (config) {
       },
       tsconfig: './tsconfig.json',
       reports:
-        {
-          lcovonly: {
-            directory: 'coverage',
-            filename: 'lcov.info',
-            subdirectory: 'lcov'
-          },
-          html: 'coverage',
-          'text-summary': ''
-        }
+      {
+        lcovonly: {
+          directory: 'coverage',
+          filename: 'lcov.info',
+          subdirectory: 'lcov'
+        },
+        html: 'coverage',
+        'text-summary': ''
+      }
     },
 
     reporters: ['progress', 'karma-typescript'],

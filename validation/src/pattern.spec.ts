@@ -1,3 +1,4 @@
+import { box, unbox } from 'ngrx-forms';
 import { pattern } from './pattern';
 
 describe(pattern.name, () => {
@@ -36,6 +37,21 @@ describe(pattern.name, () => {
       pattern: {
         pattern: patternValue.toString(),
         actual: actualValue,
+      },
+    });
+  });
+
+  it('should not return an error if boxed value matches pattern', () => {
+    expect(pattern(/a/g)(box('a'))).toEqual({});
+  });
+
+  it('should return errors with pattern and actual properties for boxed value', () => {
+    const patternValue = /a/g;
+    const actualValue = box('b');
+    expect(pattern(patternValue)(actualValue)).toEqual({
+      pattern: {
+        pattern: patternValue.toString(),
+        actual: unbox(actualValue),
       },
     });
   });

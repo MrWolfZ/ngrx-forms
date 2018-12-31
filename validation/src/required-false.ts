@@ -1,4 +1,4 @@
-import { ValidationErrors } from 'ngrx-forms';
+import { Boxed, unbox, ValidationErrors } from 'ngrx-forms';
 
 /**
  * A validation function that requires the value to be `false`. Considers `null` and
@@ -27,7 +27,9 @@ import { ValidationErrors } from 'ngrx-forms';
  * Note that this function is generic to allow the compiler to properly infer the type
  * of the `validate` function for both optional and non-optional controls.
  */
-export function requiredFalse<T extends boolean | null | undefined>(value: T): ValidationErrors {
+export function requiredFalse<T extends boolean | Boxed<boolean> | null | undefined>(value: T): ValidationErrors {
+  value = unbox(value);
+
   if (value === null || value === undefined) {
     return {};
   }

@@ -1,4 +1,4 @@
-import { ValidationErrors } from 'ngrx-forms';
+import { Boxed, unbox, ValidationErrors } from 'ngrx-forms';
 
 export interface LessThanValidationError {
   comparand: number;
@@ -46,7 +46,9 @@ export function lessThan(comparand: number) {
     throw new Error(`The lessThan Validation function requires the comparand parameter to be a non-null number, got ${comparand}!`);
   }
 
-  return <T extends number | null | undefined>(value: T): ValidationErrors => {
+  return <T extends number | Boxed<number> | null | undefined>(value: T): ValidationErrors => {
+    value = unbox(value);
+
     if (value === null || value === undefined) {
       return {};
     }

@@ -1,4 +1,4 @@
-import { ValidationErrors } from 'ngrx-forms';
+import { Boxed, unbox, ValidationErrors } from 'ngrx-forms';
 
 export interface MinLengthValidationError {
   minLength: number;
@@ -48,12 +48,14 @@ export function minLength(minLengthParam: number) {
     throw new Error(`The minLength Validation function requires the minLength parameter to be a non-null number, got ${minLengthParam}!`);
   }
 
-  return <T extends string | any[] | null | undefined>(value: T): ValidationErrors => {
+  return <T extends string | Boxed<string> | any[] | Boxed<any[]> | null | undefined>(value: T): ValidationErrors => {
+    value = unbox(value);
+
     if (value === null || value === undefined) {
       return {};
     }
 
-    const length = value.length;
+    const length = (value as string | any[]).length;
 
     if (length >= minLengthParam) {
       return {};
