@@ -1,8 +1,6 @@
-import { BlockUIAction, INITIAL_STATE, reducers, UnblockUIAction } from './recursive-update.reducer';
+import { BlockUIAction, formStateReducer, INITIAL_STATE, UnblockUIAction } from './recursive-update.reducer';
 
 describe('recursive update', () => {
-  const formStateReducer = reducers.formState;
-
   it('should disable all controls when blocking', () => {
     const state = formStateReducer(INITIAL_STATE, new BlockUIAction());
     expect(state.isEnabled).toBe(false);

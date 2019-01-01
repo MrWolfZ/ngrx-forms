@@ -57,32 +57,34 @@ export const INITIAL_STATE = updateGroup<FormValue>(
   },
 );
 
-const reducers = combineReducers<State['recursiveUpdate'], any>({
-  formState(state = INITIAL_STATE, a: BlockUIAction | UnblockUIAction) {
-    state = formGroupReducer(state, a);
+export function formStateReducer(state = INITIAL_STATE, a: BlockUIAction | UnblockUIAction) {
+  state = formGroupReducer(state, a);
 
-    switch (a.type) {
-      case BlockUIAction.TYPE: {
-        state = updateRecursive(
-          state,
-          s => setUserDefinedProperty(s, 'wasDisabled', s.isDisabled),
-        );
-        return disable(state);
-      }
-
-      case UnblockUIAction.TYPE: {
-        state = enable(state);
-        return updateRecursive(
-          state,
-          s => s.userDefinedProperties.wasDisabled ? disable(s) : s,
-        );
-      }
-
-      default: {
-        return state;
-      }
+  switch (a.type) {
+    case BlockUIAction.TYPE: {
+      state = updateRecursive(
+        state,
+        s => setUserDefinedProperty(s, 'wasDisabled', s.isDisabled),
+      );
+      return disable(state);
     }
-  },
+
+    case UnblockUIAction.TYPE: {
+      state = enable(state);
+      return updateRecursive(
+        state,
+        s => s.userDefinedProperties.wasDisabled ? disable(s) : s,
+      );
+    }
+
+    default: {
+      return state;
+    }
+  }
+}
+
+const reducers = combineReducers<State['recursiveUpdate'], any>({
+  formState: formStateReducer,
 });
 
 export function reducer(s: State['recursiveUpdate'], a: Action) {
