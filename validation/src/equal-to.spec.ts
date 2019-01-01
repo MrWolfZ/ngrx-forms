@@ -1,4 +1,4 @@
-import { box, unbox } from 'ngrx-forms';
+import { AbstractControlState, box, unbox, validate } from 'ngrx-forms';
 import { equalTo } from './equal-to';
 
 describe(equalTo.name, () => {
@@ -34,5 +34,15 @@ describe(equalTo.name, () => {
         actual: unbox(actualValue),
       },
     });
+  });
+
+  it('should properly infer value type when used with validate update function', () => {
+    // this code is never meant to be executed, it should just pass the type checker
+    if (1 !== 1) {
+      const state: AbstractControlState<string> = undefined!;
+      const v = validate(state, equalTo('a'));
+      const v2: string = v.value;
+      console.log(v2);
+    }
   });
 });

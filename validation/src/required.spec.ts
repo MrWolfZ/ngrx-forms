@@ -1,4 +1,4 @@
-import { box, unbox } from 'ngrx-forms';
+import { AbstractControlState, box, unbox, validate } from 'ngrx-forms';
 import { required } from './required';
 
 describe(required.name, () => {
@@ -100,5 +100,15 @@ describe(required.name, () => {
         actual: unbox(value),
       },
     });
+  });
+
+  it('should properly infer value type when used with validate update function', () => {
+    // this code is never meant to be executed, it should just pass the type checker
+    if (1 !== 1) {
+      const state: AbstractControlState<number> = undefined!;
+      const v = validate(state, required);
+      const v2: number = v.value;
+      console.log(v2);
+    }
   });
 });

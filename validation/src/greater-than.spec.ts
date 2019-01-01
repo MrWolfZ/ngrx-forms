@@ -1,4 +1,4 @@
-import { box, unbox } from 'ngrx-forms';
+import { AbstractControlState, box, unbox, validate } from 'ngrx-forms';
 import { greaterThan } from './greater-than';
 
 describe(greaterThan.name, () => {
@@ -54,5 +54,15 @@ describe(greaterThan.name, () => {
         actual: unbox(actual),
       },
     });
+  });
+
+  it('should properly infer value type when used with validate update function', () => {
+    // this code is never meant to be executed, it should just pass the type checker
+    if (1 !== 1) {
+      const state: AbstractControlState<number> = undefined!;
+      const v = validate(state, greaterThan(0));
+      const v2: number = v.value;
+      console.log(v2);
+    }
   });
 });
