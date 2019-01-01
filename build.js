@@ -79,7 +79,7 @@ for (var pkg of PACKAGES) {
   shell.rm(`-f`, `${MODULES_DIR}/${pkg.modulesDir}/${pkg.moduleFileName}.es5.ts`);
 
   shell.echo(`Running rollup conversion...`);
-  if (shell.exec(`rollup -c ${pkg.dir}/rollup.config.js -f umd -n ${pkg.moduleName} --sourcemap`).code !== 0) {
+  if (shell.exec(`rollup -c ${pkg.dir}/rollup.config.js -i ${MODULES_DIR}/${pkg.modulesDir}/${pkg.moduleFileName}.es5.js -o ${BUNDLES_DIR}/${pkg.bundleFileName}.umd.js -f umd -n ${pkg.moduleName} --sourcemap`).code !== 0) {
     shell.echo(chalk.red(`Error: Rollup conversion failed!`));
     shell.exit(1);
   }
