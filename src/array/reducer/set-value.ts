@@ -31,7 +31,7 @@ export function setValueReducer<TValue>(
         return createChildState(`${state.id}.${i}`, v);
       }
 
-      return formStateReducer(state.controls[i], new SetValueAction(state.controls[i].id, v));
+      return formStateReducer<TValue>(state.controls[i], new SetValueAction(state.controls[i].id, v));
     });
 
   return computeArrayState(
