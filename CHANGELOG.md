@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="3.2.1"></a>
+### 3.2.1
+
+#### Bugfixes
+
+* fix wrong inferred value type for `equalTo` and `notEqualTo` validation functions when used with `validate` update function ([0cc6ca3](https://github.com/MrWolfZ/ngrx-forms/commit/0cc6ca3))
+
 <a name="3.2.0"></a>
 ### 3.2.0
 

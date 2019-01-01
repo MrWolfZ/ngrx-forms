@@ -1,4 +1,4 @@
-import { box, unbox } from 'ngrx-forms';
+import { AbstractControlState, box, unbox, validate } from 'ngrx-forms';
 import { maxLength } from './max-length';
 
 describe(maxLength.name, () => {
@@ -96,5 +96,15 @@ describe(maxLength.name, () => {
         actualLength: unbox(value).length,
       },
     });
+  });
+
+  it('should properly infer value type when used with validate update function', () => {
+    // this code is never meant to be executed, it should just pass the type checker
+    if (1 !== 1) {
+      const state: AbstractControlState<string> = undefined!;
+      const v = validate(state, maxLength(2));
+      const v2: string = v.value;
+      console.log(v2);
+    }
   });
 });
