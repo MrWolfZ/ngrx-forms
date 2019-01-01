@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="4.0.0"></a>
+### 4.0.0
+
+#### Features
+
+* update to support angular and ngrx v7 + TypeScript 3.X ([aad53c4](https://github.com/MrWolfZ/ngrx-forms/commit/aad53c4)), thanks @wbhob for his contribution in [#130](https://github.com/MrWolfZ/ngrx-forms/pull/130))
+
 <a name="3.2.1"></a>
 ### 3.2.1
 
