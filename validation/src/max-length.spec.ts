@@ -1,3 +1,4 @@
+import { box, unbox } from 'ngrx-forms';
 import { maxLength } from './max-length';
 
 describe(maxLength.name, () => {
@@ -41,7 +42,7 @@ describe(maxLength.name, () => {
     expect(maxLength(2)(['a'])).toEqual({});
   });
 
-  it('should return errors with maxLength, value, and actualLength properties', () => {
+  it('should return errors with maxLength, value, and actualLength properties for string value', () => {
     const maxLengthParam = 2;
     const value = 'abc';
     expect(maxLength(maxLengthParam)(value)).toEqual({
@@ -49,6 +50,50 @@ describe(maxLength.name, () => {
         maxLength: maxLengthParam,
         value,
         actualLength: value.length,
+      },
+    });
+  });
+
+  it('should return errors with maxLength, value, and actualLength properties for array value', () => {
+    const maxLengthParam = 2;
+    const value = ['a', 'b', 'c'];
+    expect(maxLength(maxLengthParam)(value)).toEqual({
+      maxLength: {
+        maxLength: maxLengthParam,
+        value,
+        actualLength: value.length,
+      },
+    });
+  });
+
+  it('should not return an error if boxed string value\'s length is equal to maxLength', () => {
+    expect(maxLength(2)(box('ab'))).toEqual({});
+  });
+
+  it('should not return an error if boxed array value\'s length is equal to maxLength', () => {
+    expect(maxLength(2)(box(['a', 'b']))).toEqual({});
+  });
+
+  it('should return errors with maxLength, value, and actualLength properties for boxed string value', () => {
+    const maxLengthParam = 2;
+    const value = box('abc');
+    expect(maxLength(maxLengthParam)(value)).toEqual({
+      maxLength: {
+        maxLength: maxLengthParam,
+        value: unbox(value),
+        actualLength: unbox(value).length,
+      },
+    });
+  });
+
+  it('should return errors with maxLength, value, and actualLength properties for boxed array value', () => {
+    const maxLengthParam = 2;
+    const value = box(['a', 'b', 'c']);
+    expect(maxLength(maxLengthParam)(value)).toEqual({
+      maxLength: {
+        maxLength: maxLengthParam,
+        value: unbox(value),
+        actualLength: unbox(value).length,
       },
     });
   });

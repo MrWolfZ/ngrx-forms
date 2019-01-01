@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="3.2.0"></a>
+### 3.2.0
+
+#### Features
+
+* add support for boxed values in all validation functions ([bed56f5](https://github.com/MrWolfZ/ngrx-forms/commit/bed56f5)), closes [#96](https://github.com/MrWolfZ/ngrx-forms/issues/96)
+
 <a name="3.1.0"></a>
 ### 3.1.0
 

@@ -1,3 +1,4 @@
+import { box, unbox } from 'ngrx-forms';
 import { required } from './required';
 
 describe(required.name, () => {
@@ -59,5 +60,45 @@ describe(required.name, () => {
 
   it('should not return an error for non-empty array', () => {
     expect(required(['a'])).toEqual({});
+  });
+
+  it('should work for boxed strings', () => {
+    expect(required(box('a'))).toEqual({});
+  });
+
+  it('should return an error for boxed undefined', () => {
+    const value = box(undefined);
+    expect(required(value)).toEqual({
+      required: {
+        actual: unbox(value),
+      },
+    });
+  });
+
+  it('should return an error for boxed null', () => {
+    const value = box(null);
+    expect(required(value)).toEqual({
+      required: {
+        actual: unbox(value),
+      },
+    });
+  });
+
+  it('should return an error for boxed empty string', () => {
+    const value = box('');
+    expect(required(value)).toEqual({
+      required: {
+        actual: unbox(value),
+      },
+    });
+  });
+
+  it('should return an error for boxed empty array', () => {
+    const value = box([] as any[]);
+    expect(required(value)).toEqual({
+      required: {
+        actual: unbox(value),
+      },
+    });
   });
 });

@@ -1,3 +1,4 @@
+import { box, unbox } from 'ngrx-forms';
 import { greaterThan } from './greater-than';
 
 describe(greaterThan.name, () => {
@@ -36,6 +37,21 @@ describe(greaterThan.name, () => {
       greaterThan: {
         comparand,
         actual,
+      },
+    });
+  });
+
+  it('should not return an error if boxed value is greater than comparand', () => {
+    expect(greaterThan(1)(box(2))).toEqual({});
+  });
+
+  it('should return errors with comparand and actual properties for boxed value', () => {
+    const comparand = 1;
+    const actual = box(0);
+    expect(greaterThan(comparand)(actual)).toEqual({
+      greaterThan: {
+        comparand,
+        actual: unbox(actual),
       },
     });
   });

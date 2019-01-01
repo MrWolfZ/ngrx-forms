@@ -1,3 +1,4 @@
+import { box, unbox } from 'ngrx-forms';
 import { minLength } from './min-length';
 
 describe(minLength.name, () => {
@@ -41,14 +42,58 @@ describe(minLength.name, () => {
     expect(minLength(2)(['a'])).not.toEqual({});
   });
 
-  it('should return errors with minLength, value and actualLength properties', () => {
-    const minLengthValue = 2;
+  it('should return errors with minLength, value and actualLength properties for string value', () => {
+    const minLengthParam = 2;
     const value = 'a';
-    expect(minLength(minLengthValue)(value)).toEqual({
+    expect(minLength(minLengthParam)(value)).toEqual({
       minLength: {
-        minLength: minLengthValue,
+        minLength: minLengthParam,
         value,
         actualLength: value.length,
+      },
+    });
+  });
+
+  it('should return errors with minLength, value and actualLength properties for array value', () => {
+    const minLengthParam = 2;
+    const value = ['a'];
+    expect(minLength(minLengthParam)(value)).toEqual({
+      minLength: {
+        minLength: minLengthParam,
+        value,
+        actualLength: value.length,
+      },
+    });
+  });
+
+  it('should not return an error if boxed string value\'s length is equal to minLength', () => {
+    expect(minLength(2)(box('ab'))).toEqual({});
+  });
+
+  it('should not return an error if boxed array value\'s length is equal to minLength', () => {
+    expect(minLength(2)(box(['a', 'b']))).toEqual({});
+  });
+
+  it('should return errors with minLength, value, and actualLength properties for boxed string value', () => {
+    const minLengthParam = 2;
+    const value = box('a');
+    expect(minLength(minLengthParam)(value)).toEqual({
+      minLength: {
+        minLength: minLengthParam,
+        value: unbox(value),
+        actualLength: unbox(value).length,
+      },
+    });
+  });
+
+  it('should return errors with minLength, value, and actualLength properties for boxed array value', () => {
+    const minLengthParam = 2;
+    const value = box(['a']);
+    expect(minLength(minLengthParam)(value)).toEqual({
+      minLength: {
+        minLength: minLengthParam,
+        value: unbox(value),
+        actualLength: unbox(value).length,
       },
     });
   });

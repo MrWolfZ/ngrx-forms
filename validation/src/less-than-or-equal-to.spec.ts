@@ -1,3 +1,4 @@
+import { box, unbox } from 'ngrx-forms';
 import { lessThanOrEqualTo } from './less-than-or-equal-to';
 
 describe(lessThanOrEqualTo.name, () => {
@@ -36,6 +37,21 @@ describe(lessThanOrEqualTo.name, () => {
       lessThanOrEqualTo: {
         comparand,
         actual,
+      },
+    });
+  });
+
+  it('should not return an error if boxed value is less than comparand', () => {
+    expect(lessThanOrEqualTo(1)(box(0))).toEqual({});
+  });
+
+  it('should return errors with comparand and actual properties', () => {
+    const comparand = 1;
+    const actual = box(2);
+    expect(lessThanOrEqualTo(comparand)(actual)).toEqual({
+      lessThanOrEqualTo: {
+        comparand,
+        actual: unbox(actual),
       },
     });
   });

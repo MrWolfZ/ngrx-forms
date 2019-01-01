@@ -1,4 +1,4 @@
-import { ValidationErrors } from 'ngrx-forms';
+import { Boxed, unbox, ValidationErrors } from 'ngrx-forms';
 
 export interface RequiredValidationError<T> {
   actual: T | null | undefined;
@@ -34,7 +34,9 @@ declare module 'ngrx-forms/src/state' {
  * })
  * ```
  */
-export function required<T>(value: T | null | undefined): ValidationErrors {
+export function required<T>(value: T | Boxed<T> | null | undefined): ValidationErrors {
+  value = unbox(value);
+
   if (value !== undefined && value !== null && (value as any).length !== 0) {
     return {};
   }
