@@ -1,6 +1,6 @@
 {
   "name": "ngrx-forms",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Proper integration of forms in Angular 4 applications using ngrx",
   "module": "ngrx/forms.es5.js",
   "es2015": "ngrx/forms.js",
