@@ -14,6 +14,13 @@
 
 * add support for Angular 7, ngrx v7, and TypeScript 3.1.X ([aad53c4](https://github.com/MrWolfZ/ngrx-forms/commit/aad53c4)), thanks @wbhob for his contribution in [#130](https://github.com/MrWolfZ/ngrx-forms/pull/130))
 
+<a name="3.2.2"></a>
+### 3.2.2
+
+#### Bugfixes
+
+* allow boxed `undefined` values as form control values ([4d6cc03](https://github.com/MrWolfZ/ngrx-forms/commit/4d6cc03)), thanks @dzonatan for reporting this bug, closes [#131](https://github.com/MrWolfZ/ngrx-forms/issues/131)
+
 <a name="3.2.1"></a>
 ### 3.2.1
 
