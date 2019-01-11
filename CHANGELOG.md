@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="4.0.1"></a>
+### 4.0.1
+
+#### Bugfixes
+
+* allow boxed `undefined` values as form control values ([ab5ff58](https://github.com/MrWolfZ/ngrx-forms/commit/ab5ff58)), thanks @dzonatan for reporting this bug, closes [#131](https://github.com/MrWolfZ/ngrx-forms/issues/131)
+
 <a name="4.0.0"></a>
 ### 4.0.0
 
