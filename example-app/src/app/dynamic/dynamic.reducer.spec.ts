@@ -1,8 +1,6 @@
-import { CreateGroupElementAction, INITIAL_STATE, reducers, RemoveGroupElementAction } from './dynamic.reducer';
+import { CreateGroupElementAction, formStateReducer, INITIAL_STATE, RemoveGroupElementAction } from './dynamic.reducer';
 
 describe('dynamic', () => {
-  const formStateReducer = reducers.formState;
-
   describe('group', () => {
     it('should add group controls', () => {
       const controlName = 'newControl';

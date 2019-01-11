@@ -9,7 +9,7 @@ export function dispatchActionPerChild<TValue>(
   let hasChanged = false;
   const newControls = controls
     .map(state => {
-      const newState = formStateReducer(state, actionCreator(state.id));
+      const newState = formStateReducer<TValue>(state, actionCreator(state.id));
       hasChanged = hasChanged || state !== newState;
       return newState;
     });
@@ -24,7 +24,7 @@ function callChildReducers<TValue>(
   let hasChanged = false;
   const newControls = controls
     .map(state => {
-      const newState = formStateReducer(state, action);
+      const newState = formStateReducer<TValue>(state, action);
       hasChanged = hasChanged || state !== newState;
       return newState;
     });

@@ -50,45 +50,47 @@ export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
   },
 });
 
+export function formStateReducer(
+  s = INITIAL_STATE,
+  a: CreateGroupElementAction | RemoveGroupElementAction,
+) {
+  s = formGroupReducer(s, a);
+
+  switch (a.type) {
+    case CreateGroupElementAction.TYPE:
+      return updateGroup<FormValue>({
+        group: group => {
+          const newGroup = addGroupControl(group, a.name, false);
+
+          // alternatively we can also use setValue
+          // const newValue = { ...group.value, [a.name]: false };
+          // const newGroup = setValue(group, newValue);
+
+          return newGroup;
+        },
+      })(s);
+
+    case RemoveGroupElementAction.TYPE:
+      return updateGroup<FormValue>({
+        group: group => {
+          const newValue = { ...group.value };
+          delete newValue[a.name];
+          const newGroup = setValue(group, newValue);
+
+          // alternatively we can also use removeGroupControl
+          // const newGroup = removeGroupControl(group, a.name);
+
+          return newGroup;
+        },
+      })(s);
+
+    default:
+      return s;
+  }
+}
+
 const reducers = combineReducers<State['dynamic'], any>({
-  formState(
-    s = INITIAL_STATE,
-    a: CreateGroupElementAction | RemoveGroupElementAction,
-  ) {
-    s = formGroupReducer(s, a);
-
-    switch (a.type) {
-      case CreateGroupElementAction.TYPE:
-        return updateGroup<FormValue>({
-          group: group => {
-            const newGroup = addGroupControl(group, a.name, false);
-
-            // alternatively we can also use setValue
-            // const newValue = { ...group.value, [a.name]: false };
-            // const newGroup = setValue(group, newValue);
-
-            return newGroup;
-          },
-        })(s);
-
-      case RemoveGroupElementAction.TYPE:
-        return updateGroup<FormValue>({
-          group: group => {
-            const newValue = { ...group.value };
-            delete newValue[a.name];
-            const newGroup = setValue(group, newValue);
-
-            // alternatively we can also use removeGroupControl
-            // const newGroup = removeGroupControl(group, a.name);
-
-            return newGroup;
-          },
-        })(s);
-
-      default:
-        return s;
-    }
-  },
+  formState: formStateReducer,
   array(
     s = { maxIndex: 2, options: [1, 2] },
     a: AddArrayControlAction<boolean> | RemoveArrayControlAction,
