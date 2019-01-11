@@ -426,9 +426,13 @@ describe('state', () => {
       const stringValue = 'A';
       const numberValue = 101;
       const booleanValue = true;
+      const nullValue = null;
+      const undefinedValue = undefined;
       expect(verifyFormControlValueIsValid(stringValue)).toBe(stringValue);
       expect(verifyFormControlValueIsValid(numberValue)).toBe(numberValue);
       expect(verifyFormControlValueIsValid(booleanValue)).toBe(booleanValue);
+      expect(verifyFormControlValueIsValid(nullValue)).toBe(nullValue);
+      expect(verifyFormControlValueIsValid(undefinedValue)).toBe(undefinedValue);
     });
 
     it('should throw for invalid values', () => {
@@ -446,11 +450,15 @@ describe('state', () => {
       const boxedBooleanValue = box(true);
       const boxedObjectValue = box({ v: 'A' });
       const boxedArrayValue = box(['A']);
+      const boxedNullValue = box(null);
+      const boxedUndefinedValue = box(undefined);
       expect(verifyFormControlValueIsValid(boxedStringValue)).toBe(boxedStringValue);
       expect(verifyFormControlValueIsValid(boxedNumberValue)).toBe(boxedNumberValue);
       expect(verifyFormControlValueIsValid(boxedBooleanValue)).toBe(boxedBooleanValue);
       expect(verifyFormControlValueIsValid(boxedObjectValue)).toBe(boxedObjectValue);
       expect(verifyFormControlValueIsValid(boxedArrayValue)).toBe(boxedArrayValue);
+      expect(verifyFormControlValueIsValid(boxedNullValue)).toBe(boxedNullValue);
+      expect(verifyFormControlValueIsValid(boxedUndefinedValue)).toBe(boxedUndefinedValue);
     });
 
     it('should throw for non-serializable boxed values', () => {

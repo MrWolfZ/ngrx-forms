@@ -603,6 +603,10 @@ export function verifyFormControlValueIsValid<TValue>(value: TValue) {
     throw new Error(`${errorMsg}; got ${JSON.stringify(value)} of type ${typeof value}`); // `;
   }
 
+  if (value.value === null || ['string', 'number', 'boolean', 'undefined'].indexOf(typeof value.value) >= 0) {
+    return value;
+  }
+
   const serialized = JSON.stringify(value);
   const deserialized = JSON.parse(serialized);
 
