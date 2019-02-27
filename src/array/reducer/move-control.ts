@@ -3,7 +3,7 @@ import { computeArrayState, FormArrayState } from '../../state';
 import { childReducer, updateIdRecursive } from './util';
 
 export function move(array: ReadonlyArray<any>, fromIndex: number, toIndex: number) {
-  const item = array[ fromIndex ];
+  const item = array[fromIndex];
   const length = array.length;
   if (fromIndex > toIndex) {
     return [

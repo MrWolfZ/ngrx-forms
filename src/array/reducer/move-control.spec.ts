@@ -66,7 +66,7 @@ describe(`form array ${moveControlReducer.name}`, () => {
   });
 
   it('should update nested array child IDs after a move', () => {
-    const testValue = [ {array: [ 0, 1, 2, 3 ]}, {array: [ 0, 1, 2, 3 ]} ];
+    const testValue = [ { array: [ 0, 1, 2, 3 ] }, { array: [ 0, 1, 2, 3 ] } ];
     const testState = createFormArrayState(FORM_CONTROL_ID, testValue);
     const action = new MoveArrayControlAction(FORM_CONTROL_ID, 0, 1);
     const resultState = moveControlReducer(testState, action);

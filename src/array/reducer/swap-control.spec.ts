@@ -5,19 +5,19 @@ import { swapControlReducer } from './swap-control';
 import { FORM_CONTROL_0_ID, FORM_CONTROL_ID, INITIAL_STATE_NESTED_GROUP } from './test-util';
 
 describe(`form array ${swapControlReducer.name}`, () => {
-  const testArrayValue = [ 0, 1, 2, 3, 4, 5 ];
+  const testArrayValue = [0, 1, 2, 3, 4, 5];
   const testArrayState = createFormArrayState(FORM_CONTROL_ID, testArrayValue);
 
   it('should swap controls forwards', () => {
     const action = new SwapArrayControlAction(FORM_CONTROL_ID, 0, 2);
     const resultState = swapControlReducer(testArrayState, action);
-    expect(resultState.value).toEqual([ 2, 1, 0, 3, 4, 5 ]);
+    expect(resultState.value).toEqual([2, 1, 0, 3, 4, 5]);
   });
 
   it('should swap controls backwards', () => {
     const action = new SwapArrayControlAction(FORM_CONTROL_ID, 5, 1);
     const resultState = swapControlReducer(testArrayState, action);
-    expect(resultState.value).toEqual([ 0, 5, 2, 3, 4, 1 ]);
+    expect(resultState.value).toEqual([0, 5, 2, 3, 4, 1]);
     expect(resultState.isDirty).toEqual(true);
 
   });
@@ -55,7 +55,7 @@ describe(`form array ${swapControlReducer.name}`, () => {
   });
 
   it('should update nested array child IDs after a swap', () => {
-    const testValue = [ {array: [ 0, 1, 2, 3 ]}, {array: [ 0, 1, 2, 3 ]} ];
+    const testValue = [ { array: [0, 1, 2, 3] }, { array: [0, 1, 2, 3] } ];
     const testState = createFormArrayState(FORM_CONTROL_ID, testValue);
     const action = new SwapArrayControlAction(FORM_CONTROL_ID, 0, 1);
     const resultState = moveControlReducer(testState, action);

@@ -12,7 +12,7 @@ describe('swapArrayControl', () => {
   });
 
   it('should call reducer for arrays uncurried', () => {
-    const resultState = swapArrayControl<number>(INITIAL_ARRAY_STATE,3, 1);
+    const resultState = swapArrayControl<number>(INITIAL_ARRAY_STATE, 3, 1);
     expect(resultState).not.toBe(INITIAL_ARRAY_STATE);
     expect(resultState.value).toEqual([ 0, 3, 2, 1 ]);
   });

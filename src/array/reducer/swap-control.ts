@@ -4,7 +4,7 @@ import { childReducer, updateIdRecursive } from './util';
 
 function swapArrayValues(a: ReadonlyArray<any>, i: number, j: number) {
   const n = [ ...a ];
-  [ n[ i ], n[ j ] ] = [ n[ j ], n[ i ] ];
+  [n[i], n[j]] = [n[j], n[i]];
   return n;
 }
 

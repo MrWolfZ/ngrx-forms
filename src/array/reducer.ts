@@ -1,6 +1,13 @@
 import { Action } from '@ngrx/store';
 
-import { Actions, AddGroupControlAction, FocusAction, isNgrxFormsAction, RemoveGroupControlAction, UnfocusAction } from '../actions';
+import {
+  Actions,
+  AddGroupControlAction,
+  FocusAction,
+  isNgrxFormsAction,
+  RemoveGroupControlAction,
+  UnfocusAction
+} from '../actions';
 import { FormArrayState, isArrayState } from '../state';
 import { addControlReducer } from './reducer/add-control';
 import { clearAsyncErrorReducer } from './reducer/clear-async-error';

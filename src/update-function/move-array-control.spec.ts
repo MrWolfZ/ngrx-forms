@@ -12,7 +12,7 @@ describe('moveArrayControl', () => {
   });
 
   it('should call reducer for arrays uncurried', () => {
-    const resultState = moveArrayControl(INITIAL_ARRAY_STATE,0, 2);
+    const resultState = moveArrayControl(INITIAL_ARRAY_STATE, 0, 2);
     expect(resultState).not.toBe(INITIAL_ARRAY_STATE);
     expect(resultState.value).toEqual([ 1, 2, 0, 3 ]);
   });
