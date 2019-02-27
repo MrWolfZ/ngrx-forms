@@ -17,6 +17,7 @@ describe(`form group ${removeControlReducer.name}`, () => {
     expect(resultState.value).toEqual([INITIAL_FORM_ARRAY_VALUE[1]]);
     expect(resultState.controls[1]).toBeUndefined();
     expect(resultState.controls[0].id).toEqual(`${FORM_CONTROL_ID}.0`);
+    expect(resultState.isDirty).toEqual(true);
   });
 
   it('should remove child state for group children', () => {
@@ -25,6 +26,7 @@ describe(`form group ${removeControlReducer.name}`, () => {
     expect(resultState.value).toEqual([INITIAL_FORM_ARRAY_VALUE_NESTED_GROUP[1]]);
     expect(resultState.controls[1]).toBeUndefined();
     expect(resultState.controls[0].id).toEqual(`${FORM_CONTROL_ID}.0`);
+    expect(resultState.isDirty).toEqual(true);
   });
 
   it('should remove child state for array children', () => {
@@ -33,6 +35,7 @@ describe(`form group ${removeControlReducer.name}`, () => {
     expect(resultState.value).toEqual([INITIAL_FORM_ARRAY_VALUE_NESTED_ARRAY[1]]);
     expect(resultState.controls[1]).toBeUndefined();
     expect(resultState.controls[0].id).toEqual(`${FORM_CONTROL_ID}.0`);
+    expect(resultState.isDirty).toEqual(true);
   });
 
   it('should update nested child IDs for group children', () => {
@@ -112,7 +115,7 @@ describe(`form group ${removeControlReducer.name}`, () => {
     expect(() => removeControlReducer(INITIAL_STATE, action)).toThrowError();
   });
 
-  it('should foward actions to children', () => {
+  it('should forward actions to children', () => {
     const state = createFormArrayState(FORM_CONTROL_ID, [['']]);
     const action = new RemoveArrayControlAction(state.controls[0].id, 0);
     const resultState = removeControlReducer(state, action);

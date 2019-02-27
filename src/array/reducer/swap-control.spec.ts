@@ -4,7 +4,7 @@ import { moveControlReducer } from './move-control';
 import { swapControlReducer } from './swap-control';
 import { FORM_CONTROL_0_ID, FORM_CONTROL_ID, INITIAL_STATE_NESTED_GROUP } from './test-util';
 
-describe(`form array swap`, () => {
+describe(`form array ${swapControlReducer.name}`, () => {
   const testArrayValue = [ 0, 1, 2, 3, 4, 5 ];
   const testArrayState = createFormArrayState(FORM_CONTROL_ID, testArrayValue);
 
@@ -18,11 +18,11 @@ describe(`form array swap`, () => {
     const action = new SwapArrayControlAction(FORM_CONTROL_ID, 5, 1);
     const resultState = swapControlReducer(testArrayState, action);
     expect(resultState.value).toEqual([ 0, 5, 2, 3, 4, 1 ]);
+    expect(resultState.isDirty).toEqual(true);
+
   });
 
   it('should throw on out of bound or negative indices', () => {
-    expect(() => new SwapArrayControlAction(FORM_CONTROL_ID, -1, 0)).toThrow();
-    expect(() => new SwapArrayControlAction(FORM_CONTROL_ID, 0, -1)).toThrow();
     expect(() => swapControlReducer(
       INITIAL_STATE_NESTED_GROUP,
       new SwapArrayControlAction(FORM_CONTROL_ID, 0, INITIAL_STATE_NESTED_GROUP.controls.length))
@@ -42,7 +42,7 @@ describe(`form array swap`, () => {
     });
   });
 
-  it('should return the state on a 0 move', () => {
+  it('should return the state unmodified if no element was moved', () => {
     const action = new SwapArrayControlAction(FORM_CONTROL_ID, 1, 1);
     const resultState = swapControlReducer(testArrayState, action);
     expect(resultState).toBe(testArrayState);

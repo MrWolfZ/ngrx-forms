@@ -2,22 +2,21 @@ import { Actions, MoveArrayControlAction } from '../../actions';
 import { computeArrayState, FormArrayState } from '../../state';
 import { childReducer, updateIdRecursive } from './util';
 
-export function move(array: ReadonlyArray<any>, from: number, to: number) {
-  const item = array[ from ];
+export function move(array: ReadonlyArray<any>, fromIndex: number, toIndex: number) {
+  const item = array[ fromIndex ];
   const length = array.length;
-  const diff = from - to;
-  if (diff > 0) {
+  if (fromIndex > toIndex) {
     return [
-      ...array.slice(0, to),
+      ...array.slice(0, toIndex),
       item,
-      ...array.slice(to, from),
-      ...array.slice(from + 1, length),
+      ...array.slice(toIndex, fromIndex),
+      ...array.slice(fromIndex + 1, length),
     ];
   } else {
-    const targetIndex = to + 1;
+    const targetIndex = toIndex + 1;
     return [
-      ...array.slice(0, from),
-      ...array.slice(from + 1, targetIndex),
+      ...array.slice(0, fromIndex),
+      ...array.slice(fromIndex + 1, targetIndex),
       item,
       ...array.slice(targetIndex, length),
     ];
@@ -35,8 +34,8 @@ export function moveControlReducer<TValue>(
     return childReducer(state, action);
   }
 
-  const from = action.from;
-  const to = action.to;
+  const from = action.fromIndex;
+  const to = action.toIndex;
 
   if (from === to) {
     return state;
@@ -48,7 +47,7 @@ export function moveControlReducer<TValue>(
 
   let controls = move(state.controls, from, to);
 
-  controls = controls.map((c, i) => (i >= from || i >= to) ? updateIdRecursive(c, `${state.id}.${i}`) : c);
+  controls = controls.map((c, i) => updateIdRecursive(c, `${state.id}.${i}`) );
 
   return computeArrayState(
     state.id,

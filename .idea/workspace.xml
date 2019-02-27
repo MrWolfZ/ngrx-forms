@@ -1,0 +1,755 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4af87ad1-7cab-4c61-b46f-82f8a91d4217" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/array/reducer/move-control.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/array/reducer/move-control.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/array/reducer/move-control.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/array/reducer/move-control.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/array/reducer/remove-control.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/array/reducer/remove-control.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/array/reducer/swap-control.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/array/reducer/swap-control.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/array/reducer/swap-control.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/array/reducer/swap-control.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/update-function/move-array-control.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/update-function/move-array-control.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/update-function/move-array-control.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/update-function/move-array-control.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/update-function/swap-array-control.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/update-function/swap-array-control.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/update-function/swap-array-control.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/update-function/swap-array-control.ts" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/array/reducer/swap-control.spec.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="329">
+              <caret line="20" column="46" lean-forward="true" selection-start-line="20" selection-end-line="21" />
+              <folding>
+                <element signature="e#0#55#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/array/reducer/move-control.spec.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="47" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="47" />
+              <folding>
+                <element signature="e#0#55#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/array/reducer/remove-control.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1">
+              <folding>
+                <element signature="e#0#66#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/array/reducer/remove-control.spec.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="201">
+              <caret line="37" column="46" selection-start-line="37" selection-start-column="46" selection-end-line="37" selection-end-column="46" />
+              <folding>
+                <element signature="e#0#57#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>validateAndUpdateForm</find>
+      <find>userDefinedProperties</find>
+      <find>add</find>
+      <find>CREATE_</find>
+      <find>formGroupReducer</find>
+      <find>NewQuestionEffects</find>
+      <find>AddArrayControlAction</find>
+      <find>AddArray</find>
+      <find>createChildState</find>
+      <find>combineReducers</find>
+      <find>updateGroup</find>
+      <find>updateArrayControlsState</find>
+      <find>updateArraySingle</find>
+      <find>updateArray</find>
+      <find>Vali</find>
+      <find>updateFn</find>
+      <find>setUserDefinedProperty</find>
+      <find>subdomain</find>
+      <find>FormViewAdapter</find>
+      <find>SwapArrayControlAction</find>
+      <find>MoveArrayControlAction</find>
+      <find>RemoveArrayControlAction</find>
+      <find>ngrx/forms/REMOVE_ARRAY_CONTROL</find>
+      <find>REMOVE_ARRAY_CONTROL</find>
+      <find>RemoveArrayControlAction.TYPE</find>
+      <find>to</find>
+      <find>from</find>
+      <find>throw an error</find>
+      <find>dirtty</find>
+      <find>dirty</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>toIndex</replace>
+      <replace>fromIndex</replace>
+    </replaceStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/example-app/src/app/sync-validation</dir>
+      <dir>$PROJECT_DIR$/example-app</dir>
+      <dir>$PROJECT_DIR$/example-app/src</dir>
+      <dir>$PROJECT_DIR$/</dir>
+      <dir>$PROJECT_DIR$/../../../ustin/Development/ngrx-forms/src</dir>
+      <dir>$PROJECT_DIR$/src</dir>
+      <dir>$PROJECT_DIR$/example-app/src/app</dir>
+      <dir>$PROJECT_DIR$</dir>
+      <dir>$PROJECT_DIR$/src/array/reducer</dir>
+    </dirStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/../JJT/libs/apply-main/src/lib/apply-main.routing.ts" />
+        <option value="$PROJECT_DIR$/../JJT/libs/apply-main/src/lib/apply-main.module.ts" />
+        <option value="$PROJECT_DIR$/../JJT/libs/apply-main/src/lib/question/question.module.ts" />
+        <option value="$PROJECT_DIR$/../JJT/libs/login-status/src/lib/login-status.module.ts" />
+        <option value="$PROJECT_DIR$/../JJT/libs/login-status/src/index.ts" />
+        <option value="$PROJECT_DIR$/../JJT/libs/shine-main/src/lib/shine-main.module.ts" />
+        <option value="$PROJECT_DIR$/../JJT/libs/cap-module/src/lib/cap-module.module.ts" />
+        <option value="$PROJECT_DIR$/../JJT/libs/login-status/src/lib/interceptor/login.interceptor.ts" />
+        <option value="$PROJECT_DIR$/../JJT/prepush.js" />
+        <option value="$PROJECT_DIR$/../JJT/libs/apply-main/src/lib/question/question.component.html" />
+        <option value="$PROJECT_DIR$/../JJT/libs/apply-main/src/lib/question/components/credo-assessment/credo-assessment.component.ts" />
+        <option value="$PROJECT_DIR$/../JJT/libs/apply-main/src/lib/modules/new-question/actions/question.actions.ts" />
+        <option value="$PROJECT_DIR$/../JJT/libs/apply-main/src/lib/modules/new-question/new-question.module.ts" />
+        <option value="$PROJECT_DIR$/../JJT/libs/apply-main/src/lib/modules/models/forms.model.ts" />
+        <option value="$PROJECT_DIR$/../JJT/libs/apply-main/src/lib/modules/new-question/reducers/index.ts" />
+        <option value="$PROJECT_DIR$/../JJT/libs/apply-main/src/lib/modules/new-question/actions/question-form.actions.ts" />
+        <option value="$PROJECT_DIR$/../JJT/libs/apply-main/src/lib/question/components/multiSelect/multiSelect.component.ts" />
+        <option value="$PROJECT_DIR$/../JJT/libs/apply-main/src/lib/question/question.component.ts" />
+        <option value="$PROJECT_DIR$/../JJT/apps/apply/src/environments/environment.prod.ts" />
+        <option value="$PROJECT_DIR$/../jibe-apply-app/README.md" />
+        <option value="$PROJECT_DIR$/../jibe-apply-app/server/routes/api/login/kenexaAtsAuth.js" />
+        <option value="$PROJECT_DIR$/../jibe-apply-app/server/services/User.js" />
+        <option value="$PROJECT_DIR$/../JJT/libs/apply-main/src/lib/modules/new-question/components/initial/initial.component.ts" />
+        <option value="$PROJECT_DIR$/../JJT/libs/shine-main/src/lib/components/header/header.component.ts" />
+        <option value="$PROJECT_DIR$/../JJT/libs/shine-main/src/lib/components/onboarding-carousel/onboarding-carousel.component.html" />
+        <option value="$PROJECT_DIR$/../JJT/apps/shine/src/app/app.module.ts" />
+        <option value="$PROJECT_DIR$/../JJT/apps/shine/src/polyfills.ts" />
+        <option value="$PROJECT_DIR$/../JJT/libs/shine-main/src/lib/model/onboarding-carousel/onboarding-carousel.service.ts" />
+        <option value="$PROJECT_DIR$/../JJT/libs/shine-main/src/lib/components/application-feedback-popup/application-feedback-popup.component.html" />
+        <option value="$PROJECT_DIR$/validation/src/required.ts" />
+        <option value="$PROJECT_DIR$/example-app/src/app/dynamic/dynamic.reducer.ts" />
+        <option value="$PROJECT_DIR$/src/array/reducer.ts" />
+        <option value="$PROJECT_DIR$/src/group/reducer.ts" />
+        <option value="$PROJECT_DIR$/build.js" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/array/reducer/add-control.ts" />
+        <option value="$PROJECT_DIR$/example-app/src/app/sync-validation/sync-validation.reducer.ts" />
+        <option value="$PROJECT_DIR$/example-app/src/app/material/mat-select-view-adapter.ts" />
+        <option value="$PROJECT_DIR$/src/array/reducer/swap-control.ts" />
+        <option value="$PROJECT_DIR$/src/actions.ts" />
+        <option value="$PROJECT_DIR$/src/array/reducer/move-control.ts" />
+        <option value="$PROJECT_DIR$/src/update-function/swap-array-control.ts" />
+        <option value="$PROJECT_DIR$/src/update-function/move-array-control.ts" />
+        <option value="$PROJECT_DIR$/src/update-function/move-array-control.spec.ts" />
+        <option value="$PROJECT_DIR$/src/update-function/swap-array-control.spec.ts" />
+        <option value="$PROJECT_DIR$/src/array/reducer/move-control.spec.ts" />
+        <option value="$PROJECT_DIR$/src/array/reducer/swap-control.spec.ts" />
+        <option value="$PROJECT_DIR$/src/array/reducer/remove-control.spec.ts" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBowerSettings">
+    <exe-path />
+    <config-path />
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>false</service-enabled>
+    <exe-path />
+    <annotation-enable>false</annotation-enable>
+    <other-services-enabled>false</other-services-enabled>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-1920" />
+    <option name="y" value="382" />
+    <option name="width" value="1920" />
+    <option name="height" value="1057" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="ngrx-forms" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ngrx-forms" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ngrx-forms" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ngrx-forms" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ngrx-forms" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ngrx-forms" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="array" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="HbShouldOpenHtmlAsHb" value="" />
+    <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="editor.config.ad.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="$PROJECT_DIR$/node_modules/tslint" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="/usr/local/bin/node" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="prettierjs.PrettierConfiguration.Package" value="/usr/local/lib/node_modules/prettier" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-1920" y="382" width="1920" height="1057" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2028754" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="npm" order="2" side_tool="true" />
+      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="TypeScript" order="8" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.2611399" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="right" id="Cargo" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Remote Host" order="3" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/build.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="98" column="2" selection-start-line="98" selection-start-column="2" selection-end-line="131" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="FIRST">
+          <first_editor />
+          <second_editor>
+            <markdownNavigatorState />
+          </second_editor>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-app/node_modules/ngrx-forms/validation/src/required.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="4" lean-forward="true" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-app/src/app/dynamic/dynamic.reducer.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="558">
+          <caret line="103" column="18" lean-forward="true" selection-start-line="103" selection-start-column="18" selection-end-line="103" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-app/node_modules/ngrx-forms/validation/public_api.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/validation/src/required.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="31" column="29" lean-forward="true" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-app/src/app/array/array.reducer.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
+          <folding>
+            <element signature="e#0#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/array/reducer/util.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="7" lean-forward="true" selection-start-column="7" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/array/reducer/set-user-defined-property.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="3" lean-forward="true" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
+          <folding>
+            <element signature="e#0#70#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/update-function/add-array-control.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="31" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/update-function/disable.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/update-function/validate.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-444">
+          <caret column="7" selection-start-column="7" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-app/src/app/sync-validation/sync-validation.reducer.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="85" column="24" selection-start-line="85" selection-start-column="16" selection-end-line="85" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-app/src/app/material/mat-list-option-fix.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="17" column="66" lean-forward="true" selection-start-line="17" selection-start-column="66" selection-end-line="17" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-app/src/app/material/material.module.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="20" column="19" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/update-function/set-value.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="103" selection-start-line="20" selection-start-column="103" selection-end-line="20" selection-end-column="103" />
+          <folding>
+            <element signature="e#0#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-app/src/app/material/mat-select-view-adapter.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="358">
+          <caret line="68" selection-start-line="68" selection-end-line="68" />
+          <folding>
+            <element signature="e#0#80#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/update-function/set-user-defined-property.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="12" column="16" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#58#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/update-function/update-recursive.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="11" column="92" selection-start-line="11" selection-start-column="92" selection-end-line="11" selection-end-column="92" />
+          <folding>
+            <element signature="e#0#111#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/update-function/update-group.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="358">
+          <caret line="121" column="75" selection-start-line="121" selection-start-column="75" selection-end-line="121" selection-end-column="75" />
+          <folding>
+            <element signature="e#0#115#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/array/reducer.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="40" column="28" lean-forward="true" selection-start-line="40" selection-start-column="28" selection-end-line="40" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/group/reducer/util.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="14" column="40" lean-forward="true" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-app/dist/dynamic-dynamic-module.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="71" column="328" selection-start-line="71" selection-start-column="328" selection-end-line="71" selection-end-column="328" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/group/reducer.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="68" column="46" lean-forward="true" selection-start-line="68" selection-start-column="46" selection-end-line="68" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/array/reducer/clear-async-error.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="28" column="23" lean-forward="true" selection-start-line="28" selection-start-column="23" selection-end-line="28" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/array/reducer/mark-as-pristine.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#53#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/array/reducer/mark-as-untouched.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/array/reducer/mark-as-untouched.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="3" lean-forward="true" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
+          <folding>
+            <element signature="e#0#63#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/array/reducer/move-control.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="446">
+          <caret line="55" column="17" lean-forward="true" selection-start-line="55" selection-start-column="17" selection-end-line="55" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/array/reducer/mark-as-touched.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="50" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="50" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/update-function/remove-array-control.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="35" lean-forward="true" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/state.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="3" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
+          <folding>
+            <element signature="e#0#42#0" expanded="true" />
+            <element signature="n#!!block;n#computeGroupState#0" />
+            <element signature="n#!!block;n#getFormArrayErrors#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/update-function/remove-group-control.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
+          <folding>
+            <element signature="e#0#60#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/update-function/remove-group-control.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="47" selection-start-line="2" selection-start-column="39" selection-end-line="2" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="42" column="29" lean-forward="true" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/update-function/move-array-control.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/update-function/update-array.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="687">
+          <caret line="209" column="51" selection-start-line="209" selection-start-column="51" selection-end-line="209" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#86#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/update-function/update-array.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="38" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/update-function/swap-array-control.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="15" column="67" selection-start-line="15" selection-start-column="67" selection-end-line="15" selection-end-column="67" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/update-function/swap-array-control.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="40" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/update-function/move-array-control.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="68" selection-start-line="8" selection-start-column="68" selection-end-line="8" selection-end-column="68" />
+          <folding>
+            <element signature="e#0#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coverage/Chrome 72.0.3626 (Mac OS X 10.14.1)/html/index.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coverage/Chrome 72.0.3626 (Mac OS X 10.14.1)/html/ngrx-forms/src/array/reducer/swap-control.ts.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/array/reducer/swap-control.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/actions.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="191" column="55" selection-start-line="191" selection-start-column="55" selection-end-line="191" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/array/reducer/add-control.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="241">
+          <caret line="91" column="8" lean-forward="true" selection-start-line="90" selection-start-column="10" selection-end-line="91" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/array/reducer/add-control.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="25" lean-forward="true" selection-start-line="24" selection-start-column="78" selection-end-line="25" />
+          <folding>
+            <element signature="e#0#63#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/array/reducer/remove-control.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1">
+          <folding>
+            <element signature="e#0#66#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/array/reducer/move-control.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="47" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#55#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/array/reducer/swap-control.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="329">
+          <caret line="20" column="46" lean-forward="true" selection-start-line="20" selection-end-line="21" />
+          <folding>
+            <element signature="e#0#55#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/array/reducer/remove-control.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="37" column="46" selection-start-line="37" selection-start-column="46" selection-end-line="37" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

@@ -6,18 +6,18 @@ describe('moveArrayControl', () => {
   const INITIAL_ARRAY_STATE = createFormArrayState(FORM_CONTROL_ID, [ 0, 1, 2, 3 ]);
 
   it('should call reducer for arrays', () => {
-    const resultState = moveArrayControl<number>(1, 0)(INITIAL_ARRAY_STATE);
+    const resultState = moveArrayControl(1, 0)(INITIAL_ARRAY_STATE);
     expect(resultState).not.toBe(INITIAL_ARRAY_STATE);
     expect(resultState.value).toEqual([ 1, 0, 2, 3 ]);
   });
 
   it('should call reducer for arrays uncurried', () => {
-    const resultState = moveArrayControl<number>(0, 2, INITIAL_ARRAY_STATE);
+    const resultState = moveArrayControl(INITIAL_ARRAY_STATE,0, 2);
     expect(resultState).not.toBe(INITIAL_ARRAY_STATE);
     expect(resultState.value).toEqual([ 1, 2, 0, 3 ]);
   });
 
   it('should throw if curried and no state', () => {
-    expect(() => moveArrayControl<number>(0, 1)(undefined as any)).toThrowError();
+    expect(() => moveArrayControl(0, 1)(undefined as any)).toThrowError();
   });
 });

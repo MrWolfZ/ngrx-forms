@@ -1,24 +1,24 @@
 import { MoveArrayControlAction } from '../actions';
 import { formArrayReducer } from '../array/reducer';
-import { FormArrayState } from '../state';
+import { FormArrayState, isArrayState, KeyValue } from '../state';
 import { ensureState } from './util';
 
 /**
  * This update function takes a source index, a destination index, and returns a projection function
- * that move the child controls at the source index to the destination index from a form array state.
+ * that moves the child control at the source index to the destination index from a form array state.
  */
-export function moveArrayControl<TValue>(from: number, to: number): (state: FormArrayState<TValue>) => FormArrayState<TValue>;
+export function moveArrayControl<TValue extends KeyValue>(fromIndex: number, toIndex: number): (state: FormArrayState<TValue>) => FormArrayState<TValue>;
 
 /**
- * This update function takes a source index, a destination index, an form array state, and moves the
+ * This update function takes  form array state, a source index, a destination index and moves the
  * child controls at the source index to the destination index in the form array state.
  */
-export function moveArrayControl<TValue>(from: number, to: number, state: FormArrayState<TValue>): FormArrayState<TValue>;
+export function moveArrayControl<TValue>(state: FormArrayState<TValue>, fromIndex: number, toIndex: number): FormArrayState<TValue>;
 
-export function moveArrayControl<TValue>(from: number, to: number, state?: FormArrayState<TValue>) {
-  if (!!state) {
-    return formArrayReducer(state, new MoveArrayControlAction(state.id, from, to));
+export function moveArrayControl<TValue>(indexOrState: number | FormArrayState<TValue>, fromIndex: number, toIndex?: number) {
+  if (isArrayState(indexOrState)) {
+    return formArrayReducer(indexOrState, new MoveArrayControlAction(indexOrState.id, fromIndex, toIndex!));
   }
 
-  return (s: FormArrayState<TValue>) => moveArrayControl(from, to, ensureState(s));
+  return (s: FormArrayState<TValue>) => moveArrayControl(ensureState(s), indexOrState as number, fromIndex);
 }

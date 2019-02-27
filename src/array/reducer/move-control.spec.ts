@@ -3,9 +3,10 @@ import { createFormArrayState } from '../../state';
 import { moveControlReducer } from './move-control';
 import { FORM_CONTROL_0_ID, FORM_CONTROL_ID, INITIAL_STATE_NESTED_GROUP } from './test-util';
 
-describe(`form array move`, () => {
+describe(`form array ${moveControlReducer.name}`, () => {
   const testArrayValue = [ 0, 1, 2, 3, 4, 5 ];
   const testArrayState = createFormArrayState(FORM_CONTROL_ID, testArrayValue);
+
   it('should move controls forward', () => {
     let action = new MoveArrayControlAction(FORM_CONTROL_ID, 2, 5);
     let resultState = moveControlReducer(testArrayState, action);
@@ -30,18 +31,17 @@ describe(`form array move`, () => {
     expect(resultState.value).toEqual([ 3, 0, 1, 2, 4, 5 ]);
   });
 
-  it('should throw on out of bound or negative indices', () => {
-    expect(() => new MoveArrayControlAction(FORM_CONTROL_ID, -1, 0)).toThrow();
+  it('should throw an error for negative or too large indices', () => {
     expect(() =>
       moveControlReducer(
         INITIAL_STATE_NESTED_GROUP,
         new MoveArrayControlAction(FORM_CONTROL_ID, 0, INITIAL_STATE_NESTED_GROUP.controls.length))
-    ).toThrow();
+    ).toThrowError();
     expect(() =>
       moveControlReducer(
         INITIAL_STATE_NESTED_GROUP,
         new MoveArrayControlAction(FORM_CONTROL_ID, INITIAL_STATE_NESTED_GROUP.controls.length, 0))
-    ).toThrow();
+    ).toThrowError();
   });
 
   it('should return the state on a 0 move', () => {

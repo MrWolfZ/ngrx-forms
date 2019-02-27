@@ -179,33 +179,25 @@ export class RemoveArrayControlAction implements Action {
 }
 
 export class SwapArrayControlAction implements Action {
-  static readonly TYPE = 'ngrx/forms/SWAP_ARRAY_CONTROL';
+  static readonly TYPE: 'ngrx/forms/SWAP_ARRAY_CONTROL' = 'ngrx/forms/SWAP_ARRAY_CONTROL';
   readonly type = SwapArrayControlAction.TYPE;
 
   constructor(
-      public readonly controlId: NgrxFormControlId,
-      public readonly from: number,
-      public readonly to: number
-  ) {
-    if (from < 0 || to < 0) {
-      throw new Error('Swap indices cannot be negative.');
-    }
-  }
+    public readonly controlId: NgrxFormControlId,
+    public readonly fromIndex: number,
+    public readonly toIndex: number
+  ) { }
 }
 
 export class MoveArrayControlAction implements Action {
-  static readonly TYPE = 'ngrx/forms/MOVE_ARRAY_CONTROL';
+  static readonly TYPE: 'ngrx/forms/MOVE_ARRAY_CONTROL' = 'ngrx/forms/MOVE_ARRAY_CONTROL';
   readonly type = MoveArrayControlAction.TYPE;
 
   constructor(
     public readonly controlId: NgrxFormControlId,
-    public readonly from: number,
-    public readonly to: number
-  ) {
-    if (from < 0 || to < 0) {
-      throw new Error('Move indices cannot be negative.');
-    }
-  }
+    public readonly fromIndex: number,
+    public readonly toIndex: number
+  ) { }
 }
 
 export class RemoveGroupControlAction<TValue> implements Action {

@@ -20,8 +20,8 @@ export function swapControlReducer<TValue>(
     return childReducer(state, action);
   }
 
-  const from = action.from;
-  const to = action.to;
+  const from = action.fromIndex;
+  const to = action.toIndex;
 
   if (from === to) {
     return state;
