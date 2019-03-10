@@ -25,6 +25,12 @@ describe(`form group ${removeControlReducer.name}`, () => {
     expect(resultState.controls.inner5).toBeUndefined();
   });
 
+  it('should mark the state as dirty', () => {
+    const action = new RemoveGroupControlAction<FormGroupValue>(FORM_CONTROL_ID, 'inner5');
+    const resultState = removeControlReducer<FormGroupValue>(INITIAL_STATE_FULL, action);
+    expect(resultState.isDirty).toBe(true);
+  });
+
   it('should remove child errors for removed child', () => {
     interface FormValue { inner?: number; }
     const id = 'ID';
@@ -79,7 +85,7 @@ describe(`form group ${removeControlReducer.name}`, () => {
     expect(() => removeControlReducer<FormGroupValue>(INITIAL_STATE, action)).toThrowError();
   });
 
-  it('should foward actions to children', () => {
+  it('should forward actions to children', () => {
     const state = createFormGroupState(FORM_CONTROL_ID, { inner: { inner2: '' } });
     const action = new RemoveGroupControlAction<typeof state.value.inner>(state.controls.inner.id, 'inner2');
     const resultState = removeControlReducer(state, action as any);

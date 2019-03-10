@@ -61,6 +61,13 @@ describe(`form array ${addControlReducer.name}`, () => {
     expect(resultState.controls[2].id).toEqual(`${FORM_CONTROL_ID}.2`);
   });
 
+  it('should mark the state as dirty', () => {
+    const value = 'B';
+    const action = new AddArrayControlAction(FORM_CONTROL_ID, value);
+    const resultState = addControlReducer(INITIAL_STATE, action);
+    expect(resultState.isDirty).toBe(true);
+  });
+
   it('should throw if trying to add control at out of bounds index', () => {
     const action = new AddArrayControlAction(FORM_CONTROL_ID, '', 3);
     expect(() => addControlReducer(INITIAL_STATE, action)).toThrowError();
@@ -71,7 +78,7 @@ describe(`form array ${addControlReducer.name}`, () => {
     expect(() => addControlReducer(INITIAL_STATE, action)).toThrowError();
   });
 
-  it('should foward actions to children', () => {
+  it('should forward actions to children', () => {
     const state = createFormArrayState(FORM_CONTROL_ID, [['']]);
     const value = 'B';
     const action = new AddArrayControlAction(state.controls[0].id, value);

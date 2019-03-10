@@ -32,12 +32,19 @@ describe(`form group ${addControlReducer.name}`, () => {
     expect(Array.isArray(resultState.controls.inner5!.controls)).toBe(true);
   });
 
+  it('should mark the state as dirty', () => {
+    const value = ['A'];
+    const action = new AddGroupControlAction<FormGroupValue>(FORM_CONTROL_ID, 'inner5', value);
+    const resultState = addControlReducer<FormGroupValue>(INITIAL_STATE, action);
+    expect(resultState.isDirty).toBe(true);
+  });
+
   it('should throw if trying to add existing control', () => {
     const action = new AddGroupControlAction<FormGroupValue>(FORM_CONTROL_ID, 'inner', '');
     expect(() => addControlReducer<FormGroupValue>(INITIAL_STATE, action)).toThrowError();
   });
 
-  it('should foward actions to children', () => {
+  it('should forward actions to children', () => {
     const state = createFormGroupState<{ inner: { inner2?: string } }>(FORM_CONTROL_ID, { inner: {} });
     const value = 'B';
     const action = new AddGroupControlAction<typeof state.value.inner>(state.controls.inner.id, 'inner2', value);

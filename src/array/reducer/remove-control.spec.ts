@@ -55,6 +55,12 @@ describe(`form group ${removeControlReducer.name}`, () => {
     expect(resultState.controls[0].id).toEqual(`${FORM_CONTROL_ID}.0`);
   });
 
+  it('should mark the state as dirty', () => {
+    const action = new RemoveArrayControlAction(FORM_CONTROL_ID, 1);
+    const resultState = removeControlReducer(INITIAL_STATE, action);
+    expect(resultState.isDirty).toBe(true);
+  });
+
   it('should remove child errors for removed child', () => {
     const id = 'ID';
     const errors = { required: true };
@@ -112,7 +118,7 @@ describe(`form group ${removeControlReducer.name}`, () => {
     expect(() => removeControlReducer(INITIAL_STATE, action)).toThrowError();
   });
 
-  it('should foward actions to children', () => {
+  it('should forward actions to children', () => {
     const state = createFormArrayState(FORM_CONTROL_ID, [['']]);
     const action = new RemoveArrayControlAction(state.controls[0].id, 0);
     const resultState = removeControlReducer(state, action);
