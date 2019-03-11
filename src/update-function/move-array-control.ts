@@ -10,8 +10,8 @@ import { ensureState } from './util';
 export function moveArrayControl<TValue extends KeyValue>(fromIndex: number, toIndex: number): (state: FormArrayState<TValue>) => FormArrayState<TValue>;
 
 /**
- * This update function takes  form array state, a source index, a destination index and moves the
- * child controls at the source index to the destination index in the form array state.
+ * This update function takes a form array state, a source index, a destination index and moves the
+ * child control at the source index to the destination index in the form array state.
  */
 export function moveArrayControl<TValue>(state: FormArrayState<TValue>, fromIndex: number, toIndex: number): FormArrayState<TValue>;
 

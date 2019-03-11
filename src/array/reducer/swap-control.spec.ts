@@ -12,6 +12,7 @@ describe(`form array ${swapControlReducer.name}`, () => {
     const action = new SwapArrayControlAction(FORM_CONTROL_ID, 0, 2);
     const resultState = swapControlReducer(testArrayState, action);
     expect(resultState.value).toEqual([2, 1, 0, 3, 4, 5]);
+    expect(resultState.isDirty).toEqual(true);
   });
 
   it('should swap controls backwards', () => {
@@ -46,6 +47,7 @@ describe(`form array ${swapControlReducer.name}`, () => {
     const action = new SwapArrayControlAction(FORM_CONTROL_ID, 1, 1);
     const resultState = swapControlReducer(testArrayState, action);
     expect(resultState).toBe(testArrayState);
+    expect(resultState.isDirty).toEqual(false);
   });
 
   it('should return the state if applied on a different state ID', () => {
@@ -66,5 +68,12 @@ describe(`form array ${swapControlReducer.name}`, () => {
         expect(c.id).toEqual(`${FORM_CONTROL_ID}.${index}.array.${i}`);
       });
     });
+
+    it ('should mark the array as dirty', () => {
+      const action = new SwapArrayControlAction(FORM_CONTROL_ID, 2, 1);
+      const resultState = swapControlReducer(testArrayState, action);
+      expect(resultState.isDirty).toEqual(true);
+    });
+
   });
 });

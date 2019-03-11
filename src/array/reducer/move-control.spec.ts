@@ -13,6 +13,7 @@ describe(`form array ${moveControlReducer.name}`, () => {
     expect(resultState).not.toBe(testArrayState);
     expect(resultState.controls).not.toBe(testArrayState.controls);
     expect(resultState.value).toEqual([ 0, 1, 3, 4, 5, 2 ]);
+    expect(resultState.isDirty).toEqual(true);
 
     action = new MoveArrayControlAction(FORM_CONTROL_ID, 0, 3);
     resultState = moveControlReducer(testArrayState, action);
@@ -41,6 +42,16 @@ describe(`form array ${moveControlReducer.name}`, () => {
       moveControlReducer(
         INITIAL_STATE_NESTED_GROUP,
         new MoveArrayControlAction(FORM_CONTROL_ID, INITIAL_STATE_NESTED_GROUP.controls.length, 0))
+    ).toThrowError();
+    expect(() =>
+      moveControlReducer(
+        INITIAL_STATE_NESTED_GROUP,
+        new MoveArrayControlAction(FORM_CONTROL_ID, INITIAL_STATE_NESTED_GROUP.controls.length, -3))
+    ).toThrowError();
+    expect(() =>
+      moveControlReducer(
+        INITIAL_STATE_NESTED_GROUP,
+        new MoveArrayControlAction(FORM_CONTROL_ID, -1, 0))
     ).toThrowError();
   });
 
@@ -77,5 +88,12 @@ describe(`form array ${moveControlReducer.name}`, () => {
         expect(c.id).toEqual(`${FORM_CONTROL_ID}.${index}.array.${i}`);
       });
     });
+  });
+
+  it ('should mark the array as dirty', () => {
+      let action = new MoveArrayControlAction(FORM_CONTROL_ID, 3, 1);
+      let resultState = moveControlReducer(testArrayState, action);
+      expect(resultState).not.toBe(testArrayState);
+      expect(resultState.isDirty).toEqual(true);
   });
 });

@@ -6,7 +6,7 @@ import {
   FocusAction,
   isNgrxFormsAction,
   RemoveGroupControlAction,
-  UnfocusAction
+  UnfocusAction,
 } from '../actions';
 import { FormArrayState, isArrayState } from '../state';
 import { addControlReducer } from './reducer/add-control';

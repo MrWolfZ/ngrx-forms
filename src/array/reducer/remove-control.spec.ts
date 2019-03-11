@@ -17,7 +17,6 @@ describe(`form group ${removeControlReducer.name}`, () => {
     expect(resultState.value).toEqual([INITIAL_FORM_ARRAY_VALUE[1]]);
     expect(resultState.controls[1]).toBeUndefined();
     expect(resultState.controls[0].id).toEqual(`${FORM_CONTROL_ID}.0`);
-    expect(resultState.isDirty).toEqual(true);
   });
 
   it('should remove child state for group children', () => {

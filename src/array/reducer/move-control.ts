@@ -34,18 +34,22 @@ export function moveControlReducer<TValue>(
     return childReducer(state, action);
   }
 
-  const from = action.fromIndex;
-  const to = action.toIndex;
+  const fromIndex = action.fromIndex;
+  const toIndex = action.toIndex;
 
-  if (from === to) {
+  if (fromIndex === toIndex) {
     return state;
   }
 
-  if (from >= state.controls.length || to >= state.controls.length) {
-    throw new Error(`Index ${from >= state.controls.length ? from : to} is out of bounds for array '${state.id}' with length ${state.controls.length}!`); // `;
+  if (fromIndex < 0 || toIndex < 0) {
+    throw new Error(`fromIndex ${fromIndex} or toIndex ${fromIndex} was negative`);
   }
 
-  let controls = move(state.controls, from, to);
+  if (fromIndex >= state.controls.length || toIndex >= state.controls.length) {
+    throw new Error(`Index ${fromIndex >= state.controls.length ? fromIndex : toIndex} is out of bounds for array '${state.id}' with length ${state.controls.length}!`); // `;
+  }
+
+  let controls = move(state.controls, fromIndex, toIndex);
 
   controls = controls.map((c, i) => updateIdRecursive(c, `${state.id}.${i}`) );
 
