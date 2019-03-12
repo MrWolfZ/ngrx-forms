@@ -178,6 +178,28 @@ export class RemoveArrayControlAction implements Action {
   ) { }
 }
 
+export class SwapArrayControlAction implements Action {
+  static readonly TYPE: 'ngrx/forms/SWAP_ARRAY_CONTROL' = 'ngrx/forms/SWAP_ARRAY_CONTROL';
+  readonly type = SwapArrayControlAction.TYPE;
+
+  constructor(
+    public readonly controlId: NgrxFormControlId,
+    public readonly fromIndex: number,
+    public readonly toIndex: number
+  ) { }
+}
+
+export class MoveArrayControlAction implements Action {
+  static readonly TYPE: 'ngrx/forms/MOVE_ARRAY_CONTROL' = 'ngrx/forms/MOVE_ARRAY_CONTROL';
+  readonly type = MoveArrayControlAction.TYPE;
+
+  constructor(
+    public readonly controlId: NgrxFormControlId,
+    public readonly fromIndex: number,
+    public readonly toIndex: number
+  ) { }
+}
+
 export class RemoveGroupControlAction<TValue> implements Action {
   static readonly TYPE: 'ngrx/forms/REMOVE_CONTROL' = 'ngrx/forms/REMOVE_CONTROL';
   readonly type = RemoveGroupControlAction.TYPE;
@@ -230,6 +252,8 @@ export type Actions<TValue> =
   | RemoveArrayControlAction
   | SetUserDefinedPropertyAction
   | ResetAction
+  | SwapArrayControlAction
+  | MoveArrayControlAction
   ;
 
 export function isNgrxFormsAction(action: Action) {
