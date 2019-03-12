@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="4.1.0"></a>
+### 4.1.0
+
+#### Features
+
+* add actions and update functions to swap or move array controls ([42c2518](https://github.com/MrWolfZ/ngrx-forms/commit/42c2518)), thanks @solnat and @tashoecraft for their contributions in [#133](https://github.com/MrWolfZ/ngrx-forms/pull/133))
+
 <a name="4.0.1"></a>
 ### 4.0.1
 
