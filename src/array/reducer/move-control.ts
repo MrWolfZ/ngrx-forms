@@ -46,7 +46,7 @@ export function moveControlReducer<TValue>(
   }
 
   if (fromIndex >= state.controls.length || toIndex >= state.controls.length) {
-    throw new Error(`Index ${fromIndex >= state.controls.length ? fromIndex : toIndex} is out of bounds for array '${state.id}' with length ${state.controls.length}!`); // `;
+    throw new Error(`fromIndex ${fromIndex} or toIndex ${toIndex} is out of bounds with the length of the controls ${state.controls.length}`);
   }
 
   let controls = move(state.controls, fromIndex, toIndex);

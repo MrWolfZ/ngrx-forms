@@ -20,20 +20,23 @@ export function swapControlReducer<TValue>(
     return childReducer(state, action);
   }
 
-  const from = action.fromIndex;
-  const to = action.toIndex;
+  const fromIndex = action.fromIndex;
+  const toIndex = action.toIndex;
 
-  if (from === to) {
+  if (fromIndex === toIndex) {
     return state;
   }
 
-  if (from >= state.controls.length || to >= state.controls.length) {
-    throw new Error(`Index [${from >= state.controls.length ? `from:${from}` : `to:${to}`}]
-     is out of bounds for array '${state.id}' with length ${state.controls.length}!`);
+  if (fromIndex < 0 || toIndex < 0) {
+    throw new Error(`fromIndex ${fromIndex} or toIndex ${fromIndex} was negative`);
   }
 
-  let controls = swapArrayValues(state.controls, from, to);
-  controls = controls.map((c, i) => (i >= from || i >= to) ? updateIdRecursive(c, `${state.id}.${i}`) : c);
+  if (fromIndex >= state.controls.length || toIndex >= state.controls.length) {
+    throw new Error(`fromIndex ${fromIndex} or toIndex ${toIndex} is out of bounds with the length of the controls ${state.controls.length}`);
+  }
+
+  let controls = swapArrayValues(state.controls, fromIndex, toIndex);
+  controls = controls.map((c, i) => (i >= fromIndex || i >= toIndex) ? updateIdRecursive(c, `${state.id}.${i}`) : c);
 
   return computeArrayState(
     state.id,

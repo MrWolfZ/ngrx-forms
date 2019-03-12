@@ -32,6 +32,14 @@ describe(`form array ${swapControlReducer.name}`, () => {
       INITIAL_STATE_NESTED_GROUP,
       new SwapArrayControlAction(FORM_CONTROL_ID, INITIAL_STATE_NESTED_GROUP.controls.length, 0))
     ).toThrow();
+    expect(() => swapControlReducer(
+      INITIAL_STATE_NESTED_GROUP,
+      new SwapArrayControlAction(FORM_CONTROL_ID, -3, INITIAL_STATE_NESTED_GROUP.controls.length))
+    ).toThrow();
+    expect(() => swapControlReducer(
+      INITIAL_STATE_NESTED_GROUP,
+      new SwapArrayControlAction(FORM_CONTROL_ID, INITIAL_STATE_NESTED_GROUP.controls.length, -2))
+    ).toThrow();
   });
 
   it('should update deeply nested child IDs after a swap', () => {
