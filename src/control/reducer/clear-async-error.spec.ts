@@ -53,9 +53,26 @@ describe(`form control ${clearAsyncErrorReducer.name}`, () => {
     expect(resultState.isValidationPending).toBe(false);
   });
 
-  it('should not update state if no matching pending validation is found', () => {
+  it('should remove error without changing pending validations if no matching pending validation is found', () => {
     const name = 'required';
-    const state = { ...INITIAL_STATE, pendingValidations: ['min'], isValidationPending: true };
+    const state = {
+      ...INITIAL_STATE,
+      isValid: false,
+      isInvalid: true,
+      errors: { $min: true, [`$${name}`]: true },
+      pendingValidations: ['min'],
+      isValidationPending: true,
+    };
+
+    const resultState = clearAsyncErrorReducer(state, new ClearAsyncErrorAction(FORM_CONTROL_ID, name));
+    expect(resultState.errors).toEqual({ $min: true });
+    expect(resultState.pendingValidations).toEqual(state.pendingValidations);
+    expect(resultState.isValidationPending).toBe(state.isValidationPending);
+  });
+
+  it('should not update state if no matching error or pending validation is found', () => {
+    const name = 'required';
+    const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { $min: true }, pendingValidations: ['min'], isValidationPending: true };
     const resultState = clearAsyncErrorReducer(state, new ClearAsyncErrorAction(FORM_CONTROL_ID, name));
     expect(resultState).toBe(state);
   });
