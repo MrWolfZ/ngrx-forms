@@ -10,21 +10,21 @@ export function clearAsyncErrorReducer<TValue extends FormControlValueTypes>(
     return state;
   }
 
-  if (state.pendingValidations.indexOf(action.name) < 0) {
-    return state;
-  }
-
   const name = `$${action.name}`;
 
   let errors = state.errors;
 
-  if (state.errors.hasOwnProperty(name)) {
+  if (errors.hasOwnProperty(name)) {
     errors = { ...state.errors };
     delete (errors as any)[name];
   }
 
   const pendingValidations = state.pendingValidations.filter(v => v !== action.name);
   const isValid = isEmpty(errors);
+
+  if (errors === state.errors && isValid === state.isValid && pendingValidations.length === state.pendingValidations.length) {
+    return state;
+  }
 
   return {
     ...state,
