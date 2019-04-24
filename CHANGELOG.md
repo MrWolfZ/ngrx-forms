@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="4.0.2"></a>
+### 4.0.2
+
+#### Bugfixes
+
+* allow clearing async error without pending validation ([6116081](https://github.com/MrWolfZ/ngrx-forms/commit/6116081)), thanks @magnattic for reporting this bug, closes [#143](https://github.com/MrWolfZ/ngrx-forms/issues/143)
+
 <a name="4.0.1"></a>
 ### 4.0.1
 
