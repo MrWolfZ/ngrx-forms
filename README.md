@@ -17,6 +17,10 @@ npm install ngrx-forms --save
 
 This library has a peer dependency on `@angular/core`, `@angular/common`, `@angular/forms`, and `@ngrx/store`, so make sure appropriate versions of those packages are installed.
 
+#### Bug reports
+
+To report a bug please provide a reproduction of the issue in a code sandbox. You can fork [this example](https://codesandbox.io/s/92r7310k4).
+
 #### Contributing
 
 Please see the [documentation](http://ngrx-forms.readthedocs.io/en/master/contributing/).
