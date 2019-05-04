@@ -4,7 +4,7 @@ import { moveControlReducer } from './move-control';
 import { FORM_CONTROL_0_ID, FORM_CONTROL_ID, INITIAL_STATE_NESTED_GROUP } from './test-util';
 
 describe(`form array ${moveControlReducer.name}`, () => {
-  const testArrayValue = [ 0, 1, 2, 3, 4, 5 ];
+  const testArrayValue = [0, 1, 2, 3, 4, 5];
   const testArrayState = createFormArrayState(FORM_CONTROL_ID, testArrayValue);
 
   it('should move controls forward', () => {
@@ -12,12 +12,12 @@ describe(`form array ${moveControlReducer.name}`, () => {
     let resultState = moveControlReducer(testArrayState, action);
     expect(resultState).not.toBe(testArrayState);
     expect(resultState.controls).not.toBe(testArrayState.controls);
-    expect(resultState.value).toEqual([ 0, 1, 3, 4, 5, 2 ]);
+    expect(resultState.value).toEqual([0, 1, 3, 4, 5, 2]);
     expect(resultState.isDirty).toEqual(true);
 
     action = new MoveArrayControlAction(FORM_CONTROL_ID, 0, 3);
     resultState = moveControlReducer(testArrayState, action);
-    expect(resultState.value).toEqual([ 1, 2, 3, 0, 4, 5 ]);
+    expect(resultState.value).toEqual([1, 2, 3, 0, 4, 5]);
   });
 
   it('should move controls backwards', () => {
@@ -25,11 +25,11 @@ describe(`form array ${moveControlReducer.name}`, () => {
     let resultState = moveControlReducer(testArrayState, action);
     expect(resultState).not.toBe(testArrayState);
     expect(resultState.controls).not.toBe(testArrayState.controls);
-    expect(resultState.value).toEqual([ 0, 1, 5, 2, 3, 4 ]);
+    expect(resultState.value).toEqual([0, 1, 5, 2, 3, 4]);
 
     action = new MoveArrayControlAction(FORM_CONTROL_ID, 3, 0);
     resultState = moveControlReducer(testArrayState, action);
-    expect(resultState.value).toEqual([ 3, 0, 1, 2, 4, 5 ]);
+    expect(resultState.value).toEqual([3, 0, 1, 2, 4, 5]);
   });
 
   it('should throw an error for negative or too large indices', () => {
@@ -77,7 +77,7 @@ describe(`form array ${moveControlReducer.name}`, () => {
   });
 
   it('should update nested array child IDs after a move', () => {
-    const testValue = [ { array: [ 0, 1, 2, 3 ] }, { array: [ 0, 1, 2, 3 ] } ];
+    const testValue = [{ array: [0, 1, 2, 3] }, { array: [0, 1, 2, 3] }];
     const testState = createFormArrayState(FORM_CONTROL_ID, testValue);
     const action = new MoveArrayControlAction(FORM_CONTROL_ID, 0, 1);
     const resultState = moveControlReducer(testState, action);
@@ -90,10 +90,10 @@ describe(`form array ${moveControlReducer.name}`, () => {
     });
   });
 
-  it ('should mark the array as dirty', () => {
-      let action = new MoveArrayControlAction(FORM_CONTROL_ID, 3, 1);
-      let resultState = moveControlReducer(testArrayState, action);
-      expect(resultState).not.toBe(testArrayState);
-      expect(resultState.isDirty).toEqual(true);
+  it('should mark the array as dirty', () => {
+    const action = new MoveArrayControlAction(FORM_CONTROL_ID, 3, 1);
+    const resultState = moveControlReducer(testArrayState, action);
+    expect(resultState).not.toBe(testArrayState);
+    expect(resultState.isDirty).toEqual(true);
   });
 });
