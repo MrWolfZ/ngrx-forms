@@ -1,4 +1,4 @@
-import { box, isBoxed, unbox } from './boxing';
+import { box, Boxed, isBoxed, unbox } from './boxing';
 
 describe(box.name, () => {
   it('should box a string value', () => {
@@ -38,15 +38,32 @@ describe(unbox.name, () => {
     expect(unbox(box(value))).toBe(value);
   });
 
+  it('should unbox a boxed optional string value', () => {
+    const value = 'A' as string | undefined;
+    expect(unbox(box(value))).toBe(value);
+  });
+
   it('should unbox an array value', () => {
     const innerValue = 'A';
     const value = box([innerValue]);
     expect(unbox(value)).toEqual([innerValue]);
   });
 
+  it('should unbox a readonly array value', () => {
+    const innerValue = 'A';
+    const value = box<readonly string[]>([innerValue]);
+    expect(unbox(value)).toEqual([innerValue]);
+  });
+
   it('should unbox a value in an array', () => {
     const innerValue = 'A';
     const value = [box(innerValue)];
+    expect(unbox(value)).toEqual([innerValue]);
+  });
+
+  it('should unbox a value in a readonly array', () => {
+    const innerValue = 'A';
+    const value = [box(innerValue)] as readonly Boxed<string>[];
     expect(unbox(value)).toEqual([innerValue]);
   });
 

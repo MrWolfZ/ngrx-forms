@@ -1,5 +1,5 @@
 export * from './actions';
-export { box, isBoxed, unbox, Boxed, Unboxed, UnboxedArray, UnboxedObject } from './boxing';
+export { box, isBoxed, unbox, Boxed, Unboxed, UnboxedObject } from './boxing';
 export {
   FormControlValueTypes,
   NgrxFormControlId,
