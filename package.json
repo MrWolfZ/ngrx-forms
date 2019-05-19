@@ -7,7 +7,7 @@
   "es2015": "ngrx/forms.js",
   "main": "bundles/forms.umd.js",
   "scripts": {
-    "build": "ng-packagr -p package.json",
+    "build": "ng-packagr -p package.json && rimraf ./dist/example-app ./dist/types",
     "test": "karma start",
     "test-headless": "karma start --browsers ChromeHeadless",
     "test-no-progress": "karma start --reporters spec,karma-typescript",
@@ -78,6 +78,7 @@
     "karma-typescript-es6-transform": "4.0.0",
     "ng-packagr": "5.2.0",
     "reflect-metadata": "0.1.12",
+    "rimraf": "^2.6.3",
     "rxjs": "6.5.2",
     "tsickle": "0.35.0",
     "tslint": "5.16.0",
