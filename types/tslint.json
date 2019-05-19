@@ -2,6 +2,7 @@
   "extends": "dtslint/dtslint.json",
   "rules": {
     "no-useless-files": false,
-    "array-type": false
+    "array-type": false,
+    "no-null-undefined-union": false
   }
 }

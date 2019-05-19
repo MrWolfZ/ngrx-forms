@@ -510,42 +510,70 @@ export interface InferenceWrapper<T> {
 
 /**
  * This is a helper type that infers the correct form state type based
+ * on the boxed type contained in the inference wrapper.
+ */
+export type InferredBoxedFormState<T extends InferenceWrapper<any>> =
+  T extends InferenceWrapper<Boxed<infer U>> ? FormControlState<Boxed<U>>
+  : T extends InferenceWrapper<Boxed<infer U> | undefined> ? FormControlState<Boxed<U> | undefined>
+  : T extends InferenceWrapper<Boxed<infer U> | null> ? FormControlState<Boxed<U> | null>
+  : T extends InferenceWrapper<Boxed<infer U> | undefined | null> ? FormControlState<Boxed<U> | undefined | null>
+  : never
+  ;
+
+/**
+ * This is a helper type that infers the correct form state type based
+ * on the string type contained in the inference wrapper.
+ */
+export type InferredStringFormState<T extends InferenceWrapper<any>> =
+  T extends InferenceWrapper<string> ? FormControlState<string>
+  : T extends InferenceWrapper<string | undefined> ? FormControlState<string | undefined>
+  : T extends InferenceWrapper<string | null> ? FormControlState<string | null>
+  : T extends InferenceWrapper<string | undefined | null> ? FormControlState<string | undefined | null>
+  : never
+  ;
+
+/**
+ * This is a helper type that infers the correct form state type based
+ * on the number type contained in the inference wrapper.
+ */
+export type InferredNumberFormState<T extends InferenceWrapper<any>> =
+  T extends InferenceWrapper<number> ? FormControlState<number>
+  : T extends InferenceWrapper<number | undefined> ? FormControlState<number | undefined>
+  : T extends InferenceWrapper<number | null> ? FormControlState<number | null>
+  : T extends InferenceWrapper<number | undefined | null> ? FormControlState<number | undefined | null>
+  : never
+  ;
+
+/**
+ * This is a helper type that infers the correct form state type based
+ * on the boolean type contained in the inference wrapper.
+ */
+export type InferredBooleanFormState<T extends InferenceWrapper<any>> =
+  T extends InferenceWrapper<boolean> ? FormControlState<boolean>
+  : T extends InferenceWrapper<boolean | undefined> ? FormControlState<boolean | undefined>
+  : T extends InferenceWrapper<boolean | null> ? FormControlState<boolean | null>
+  : T extends InferenceWrapper<boolean | undefined | null> ? FormControlState<boolean | undefined | null>
+  : never
+  ;
+
+/**
+ * This is a helper type that infers the correct form state type based
  * on the type contained in the inference wrapper.
  */
 export type InferredFormState<T extends InferenceWrapper<any>> =
   // (ab)use 'symbol' to catch 'any' typing
-  T extends InferenceWrapper<symbol[]> ? AbstractControlState<any>
-  : T extends InferenceWrapper<symbol> ? AbstractControlState<any>
+  T extends InferenceWrapper<symbol> ? AbstractControlState<any>
   : T extends InferenceWrapper<undefined> ? AbstractControlState<any>
   : T extends InferenceWrapper<null> ? AbstractControlState<any>
 
   // control
-  : T extends InferenceWrapper<Boxed<infer U>> ? FormControlState<Boxed<U>>
-  : T extends InferenceWrapper<Boxed<infer U> | undefined> ? FormControlState<Boxed<U> | undefined>
-  : T extends InferenceWrapper<Boxed<infer U> | null> ? FormControlState<Boxed<U> | null>
-  : T extends InferenceWrapper<Boxed<infer U> | undefined | null> ? FormControlState<Boxed<U> | undefined | null>
-  : T extends InferenceWrapper<string> ? FormControlState<string>
-  : T extends InferenceWrapper<string | undefined> ? FormControlState<string | undefined>
-  : T extends InferenceWrapper<string | null> ? FormControlState<string | null>
-  : T extends InferenceWrapper<string | undefined | null> ? FormControlState<string | undefined | null>
-  : T extends InferenceWrapper<number> ? FormControlState<number>
-  : T extends InferenceWrapper<number | undefined> ? FormControlState<number | undefined>
-  : T extends InferenceWrapper<number | null> ? FormControlState<number | null>
-  : T extends InferenceWrapper<number | undefined | null> ? FormControlState<number | undefined | null>
-  : T extends InferenceWrapper<boolean> ? FormControlState<boolean>
-  : T extends InferenceWrapper<boolean | undefined> ? FormControlState<boolean | undefined>
-  : T extends InferenceWrapper<boolean | null> ? FormControlState<boolean | null>
-  : T extends InferenceWrapper<boolean | undefined | null> ? FormControlState<boolean | undefined | null>
+  : T extends InferenceWrapper<Boxed<any> | undefined | null> ? InferredBoxedFormState<T>
+  : T extends InferenceWrapper<string | undefined | null> ? InferredStringFormState<T>
+  : T extends InferenceWrapper<number | undefined | null> ? InferredNumberFormState<T>
+  : T extends InferenceWrapper<boolean | undefined | null> ? InferredBooleanFormState<T>
 
   // array
-  : T extends InferenceWrapper<readonly (infer U)[]> ? FormArrayState<U>
-  : T extends InferenceWrapper<readonly (infer U)[] | undefined> ? FormArrayState<U>
-  : T extends InferenceWrapper<readonly (infer U)[] | null> ? FormArrayState<U>
   : T extends InferenceWrapper<readonly (infer U)[] | undefined | null> ? FormArrayState<U>
-  : T extends InferenceWrapper<(infer U)[]> ? FormArrayState<U>
-  : T extends InferenceWrapper<(infer U)[] | undefined> ? FormArrayState<U>
-  : T extends InferenceWrapper<(infer U)[] | null> ? FormArrayState<U>
-  : T extends InferenceWrapper<(infer U)[] | undefined | null> ? FormArrayState<U>
 
   // group
   : T extends InferenceWrapper<infer U | undefined | null> ? FormGroupState<U>
@@ -655,7 +683,7 @@ export function getFormGroupValue<TValue extends KeyValue>(
   originalValue: TValue,
 ): TValue {
   let hasChanged = Object.keys(originalValue).length !== Object.keys(controls).length;
-  const newValue = Object.keys(controls).reduce((res, key) => {
+  const newValue = Object.keys(controls).reduce((res, key: keyof TValue) => {
     hasChanged = hasChanged || originalValue[key] !== controls[key].value;
     res[key] = controls[key].value;
     return res;
@@ -754,8 +782,8 @@ export function createFormGroupState<TValue extends KeyValue>(
 
 function getFormArrayValue<TValue>(
   controls: readonly AbstractControlState<TValue>[],
-  originalValue: TValue[],
-): TValue[] {
+  originalValue: readonly TValue[],
+): readonly TValue[] {
   let hasChanged = Object.keys(originalValue).length !== Object.keys(controls).length;
   const newValue = controls.map((state, i) => {
     hasChanged = hasChanged || originalValue[i] !== state.value;
