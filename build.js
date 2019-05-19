@@ -99,7 +99,7 @@ for (var pkg of PACKAGES) {
   shell.echo(`Minifying...`);
   const pwd = shell.pwd();
   shell.pushd('-q', BUNDLES_DIR);
-  if (shell.exec(`${pwd}/node_modules/.bin/uglifyjs -c warnings=false --comments -o ${pkg.bundleFileName}.umd.min.js --source-map "filename='${pkg.bundleFileName}.umd.min.js.map',url='${pkg.bundleFileName}.umd.min.js.map',includeSources" ${pkg.bundleFileName}.umd.js`).code !== 0) {
+  if (shell.exec(`${pwd}/node_modules/.bin/uglifyjs -c -m --comments -o ${pkg.bundleFileName}.umd.min.js --source-map "filename='${pkg.bundleFileName}.umd.min.js.map',url='${pkg.bundleFileName}.umd.min.js.map',includeSources" ${pkg.bundleFileName}.umd.js`).code !== 0) {
     shell.echo(chalk.red(`Error: Minifying failed!`));
     shell.exit(1);
   }
