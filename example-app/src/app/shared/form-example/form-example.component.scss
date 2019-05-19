@@ -9,7 +9,7 @@
     max-width: 640px;
     margin: 20px 10px 20px 20px;
 
-    /deep/ .mat-card-content {
+    >>> .mat-card-content {
       display: flex;
       flex-direction: column;
       height: 100%;

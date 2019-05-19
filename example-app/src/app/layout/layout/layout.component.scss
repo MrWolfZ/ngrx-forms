@@ -9,6 +9,6 @@ mat-sidenav-container {
   background: rgba(0, 0, 0, 0.03);
 }
 
-:host /deep/ .mat-sidenav-content {
+:host >>> .mat-sidenav-content {
   display: flex;
 }
