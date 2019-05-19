@@ -208,13 +208,6 @@
       "check-type",
       "check-type-operator"
     ],
-    "angular-whitespace": [
-      true,
-      "check-interpolation",
-      "check-pipe",
-      "check-semicolon"
-    ],
-    "banana-in-box": true,
     "component-class-suffix": [
       true,
       "Component",
@@ -227,7 +220,6 @@
       "ngrx"
     ],
     "contextual-life-cycle": true,
-    "decorator-not-allowed": true,
     "directive-class-suffix": true,
     "directive-selector": [
       true,
@@ -237,18 +229,13 @@
     ],
     "import-destructuring-spacing": true,
     "no-input-rename": true,
-    "no-output-named-after-standard-event": true,
     "no-output-rename": true,
     "no-unused-css": true,
     "pipe-naming": [
       "camelCase"
     ],
-    "templates-no-negated-async": true,
     "trackBy-function": false,
     "use-life-cycle-interface": true,
-    "use-host-property-decorator": true,
-    "use-input-property-decorator": true,
-    "use-output-property-decorator": true,
     "use-pipe-decorator": true,
     "use-pipe-transform-interface": true,
     "ter-computed-property-spacing": [
