@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/ng-packagr/package.schema.json",
   "name": "ngrx-forms",
   "version": "4.1.0",
   "description": "Proper integration of forms in Angular 4 applications using ngrx",
@@ -6,7 +7,7 @@
   "es2015": "ngrx/forms.js",
   "main": "bundles/forms.umd.js",
   "scripts": {
-    "build": "node build.js",
+    "build": "ng-packagr -p package.json",
     "test": "karma start",
     "test-headless": "karma start --browsers ChromeHeadless",
     "test-no-progress": "karma start --reporters spec,karma-typescript",
@@ -19,7 +20,15 @@
     "report-coverage": "codecov ./coverage/lcov/lcov.info",
     "example-install": "npm run build && npm pack ./dist && cd example-app && cross-var npm install ../ngrx-forms-$npm_package_version.tgz && cd .."
   },
-  "typings": "./forms.d.ts",
+  "typings": "./index.d.ts",
+  "ngPackage": {
+    "lib": {
+      "entryFile": "public_api.ts",
+      "umdModuleIds": {
+        "@ngrx/store": "ngrx.store"
+      }
+    }
+  },
   "author": "",
   "repository": {
     "type": "git",
@@ -55,11 +64,10 @@
     "@ngrx/store": "7.0.0",
     "@types/jasmine": "2.8.6",
     "@types/node": "10.12.18",
-    "chalk": "2.4.1",
     "codecov": "3.1.0",
     "codelyzer": "5.0.1",
     "core-js": "2.6.1",
-    "cross-var": "1.1.0",
+    "cross-var": "^1.1.0",
     "dtslint": "^0.7.4",
     "jasmine-core": "2.6.4",
     "karma": "2.0.4",
@@ -68,18 +76,13 @@
     "karma-spec-reporter": "0.0.32",
     "karma-typescript": "4.0.0",
     "karma-typescript-es6-transform": "4.0.0",
+    "ng-packagr": "5.2.0",
     "reflect-metadata": "0.1.12",
-    "rollup": "1.12.2",
-    "rollup-plugin-node-resolve": "4.0.0",
     "rxjs": "6.5.2",
-    "shelljs": "0.8.3",
-    "sorcery": "0.10.0",
     "tsickle": "0.35.0",
     "tslint": "5.16.0",
     "tslint-eslint-rules": "5.4.0",
     "typescript": "3.4.5",
-    "uglify-js": "3.5.13",
-    "yargs": "13.2.4",
     "zone.js": "0.9.1"
   }
 }

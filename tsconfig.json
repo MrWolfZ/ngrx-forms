@@ -11,7 +11,9 @@
     "moduleResolution": "node",
     "rootDir": ".",
     "paths": {
-      "ngrx-forms": ["."]
+      "ngrx-forms": [
+        "."
+      ]
     },
     "sourceMap": true,
     "inlineSources": true,
@@ -27,6 +29,7 @@
   },
   "exclude": [
     "node_modules",
-    "example-app"
+    "example-app",
+    "types"
   ]
 }
