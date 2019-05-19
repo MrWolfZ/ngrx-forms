@@ -2,7 +2,7 @@ import { Actions, MoveArrayControlAction } from '../../actions';
 import { computeArrayState, FormArrayState } from '../../state';
 import { childReducer, updateIdRecursive } from './util';
 
-export function move(array: ReadonlyArray<any>, fromIndex: number, toIndex: number) {
+export function move(array: readonly any[], fromIndex: number, toIndex: number) {
   const item = array[fromIndex];
   const length = array.length;
   if (fromIndex > toIndex) {
@@ -51,7 +51,7 @@ export function moveControlReducer<TValue>(
 
   let controls = move(state.controls, fromIndex, toIndex);
 
-  controls = controls.map((c, i) => updateIdRecursive(c, `${state.id}.${i}`) );
+  controls = controls.map((c, i) => updateIdRecursive(c, `${state.id}.${i}`));
 
   return computeArrayState(
     state.id,

@@ -2,8 +2,8 @@ import { Actions, SwapArrayControlAction } from '../../actions';
 import { computeArrayState, FormArrayState } from '../../state';
 import { childReducer, updateIdRecursive } from './util';
 
-function swapArrayValues(a: ReadonlyArray<any>, i: number, j: number) {
-  const n = [ ...a ];
+function swapArrayValues(a: readonly any[], i: number, j: number) {
+  const n = [...a];
   [n[i], n[j]] = [n[j], n[i]];
   return n;
 }

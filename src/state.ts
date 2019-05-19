@@ -46,7 +46,7 @@ export interface AbstractControlState<TValue> {
    * The names of all asynchronous validations currently running
    * for the state.
    */
-  readonly pendingValidations: ReadonlyArray<string>;
+  readonly pendingValidations: readonly string[];
 
   /**
    * This property indicates whether the control is currently being
@@ -144,7 +144,7 @@ export interface FormControlState<TValue extends FormControlValueTypes> extends 
    * The names of all asynchronous validations currently running for the
    * form control.
    */
-  readonly pendingValidations: ReadonlyArray<string>;
+  readonly pendingValidations: readonly string[];
 
   /**
    * This property indicates whether the control is currently being
@@ -290,7 +290,7 @@ export interface FormGroupState<TValue extends KeyValue> extends AbstractControl
    * The names of all asynchronous validations currently running for the
    * form group.
    */
-  readonly pendingValidations: ReadonlyArray<string>;
+  readonly pendingValidations: readonly string[];
 
   /**
    * This property indicates whether the group or any of its children
@@ -376,12 +376,12 @@ export interface FormGroupState<TValue extends KeyValue> extends AbstractControl
  * plain state arrays. The state of an array is determined almost
  * fully by its child states.
  */
-export interface FormArrayState<TValue> extends AbstractControlState<TValue[]> {
+export interface FormArrayState<TValue> extends AbstractControlState<readonly TValue[]> {
   /**
    * The aggregated value of the form array. The value is computed by
    * aggregating the values of all children into an array.
    */
-  readonly value: TValue[]; // cannot be ReadonlyArray due to type conflict with AbstractControlState and type inference
+  readonly value: readonly TValue[];
 
   /**
    * This property is `true` if the form array does not have any errors
@@ -419,7 +419,7 @@ export interface FormArrayState<TValue> extends AbstractControlState<TValue[]> {
    * The names of all asynchronous validations currently running for the
    * form array.
    */
-  readonly pendingValidations: ReadonlyArray<string>;
+  readonly pendingValidations: readonly string[];
 
   /**
    * This property indicates whether the array or any of its children
@@ -497,7 +497,7 @@ export interface FormArrayState<TValue> extends AbstractControlState<TValue[]> {
    * until [conditional mapped types](https://github.com/Microsoft/TypeScript/issues/12424)
    * are added to TypeScript.
    */
-  readonly controls: ReadonlyArray<FormState<TValue>>;
+  readonly controls: readonly FormState<TValue>[];
 }
 
 /**
@@ -538,6 +538,10 @@ export type InferredFormState<T extends InferenceWrapper<any>> =
   : T extends InferenceWrapper<boolean | undefined | null> ? FormControlState<boolean | undefined | null>
 
   // array
+  : T extends InferenceWrapper<readonly (infer U)[]> ? FormArrayState<U>
+  : T extends InferenceWrapper<readonly (infer U)[] | undefined> ? FormArrayState<U>
+  : T extends InferenceWrapper<readonly (infer U)[] | null> ? FormArrayState<U>
+  : T extends InferenceWrapper<readonly (infer U)[] | undefined | null> ? FormArrayState<U>
   : T extends InferenceWrapper<(infer U)[]> ? FormArrayState<U>
   : T extends InferenceWrapper<(infer U)[] | undefined> ? FormArrayState<U>
   : T extends InferenceWrapper<(infer U)[] | null> ? FormArrayState<U>
@@ -692,7 +696,7 @@ export function computeGroupState<TValue extends KeyValue>(
   controls: FormGroupControls<TValue>,
   value: TValue,
   errors: ValidationErrors,
-  pendingValidations: ReadonlyArray<string>,
+  pendingValidations: readonly string[],
   userDefinedProperties: KeyValue,
   flags: {
     wasOrShouldBeDirty?: boolean;
@@ -749,7 +753,7 @@ export function createFormGroupState<TValue extends KeyValue>(
 }
 
 function getFormArrayValue<TValue>(
-  controls: ReadonlyArray<AbstractControlState<TValue>>,
+  controls: readonly AbstractControlState<TValue>[],
   originalValue: TValue[],
 ): TValue[] {
   let hasChanged = Object.keys(originalValue).length !== Object.keys(controls).length;
@@ -762,7 +766,7 @@ function getFormArrayValue<TValue>(
 }
 
 function getFormArrayErrors<TValue>(
-  controls: ReadonlyArray<AbstractControlState<TValue>>,
+  controls: readonly AbstractControlState<TValue>[],
   originalErrors: ValidationErrors,
 ): ValidationErrors {
   let hasChanged = false;
@@ -790,10 +794,10 @@ function getFormArrayErrors<TValue>(
 
 export function computeArrayState<TValue>(
   id: string,
-  inferredControls: ReadonlyArray<FormState<TValue>>,
-  value: TValue[],
+  inferredControls: readonly FormState<TValue>[],
+  value: readonly TValue[],
   errors: ValidationErrors,
-  pendingValidations: ReadonlyArray<string>,
+  pendingValidations: readonly string[],
   userDefinedProperties: KeyValue,
   flags: {
     wasOrShouldBeDirty?: boolean;
@@ -802,7 +806,7 @@ export function computeArrayState<TValue>(
     wasOrShouldBeSubmitted?: boolean;
   },
 ): FormArrayState<TValue> {
-  const controls = inferredControls as ReadonlyArray<AbstractControlState<any>>;
+  const controls = inferredControls as readonly AbstractControlState<any>[];
 
   value = getFormArrayValue<TValue>(controls, value);
   errors = getFormArrayErrors(controls, errors);

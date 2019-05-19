@@ -3,9 +3,9 @@ import { formStateReducer } from '../../reducer';
 import { computeArrayState, FormArrayState, FormGroupControls, FormGroupState, FormState, isArrayState, isGroupState } from '../../state';
 
 export function dispatchActionPerChild<TValue>(
-  controls: ReadonlyArray<FormState<TValue>>,
+  controls: readonly FormState<TValue>[],
   actionCreator: (controlId: string) => Actions<TValue>,
-): ReadonlyArray<FormState<TValue>> {
+): readonly FormState<TValue>[] {
   let hasChanged = false;
   const newControls = controls
     .map(state => {
@@ -18,9 +18,9 @@ export function dispatchActionPerChild<TValue>(
 }
 
 function callChildReducers<TValue>(
-  controls: ReadonlyArray<FormState<TValue>>,
+  controls: readonly FormState<TValue>[],
   action: Actions<TValue[]>,
-): ReadonlyArray<FormState<TValue>> {
+): readonly FormState<TValue>[] {
   let hasChanged = false;
   const newControls = controls
     .map(state => {
