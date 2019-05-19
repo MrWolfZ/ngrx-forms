@@ -13,6 +13,7 @@
     "test-watch": "karma start --single-run=false",
     "test-watch-headless": "karma start --single-run=false --browsers ChromeHeadless",
     "lint": "tslint --project .",
+    "dtslint": "dtslint types",
     "pack-lib": "npm pack ./dist",
     "publish-lib": "npm publish ./dist",
     "report-coverage": "codecov ./coverage/lcov/lcov.info",
