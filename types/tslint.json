@@ -3,6 +3,10 @@
   "rules": {
     "no-useless-files": false,
     "array-type": false,
-    "no-null-undefined-union": false
+    "no-null-undefined-union": false,
+    "no-arg": false,
+    "radix": false,
+    "object-literal-key-quotes": false,
+    "prefer-object-spread": false
   }
 }
