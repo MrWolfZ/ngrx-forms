@@ -98,6 +98,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
       ...INITIAL_STATE_FULL,
       isValidationPending: true,
       controls: {
+        ...INITIAL_STATE_FULL.controls,
         inner3: {
           ...INITIAL_STATE_FULL.controls.inner3!,
           pendingValidations: [name],
@@ -119,6 +120,7 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
       ...INITIAL_STATE_FULL,
       isValidationPending: true,
       controls: {
+        ...INITIAL_STATE_FULL.controls,
         inner5: {
           ...INITIAL_STATE_FULL.controls.inner5!,
           pendingValidations: [name],
@@ -240,8 +242,9 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
       pendingValidations: [name],
       isValidationPending: true,
       controls: {
+        ...INITIAL_STATE.controls,
         inner3: {
-          ...INITIAL_STATE.controls.inner,
+          ...INITIAL_STATE_FULL.controls.inner3!,
           pendingValidations: [name],
           isValidationPending: true,
         },
@@ -260,8 +263,9 @@ describe(`form group ${setAsyncErrorReducer.name}`, () => {
       pendingValidations: [name],
       isValidationPending: true,
       controls: {
+        ...INITIAL_STATE.controls,
         inner5: {
-          ...INITIAL_STATE.controls.inner,
+          ...INITIAL_STATE_FULL.controls.inner5!,
           pendingValidations: [name],
           isValidationPending: true,
         },

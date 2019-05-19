@@ -14,7 +14,7 @@ describe(setValue.name, () => {
   });
 
   it('should call reducer for arrays', () => {
-    const resultState = setValue<string[]>(['A'])(INITIAL_STATE.controls.inner5);
+    const resultState = setValue<readonly string[]>(['A'])(INITIAL_STATE.controls.inner5);
     expect(resultState).not.toBe(INITIAL_STATE.controls.inner5);
   });
 

@@ -17,7 +17,7 @@ describe(validate.name, () => {
 
   it('should call reducer for arrays', () => {
     const errors = { required: true };
-    const resultState = validate<string[]>(() => errors)(INITIAL_STATE.controls.inner5);
+    const resultState = validate<readonly string[]>(() => errors)(INITIAL_STATE.controls.inner5);
     expect(resultState).not.toBe(INITIAL_STATE.controls.inner5);
   });
 
