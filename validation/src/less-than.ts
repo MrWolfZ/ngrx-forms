@@ -47,7 +47,7 @@ export function lessThan(comparand: number) {
   }
 
   return <T extends number | Boxed<number> | null | undefined>(value: T): ValidationErrors => {
-    value = unbox(value);
+    value = unbox(value) as number | null | undefined as T;
 
     if (value === null || value === undefined) {
       return {};
@@ -60,7 +60,7 @@ export function lessThan(comparand: number) {
     return {
       lessThan: {
         comparand,
-        actual: value,
+        actual: value as number,
       },
     };
   };

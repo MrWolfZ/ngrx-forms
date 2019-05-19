@@ -64,7 +64,7 @@ export function minLength(minLengthParam: number) {
     return {
       minLength: {
         minLength: minLengthParam,
-        value,
+        value: value as string,
         actualLength: length,
       },
     };

@@ -35,7 +35,7 @@ declare module 'ngrx-forms/src/state' {
  * ```
  */
 export function required<T>(value: T | Boxed<T> | null | undefined): ValidationErrors {
-  value = unbox(value);
+  value = unbox(value) as T | null | undefined;
 
   if (value !== undefined && value !== null && (value as any).length !== 0) {
     return {};

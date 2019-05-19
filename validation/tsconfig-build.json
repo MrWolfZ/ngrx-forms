@@ -8,7 +8,9 @@
     "moduleResolution": "node",
     "outDir": "../dist/validation",
     "paths": {
-      "ngrx-forms": ["../dist/forms"]
+      "ngrx-forms": [
+        "../dist/forms"
+      ]
     },
     "rootDir": ".",
     "sourceMap": true,

@@ -38,7 +38,7 @@ declare module 'ngrx-forms/src/state' {
  */
 export function notEqualTo<T>(comparand: T) {
   return <TV extends T | Boxed<T> = T>(value: TV): ValidationErrors => {
-    value = unbox(value);
+    value = unbox(value) as T as TV;
 
     if (value !== comparand) {
       return {};

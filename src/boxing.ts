@@ -9,7 +9,7 @@ export type UnboxedObject<T> = {
 
 export type Unboxed<T> =
   // (ab)use 'symbol' to catch 'any' typing
-  T extends Boxed<symbol[]> ? any
+  T extends Boxed<symbol> ? any
   : T extends Boxed<infer U> ? U
   : T extends symbol[] ? any
   : T extends symbol ? any

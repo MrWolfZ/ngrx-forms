@@ -47,7 +47,7 @@ export function pattern(patternParam: RegExp) {
   }
 
   return <T extends string | Boxed<string> | null | undefined>(value: T): ValidationErrors => {
-    value = unbox(value);
+    value = unbox(value) as string | null | undefined as T;
 
     if (value === null || value === undefined || (value as string).length === 0) {
       return {};
@@ -60,7 +60,7 @@ export function pattern(patternParam: RegExp) {
     return {
       pattern: {
         pattern: patternParam.toString(),
-        actual: value,
+        actual: value as string,
       },
     };
   };

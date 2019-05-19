@@ -45,7 +45,7 @@ declare module 'ngrx-forms/src/state' {
  * of the `validate` function for both optional and non-optional controls.
  */
 export function email<T extends string | Boxed<string> | null | undefined>(value: T): ValidationErrors {
-  value = unbox(value);
+  value = unbox(value) as string | null | undefined as T;
 
   if (value === null || value === undefined || (value as string).length === 0) {
     return {};
@@ -58,7 +58,7 @@ export function email<T extends string | Boxed<string> | null | undefined>(value
   return {
     email: {
       pattern: NGRX_FORMS_EMAIL_VALIDATION_REGEXP.toString(),
-      actual: value,
+      actual: value as string,
     },
   };
 }
