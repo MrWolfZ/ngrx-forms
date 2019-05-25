@@ -1,5 +1,24 @@
 ## ngrx-forms Changelog
 
+<a name="5.0.0-beta.1"></a>
+### 5.0.0-beta.1
+
+This is a beta release in preparation for the release of Angular 8.
+
+#### Breaking Changes
+
+* update peer dependencies to require Angular `>=8.0.0`
+* update peer dependencies to require TypeScript `>=3.4.0`
+
+#### Features
+
+* refactor `FormState` and `Unboxed` conditional type definitions to be simpler, which can improve build times and IDE performance
+
+#### Build Improvements
+
+* switch to ng-packagr for building the library
+* add dtslint tests to ensure stability of `FormState` and `Unboxed` types
+
 <a name="4.1.0"></a>
 ### 4.1.0
 
