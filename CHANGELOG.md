@@ -1,5 +1,14 @@
 ## ngrx-forms Changelog
 
+<a name="5.0.0-beta.2"></a>
+### 5.0.0-beta.2
+
+This is a beta release in preparation for the release of Angular 8.
+
+#### Bugfixes
+
+* allow enabling empty disabled array states ([8a33d12](https://github.com/MrWolfZ/ngrx-forms/commit/8a33d12)), thanks @nihique for reporting this bug, closes [#149](https://github.com/MrWolfZ/ngrx-forms/issues/149)
+
 <a name="5.0.0-beta.1"></a>
 ### 5.0.0-beta.1
 
