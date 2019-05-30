@@ -17,6 +17,7 @@
     "dtslint": "dtslint types",
     "pack-lib": "npm pack ./dist",
     "publish-lib": "npm publish ./dist",
+    "publish-lib:next": "npm publish ./dist --tag next",
     "report-coverage": "codecov ./coverage/lcov/lcov.info",
     "example-install": "npm run build && npm pack ./dist && cd example-app && cross-var npm install ../ngrx-forms-$npm_package_version.tgz && cd .."
   },
