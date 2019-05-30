@@ -1,4 +1,5 @@
 import { EnableAction } from '../../actions';
+import { createFormArrayState } from '../../state';
 import { enableReducer } from './enable';
 import {
   FORM_CONTROL_ID,
@@ -48,5 +49,16 @@ describe(`form array ${enableReducer.name}`, () => {
     };
     const resultState = enableReducer(state, new EnableAction(state.controls[0].id));
     expect(resultState).not.toBe(state);
+  });
+
+  it('should enable an empty disabled state', () => {
+    const state = {
+      ...createFormArrayState<string>(FORM_CONTROL_ID, []),
+      isDisabled: true,
+      isEnabled: false,
+    };
+
+    const resultState = enableReducer(state, new EnableAction(FORM_CONTROL_ID));
+    expect(resultState.isEnabled).toBe(true);
   });
 });

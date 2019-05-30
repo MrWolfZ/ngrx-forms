@@ -16,7 +16,7 @@ export function enableReducer<TValue>(
 
   const controls = dispatchActionPerChild(state.controls, controlId => new EnableAction(controlId));
 
-  if (controls === state.controls) {
+  if (controls === state.controls && state.isEnabled) {
     return state;
   }
 
