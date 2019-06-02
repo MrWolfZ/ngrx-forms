@@ -1,5 +1,28 @@
 ## ngrx-forms Changelog
 
+<a name="5.0.0"></a>
+### 5.0.0
+
+This is a compatibility release for Angular 8 and TypeScript 3.4.
+
+#### Breaking Changes
+
+* update peer dependencies to require Angular `>=8.0.0`
+* update peer dependencies to require TypeScript `>=3.4.0`
+
+#### Features
+
+* refactor `FormState` and `Unboxed` conditional type definitions to be simpler, which can improve build times and IDE performance ([e9f504b](https://github.com/MrWolfZ/ngrx-forms/commit/e9f504b)),  ([24b25db](https://github.com/MrWolfZ/ngrx-forms/commit/24b25db))
+
+#### Build Improvements
+
+* switch to ng-packagr for building the library ([2d126c5](https://github.com/MrWolfZ/ngrx-forms/commit/2d126c5))
+* add dtslint tests to ensure stability of `FormState` and `Unboxed` types ([255c648](https://github.com/MrWolfZ/ngrx-forms/commit/255c648))
+
+#### Bugfixes
+
+* allow enabling empty disabled array states ([8a33d12](https://github.com/MrWolfZ/ngrx-forms/commit/8a33d12)), thanks @nihique for reporting this bug, closes [#149](https://github.com/MrWolfZ/ngrx-forms/issues/149)
+
 <a name="5.0.0-beta.2"></a>
 ### 5.0.0-beta.2
 
@@ -21,12 +44,12 @@ This is a beta release in preparation for the release of Angular 8.
 
 #### Features
 
-* refactor `FormState` and `Unboxed` conditional type definitions to be simpler, which can improve build times and IDE performance
+* refactor `FormState` and `Unboxed` conditional type definitions to be simpler, which can improve build times and IDE performance ([e9f504b](https://github.com/MrWolfZ/ngrx-forms/commit/e9f504b)),  ([24b25db](https://github.com/MrWolfZ/ngrx-forms/commit/24b25db))
 
 #### Build Improvements
 
-* switch to ng-packagr for building the library
-* add dtslint tests to ensure stability of `FormState` and `Unboxed` types
+* switch to ng-packagr for building the library ([2d126c5](https://github.com/MrWolfZ/ngrx-forms/commit/2d126c5))
+* add dtslint tests to ensure stability of `FormState` and `Unboxed` types ([255c648](https://github.com/MrWolfZ/ngrx-forms/commit/255c648))
 
 <a name="4.1.0"></a>
 ### 4.1.0
