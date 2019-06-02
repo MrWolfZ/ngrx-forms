@@ -28,4 +28,4 @@ Please see the [documentation](http://ngrx-forms.readthedocs.io/en/master/contri
 #### License
 Everything in this repository is [licensed under the MIT License](LICENSE) unless otherwise specified.
 
-Copyright (c) 2017-2018 Jonathan Ziller
+Copyright (c) 2017-present Jonathan Ziller
