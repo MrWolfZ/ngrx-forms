@@ -64,7 +64,7 @@ export class NgrxCheckboxViewAdapter implements FormViewAdapter, AfterViewInit {
   }
 
   @HostListener('change', ['$event'])
-  handleInput(event: UIEvent): void {
-    this.onChange((event.target as HTMLInputElement).checked);
+  handleInput({ target }: { target: HTMLInputElement }): void {
+    this.onChange(target.checked);
   }
 }

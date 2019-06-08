@@ -94,12 +94,12 @@ export class NgrxDefaultViewAdapter implements FormViewAdapter, AfterViewInit {
   }
 
   @HostListener('input', ['$event'])
-  handleInput(event: UIEvent): void {
+  handleInput({ target }: { target: HTMLInputElement }): void {
     if (this.isCompositionSupported && this.isComposing) {
       return;
     }
 
-    this.onChange((event.target as HTMLInputElement).value);
+    this.onChange(target.value);
   }
 
   @HostListener('compositionstart')
@@ -108,10 +108,10 @@ export class NgrxDefaultViewAdapter implements FormViewAdapter, AfterViewInit {
   }
 
   @HostListener('compositionend', ['$event'])
-  compositionEnd(event: UIEvent): void {
+  compositionEnd({ target }: { target: HTMLInputElement }): void {
     this.isComposing = false;
     if (this.isCompositionSupported) {
-      this.onChange((event.target as HTMLInputElement).value);
+      this.onChange(target.value);
     }
   }
 }

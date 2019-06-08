@@ -67,8 +67,8 @@ export class NgrxNumberViewAdapter implements FormViewAdapter, AfterViewInit {
 
   @HostListener('change', ['$event'])
   @HostListener('input', ['$event'])
-  handleInput(event: UIEvent): void {
-    const value = (event.target as HTMLInputElement).value;
+  handleInput({ target }: { target: HTMLInputElement }): void {
+    const value = target.value;
     this.onChange(value === '' ? null : parseFloat(value));
   }
 }

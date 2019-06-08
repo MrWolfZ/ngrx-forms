@@ -73,8 +73,8 @@ export class NgrxSelectViewAdapter implements FormViewAdapter, AfterViewInit {
   }
 
   @HostListener('change', ['$event'])
-  onChange(event: UIEvent) {
-    this.selectedId = (event.target as HTMLOptionElement).value;
+  onChange({ target }: { target: HTMLOptionElement }) {
+    this.selectedId = target.value;
     const value = this.optionMap[this.selectedId];
     this.value = value;
     this.onChangeFn(value);
