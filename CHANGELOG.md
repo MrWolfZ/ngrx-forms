@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="5.0.2"></a>
+### 5.0.2
+
+#### Bugfixes
+
+* remove direct reference to `Event` since that causes errors in NativeScript applications ([1ac565a](https://github.com/MrWolfZ/ngrx-forms/commit/1ac565a)), thanks @bufke for reporting this bug, closes [#153](https://github.com/MrWolfZ/ngrx-forms/issues/153)
+
 <a name="5.0.1"></a>
 ### 5.0.1
 
