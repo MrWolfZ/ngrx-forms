@@ -4,6 +4,11 @@ import { ActionsSubject } from '@ngrx/store';
 import { MarkAsSubmittedAction } from '../actions';
 import { FormGroupState } from '../state';
 
+// this interface just exists to prevent a direct reference to
+// `Event` in our code, which otherwise causes issues in NativeScript
+// applications
+interface CustomEvent extends Event { }
+
 @Directive({
   // tslint:disable-next-line:directive-selector
   selector: 'form[ngrxFormState]',
@@ -21,7 +26,7 @@ export class NgrxFormDirective<TValue extends { [key: string]: any }> implements
   }
 
   @HostListener('submit', ['$event'])
-  onSubmit(event: Event) {
+  onSubmit(event: CustomEvent) {
     event.preventDefault();
     if (this.state.isUnsubmitted) {
       this.actionsSubject.next(new MarkAsSubmittedAction(this.state.id));
