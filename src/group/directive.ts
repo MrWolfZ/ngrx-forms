@@ -21,7 +21,7 @@ export class NgrxFormDirective<TValue extends { [key: string]: any }> implements
   }
 
   @HostListener('submit', ['$event'])
-  onSubmit(event: Event) {
+  onSubmit(event: any) {
     event.preventDefault();
     if (this.state.isUnsubmitted) {
       this.actionsSubject.next(new MarkAsSubmittedAction(this.state.id));
