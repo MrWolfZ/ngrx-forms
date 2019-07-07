@@ -65,6 +65,8 @@ In addition to the synchronous validation via update functions explained above *
 
 The last two actions are used to complete the validation. The `SetAsyncErrorAction` takes the name of the validation and an arbitrary value and adds an error with the given name (prefixed with a `$`) and value to the state's errors. It also removes the validation from the control's `pendingValidations`. The `$` prefix marks all asynchronous errors which allows the synchronous validation via update functions to preserve these errors. That means you can safely combine synchronous validation and asynchronous validation. By adding the error the control will be marked as invalid if it was not already. The other action is the `ClearAsyncErrorAction` which takes only the name of the validation and removes the error if it was present. This action also removes the validation from the control's `pendingValidations`.
 
+If you prefer to use your own custom actions for coordinating the asynchronous validation you can use the update functions `startAsyncValidation`, `setAsyncError` and `clearAsyncError` in your reducer instead of dispatching the actions.
+
 Below you can find an example of the steps that occur during such an asynchronous validation. Each step shows a slice of the control's state at the time. The scenario is a book search in a book store.
 
 The user types a search:
