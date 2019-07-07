@@ -381,7 +381,7 @@ export interface FormArrayState<TValue> extends AbstractControlState<readonly TV
    * The aggregated value of the form array. The value is computed by
    * aggregating the values of all children into an array.
    */
-  readonly value: readonly TValue[];
+  readonly value: TValue[];
 
   /**
    * This property is `true` if the form array does not have any errors
@@ -782,8 +782,8 @@ export function createFormGroupState<TValue extends KeyValue>(
 
 function getFormArrayValue<TValue>(
   controls: readonly AbstractControlState<TValue>[],
-  originalValue: readonly TValue[],
-): readonly TValue[] {
+  originalValue: TValue[],
+): TValue[] {
   let hasChanged = Object.keys(originalValue).length !== Object.keys(controls).length;
   const newValue = controls.map((state, i) => {
     hasChanged = hasChanged || originalValue[i] !== state.value;
@@ -823,7 +823,7 @@ function getFormArrayErrors<TValue>(
 export function computeArrayState<TValue>(
   id: string,
   inferredControls: readonly FormState<TValue>[],
-  value: readonly TValue[],
+  value: TValue[],
   errors: ValidationErrors,
   pendingValidations: readonly string[],
   userDefinedProperties: KeyValue,
