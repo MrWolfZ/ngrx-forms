@@ -5,6 +5,52 @@
 
 #### Features
 
+* add functions `onNgrxForms` and `wrapReducerWithFormStateUpdate` to allow better integration with `createReducer` from ngrx 8 ([ac95be2](https://github.com/MrWolfZ/ngrx-forms/commit/ac95be2)), closes [#147](https://github.com/MrWolfZ/ngrx-forms/issues/147)
+
+  They can be used as follows:
+
+  ```ts
+  import { createReducer } from '@ngrx/store';
+  import { onNgrxForms, updateGroup, validate, wrapReducerWithFormStateUpdate } from 'ngrx-forms';
+  import { required } from 'ngrx-forms/validation';
+
+  export interface LoginFormValue {
+    username: string;
+    password: string;
+    stayLoggedIn: boolean;
+  }
+
+  export const initialLoginFormValue: LoginFormValue = {
+    username: '',
+    password: '',
+    stayLoggedIn: false,
+  };
+
+  export const validateLoginForm = updateGroup<LoginFormValue>({
+    username: validate(required),
+    password: validate(required),
+  });
+
+  const rawReducer = createReducer(
+    {
+      loginForm: createFormGroupState('loginForm', initialLoginFormValue),
+      // your other properties...
+    },
+    onNgrxForms(),
+    // your other reducers...
+  );
+
+  // wrapReducerWithFormStateUpdate calls the update function
+  // after the given reducer; you can wrap this reducer again
+  // if you have multiple forms in your state
+  export const reducer = wrapReducerWithFormStateUpdate(
+    rawReducer,
+    // point to the form state to update
+    s => s.loginForm,
+    // this function is always called after the reducer
+    validateLoginForm,
+  );
+  ```
 * add update functions for async validations ([8985e99](https://github.com/MrWolfZ/ngrx-forms/commit/8985e99))
 * export constant `ALL_NGRX_FORMS_ACTION_TYPES` that is an array of all action types ngrx-forms provides ([09aad36](https://github.com/MrWolfZ/ngrx-forms/commit/09aad36))
 
