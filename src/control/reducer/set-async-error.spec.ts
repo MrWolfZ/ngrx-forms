@@ -66,11 +66,13 @@ describe(`form control ${setAsyncErrorReducer.name}`, () => {
     expect(resultState).toBe(state);
   });
 
-  it('should not update state if no matching pending validation is found', () => {
+  it('should update state even if no matching pending validation is found', () => {
     const name = 'required';
     const value = true;
     const state = { ...INITIAL_STATE, pendingValidations: ['min'], isValidationPending: true };
     const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
-    expect(resultState).toBe(state);
+    expect(resultState.errors).toEqual({ [`$${name}`]: value });
+    expect(resultState.isValid).toBe(false);
+    expect(resultState.isInvalid).toBe(true);
   });
 });

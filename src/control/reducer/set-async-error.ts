@@ -14,10 +14,6 @@ export function setAsyncErrorReducer<TValue extends FormControlValueTypes>(
     return state;
   }
 
-  if (state.pendingValidations.indexOf(action.name) < 0) {
-    return state;
-  }
-
   const name = `$${action.name}`;
   let value = action.value;
 

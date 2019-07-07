@@ -5,18 +5,15 @@ import { abstractControlReducer, ensureState } from './util';
 /**
  * This update function takes a name and a value and returns a projection
  * function that sets the async error for the given name to the given value.
- * It also marks the validation for the name as not pending anymore. Note
- * that this function only sets the error if the validation for the name was
- * pending (i.e. `startAsyncValidation` was called before this).
+ * It also marks the validation for the name as not pending anymore if it
+ * was pending.
  */
 export function setAsyncError(name: string, value: any): <TValue>(state: AbstractControlState<TValue>) => FormState<TValue>;
 
 /**
  * This update function takes a form state, a name, and a value and sets the
  * async error for the given name to the given value. It also marks the
- * validation for the name as not pending anymore. Note that this function
- * only sets the error if the validation for the name was pending (i.e.
- * `startAsyncValidation` was called before this).
+ * validation for the name as not pending anymore if it was pending.
  */
 export function setAsyncError<TValue>(state: AbstractControlState<TValue>, name: string, value: any): FormState<TValue>;
 
