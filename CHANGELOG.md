@@ -9,6 +9,7 @@
 
 #### Bugfixes
 
+* allow setting async errors if the validation is not pending ([3f5c6d0](https://github.com/MrWolfZ/ngrx-forms/commit/3f5c6d0))
 * allow clearing async errors on groups and arrays if the validation is not pending ([ff13472](https://github.com/MrWolfZ/ngrx-forms/commit/ff13472))
 
 <a name="5.0.3"></a>
