@@ -13,7 +13,7 @@
     "noFallthroughCasesInSwitch": true,
     "experimentalDecorators": true,
     "lib": [
-      "es2015",
+      "es2016",
       "dom"
     ],
     /* dtslint needs these to operate in this directory */
