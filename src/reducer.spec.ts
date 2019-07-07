@@ -237,6 +237,30 @@ describe(wrapReducerWithFormStateUpdate.name, () => {
     expect(resultState).toBe(initialState);
   });
 
+  it('should pass the state as the second parameter to the update function', () => {
+    const wrappedReducer = wrapReducerWithFormStateUpdate(reducer, s => s.control, (s, state) => {
+      expect(state).toBe(initialState);
+      return s;
+    });
+
+    wrappedReducer(undefined, { type: '' });
+  });
+
+  it('should call the update function after the reducer', () => {
+    let reducerWasCalled = false;
+    const reducer = (s = initialState) => {
+      reducerWasCalled = true;
+      return s;
+    };
+
+    const wrappedReducer = wrapReducerWithFormStateUpdate(reducer, s => s.group, s => {
+      expect(reducerWasCalled).toBe(true);
+      return s;
+    });
+
+    wrappedReducer(undefined, { type: '' });
+  });
+
   it('should work with createReducer', () => {
     const state = {
       prop: 'value',

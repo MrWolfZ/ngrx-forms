@@ -109,11 +109,14 @@ export function onNgrxForms<TState = any>(): { reducer: ActionReducer<TState>; t
  * This function wraps a reducer and returns another reducer that first calls
  * the given reducer and then calls the given update function for the form state
  * that is specified by the form state locator function.
+ *
+ * The update function is passed the form state and the updated containing state
+ * as parameters.
  */
 export function wrapReducerWithFormStateUpdate<TState, TFormState extends AbstractControlState<any>>(
   reducer: ActionReducer<TState>,
   formStateLocator: (state: TState) => TFormState,
-  updateFn: (formState: TFormState) => TFormState,
+  updateFn: (formState: TFormState, state: TState) => TFormState,
 ): ActionReducer<TState> {
   return (state, action) => {
     const updatedState = reducer(state, action);
@@ -121,7 +124,7 @@ export function wrapReducerWithFormStateUpdate<TState, TFormState extends Abstra
     const formState = formStateLocator(updatedState);
     const formStateKey = Object.keys(updatedState).find(key => updatedState[key as keyof TState] as any === formState)!;
 
-    const updatedFormState = updateFn(formState);
+    const updatedFormState = updateFn(formState, updatedState);
 
     if (updatedFormState === formState) {
       return updatedState;
