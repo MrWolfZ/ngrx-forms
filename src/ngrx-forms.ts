@@ -47,6 +47,9 @@ export * from './update-function/remove-array-control';
 export * from './update-function/remove-group-control';
 export * from './update-function/set-user-defined-property';
 export * from './update-function/reset';
+export * from './update-function/start-async-validation';
+export * from './update-function/set-async-error';
+export * from './update-function/clear-async-error';
 
 export { compose, ProjectFn, ProjectFn2 } from './update-function/util';
 
