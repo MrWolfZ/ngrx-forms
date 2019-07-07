@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="5.0.3"></a>
+### 5.0.3
+
+#### Bugfixes
+
+* remove readonly modifier from array control state value ([28e781c](https://github.com/MrWolfZ/ngrx-forms/commit/28e781c)), thanks @dzonatan for reporting this bug, closes [#155](https://github.com/MrWolfZ/ngrx-forms/issues/155)
+
 <a name="5.0.2"></a>
 ### 5.0.2
 
