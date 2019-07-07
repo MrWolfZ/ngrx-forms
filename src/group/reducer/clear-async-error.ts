@@ -14,10 +14,6 @@ export function clearAsyncErrorReducer<TValue extends KeyValue>(
     return childReducer(state, action);
   }
 
-  if (state.pendingValidations.indexOf(action.name) < 0) {
-    return state;
-  }
-
   const name = `$${action.name}`;
 
   let errors = state.errors;
@@ -28,6 +24,10 @@ export function clearAsyncErrorReducer<TValue extends KeyValue>(
   }
 
   const pendingValidations = state.pendingValidations.filter(v => v !== action.name);
+
+  if (errors === state.errors && pendingValidations.length === state.pendingValidations.length) {
+    return state;
+  }
 
   return computeGroupState(
     state.id,
