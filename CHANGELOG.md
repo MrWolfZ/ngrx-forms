@@ -3,6 +3,10 @@
 <a name="5.1.0"></a>
 ### 5.1.0
 
+#### Features
+
+* add update functions for async validations ([8985e99](https://github.com/MrWolfZ/ngrx-forms/commit/8985e99))
+
 #### Bugfixes
 
 * allow clearing async errors on groups and arrays if the validation is not pending ([ff13472](https://github.com/MrWolfZ/ngrx-forms/commit/ff13472))
