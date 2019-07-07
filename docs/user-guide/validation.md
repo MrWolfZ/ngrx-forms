@@ -34,7 +34,7 @@ export interface MyFormValue {
   nested: NestedValue;
 }
 
-const updateMyFormGroup = updateGroup<MyFormValue>({
+const validateMyForm = updateGroup<MyFormValue>({
   someTextInput: validate(required),
   nested: updateGroup<NestedValue>({
     someNumber: validate(required, greaterThanOrEqualTo(2), lessThan(10)),

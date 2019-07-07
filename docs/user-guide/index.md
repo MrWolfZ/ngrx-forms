@@ -78,6 +78,19 @@ export function appReducer(state = initialState, action: Action): AppState {
 }
 ```
 
+If you are using ngrx version 8 or above you can alternatively use `onNgrxForms` with `createReducer`:
+
+```ts
+import { createReducer } from '@ngrx/store';
+import { onNgrxForms } from 'ngrx-forms';
+
+export const appReducer = createReducer(
+  initialState,
+  onNgrxForms(),
+  // your other reducers...
+);
+```
+
 Expose the form state inside your component:
 
 ```typescript
