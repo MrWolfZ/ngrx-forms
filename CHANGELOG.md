@@ -6,6 +6,7 @@
 #### Features
 
 * add update functions for async validations ([8985e99](https://github.com/MrWolfZ/ngrx-forms/commit/8985e99))
+* export constant `ALL_NGRX_FORMS_ACTION_TYPES` that is an array of all action types ngrx-forms provides ([09aad36](https://github.com/MrWolfZ/ngrx-forms/commit/09aad36))
 
 #### Bugfixes
 
