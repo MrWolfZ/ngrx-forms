@@ -1,5 +1,6 @@
 import { Action, ActionReducer } from '@ngrx/store';
 
+import { ALL_NGRX_FORMS_ACTION_TYPES } from './actions';
 import { formArrayReducer } from './array/reducer';
 import { formControlReducer } from './control/reducer';
 import { formGroupReducer } from './group/reducer';
@@ -71,5 +72,64 @@ export function createFormStateReducerWithUpdate<TValue>(
   return (state: FormState<TValue> | undefined, action: Action): FormState<TValue> => {
     const newState = formStateReducer(state as AbstractControlState<TValue>, action);
     return newState === state ? state : updateFnArr.reduce((s, f) => f(s), newState);
+  };
+}
+
+/**
+ * This function returns an object that can be passed to ngrx's `createReducer`
+ * function (available starting with ngrx version 8). By doing this all form
+ * state properties on the state will be updated whenever necessary (i.e.
+ * whenever an ngrx-forms action is dispatched).
+ *
+ * To manually update a form state (e.g. to validate it) use
+ * `wrapReducerWithFormStateUpdate`.
+ */
+export function onNgrxForms<TState = any>(): { reducer: ActionReducer<TState>; types: string[] } {
+  function reduceNestedFormState(state: TState, key: keyof TState, action: Action): TState {
+    const value = state[key];
+
+    if (!isFormState(value)) {
+      return state;
+    }
+
+    return {
+      ...state,
+      [key]: formStateReducer(value, action),
+    };
+  }
+
+  return {
+    reducer: (state, action) =>
+      Object.keys(state!).reduce((s, key) => reduceNestedFormState(s, key as keyof TState, action)!, state!),
+    types: ALL_NGRX_FORMS_ACTION_TYPES,
+  };
+}
+
+/**
+ * This function wraps a reducer and returns another reducer that first calls
+ * the given reducer and then calls the given update function for the form state
+ * that is specified by the form state locator function.
+ */
+export function wrapReducerWithFormStateUpdate<TState, TFormState extends AbstractControlState<any>>(
+  reducer: ActionReducer<TState>,
+  formStateLocator: (state: TState) => TFormState,
+  updateFn: (formState: TFormState) => TFormState,
+): ActionReducer<TState> {
+  return (state, action) => {
+    const updatedState = reducer(state, action);
+
+    const formState = formStateLocator(updatedState);
+    const formStateKey = Object.keys(updatedState).find(key => updatedState[key as keyof TState] as any === formState)!;
+
+    const updatedFormState = updateFn(formState);
+
+    if (updatedFormState === formState) {
+      return updatedState;
+    }
+
+    return {
+      ...updatedState,
+      [formStateKey]: updatedFormState,
+    };
   };
 }

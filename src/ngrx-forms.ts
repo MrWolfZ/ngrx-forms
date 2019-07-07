@@ -23,7 +23,12 @@ export {
 export { formControlReducer } from './control/reducer';
 export { formGroupReducer } from './group/reducer';
 export { formArrayReducer } from './array/reducer';
-export { formStateReducer, createFormStateReducerWithUpdate } from './reducer';
+export {
+  createFormStateReducerWithUpdate,
+  formStateReducer,
+  onNgrxForms,
+  wrapReducerWithFormStateUpdate,
+} from './reducer';
 
 export * from './update-function/update-array';
 export * from './update-function/update-group';

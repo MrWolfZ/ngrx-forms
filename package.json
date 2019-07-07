@@ -62,7 +62,7 @@
     "@angular/forms": "8.0.0",
     "@angular/platform-browser": "8.0.0",
     "@angular/platform-browser-dynamic": "8.0.0",
-    "@ngrx/store": "7.4.0",
+    "@ngrx/store": "8.0.1",
     "@types/jasmine": "2.8.6",
     "@types/node": "10.12.18",
     "codecov": "3.1.0",

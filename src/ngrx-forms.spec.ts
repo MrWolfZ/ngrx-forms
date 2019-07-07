@@ -40,6 +40,7 @@ import {
   NgrxSelectViewAdapter,
   NgrxStatusCssClassesDirective,
   NgrxValueConverters,
+  onNgrxForms,
   removeArrayControl,
   removeGroupControl,
   reset,
@@ -54,6 +55,7 @@ import {
   updateGroup,
   updateRecursive,
   validate,
+  wrapReducerWithFormStateUpdate,
 } from './ngrx-forms';
 
 describe('ngrx-forms', () => {
@@ -68,6 +70,8 @@ describe('ngrx-forms', () => {
   it(`should export ${formGroupReducer.name}`, () => expect(formGroupReducer).toBeDefined());
   it(`should export ${formArrayReducer.name}`, () => expect(formArrayReducer).toBeDefined());
   it(`should export ${formStateReducer.name}`, () => expect(formStateReducer).toBeDefined());
+  it(`should export ${onNgrxForms.name}`, () => expect(onNgrxForms).toBeDefined());
+  it(`should export ${wrapReducerWithFormStateUpdate.name}`, () => expect(wrapReducerWithFormStateUpdate).toBeDefined());
   it(`should export ${addArrayControl.name}`, () => expect(addArrayControl).toBeDefined());
   it(`should export ${addGroupControl.name}`, () => expect(addGroupControl).toBeDefined());
   it(`should export ${clearAsyncError.name}`, () => expect(clearAsyncError).toBeDefined());

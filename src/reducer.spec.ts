@@ -1,5 +1,6 @@
+import { Action, createReducer } from '@ngrx/store';
 import { MarkAsTouchedAction, SetValueAction } from './actions';
-import { createFormStateReducerWithUpdate, formStateReducer } from './reducer';
+import { createFormStateReducerWithUpdate, formStateReducer, onNgrxForms, wrapReducerWithFormStateUpdate } from './reducer';
 import { FORM_CONTROL_ID, FORM_CONTROL_INNER5_ID, FORM_CONTROL_INNER_ID, FormGroupValue, INITIAL_STATE } from './update-function/test-util';
 import { updateGroup } from './update-function/update-group';
 
@@ -123,5 +124,141 @@ describe(createFormStateReducerWithUpdate.name, () => {
 
   it('should throw if state is undefined', () => {
     expect(() => createFormStateReducerWithUpdate<any>(s => s)(undefined, { type: '' })).toThrowError();
+  });
+});
+
+describe(onNgrxForms.name, () => {
+  it('should call the reducer for controls', () => {
+    const state = {
+      prop: 'value',
+      form: INITIAL_STATE.controls.inner,
+    };
+
+    const resultState = onNgrxForms<typeof state>().reducer(state, new MarkAsTouchedAction(FORM_CONTROL_INNER_ID));
+    expect(resultState.form).not.toBe(INITIAL_STATE.controls.inner);
+  });
+
+  it('should call the reducer for groups', () => {
+    const state = {
+      prop: 'value',
+      form: INITIAL_STATE,
+    };
+
+    const resultState = onNgrxForms<typeof state>().reducer(state, new MarkAsTouchedAction(FORM_CONTROL_ID));
+    expect(resultState.form).not.toBe(INITIAL_STATE);
+  });
+
+  it('should call the reducer for arrays', () => {
+    const state = {
+      prop: 'value',
+      form: INITIAL_STATE.controls.inner5,
+    };
+
+    const resultState = onNgrxForms<typeof state>().reducer(state, new MarkAsTouchedAction(FORM_CONTROL_INNER5_ID));
+    expect(resultState.form).not.toBe(INITIAL_STATE.controls.inner5);
+  });
+
+  it('should work with createReducer', () => {
+    const state = {
+      prop: 'value',
+      control: INITIAL_STATE.controls.inner,
+      group: INITIAL_STATE,
+      array: INITIAL_STATE.controls.inner5,
+    };
+
+    const reducer = createReducer(
+      state,
+      onNgrxForms(),
+    );
+
+    let resultState = reducer(state, new MarkAsTouchedAction(FORM_CONTROL_INNER_ID));
+    expect(resultState.control).not.toBe(INITIAL_STATE.controls.inner);
+
+    resultState = reducer(state, new MarkAsTouchedAction(FORM_CONTROL_ID));
+    expect(resultState.group).not.toBe(INITIAL_STATE);
+
+    resultState = reducer(state, new MarkAsTouchedAction(FORM_CONTROL_INNER5_ID));
+    expect(resultState.array).not.toBe(INITIAL_STATE.controls.inner5);
+  });
+});
+
+describe(wrapReducerWithFormStateUpdate.name, () => {
+  const initialState = {
+    prop: 'value',
+    control: INITIAL_STATE.controls.inner,
+    group: INITIAL_STATE,
+    array: INITIAL_STATE.controls.inner5,
+  };
+
+  function reducer(state = initialState, _: Action) {
+    return state;
+  }
+
+  it('should update a control after the reducer', () => {
+    const wrappedReducer = wrapReducerWithFormStateUpdate(reducer, s => s.control, s => {
+      expect(s).toBe(INITIAL_STATE.controls.inner);
+      return ({ ...s });
+    });
+
+    const resultState = wrappedReducer(undefined, { type: '' });
+    expect(resultState.control).not.toBe(INITIAL_STATE.controls.inner);
+  });
+
+  it('should update a group after the reducer', () => {
+    const wrappedReducer = wrapReducerWithFormStateUpdate(reducer, s => s.group, s => {
+      expect(s).toBe(INITIAL_STATE);
+      return ({ ...s });
+    });
+
+    const resultState = wrappedReducer(undefined, { type: '' });
+    expect(resultState.group).not.toBe(INITIAL_STATE);
+  });
+
+  it('should update an array after the reducer', () => {
+    const wrappedReducer = wrapReducerWithFormStateUpdate(reducer, s => s.array, s => {
+      expect(s).toBe(INITIAL_STATE.controls.inner5);
+      return ({ ...s });
+    });
+
+    const resultState = wrappedReducer(undefined, { type: '' });
+    expect(resultState.array).not.toBe(INITIAL_STATE.controls.inner5);
+  });
+
+  it('should set the updated form state', () => {
+    const updatedControl = { ...INITIAL_STATE.controls.inner };
+    const wrappedReducer = wrapReducerWithFormStateUpdate(reducer, s => s.control, () => updatedControl);
+    const resultState = wrappedReducer(undefined, { type: '' });
+    expect(resultState.control).toBe(updatedControl);
+  });
+
+  it('should not update the state if the form state is not updated', () => {
+    const wrappedReducer = wrapReducerWithFormStateUpdate(reducer, s => s.control, s => s);
+    const resultState = wrappedReducer(undefined, { type: '' });
+    expect(resultState).toBe(initialState);
+  });
+
+  it('should work with createReducer', () => {
+    const state = {
+      prop: 'value',
+      control: INITIAL_STATE.controls.inner,
+      group: INITIAL_STATE,
+      array: INITIAL_STATE.controls.inner5,
+    };
+
+    const reducer = createReducer(
+      state,
+      onNgrxForms(),
+    );
+
+    const wrappedReducer = wrapReducerWithFormStateUpdate(reducer, s => s.control, s => ({ ...s }));
+
+    let resultState = wrappedReducer(state, new MarkAsTouchedAction(FORM_CONTROL_INNER_ID));
+    expect(resultState.control).not.toBe(INITIAL_STATE.controls.inner);
+
+    resultState = wrappedReducer(state, new MarkAsTouchedAction(FORM_CONTROL_ID));
+    expect(resultState.group).not.toBe(INITIAL_STATE);
+
+    resultState = wrappedReducer(state, new MarkAsTouchedAction(FORM_CONTROL_INNER5_ID));
+    expect(resultState.array).not.toBe(INITIAL_STATE.controls.inner5);
   });
 });
