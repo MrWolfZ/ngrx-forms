@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="5.1.0"></a>
+### 5.1.0
+
+#### Bugfixes
+
+* allow clearing async errors on groups and arrays if the validation is not pending ([ff13472](https://github.com/MrWolfZ/ngrx-forms/commit/ff13472))
+
 <a name="5.0.3"></a>
 ### 5.0.3
 
