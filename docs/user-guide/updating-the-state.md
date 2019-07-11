@@ -49,7 +49,7 @@ export function reducer(state = initialState, action: Action) {
 }
 ```
 
-If you are using ngrx version 8 or above you can alternatively use `onNgrxForms` and `wrapReducerWithFormStateUpdate` with `createReducer`:
+If you are using ngrx version 8 or above you can alternatively use `onNgrxForms`, `onNgrxFormsAction`, and `wrapReducerWithFormStateUpdate` with `createReducer`:
 
 ```ts
 import { createReducer } from '@ngrx/store';
@@ -57,7 +57,20 @@ import { onNgrxForms, wrapReducerWithFormStateUpdate } from 'ngrx-forms';
 
 const rawReducer = createReducer(
   initialState,
+
+  // this function automatically calls the appropriate reducer
+  // for all form states on the state
   onNgrxForms(),
+
+  // use this to call a reducer for a specific ngrx-forms action
+  onNgrxFormsAction(SetValueAction, (state, action) => {
+    if (action.controlId === 'loginForm.username') {
+      // react to username changing...
+      // action is of type SetValueAction
+    }
+
+    return state;
+  }),
   // your other reducers...
 );
 
