@@ -1,6 +1,6 @@
 import { Action, createReducer } from '@ngrx/store';
-import { MarkAsTouchedAction, SetValueAction } from './actions';
-import { createFormStateReducerWithUpdate, formStateReducer, onNgrxForms, wrapReducerWithFormStateUpdate } from './reducer';
+import { MarkAsDirtyAction, MarkAsTouchedAction, SetValueAction } from './actions';
+import { createFormStateReducerWithUpdate, formStateReducer, onNgrxForms, onNgrxFormsAction, wrapReducerWithFormStateUpdate } from './reducer';
 import { FORM_CONTROL_ID, FORM_CONTROL_INNER5_ID, FORM_CONTROL_INNER_ID, FormGroupValue, INITIAL_STATE } from './update-function/test-util';
 import { updateGroup } from './update-function/update-group';
 
@@ -180,6 +180,44 @@ describe(onNgrxForms.name, () => {
     resultState = reducer(state, new MarkAsTouchedAction(FORM_CONTROL_INNER5_ID));
     expect(resultState.array).not.toBe(INITIAL_STATE.controls.inner5);
   });
+});
+
+describe(onNgrxFormsAction.name, () => {
+  const state = {
+    prop: 'value',
+    control: INITIAL_STATE.controls.inner,
+    group: INITIAL_STATE,
+    array: INITIAL_STATE.controls.inner5,
+  };
+
+  const reducer = createReducer(
+    state,
+    onNgrxFormsAction(MarkAsTouchedAction, s => ({ ...s })),
+  );
+
+  it('should call the reducer for the correct action type', () => {
+    const resultState = reducer(state, new MarkAsTouchedAction(FORM_CONTROL_INNER_ID));
+    expect(resultState).not.toBe(state);
+  });
+
+  it('should not call the reducer for the wrong action type', () => {
+    const resultState = reducer(state, new MarkAsDirtyAction(FORM_CONTROL_INNER_ID));
+    expect(resultState).toBe(state);
+  });
+
+  it('should provide the action of the right type to the reducer', () => {
+    const reducer = createReducer(
+      state,
+      onNgrxFormsAction(MarkAsTouchedAction, (state, action) => {
+        expect(action instanceof MarkAsTouchedAction).toBe(true);
+        expect(action.controlId).toBe(FORM_CONTROL_INNER_ID);
+        return state;
+      }),
+    );
+
+    reducer(state, new MarkAsTouchedAction(FORM_CONTROL_INNER_ID));
+  });
+
 });
 
 describe(wrapReducerWithFormStateUpdate.name, () => {

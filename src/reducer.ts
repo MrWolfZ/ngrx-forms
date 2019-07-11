@@ -1,6 +1,6 @@
 import { Action, ActionReducer } from '@ngrx/store';
 
-import { ALL_NGRX_FORMS_ACTION_TYPES } from './actions';
+import { Actions, ALL_NGRX_FORMS_ACTION_TYPES } from './actions';
 import { formArrayReducer } from './array/reducer';
 import { formControlReducer } from './control/reducer';
 import { formGroupReducer } from './group/reducer';
@@ -102,6 +102,31 @@ export function onNgrxForms<TState = any>(): { reducer: ActionReducer<TState>; t
     reducer: (state, action) =>
       Object.keys(state!).reduce((s, key) => reduceNestedFormState(s, key as keyof TState, action)!, state!),
     types: ALL_NGRX_FORMS_ACTION_TYPES,
+  };
+}
+
+export interface ActionConstructor {
+  new(...args: any[]): Actions<any>;
+  readonly TYPE: string;
+}
+
+export type CreatedAction<TActionCons> = TActionCons extends new (...args: any[]) => infer TAction ? TAction : never;
+
+/**
+ * Define a reducer for a ngrx-forms action. This functions works the same as
+ * ngrx's `on` except that you provide the ngrx-forms action class instead of
+ * your action creator as a parameter.
+ */
+export function onNgrxFormsAction<
+  TActionCons extends ActionConstructor,
+  TState
+>(
+  actionCons: TActionCons,
+  reducer: (state: TState, action: CreatedAction<TActionCons>) => TState,
+): { reducer: ActionReducer<TState>; types: string[] } {
+  return {
+    reducer: (state, action) => reducer(state!, action as any),
+    types: [actionCons.TYPE],
   };
 }
 

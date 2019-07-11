@@ -24,9 +24,12 @@ export { formControlReducer } from './control/reducer';
 export { formGroupReducer } from './group/reducer';
 export { formArrayReducer } from './array/reducer';
 export {
+  ActionConstructor,
+  CreatedAction,
   createFormStateReducerWithUpdate,
   formStateReducer,
   onNgrxForms,
+  onNgrxFormsAction,
   wrapReducerWithFormStateUpdate,
 } from './reducer';
 
