@@ -1,5 +1,61 @@
 ## ngrx-forms Changelog
 
+<a name="5.2.0"></a>
+### 5.2.0
+
+#### Features
+
+* add function `onNgrxFormsAction` that allows specifying a reducer for **ngrx-forms** actions with `createReducer` from ngrx 8 ([5cdf9c6](https://github.com/MrWolfZ/ngrx-forms/commit/5cdf9c6))
+
+  It can be used as follows:
+
+  ```ts
+  import { createReducer } from '@ngrx/store';
+  import {
+    onNgrxForms,
+    onNgrxFormsAction,
+    SetValueAction,
+    updateGroup,
+    validate,
+    wrapReducerWithFormStateUpdate,
+  } from 'ngrx-forms';
+  import { required } from 'ngrx-forms/validation';
+
+  export interface LoginFormValue {
+    username: string;
+    password: string;
+    stayLoggedIn: boolean;
+  }
+
+  export const initialLoginFormValue: LoginFormValue = {
+    username: '',
+    password: '',
+    stayLoggedIn: false,
+  };
+
+  export const validateLoginForm = updateGroup<LoginFormValue>({
+    username: validate(required),
+    password: validate(required),
+  });
+
+  const reducer = createReducer(
+    {
+      loginForm: createFormGroupState('loginForm', initialLoginFormValue),
+      // your other properties...
+    },
+    onNgrxForms(),
+    onNgrxFormsAction(SetValueAction, (state, action) => {
+      if (action.controlId === 'loginForm.username') {
+        // react to username changing...
+        // action is of type SetValueAction
+      }
+
+      return state;
+    }),
+    // your other reducers...
+  );
+  ```
+
 <a name="5.1.0"></a>
 ### 5.1.0
 
