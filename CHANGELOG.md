@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="5.2.1"></a>
+### 5.2.1
+
+#### Bugfixes
+
+* ensure form states are correctly updated from actions when using `onNgrxFormsAction` with `onNgrxForms` ([ee5dccf](https://github.com/MrWolfZ/ngrx-forms/commit/ee5dccf))
+
 <a name="5.2.0"></a>
 ### 5.2.0
 
