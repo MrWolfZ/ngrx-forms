@@ -62,7 +62,8 @@ const rawReducer = createReducer(
   // for all form states on the state
   onNgrxForms(),
 
-  // use this to call a reducer for a specific ngrx-forms action
+  // use this to call a reducer for a specific ngrx-forms action;
+  // note that this must be placed after onNgrxForms
   onNgrxFormsAction(SetValueAction, (state, action) => {
     if (action.controlId === 'loginForm.username') {
       // react to username changing...
