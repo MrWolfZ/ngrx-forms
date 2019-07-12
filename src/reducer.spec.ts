@@ -218,6 +218,20 @@ describe(onNgrxFormsAction.name, () => {
     reducer(state, new MarkAsTouchedAction(FORM_CONTROL_INNER_ID));
   });
 
+  it('should call the reducer in conjuction with onNgrxForms', () => {
+    const reducer = createReducer(
+      state,
+      onNgrxForms(),
+      onNgrxFormsAction(MarkAsTouchedAction, (state, action) => {
+        expect(action instanceof MarkAsTouchedAction).toBe(true);
+        expect(action.controlId).toBe(FORM_CONTROL_INNER_ID);
+        return state;
+      }),
+    );
+
+    const resultState = reducer(state, new MarkAsTouchedAction(FORM_CONTROL_INNER_ID));
+    expect(resultState.control.isTouched).toBe(true);
+  });
 });
 
 describe(wrapReducerWithFormStateUpdate.name, () => {

@@ -75,6 +75,23 @@ export function createFormStateReducerWithUpdate<TValue>(
   };
 }
 
+function reduceNestedFormState<TState>(state: TState, key: keyof TState, action: Action): TState {
+  const value = state[key];
+
+  if (!isFormState(value)) {
+    return state;
+  }
+
+  return {
+    ...state,
+    [key]: formStateReducer(value, action),
+  };
+}
+
+function reduceNestedFormStates<TState>(state: TState, action: Action): TState {
+  return Object.keys(state).reduce((s, key) => reduceNestedFormState(s, key as keyof TState, action), state);
+}
+
 /**
  * This function returns an object that can be passed to ngrx's `createReducer`
  * function (available starting with ngrx version 8). By doing this all form
@@ -85,22 +102,8 @@ export function createFormStateReducerWithUpdate<TValue>(
  * `wrapReducerWithFormStateUpdate`.
  */
 export function onNgrxForms<TState = any>(): { reducer: ActionReducer<TState>; types: string[] } {
-  function reduceNestedFormState(state: TState, key: keyof TState, action: Action): TState {
-    const value = state[key];
-
-    if (!isFormState(value)) {
-      return state;
-    }
-
-    return {
-      ...state,
-      [key]: formStateReducer(value, action),
-    };
-  }
-
   return {
-    reducer: (state, action) =>
-      Object.keys(state!).reduce((s, key) => reduceNestedFormState(s, key as keyof TState, action)!, state!),
+    reducer: (state, action) => reduceNestedFormStates(state!, action),
     types: ALL_NGRX_FORMS_ACTION_TYPES,
   };
 }
@@ -125,7 +128,7 @@ export function onNgrxFormsAction<
   reducer: (state: TState, action: CreatedAction<TActionCons>) => TState,
 ): { reducer: ActionReducer<TState>; types: string[] } {
   return {
-    reducer: (state, action) => reducer(state!, action as any),
+    reducer: (state, action) => reducer(reduceNestedFormStates(state!, action), action as any),
     types: [actionCons.TYPE],
   };
 }
