@@ -1,11 +1,16 @@
 ## ngrx-forms Changelog
 
-<a name="5.2.2"></a>
-### 5.2.2
+<a name="5.2.3"></a>
+### 5.2.3
 
 #### Bugfixes
 
 * use project tsconfig.json with ng-packagr during build; this bug lead to incorrect type definitions ([#163](https://github.com/MrWolfZ/ngrx-forms/pull/163)), thanks @tomvandezande for reporting and fixing this bug
+
+<a name="5.2.2"></a>
+### 5.2.2
+
+This version is skipped due to an invalid package having been published.
 
 <a name="5.2.1"></a>
 ### 5.2.1
