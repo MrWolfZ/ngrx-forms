@@ -1,35 +1,48 @@
 {
+  "buildOnSave": false,
+  "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": ".",
-    "emitDecoratorMetadata": true,
+    "target": "es2015",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "declaration": true,
+    "declarationDir": "dist",
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "skipLibCheck": true,
+    "emitDecoratorMetadata": false,
     "experimentalDecorators": true,
+    "importHelpers": true,
+    "lib": [
+      "dom",
+      "es2018"
+    ],
     "strict": true,
     "strictPropertyInitialization": false,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "rootDir": ".",
     "paths": {
       "ngrx-forms": [
         "."
       ]
     },
-    "sourceMap": true,
-    "inlineSources": true,
-    "target": "es5",
-    "skipLibCheck": true,
-    "lib": [
-      "es2015",
-      "dom"
-    ],
     "typeRoots": [
       "./node_modules/@types/"
     ]
   },
+  "angularCompilerOptions": {
+    "enableIvy": false,
+    "skipTemplateCodegen": true,
+    "strictMetadataEmit": true,
+    "fullTemplateTypeCheck": true,
+    "enableResourceInlining": true
+  },
   "exclude": [
     "node_modules",
     "example-app",
+    "dist",
     "types"
   ]
 }

@@ -44,7 +44,7 @@ module.exports = function (config) {
         transforms: [require('karma-typescript-es6-transform')()],
         validateSyntax: true,
       },
-      tsconfig: './tsconfig.json',
+      tsconfig: './tsconfig.spec.json',
       reports:
       {
         lcovonly: {
