@@ -7,7 +7,7 @@
   "es2015": "ngrx/forms.js",
   "main": "bundles/forms.umd.js",
   "scripts": {
-    "build": "ng-packagr -p package.json && rimraf ./dist/example-app ./dist/types",
+    "build": "ng-packagr -p package.json -c tsconfig.json && rimraf ./dist/example-app ./dist/types",
     "test": "karma start",
     "test-headless": "karma start --browsers ChromeHeadless",
     "test-no-progress": "karma start --reporters spec,karma-typescript",
