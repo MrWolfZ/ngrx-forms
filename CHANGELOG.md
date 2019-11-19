@@ -1,5 +1,16 @@
 ## ngrx-forms Changelog
 
+<a name="6.0.0"></a>
+### 6.0.0
+
+This major release contains only a bugfix which is a breaking change.
+
+#### Breaking Changes
+
+* do not treat empty strings or arrays as an error in `minLength` validation function ([#164](https://github.com/MrWolfZ/ngrx-forms/pull/164)), thanks @Sloff for reporting and fixing this bug
+
+  If you require these values to be treated as errors use `minLength` together with `required` (e.g. `validate(required, minLength(2))`)
+
 <a name="5.2.3"></a>
 ### 5.2.3
 
