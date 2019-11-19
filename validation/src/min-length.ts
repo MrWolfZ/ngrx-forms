@@ -15,8 +15,8 @@ declare module 'ngrx-forms/src/state' {
 
 /**
  * A validation function that requires a `string` or `array` value to have a minimum length.
- * Considers `null` and `undefined` as valid. Combine this function with the `required`
- * validation function if `null` or `undefined` should be considered invalid.
+ * Considers `null`, `undefined`, empty strings and empty arrays as valid. Combine this
+ * function with the `required` validation function if these values should be considered invalid.
  *
  * The validation error returned by this validation function has the following shape:
  *
