@@ -57,6 +57,10 @@ export function minLength(minLengthParam: number) {
 
     const length = (value as string | any[]).length;
 
+    if (length === 0) {
+      return {}; // don't validate empty values to allow optional controls
+    }
+
     if (length >= minLengthParam) {
       return {};
     }
