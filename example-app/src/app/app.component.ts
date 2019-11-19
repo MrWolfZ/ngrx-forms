@@ -53,5 +53,15 @@ export class AppComponent {
       hint: 'A form that uses third party form controls',
       label: 'Material UI Form',
     },
+    {
+      path: '/localStateIntroduction',
+      hint: 'Managing form state locally in the component ',
+      label: 'Local State: Introduction',
+    },
+    {
+      path: '/localStateAdvanced',
+      hint: 'Managing form state and external data locally in the component ',
+      label: 'Local State: Advanced',
+    },
   ];
 }

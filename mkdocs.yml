@@ -15,6 +15,7 @@ pages:
     - Updating the State: user-guide/updating-the-state.md
     - Validation: user-guide/validation.md
     - Custom HTML Form Elements: user-guide/custom-form-elements.md
+    - Managing form state locally: user-guide/local-form-state.md
   - FAQ: faq.md
   - Contributing: contributing.md
   - License: license.md

@@ -1,5 +1,5 @@
 import { ElementRef } from '@angular/core';
-import { Action } from '@ngrx/store';
+import { Action, ActionsSubject } from '@ngrx/store';
 import { Observable, ReplaySubject } from 'rxjs';
 import { count, first, skip } from 'rxjs/operators';
 
@@ -38,7 +38,7 @@ describe(NgrxFormControlDirective.name, () => {
       setOnTouchedCallback: fn => onTouched = fn,
       setIsDisabled: () => void 0,
     };
-    directive = new NgrxFormControlDirective<string>(elementRef, document, actionsSubject as any, [viewAdapter], []);
+    directive = new NgrxFormControlDirective<string | null>(elementRef, document, actionsSubject as any, [viewAdapter], []);
     directive.ngrxFormControlState = INITIAL_STATE;
   });
 
@@ -47,8 +47,16 @@ describe(NgrxFormControlDirective.name, () => {
   });
 
   it('should throw if state is not set when component is initialized', () => {
-    directive = new NgrxFormControlDirective<string>(elementRef, document, actionsSubject as any, [viewAdapter], []);
+    directive = new NgrxFormControlDirective<string | null>(elementRef, document, actionsSubject as any, [viewAdapter], []);
     expect(() => directive.ngOnInit()).toThrowError();
+  });
+
+  it('should throw while trying to emit actions if no ActionsSubject was provided', () => {
+    directive = new NgrxFormControlDirective<string | null>(elementRef, document, null as any as ActionsSubject, [viewAdapter], []);
+    directive.ngrxFormControlState = INITIAL_STATE;
+    directive.ngOnInit()
+    const newValue = 'new value';
+    expect(() => onChange(newValue)).toThrowError();
   });
 
   describe('writing values and dispatching value and dirty actions', () => {
@@ -177,7 +185,7 @@ describe(NgrxFormControlDirective.name, () => {
         ...viewAdapter,
         setViewValue: v => expect(v).toEqual(convertedValue),
       };
-      directive = new NgrxFormControlDirective<string>(elementRef, document, actionsSubject as any, [viewAdapter], []);
+      directive = new NgrxFormControlDirective<string | null>(elementRef, document, actionsSubject as any, [viewAdapter], []);
       directive.ngrxFormControlState = INITIAL_STATE;
       directive.ngrxValueConverter = {
         convertStateToViewValue: () => convertedValue,
@@ -562,7 +570,7 @@ describe(NgrxFormControlDirective.name, () => {
 
   describe('non-browser platforms', () => {
     beforeEach(() => {
-      directive = new NgrxFormControlDirective<string>(elementRef, null, actionsSubject as any, [viewAdapter], []);
+      directive = new NgrxFormControlDirective<string | null>(elementRef, null, actionsSubject as any, [viewAdapter], []);
       directive.ngrxFormControlState = INITIAL_STATE;
     });
 
@@ -580,7 +588,7 @@ describe(NgrxFormControlDirective.name, () => {
         'setDisabledState',
       ]);
 
-      directive = new NgrxFormControlDirective<string>(elementRef, document, actionsSubject as any, null as any, [controlValueAccessor]);
+      directive = new NgrxFormControlDirective<string | null>(elementRef, document, actionsSubject as any, null as any, [controlValueAccessor]);
 
       directive.state = { ...INITIAL_STATE, isDisabled: true, isEnabled: false };
       directive.ngOnInit();
@@ -597,14 +605,14 @@ describe(NgrxFormControlDirective.name, () => {
         'registerOnTouched',
       ]);
 
-      directive = new NgrxFormControlDirective<string>(elementRef, document, actionsSubject as any, null as any, [controlValueAccessor]);
+      directive = new NgrxFormControlDirective<string | null>(elementRef, document, actionsSubject as any, null as any, [controlValueAccessor]);
 
       directive.state = { ...INITIAL_STATE, isDisabled: true, isEnabled: false };
       expect(() => directive.ngOnInit()).not.toThrow();
     });
 
     it('should throw if more than one control value accessor is provided', () => {
-      expect(() => new NgrxFormControlDirective<string>(elementRef, document, actionsSubject as any, [], [{} as any, {} as any])).toThrowError();
+      expect(() => new NgrxFormControlDirective<string | null>(elementRef, document, actionsSubject as any, [], [{} as any, {} as any])).toThrowError();
     });
   });
 });
