@@ -1,4 +1,4 @@
-As mentioned in the section about [updating the state](updating-the-state.md) the `validate` update function takes one or more validation functions as a parameter and uses them to validate the value of a form state. **ngrx-forms** provides a set of validation functions out of the box (imported via `ngrx-forms/validation`) that can be used as arguments to `validate`. Most of these functions treat `null` and `undefined` (and for `email` and `pattern` empty strings) as valid to allow for optional form controls. If the control is not optional simply combine the corresponding validation function with the `required` validation function.
+As mentioned in the section about [updating the state](updating-the-state.md) the `validate` update function takes one or more validation functions as a parameter and uses them to validate the value of a form state. **ngrx-forms** provides a set of validation functions out of the box (imported via `ngrx-forms/validation`) that can be used as arguments to `validate`. Most of these functions treat `null` and `undefined` (and for `email` and `pattern` empty strings and for `minLength` empty strings and arrays) as valid to allow for optional form controls. If the control is not optional simply combine the corresponding validation function with the `required` validation function.
 
 The following table lists all validation functions provided by **ngrx-forms**.
 
@@ -13,10 +13,10 @@ The following table lists all validation functions provided by **ngrx-forms**.
 |`lessThanOrEqualTo`|Requires the `number` value to be less than or equal to another number|
 |`greaterThan`|Requires the `number` value to be greater than another number|
 |`greaterThanOrEqualTo`|Requires the `number` value to be greater than or equal to another number|
-|`minLength`|Requires a `string` or `array` value to have a minimum length|
+|`minLength`|Requires a `string` or `array` value to have a minimum length. Empty strings and arrays are always valid to allow for optional form controls. Use this function together with `required` if those values should not be valid|
 |`maxLength`|Requires a `string` or `array` value to have a maximum length|
-|`email`|Requires a `string` value to be a valid e-mail address|
-|`pattern`|Requires a `string` value to match a regular expression|
+|`email`|Requires a `string` value to be a valid e-mail address. Empty strings are always valid to allow for optional form controls. Use this function together with `required` if empty strings should not be valid|
+|`pattern`|Requires a `string` value to match a regular expression. Empty strings are always valid to allow for optional form controls. Use this function together with `required` if empty strings should not be valid|
 
 Below you can see an example of how these functions can be used:
 
