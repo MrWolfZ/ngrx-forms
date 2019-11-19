@@ -18,6 +18,14 @@ describe(minLength.name, () => {
     expect(minLength(2)(undefined)).toEqual({});
   });
 
+  it('should not return an error for an empty string', () => {
+    expect(minLength(2)('')).toEqual({});
+  });
+
+  it('should not return an error for an empty array', () => {
+    expect(minLength(2)([])).toEqual({});
+  });
+
   it('should not return an error if string value\'s length is greater than minLength', () => {
     expect(minLength(2)('abc')).toEqual({});
   });
