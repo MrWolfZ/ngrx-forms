@@ -50,14 +50,14 @@ function updateArraySingle<TValue>(filterFn: FilterFn<TValue>, updateFn: Project
  * The following (contrived) example uses this function to validate all its
  * children to be required and mark them as dirty.
  *
- * ```typescript
- * const arrayUpdateFn = updateArray<string>(
- *   (_, idx) => idx > 0,
- *   validate(required),
- *   markAsDirty,
- * );
- * const updatedState = arrayUpdateFn(state);
- * ```
+```typescript
+const arrayUpdateFn = updateArray<string>(
+  (_, idx) => idx > 0,
+  validate(required),
+  markAsDirty,
+);
+const updatedState = arrayUpdateFn(state);
+```
  */
 export function updateArrayWithFilter<TValue>(
   filterFn: FilterFn<TValue>,
@@ -74,16 +74,16 @@ export function updateArrayWithFilter<TValue>(
  * The following (contrived) example uses this function to validate all its
  * children to be required and mark them as dirty.
  *
- * ```typescript
- * const arrayUpdateFn = updateArray<string>(
- *   (_, idx) => idx > 0,
- *   [
- *     validate(required),
- *     markAsDirty,
- *   ],
- * );
- * const updatedState = arrayUpdateFn(state);
- * ```
+```typescript
+const arrayUpdateFn = updateArray<string>(
+  (_, idx) => idx > 0,
+  [
+    validate(required),
+    markAsDirty,
+  ],
+);
+const updatedState = arrayUpdateFn(state);
+```
  */
 export function updateArrayWithFilter<TValue>(
   filterFn: FilterFn<TValue>,
@@ -98,14 +98,14 @@ export function updateArrayWithFilter<TValue>(
  * The following (contrived) example uses this function to validate all its
  * children to be required and mark them as dirty.
  *
- * ```typescript
- * const updatedState = updateArray<string>(
- *   state,
- *   (_, idx) => idx > 0,
- *   validate(required),
- *   markAsDirty,
- * );
- * ```
+```typescript
+const updatedState = updateArray<string>(
+  state,
+  (_, idx) => idx > 0,
+  validate(required),
+  markAsDirty,
+);
+```
  */
 export function updateArrayWithFilter<TValue>(
   state: FormArrayState<TValue>,
@@ -122,16 +122,16 @@ export function updateArrayWithFilter<TValue>(
  * The following (contrived) example uses this function to validate all its
  * children to be required and mark them as dirty.
  *
- * ```typescript
- * const updatedState = updateArray<string>(
- *   state,
- *   (_, idx) => idx > 0,
- *   [
- *     validate(required),
- *     markAsDirty,
- *   ],
- * );
- * ```
+```typescript
+const updatedState = updateArray<string>(
+  state,
+  (_, idx) => idx > 0,
+  [
+    validate(required),
+    markAsDirty,
+  ],
+);
+```
  */
 export function updateArrayWithFilter<TValue>(
   state: FormArrayState<TValue>,
@@ -169,13 +169,13 @@ export function updateArrayWithFilter<TValue>(
  * The following (contrived) example uses this function to validate all its
  * children to be required and mark them as dirty.
  *
- * ```typescript
- * const arrayUpdateFn = updateArray<string>(
- *   validate<string>(required),
- *   markAsDirty,
- * );
- * const updatedState = arrayUpdateFn(state);
- * ```
+```typescript
+const arrayUpdateFn = updateArray<string>(
+  validate<string>(required),
+  markAsDirty,
+);
+const updatedState = arrayUpdateFn(state);
+```
  */
 export function updateArray<TValue>(
   updateFn: ProjectFn2<FormState<TValue>, FormArrayState<TValue>>,
@@ -190,13 +190,13 @@ export function updateArray<TValue>(
  * The following (contrived) example uses this function to validate all its
  * children to be required and mark them as dirty.
  *
- * ```typescript
- * const arrayUpdateFn = updateArray<string>([
- *   validate<string>(required),
- *   markAsDirty,
- * ]);
- * const updatedState = arrayUpdateFn(state);
- * ```
+```typescript
+const arrayUpdateFn = updateArray<string>([
+  validate<string>(required),
+  markAsDirty,
+]);
+const updatedState = arrayUpdateFn(state);
+```
  */
 export function updateArray<TValue>(
   updateFnArr: ProjectFn2<FormState<TValue>, FormArrayState<TValue>>[],
@@ -210,13 +210,13 @@ export function updateArray<TValue>(
  * The following (contrived) example uses this function to validate all its
  * children to be required and mark them as dirty.
  *
- * ```typescript
- * const updatedState = updateArray<string>(
- *   state,
- *   validate<string>(required),
- *   markAsDirty,
- * );
- * ```
+```typescript
+const updatedState = updateArray<string>(
+  state,
+  validate<string>(required),
+  markAsDirty,
+);
+```
  */
 export function updateArray<TValue>(
   state: FormArrayState<TValue>,
@@ -232,15 +232,15 @@ export function updateArray<TValue>(
  * The following (contrived) example uses this function to validate all its
  * children to be required and mark them as dirty.
  *
- * ```typescript
- * const updatedState = updateArray<string>(
- *   state,
- *   [
- *     validate<string>(required),
- *     markAsDirty,
- *   ],
- * );
- * ```
+```typescript
+const updatedState = updateArray<string>(
+  state,
+  [
+    validate<string>(required),
+    markAsDirty,
+  ],
+);
+```
  */
 export function updateArray<TValue>(
   state: FormArrayState<TValue>,

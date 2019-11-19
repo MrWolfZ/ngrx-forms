@@ -20,24 +20,24 @@ declare module 'ngrx-forms/src/state' {
  *
  * The validation error returned by this validation function has the following shape:
  *
- * ```typescript
- * {
- *   minLength: {
- *     minLength: number;
- *     value: string;
- *     actualLength: number;
- *   };
- * }
- * ```
+```typescript
+{
+  minLength: {
+    minLength: number;
+    value: string;
+    actualLength: number;
+  };
+}
+```
  *
  * Usually you would use this validation function in conjunction with the `validate`
  * update function to perform synchronous validation in your reducer:
  *
- * ```typescript
- * updateGroup<MyFormValue>({
- *  password: validate(minLength(8)),
- * })
- * ```
+```typescript
+updateGroup<MyFormValue>({
+  password: validate(minLength(8)),
+})
+```
  *
  * Note that this function is generic to allow the compiler to properly infer the type
  * of the `validate` function for both optional and non-optional controls.

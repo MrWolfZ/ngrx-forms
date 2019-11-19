@@ -53,25 +53,25 @@ function updateGroupSingle<TValue extends KeyValue>(updateFns: StateUpdateFns<TV
  * control `name` to be required and set the child control `email`'s value to
  * be `''` if the name is invalid.
  *
- * ```typescript
- * interface FormValue {
- *   name: string;
- *   email: string;
- * }
- *
- * const groupUpdateFn = updateGroup<FormValue>(
- *   {
- *     name: validate<string>(required),
- *   },
- *   {
- *     email: (email, parentGroup) =>
- *       parentGroup.controls.name.isInvalid
- *         ? setValue('', email)
- *         : email,
- *   },
- * );
- * const updatedState = groupUpdateFn(state);
- * ```
+```typescript
+interface FormValue {
+  name: string;
+  email: string;
+}
+
+const groupUpdateFn = updateGroup<FormValue>(
+  {
+    name: validate<string>(required),
+  },
+  {
+    email: (email, parentGroup) =>
+      parentGroup.controls.name.isInvalid
+        ? setValue('', email)
+        : email,
+  },
+);
+const updatedState = groupUpdateFn(state);
+```
  */
 export function updateGroup<TValue>(
   updateFn: StateUpdateFns<TValue>,
@@ -87,27 +87,27 @@ export function updateGroup<TValue>(
  * control `name` to be required and set the child control `email`'s value to
  * be `''` if the name is invalid.
  *
- * ```typescript
- * interface FormValue {
- *   name: string;
- *   email: string;
- * }
- *
- * const groupUpdateFn = updateGroup<FormValue>(
- *   [
- *     {
- *       name: validate<string>(required),
- *     },
- *     {
- *       email: (email, parentGroup) =>
- *         parentGroup.controls.name.isInvalid
- *           ? setValue('', email)
- *           : email,
- *     },
- *   ],
- * );
- * const updatedState = groupUpdateFn(state);
- * ```
+```typescript
+interface FormValue {
+  name: string;
+  email: string;
+}
+
+const groupUpdateFn = updateGroup<FormValue>(
+  [
+    {
+      name: validate<string>(required),
+    },
+    {
+      email: (email, parentGroup) =>
+        parentGroup.controls.name.isInvalid
+          ? setValue('', email)
+          : email,
+    },
+  ],
+);
+const updatedState = groupUpdateFn(state);
+```
  */
 export function updateGroup<TValue>(
   updateFnsArr: StateUpdateFns<TValue>[],
@@ -123,25 +123,25 @@ export function updateGroup<TValue>(
  * control `name` to be required and set the child control `email`'s value to
  * be `''` if the name is invalid.
  *
- * ```typescript
- * interface FormValue {
- *   name: string;
- *   email: string;
- * }
- *
- * const updatedState = updateGroup<FormValue>(
- *   state,
- *   {
- *     name: validate<string>(required),
- *   },
- *   {
- *     email: (email, parentGroup) =>
- *       parentGroup.controls.name.isInvalid
- *         ? setValue('', email)
- *         : email,
- *   },
- * );
- * ```
+```typescript
+interface FormValue {
+  name: string;
+  email: string;
+}
+
+const updatedState = updateGroup<FormValue>(
+  state,
+  {
+    name: validate<string>(required),
+  },
+  {
+    email: (email, parentGroup) =>
+      parentGroup.controls.name.isInvalid
+        ? setValue('', email)
+        : email,
+  },
+);
+```
  */
 export function updateGroup<TValue>(
   state: FormGroupState<TValue>,
@@ -159,27 +159,27 @@ export function updateGroup<TValue>(
  * control `name` to be required and set the child control `email`'s value to
  * be `''` if the name is invalid.
  *
- * ```typescript
- * interface FormValue {
- *   name: string;
- *   email: string;
- * }
- *
- * const updatedState = updateGroup<FormValue>(
- *   state,
- *   [
- *     {
- *       name: validate<string>(required),
- *     },
- *     {
- *       email: (email, parentGroup) =>
- *         parentGroup.controls.name.isInvalid
- *           ? setValue('', email)
- *           : email,
- *     },
- *   ],
- * );
- * ```
+```typescript
+interface FormValue {
+  name: string;
+  email: string;
+}
+
+const updatedState = updateGroup<FormValue>(
+  state,
+  [
+    {
+      name: validate<string>(required),
+    },
+    {
+      email: (email, parentGroup) =>
+        parentGroup.controls.name.isInvalid
+          ? setValue('', email)
+          : email,
+    },
+  ],
+);
+```
  */
 export function updateGroup<TValue>(
   state: FormGroupState<TValue>,

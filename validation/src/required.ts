@@ -17,22 +17,22 @@ declare module 'ngrx-forms/src/state' {
  *
  * The validation error returned by this validation function has the following shape:
  *
- * ```typescript
- * {
- *   required: {
- *     actual: T | null | undefined;
- *   };
- * }
- * ```
+```typescript
+{
+  required: {
+    actual: T | null | undefined;
+  };
+}
+```
  *
  * Usually you would use this validation function in conjunction with the `validate`
  * update function to perform synchronous validation in your reducer:
  *
- * ```typescript
- * updateGroup<MyFormValue>({
- *  name: validate(required),
- * })
- * ```
+```typescript
+updateGroup<MyFormValue>({
+  name: validate(required),
+})
+```
  */
 export function required<T>(value: T | Boxed<T> | null | undefined): ValidationErrors {
   value = unbox(value) as T | null | undefined;

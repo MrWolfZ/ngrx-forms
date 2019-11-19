@@ -23,23 +23,23 @@ declare module 'ngrx-forms/src/state' {
  *
  * The validation error returned by this validation function has the following shape:
  *
- * ```typescript
- * {
- *   email: {
- *     pattern: string;
- *     actual: string;
- *   };
- * }
- * ```
+```typescript
+{
+  email: {
+    pattern: string;
+    actual: string;
+  };
+}
+```
  *
  * Usually you would use this validation function in conjunction with the `validate`
  * update function to perform synchronous validation in your reducer:
  *
- * ```typescript
- * updateGroup<MyFormValue>({
- *  userMailAddress: validate(email),
- * })
- * ```
+```typescript
+updateGroup<MyFormValue>({
+  userMailAddress: validate(email),
+})
+```
  *
  * Note that this function is generic to allow the compiler to properly infer the type
  * of the `validate` function for both optional and non-optional controls.

@@ -43,26 +43,26 @@ export function formStateReducer<TValue>(
  * each action validates the child control `name` to be required and sets the child
  * control `email`'s value to be `''` if the name is invalid.
  *
- * ```typescript
- * interface FormValue {
- *   name: string;
- *   email: string;
- * }
- *
- * const updateFormState = updateGroup<FormValue>(
- *   {
- *     name: validate(required),
- *   },
- *   {
- *     email: (email, parentGroup) =>
- *       parentGroup.controls.name.isInvalid
- *         ? setValue('', email)
- *         : email,
- *   },
- * );
- *
- * const reducer = createFormStateReducerWithUpdate<FormValue>(updateFormState);
- * ```
+```typescript
+interface FormValue {
+  name: string;
+  email: string;
+}
+
+const updateFormState = updateGroup<FormValue>(
+  {
+    name: validate(required),
+  },
+  {
+    email: (email, parentGroup) =>
+      parentGroup.controls.name.isInvalid
+        ? setValue('', email)
+        : email,
+  },
+);
+
+const reducer = createFormStateReducerWithUpdate<FormValue>(updateFormState);
+```
  */
 export function createFormStateReducerWithUpdate<TValue>(
   updateFnOrUpdateFnArr: ProjectFn<FormState<TValue>> | ProjectFn<FormState<TValue>>[],

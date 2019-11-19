@@ -212,10 +212,10 @@ export interface FormControlState<TValue extends FormControlValueTypes> extends 
    * has focus. This feature is opt-in. To enable it you have to
    * enable it for a given form element like this:
    *
-   * ```html
-   * <input [ngrxFormControlState]="state"
-   *       [ngrxEnableFocusTracking]="true" />
-   * ```
+```html
+<input [ngrxFormControlState]="state"
+      [ngrxEnableFocusTracking]="true" />
+```
    */
   readonly isFocused: boolean;
 
@@ -243,14 +243,14 @@ export interface FormGroupState<TValue extends KeyValue> extends AbstractControl
    * The aggregated value of the form group. The value is computed by
    * aggregating the values of all children, e.g.
    *
-   * ```typescript
-   * {
-   *   child1: 'some value',
-   *   child2: {
-   *     nestedChild: 10,
-   *   },
-   * }
-   * ```
+```typescript
+{
+  child1: 'some value',
+  child2: {
+    nestedChild: 10,
+  },
+}
+```
    */
   readonly value: TValue;
 
@@ -272,14 +272,14 @@ export interface FormGroupState<TValue extends KeyValue> extends AbstractControl
    * the child errors are a property of the `errors` object prefixed with
    * an underscore, e.g.
    *
-   * ```
-   * {
-   *   groupError: true,
-   *   _child: {
-   *     childError: true,
-   *   },
-   * }
-   * ```
+```
+{
+  groupError: true,
+  _child: {
+    childError: true,
+  },
+}
+```
    *
    * If neither the group nor any children have errors the property is
    * set to `{}`.
@@ -345,10 +345,10 @@ export interface FormGroupState<TValue extends KeyValue> extends AbstractControl
    * submitted. This is tracked by the `NgrxFormDirective`, which
    * needs to be applied to a form like this:
    *
-   * ```html
-   * <form [ngrxFormState]="groupState">
-   * </form>
-   * ```
+```html
+<form [ngrxFormState]="groupState">
+</form>
+```
    *
    * Note that applying this directive to a form prevents normal form
    * submission since that does not make much sense for ngrx forms.
@@ -401,14 +401,14 @@ export interface FormArrayState<TValue> extends AbstractControlState<readonly TV
    * the child errors are a property of the `errors` object prefixed with
    * an underscore, e.g.
    *
-   * ```
-   * {
-   *   arrayError: true,
-   *   _0: {
-   *     childError: true,
-   *   },
-   * }
-   * ```
+```
+{
+  arrayError: true,
+  _0: {
+    childError: true,
+  },
+}
+```
    *
    * If neither the array nor any children have errors the property is
    * set to `{}`.
@@ -474,10 +474,10 @@ export interface FormArrayState<TValue> extends AbstractControlState<readonly TV
    * submitted. This is tracked by the `NgrxFormDirective`, which
    * needs to be applied to a form like this:
    *
-   * ```html
-   * <form [ngrxFormState]="arrayState">
-   * </form>
-   * ```
+```html
+<form [ngrxFormState]="arrayState">
+</form>
+```
    *
    * Note that applying this directive to a form prevents normal form
    * submission since that does not make much sense for ngrx forms.

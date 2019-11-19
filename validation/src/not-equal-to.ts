@@ -18,23 +18,23 @@ declare module 'ngrx-forms/src/state' {
  *
  * The validation error returned by this validation function has the following shape:
  *
- * ```typescript
- * {
- *   notEqualTo: {
- *     comparand: T;
- *     actual: T;
- *   };
- * }
- * ```
+```typescript
+{
+  notEqualTo: {
+    comparand: T;
+    actual: T;
+  };
+}
+```
  *
  * Usually you would use this validation function in conjunction with the `validate`
  * update function to perform synchronous validation in your reducer:
  *
- * ```typescript
- * updateGroup<MyFormValue>({
- *  name: validate(notEqualTo('John Doe')),
- * })
- * ```
+```typescript
+updateGroup<MyFormValue>({
+  name: validate(notEqualTo('John Doe')),
+})
+```
  */
 export function notEqualTo<T>(comparand: T) {
   return <TV extends T | Boxed<T> = T>(value: TV): ValidationErrors => {

@@ -37,12 +37,12 @@ function updateRecursiveSingle(parent: AbstractControlState<any>, updateFn: Proj
  * The following example uses this function to validate all controls in a
  * group or array as required.
  *
- * ```typescript
- * const updatedState = updateRecursive(
- *   state,
- *   validate<any>(required),
- * );
- * ```
+ ```typescript
+ const updatedState = updateRecursive(
+   state,
+   validate<any>(required),
+ );
+ ```
  */
 export function updateRecursive<TValue>(
   state: AbstractControlState<TValue>,
@@ -59,12 +59,12 @@ export function updateRecursive<TValue>(
  * The following example uses this function to validate all controls in a
  * group or array as required.
  *
- * ```typescript
- * const updatedState = updateRecursive(
- *   state,
- *   [validate<any>(required)],
- * );
- * ```
+```typescript
+const updatedState = updateRecursive(
+  state,
+  [validate<any>(required)],
+);
+```
  */
 export function updateRecursive<TValue>(
   state: AbstractControlState<TValue>,
@@ -79,10 +79,10 @@ export function updateRecursive<TValue>(
  * The following example uses this function to validate all controls in a
  * group as required.
  *
- * ```typescript
- * const updateFn = updateRecursive(validate<any>(required));
- * const updatedState = updateFn(state);
- * ```
+```typescript
+const updateFn = updateRecursive(validate<any>(required));
+const updatedState = updateFn(state);
+```
  */
 export function updateRecursive(
   updateFn: ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>,
@@ -97,10 +97,10 @@ export function updateRecursive(
  * The following example uses this function to validate all controls in a
  * group as required.
  *
- * ```typescript
- * const updateFn = updateRecursive([validate<any>(required)]);
- * const updatedState = updateFn(state);
- * ```
+```typescript
+const updateFn = updateRecursive([validate<any>(required)]);
+const updatedState = updateFn(state);
+```
  */
 export function updateRecursive(
   updateFnArr: ProjectFn2<AbstractControlState<any>, AbstractControlState<any>>[],
