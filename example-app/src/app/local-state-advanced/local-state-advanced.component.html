@@ -1,7 +1,8 @@
 <ngf-form-example exampleName="Local state: Advanced"
-                  [formState]="localState"
-                  >
-  Advanced example that shows how you can disable emitting any form actions to the global store via the builtin ActionsSubject.
+                  githubLinkOverride="local-state-advanced"
+                  [formState]="localState">
+  Advanced example that shows how you can disable emitting any form actions to the global store via the builtin
+  ActionsSubject.
   Instead, you can listen for actions using the directive's output EventEmitter and route them to the component.
   <br />
   The component holds, updates and maintains a local state, which does not taint the global store and
@@ -13,10 +14,8 @@
   <br />
   <br />
 
-  <form
-    [ngrxFormState]="localState.formState"
-    (ngrxFormsAction)="handleFormAction($event)"
-  >
+  <form [ngrxFormState]="localState.formState"
+        (ngrxFormsAction)="handleFormAction($event)">
     <div>
       <p>
         The entered country code impacts what you see in the manufacturer dropdown.
@@ -27,16 +26,15 @@
       <label>CountryCode</label>
       <div>
         <input type="text"
-          [ngrxFormControlState]="localState.formState.controls.countryCode"
-          (ngrxFormsAction)="handleFormAction($event)">
+               [ngrxFormControlState]="localState.formState.controls.countryCode"
+               (ngrxFormsAction)="handleFormAction($event)">
       </div>
     </div>
     <div>
       <label>Manufacturer</label>
       <div>
-        <select
-          [ngrxFormControlState]="localState.formState.controls.manufacturer"
-          (ngrxFormsAction)="handleFormAction($event)">
+        <select [ngrxFormControlState]="localState.formState.controls.manufacturer"
+                (ngrxFormsAction)="handleFormAction($event)">
 
           <option [value]="''">
             None

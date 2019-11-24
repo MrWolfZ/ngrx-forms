@@ -1,7 +1,8 @@
 <ngf-form-example exampleName="Local state: Introduction"
-                  [formState]="formState"
-                  >
-  Introductory example that shows how you can disable emitting any form actions to the global store via the builtin ActionsSubject.
+                  githubLinkOverride="local-state-introduction"
+                  [formState]="formState">
+  Introductory example that shows how you can disable emitting any form actions to the global store via the builtin
+  ActionsSubject.
   Instead, you can listen for actions using the directive's output EventEmitter and route them to the component.
   <br />
   The component holds, updates and maintains a local form state, which does not taint the global store and
@@ -10,16 +11,14 @@
   <br />
   <br />
 
-  <form
-    [ngrxFormState]="formState"
-    (ngrxFormsAction)="handleFormAction($event)"
-  >
+  <form [ngrxFormState]="formState"
+        (ngrxFormsAction)="handleFormAction($event)">
     <div>
       <label>CountryCode</label>
       <div>
         <input type="text"
-          [ngrxFormControlState]="formState.controls.countryCode"
-          (ngrxFormsAction)="handleFormAction($event)">
+               [ngrxFormControlState]="formState.controls.countryCode"
+               (ngrxFormsAction)="handleFormAction($event)">
       </div>
     </div>
   </form>
