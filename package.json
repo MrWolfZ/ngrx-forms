@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/ng-packagr/package.schema.json",
   "name": "ngrx-forms",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "description": "Proper integration of forms in Angular 4 applications using ngrx",
   "module": "ngrx/forms.es5.js",
   "es2015": "ngrx/forms.js",
