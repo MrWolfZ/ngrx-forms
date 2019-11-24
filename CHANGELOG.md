@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="6.1.0"></a>
+### 6.1.0
+
+#### Features
+
+* add support for local form states outside of the ngrx store ([#166](https://github.com/MrWolfZ/ngrx-forms/pull/166)), closes [#165](https://github.com/MrWolfZ/ngrx-forms/issues/165), see the [user guide](http://ngrx-forms.readthedocs.io/en/master/user-guide/local-form-state/) for more details, thanks @mucaho for implementing this great feature
+
 <a name="6.0.0"></a>
 ### 6.0.0
 
