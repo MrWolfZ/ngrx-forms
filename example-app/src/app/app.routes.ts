@@ -42,5 +42,13 @@ export const routes: Routes = [
     path: 'material',
     loadChildren: './material-example/material.module#MaterialExampleModule',
   },
+  {
+    path: 'localStateIntroduction',
+    loadChildren: './local-state-introduction/local-state-introduction.module#LocalStateIntroductionModule',
+  },
+  {
+    path: 'localStateAdvanced',
+    loadChildren: './local-state-advanced/local-state-advanced.module#LocalStateAdvancedModule',
+  },
   { path: '**', redirectTo: '/introduction' },
 ];

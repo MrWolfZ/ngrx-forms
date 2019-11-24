@@ -29,7 +29,9 @@ import {
   NgrxDefaultViewAdapter,
   NgrxFallbackSelectOption,
   NgrxFormControlDirective,
+  NgrxLocalFormControlDirective,
   NgrxFormDirective,
+  NgrxLocalFormDirective,
   NgrxFormsModule,
   NgrxNumberViewAdapter,
   NgrxRadioViewAdapter,
@@ -101,8 +103,10 @@ describe('ngrx-forms', () => {
   it(`should export ${validate.name}`, () => expect(validate).toBeDefined());
   it(`should export NGRX_STATUS_CLASS_NAMES`, () => expect(NGRX_STATUS_CLASS_NAMES).toBeDefined());
   it(`should export ${NgrxFormControlDirective.name}`, () => expect(NgrxFormControlDirective).toBeDefined());
+  it(`should export ${NgrxLocalFormControlDirective.name}`, () => expect(NgrxLocalFormControlDirective).toBeDefined());
   it(`should export NgrxValueConverters`, () => expect(NgrxValueConverters).toBeDefined());
   it(`should export ${NgrxFormDirective.name}`, () => expect(NgrxFormDirective).toBeDefined());
+  it(`should export ${NgrxLocalFormDirective.name}`, () => expect(NgrxLocalFormDirective).toBeDefined());
   it(`should export ${NgrxDefaultViewAdapter.name}`, () => expect(NgrxDefaultViewAdapter).toBeDefined());
   it(`should export ${NgrxCheckboxViewAdapter.name}`, () => expect(NgrxCheckboxViewAdapter).toBeDefined());
   it(`should export ${NgrxNumberViewAdapter.name}`, () => expect(NgrxNumberViewAdapter).toBeDefined());

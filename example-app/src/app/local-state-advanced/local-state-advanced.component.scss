@@ -1,0 +1,10 @@
+@import '../../styles/shared';
+
+:host {
+  @extend .page;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}

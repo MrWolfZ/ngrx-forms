@@ -14,7 +14,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ActionsSubject } from '@ngrx/store';
 
-import { FocusAction, MarkAsDirtyAction, MarkAsTouchedAction, SetValueAction, UnfocusAction } from '../actions';
+import { FocusAction, MarkAsDirtyAction, MarkAsTouchedAction, SetValueAction, UnfocusAction, Actions } from '../actions';
 import { FormControlState, FormControlValueTypes } from '../state';
 import { selectViewAdapter } from '../view-adapter/util';
 import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from '../view-adapter/view-adapter';
@@ -53,7 +53,7 @@ class ControlValueAccessorAdapter implements FormViewAdapter {
 
 @Directive({
   // tslint:disable-next-line:directive-selector
-  selector: '[ngrxFormControlState]',
+  selector: ':not([ngrxFormsAction])[ngrxFormControlState]',
 })
 export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes, TViewValue = TStateValue> implements AfterViewInit, OnInit {
   private isInitialized = false;
@@ -94,6 +94,8 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
 
   state: FormControlState<TStateValue>;
 
+  private actionsSubject: ActionsSubject | null;
+
   private viewAdapter: FormViewAdapter;
 
   // we have to store the latest known state value since most input elements don't play nicely with
@@ -112,10 +114,12 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     // for the dom parameter the `null` type must be last to ensure that in the compiled output
     // there is no reference to the Document type to support non-browser platforms
     @Optional() @Inject(DOCUMENT) private dom: Document | null,
-    private actionsSubject: ActionsSubject,
+    @Optional() actionsSubject: ActionsSubject, // may be null, however DI system can not handle proper type declaration
     @Self() @Optional() @Inject(NGRX_FORM_VIEW_ADAPTER) viewAdapters: FormViewAdapter[],
     @Self() @Optional() @Inject(NG_VALUE_ACCESSOR) valueAccessors: ControlValueAccessor[],
   ) {
+    this.actionsSubject = actionsSubject;
+
     viewAdapters = viewAdapters || [];
     valueAccessors = valueAccessors || [];
 
@@ -179,6 +183,14 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     }
   }
 
+  protected dispatchAction(action: Actions<TStateValue>) {
+    if (this.actionsSubject !== null) {
+      this.actionsSubject.next(action);
+    } else {
+      throw new Error('ActionsSubject must be present in order to dispatch actions!');
+    }
+  };
+
   ngOnInit() {
     if (!this.state) {
       throw new Error('The form state must not be undefined!');
@@ -193,14 +205,14 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
 
     const dispatchMarkAsDirtyAction = () => {
       if (this.state.isPristine) {
-        this.actionsSubject.next(new MarkAsDirtyAction(this.state.id));
+        this.dispatchAction(new MarkAsDirtyAction(this.state.id));
       }
     };
 
     const dispatchSetValueAction = () => {
       this.stateValue = this.ngrxValueConverter.convertViewToStateValue(this.viewValue);
       if (this.stateValue !== this.state.value) {
-        this.actionsSubject.next(new SetValueAction(this.state.id, this.stateValue));
+        this.dispatchAction(new SetValueAction(this.state.id, this.stateValue));
 
         dispatchMarkAsDirtyAction();
       }
@@ -216,7 +228,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
 
     this.viewAdapter.setOnTouchedCallback(() => {
       if (!this.state.isTouched && this.ngrxUpdateOn !== NGRX_UPDATE_ON_TYPE.NEVER) {
-        this.actionsSubject.next(new MarkAsTouchedAction(this.state.id));
+        this.dispatchAction(new MarkAsTouchedAction(this.state.id));
       }
 
       if (this.ngrxUpdateOn === NGRX_UPDATE_ON_TYPE.BLUR) {
@@ -243,7 +255,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
 
     const isControlFocused = this.el.nativeElement === this.dom!.activeElement;
     if (isControlFocused !== this.state.isFocused) {
-      this.actionsSubject.next(isControlFocused ? new FocusAction(this.state.id) : new UnfocusAction(this.state.id));
+      this.dispatchAction(isControlFocused ? new FocusAction(this.state.id) : new UnfocusAction(this.state.id));
     }
   }
 }

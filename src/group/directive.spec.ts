@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import { Action, ActionsSubject } from '@ngrx/store';
 import { Observable, ReplaySubject } from 'rxjs';
 import { count, take } from 'rxjs/operators';
 
@@ -25,6 +25,13 @@ describe(NgrxFormDirective.name, () => {
   it('should throw if state is not set when component is initialized', () => {
     directive = new NgrxFormDirective<{}>(actionsSubject as any);
     expect(() => directive.ngOnInit()).toThrowError();
+  });
+
+  it('should throw while trying to emit actions if no ActionsSubject was provided', () => {
+    directive = new NgrxFormDirective<{}>(null as any as ActionsSubject);
+    directive.state = INITIAL_STATE;
+    directive.ngOnInit();
+    expect(() => directive.onSubmit({ preventDefault: () => void 0 } as any)).toThrowError();
   });
 
   it(`should dispatch a ${MarkAsSubmittedAction.name} if the form is submitted and the state is unsubmitted`, done => {
