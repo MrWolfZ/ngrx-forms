@@ -14,7 +14,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ActionsSubject } from '@ngrx/store';
 
-import { FocusAction, MarkAsDirtyAction, MarkAsTouchedAction, SetValueAction, UnfocusAction, Actions } from '../actions';
+import { Actions, FocusAction, MarkAsDirtyAction, MarkAsTouchedAction, SetValueAction, UnfocusAction } from '../actions';
 import { FormControlState, FormControlValueTypes } from '../state';
 import { selectViewAdapter } from '../view-adapter/util';
 import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from '../view-adapter/view-adapter';
@@ -94,8 +94,6 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
 
   state: FormControlState<TStateValue>;
 
-  private actionsSubject: ActionsSubject | null;
-
   private viewAdapter: FormViewAdapter;
 
   // we have to store the latest known state value since most input elements don't play nicely with
@@ -114,12 +112,10 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     // for the dom parameter the `null` type must be last to ensure that in the compiled output
     // there is no reference to the Document type to support non-browser platforms
     @Optional() @Inject(DOCUMENT) private dom: Document | null,
-    @Optional() actionsSubject: ActionsSubject, // may be null, however DI system can not handle proper type declaration
+    @Optional() @Inject(ActionsSubject) private actionsSubject: ActionsSubject | null,
     @Self() @Optional() @Inject(NGRX_FORM_VIEW_ADAPTER) viewAdapters: FormViewAdapter[],
     @Self() @Optional() @Inject(NG_VALUE_ACCESSOR) valueAccessors: ControlValueAccessor[],
   ) {
-    this.actionsSubject = actionsSubject;
-
     viewAdapters = viewAdapters || [];
     valueAccessors = valueAccessors || [];
 
@@ -189,7 +185,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     } else {
       throw new Error('ActionsSubject must be present in order to dispatch actions!');
     }
-  };
+  }
 
   ngOnInit() {
     if (!this.state) {

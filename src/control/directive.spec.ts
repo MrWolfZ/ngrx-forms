@@ -54,7 +54,7 @@ describe(NgrxFormControlDirective.name, () => {
   it('should throw while trying to emit actions if no ActionsSubject was provided', () => {
     directive = new NgrxFormControlDirective<string | null>(elementRef, document, null as any as ActionsSubject, [viewAdapter], []);
     directive.ngrxFormControlState = INITIAL_STATE;
-    directive.ngOnInit()
+    directive.ngOnInit();
     const newValue = 'new value';
     expect(() => onChange(newValue)).toThrowError();
   });

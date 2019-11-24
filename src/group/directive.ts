@@ -1,7 +1,7 @@
-import { Directive, HostListener, Input, OnInit, Optional } from '@angular/core';
+import { Directive, HostListener, Inject, Input, OnInit, Optional } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 
-import { MarkAsSubmittedAction, Actions } from '../actions';
+import { Actions, MarkAsSubmittedAction } from '../actions';
 import { FormGroupState } from '../state';
 
 // this interface just exists to prevent a direct reference to
@@ -17,10 +17,8 @@ export class NgrxFormDirective<TValue extends { [key: string]: any }> implements
   // tslint:disable-next-line:no-input-rename
   @Input('ngrxFormState') state: FormGroupState<TValue>;
 
-  private actionsSubject: ActionsSubject | null;
-
   constructor(
-    @Optional() actionsSubject: ActionsSubject // may be null, however DI system can not handle proper type declaration
+    @Optional() @Inject(ActionsSubject) private actionsSubject: ActionsSubject | null
   ) {
     this.actionsSubject = actionsSubject;
   }
@@ -31,7 +29,7 @@ export class NgrxFormDirective<TValue extends { [key: string]: any }> implements
     } else {
       throw new Error('ActionsSubject must be present in order to dispatch actions!');
     }
-  };
+  }
 
   ngOnInit() {
     if (!this.state) {

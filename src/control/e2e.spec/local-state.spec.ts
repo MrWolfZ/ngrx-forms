@@ -13,21 +13,24 @@ const SELECT_NUMBER_OPTIONS = [1, 2];
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'select-test',
-  template: '<select [ngrxFormControlState]="state" (ngrxFormsAction)="handleAction($event)"><option *ngFor="let o of options" [value]="o">{{ o }}</option></select>',
+  template: `
+  <select [ngrxFormControlState]="state" (ngrxFormsAction)="handleAction($event)">
+    <option *ngFor="let o of options" [value]="o">{{ o }}</option>
+  </select>`,
 })
-export class NumberSelectComponentLocalState {
+export class NumberSelectComponentLocalStateComponent {
   @Input() state: FormControlState<number>;
   options = SELECT_NUMBER_OPTIONS;
 
-  _action: Action | null = null;
-  handleAction(action: Action) {
-    this._action = action;
+  action: Action | null = null;
+  handleAction(actionParam: Action) {
+    this.action = actionParam;
   }
 }
 
-describe(NumberSelectComponentLocalState.name, () => {
-  let component: NumberSelectComponentLocalState;
-  let fixture: ComponentFixture<NumberSelectComponentLocalState>;
+describe(NumberSelectComponentLocalStateComponent.name, () => {
+  let component: NumberSelectComponentLocalStateComponent;
+  let fixture: ComponentFixture<NumberSelectComponentLocalStateComponent>;
   let actionsSubject: ActionsSubject;
   let actions$: Observable<Action>;
   let element: HTMLSelectElement;
@@ -43,13 +46,13 @@ describe(NumberSelectComponentLocalState.name, () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NgrxFormsModule],
-      declarations: [NumberSelectComponentLocalState],
+      declarations: [NumberSelectComponentLocalStateComponent],
       providers: [{ provide: ActionsSubject, useValue: actionsSubject }],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NumberSelectComponentLocalState);
+    fixture = TestBed.createComponent(NumberSelectComponentLocalStateComponent);
     component = fixture.componentInstance;
     component.state = INITIAL_STATE;
     fixture.detectChanges();
@@ -72,7 +75,7 @@ describe(NumberSelectComponentLocalState.name, () => {
     element.selectedIndex = 0;
     element.dispatchEvent(new Event('change'));
 
-    expect(component._action).toBeTruthy();
-    expect((<any>component._action).type).toBe(MarkAsDirtyAction.TYPE);
+    expect(component.action).toBeTruthy();
+    expect(component.action!.type).toBe(MarkAsDirtyAction.TYPE);
   });
 });

@@ -1,5 +1,5 @@
 import { Action, combineReducers } from '@ngrx/store';
-import { createFormGroupState, formGroupReducer, FormGroupState, updateGroup, setValue } from 'ngrx-forms';
+import { createFormGroupState, formGroupReducer, FormGroupState, setValue, updateGroup } from 'ngrx-forms';
 
 export class GetManufacturersAction implements Action {
   static readonly TYPE = 'localStateAdvanced/GET_MANUFACTURERS';
@@ -27,12 +27,12 @@ export const FORM_ID = 'localStateForm';
 
 export const INITIAL_FORM_STATE = createFormGroupState<FormValue>(FORM_ID, {
   countryCode: '',
-  manufacturer: ''
+  manufacturer: '',
 });
 
 export const INITIAL_LOCAL_STATE: LocalState = {
   manufacturers: [],
-  formState: INITIAL_FORM_STATE
+  formState: INITIAL_FORM_STATE,
 };
 
 const reducers = combineReducers<LocalState>({
@@ -63,7 +63,7 @@ export function reducer(oldState: LocalState = INITIAL_LOCAL_STATE, action: Acti
         return setValue('')(manufacturer);
       }
       return manufacturer;
-    }
+    },
   })(state.formState);
 
   if (formState !== state.formState) {

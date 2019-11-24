@@ -8,7 +8,7 @@ export interface FormValue {
 export const FORM_ID = 'localStateForm';
 
 export const INITIAL_FORM_STATE = createFormGroupState<FormValue>(FORM_ID, {
-  countryCode: ''
+  countryCode: '',
 });
 
 export function reducer(fs: FormGroupState<FormValue> = INITIAL_FORM_STATE, a: Action) {

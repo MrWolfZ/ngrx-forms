@@ -40,51 +40,51 @@ describe(NgrxLocalFormControlDirective.name, () => {
   });
 
   describe('local action emit', () => {
-      beforeEach(() => {
-        directive.ngOnInit();
+    beforeEach(() => {
+      directive.ngOnInit();
+    });
+
+    it(`should not dispatch a ${SetValueAction.name} to the global store if the view value changes`, done => {
+      const newValue = 'new value';
+
+      actions$.pipe(count()).subscribe(c => {
+        expect(c).toEqual(0);
+        done();
       });
 
-      it(`should not dispatch a ${SetValueAction.name} to the global store if the view value changes`, done => {
-        const newValue = 'new value';
+      onChange(newValue);
+      actionsSubject.complete();
+    });
 
-        actions$.pipe(count()).subscribe(c => {
-          expect(c).toEqual(0);
-          done();
-        });
+    it(`should dispatch a ${SetValueAction.name} to the output event emitter if the view value changes`, done => {
+      const newValue = 'new value';
 
-        onChange(newValue);
-        actionsSubject.complete();
+      directive.ngrxFormsAction.pipe(first()).subscribe(a => {
+        expect(a).toEqual(new SetValueAction(INITIAL_STATE.id, newValue));
+        done();
       });
 
-      it(`should dispatch a ${SetValueAction.name} to the output event emitter if the view value changes`, done => {
-        const newValue = 'new value';
+      onChange(newValue);
+    });
 
-        directive.ngrxFormsAction.pipe(first()).subscribe(a => {
-          expect(a).toEqual(new SetValueAction(INITIAL_STATE.id, newValue));
-          done();
-        });
-
-        onChange(newValue);
+    it(`should not dispatch a ${SetValueAction.name} to the global store if the view value is the same as the state`, done => {
+      actions$.pipe(count()).subscribe(c => {
+        expect(c).toEqual(0);
+        done();
       });
 
-      it(`should not dispatch a ${SetValueAction.name} to the global store if the view value is the same as the state`, done => {
-        actions$.pipe(count()).subscribe(c => {
-          expect(c).toEqual(0);
-          done();
-        });
+      onChange(INITIAL_STATE.value);
+      actionsSubject.complete();
+    });
 
-        onChange(INITIAL_STATE.value);
-        actionsSubject.complete();
+    it(`should not dispatch a ${SetValueAction.name} to the output event emitter if the view value is the same as the state`, done => {
+      directive.ngrxFormsAction.pipe(count()).subscribe(c => {
+        expect(c).toEqual(0);
+        done();
       });
 
-      it(`should not dispatch a ${SetValueAction.name} to the output event emitter if the view value is the same as the state`, done => {
-        directive.ngrxFormsAction.pipe(count()).subscribe(c => {
-          expect(c).toEqual(0);
-          done();
-        });
-
-        onChange(INITIAL_STATE.value);
-        directive.ngrxFormsAction.complete();
-      });
+      onChange(INITIAL_STATE.value);
+      directive.ngrxFormsAction.complete();
+    });
   });
 });

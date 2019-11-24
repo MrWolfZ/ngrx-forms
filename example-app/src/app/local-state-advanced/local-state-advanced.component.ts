@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
-import { ActionsSubject, Action } from '@ngrx/store';
-import { SetValueAction, Actions } from 'ngrx-forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Action, ActionsSubject } from '@ngrx/store';
+import { Actions, SetValueAction } from 'ngrx-forms';
 import { Subscription } from 'rxjs';
 
-import { reducer, GetManufacturersAction, INITIAL_LOCAL_STATE } from './local-state-advanced.reducer';
+import { GetManufacturersAction, INITIAL_LOCAL_STATE, reducer } from './local-state-advanced.reducer';
 
 @Component({
   selector: 'ngf-local-state-advanced',
@@ -12,13 +12,11 @@ import { reducer, GetManufacturersAction, INITIAL_LOCAL_STATE } from './local-st
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocalStateAdvancedComponent implements OnInit, OnDestroy {
-
   localState = INITIAL_LOCAL_STATE;
 
   private subscription = new Subscription();
 
-  constructor(private actionsSubject: ActionsSubject, private cd: ChangeDetectorRef) {
-  }
+  constructor(private actionsSubject: ActionsSubject, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.subscription = this.actionsSubject.subscribe(action => {

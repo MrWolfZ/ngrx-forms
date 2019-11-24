@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Effect, ofType, Actions } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, delay, debounceTime } from 'rxjs/operators';
+import { debounceTime, delay, map } from 'rxjs/operators';
 
 import { GetManufacturersAction, SetManufacturersAction } from './local-state-advanced.reducer';
 
@@ -18,9 +18,9 @@ export class LocalStateAdvancedEffects {
       if (action.countryCode === 'US') {
         return new SetManufacturersAction(['Ford', 'Chevrolet']);
       } else if (action.countryCode === 'UK') {
-        return new SetManufacturersAction(['Aston Martin', 'Jaguar'])
+        return new SetManufacturersAction(['Aston Martin', 'Jaguar']);
       } else {
-        return new SetManufacturersAction([])
+        return new SetManufacturersAction([]);
       }
     })
   );

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Actions } from 'ngrx-forms';
 
-import { reducer, INITIAL_FORM_STATE } from './local-state-introduction.reducer';
+import { INITIAL_FORM_STATE, reducer } from './local-state-introduction.reducer';
 
 @Component({
   selector: 'ngf-local-state-introduction',
@@ -9,7 +9,6 @@ import { reducer, INITIAL_FORM_STATE } from './local-state-introduction.reducer'
   styleUrls: ['./local-state-introduction.component.scss'],
 })
 export class LocalStateIntroductionComponent {
-
   formState = INITIAL_FORM_STATE;
 
   handleFormAction(action: Actions<any>) {

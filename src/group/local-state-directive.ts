@@ -1,5 +1,4 @@
-import { Directive,Output, EventEmitter } from '@angular/core';
-import { ActionsSubject } from '@ngrx/store';
+import { Directive, EventEmitter, Output } from '@angular/core';
 
 import { Actions } from '../actions';
 import { NgrxFormDirective } from './directive';
@@ -14,10 +13,10 @@ export class NgrxLocalFormDirective<TValue extends { [key: string]: any }>
   @Output() ngrxFormsAction = new EventEmitter<Actions<TValue>>();
 
   constructor() {
-    super(null as any as ActionsSubject);
+    super(null);
   }
 
   protected dispatchAction(action: Actions<TValue>) {
     this.ngrxFormsAction.emit(action);
-  };
+  }
 }
