@@ -44,6 +44,11 @@ export class AppComponent {
       label: 'Value Conversion',
     },
     {
+      path: '/valueTransformation',
+      hint: 'How to parse and/or transform values coming from the view',
+      label: 'Value Transformation',
+    },
+    {
       path: '/recursiveUpdate',
       hint: 'How to update all controls in a form at once',
       label: 'Recursive Update',

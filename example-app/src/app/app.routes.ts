@@ -35,6 +35,10 @@ export const routes: Routes = [
     loadChildren: './value-conversion/value-conversion.module#ValueConversionModule',
   },
   {
+    path: 'valueTransformation',
+    loadChildren: './value-transformation/value-transformation.module#ValueTransformationModule',
+  },
+  {
     path: 'recursiveUpdate',
     loadChildren: './recursive-update/recursive-update.module#RecursiveUpdateModule',
   },

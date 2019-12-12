@@ -196,3 +196,41 @@ export class MyComponent {
                       [ngrxValueConverter]="dateValueConverter"></custom-date-picker>
 </form>
 ```
+
+#### Value Transformation
+
+By default, **ngrx-forms** does not synchronize any state values obtained via the `ngrxValueConverter` back to the
+view adapter. This behavior makes sense in 1:1 conversions as **ngrx-forms** can, without any additional information, only rely on referential equality to check new values against previous values in order to decide whether to update the view or not.
+
+However, in cases where view values are parsed and/or transformed (e.g. conversion to uppercase), the new state value converts to a different view value than what was entered by the user before.
+To trigger such update behavior you have to provide an additional `ngrxValueEquals` function to the form control directive, which checks for equality between state values.
+
+```typescript
+@Component({
+  selector: 'my-component',
+  template: `
+    <form>
+      <input type="text"
+              [ngrxFormControlState]="(formState$ | async).controls.myInput"
+              [ngrxValueConverter]="uppercaseConverter"
+              [ngrxValueEquals]="stringEquals">
+    </form>
+  `,
+})
+export class MyComponent {
+  formState$: Observable<FormGroupState<MyFormValue>>;
+
+  constructor(private store: Store<AppState>) {
+    this.formState$ = store.select(s => s.myForm);
+  }
+
+  uppercaseConverter = {
+    convertViewToStateValue: (viewValue: string) => viewValue.toUpperCase(),
+    convertStateToViewValue: (stateValue: string) => stateValue,
+  };
+
+  stringEquals = (newStateValue: string, oldStateValue: string) => newStateValue === oldStateValue;
+}
+```
+
+For primitive values the `ngrxValueEquals` function is straightforward. However, if you use non-primitive (boxed) state values you have to provide an appropriate implementation that does not rely on referential equality, for example deep object comparison. Although comparing objects via `JSON.stringify` strings sounds appealing, this approach is flawed as it relies on a consistent property iteration order between object instances. You can use one of the many utility libraries instead, which provide safe deep object comparison.

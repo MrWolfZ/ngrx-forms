@@ -385,6 +385,46 @@ describe(NgrxFormControlDirective.name, () => {
     });
   });
 
+  describe('value transformation', () => {
+    const INITIAL_VIEW_VALUE = 'abc';
+    const STATE_VALUE = 'ABC';
+    const FINAL_VIEW_VALUE = STATE_VALUE;
+
+    beforeEach(() => {
+      directive.ngOnInit();
+      directive.ngrxValueConverter = {
+        convertViewToStateValue: (viewValue: string) => viewValue.toUpperCase(),
+        convertStateToViewValue: (stateValue: string) => stateValue,
+      };
+    });
+
+    it('should by default not update the view value when the new state value is referentially equal to the previously transformed state value', done => {
+      actions$.pipe(first()).subscribe(a => {
+        expect(a).toEqual(new SetValueAction(INITIAL_STATE.id, STATE_VALUE));
+        done();
+      });
+
+      onChange(INITIAL_VIEW_VALUE);
+      const spy = spyOn(viewAdapter, 'setViewValue');
+      directive.ngrxFormControlState = { ...INITIAL_STATE, value: STATE_VALUE };
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('should when using an equals method update the view value when the new state value does not equal the previously transformed state value', done => {
+      directive.ngrxValueEquals = (newStateValue, oldStateValue) => newStateValue === oldStateValue;
+
+      actions$.pipe(first()).subscribe(a => {
+        expect(a).toEqual(new SetValueAction(INITIAL_STATE.id, STATE_VALUE));
+        done();
+      });
+
+      onChange(INITIAL_VIEW_VALUE);
+      const spy = spyOn(viewAdapter, 'setViewValue');
+      directive.ngrxFormControlState = { ...INITIAL_STATE, value: STATE_VALUE };
+      expect(spy).toHaveBeenCalledWith(FINAL_VIEW_VALUE);
+    });
+  });
+
   describe('focus tracking', () => {
     describe('is enabled', () => {
       beforeEach(() => {

@@ -59,6 +59,17 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
   private isInitialized = false;
   private focusTrackingIsEnabled = false;
 
+  // we have to store the latest known state value since most input elements don't play nicely with
+  // setting the same value again (e.g. input elements move the cursor to the end of the input when
+  // a new value is set which means whenever the user types something the cursor is forced to the
+  // end of the input) which would for example happen every time a new value is pushed to the state
+  // since when the action to update the state is dispatched a new state will be received inside
+  // the directive, which in turn would trigger a view update; to prevent this behavior we compare
+  // the latest known state value with the value to be set and filter out those values that are equal
+  // to the latest known value
+  private viewValue: TViewValue;
+  private stateValue: TStateValue;
+
   @Input() set ngrxFormControlState(newState: FormControlState<TStateValue>) {
     if (!newState) {
       throw new Error('The control state must not be undefined!');
@@ -84,6 +95,8 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     this.focusTrackingIsEnabled = value;
   }
 
+  @Input() ngrxValueEquals: (newStateValue: TStateValue, oldStateValue: TStateValue) => boolean =
+    (newStateValue: TStateValue, _: TStateValue) => newStateValue === this.stateValue
   @Input() ngrxValueConverter: NgrxValueConverter<TViewValue, TStateValue> = NgrxValueConverters.default<any>();
 
   // TODO: move this into a separate directive
@@ -95,17 +108,6 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
   state: FormControlState<TStateValue>;
 
   private viewAdapter: FormViewAdapter;
-
-  // we have to store the latest known state value since most input elements don't play nicely with
-  // setting the same value again (e.g. input elements move the cursor to the end of the input when
-  // a new value is set which means whenever the user types something the cursor is forced to the
-  // end of the input) which would for example happen every time a new value is pushed to the state
-  // since when the action to update the state is dispatched a new state will be received inside
-  // the directive, which in turn would trigger a view update; to prevent this behavior we compare
-  // the latest known state value with the value to be set and filter out those values that are equal
-  // to the latest known value
-  private viewValue: TViewValue;
-  private stateValue: TStateValue;
 
   constructor(
     private el: ElementRef,
@@ -141,8 +143,8 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     }
   }
 
-  updateViewIfValueChanged(newState: FormControlState<TStateValue>, _: FormControlState<TStateValue> | undefined) {
-    if (newState.value === this.stateValue) {
+  updateViewIfValueChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue> | undefined) {
+    if (oldState && this.ngrxValueEquals(newState.value, oldState.value)) {
       return;
     }
 

@@ -1,0 +1,21 @@
+<ngf-form-example exampleName="Value Transformation"
+                  [formState]="formState$ | async">
+  This example shows how to do value transformation using a value converter and an appropriate equals implementation.
+  <br />
+  The following example contains a country iso code input. The user may enter lowercase characters,
+  which are automatically converted to uppercase characters.
+  <br />
+  <br />
+  <form>
+    <div>
+      <label>CountryCode</label>
+      <div>
+        <input type="text"
+                maxlength="2"
+                [ngrxFormControlState]="(formState$ | async).controls.countryCode"
+                [ngrxValueConverter]="uppercaseConverter"
+                [ngrxValueEquals]="stringEquals">
+      </div>
+    </div>
+  </form>
+</ngf-form-example>
