@@ -38,7 +38,28 @@ const INITIAL_FORM_STATE = updateGroup<MyFormValue>(
 
 Yes, both form mechanisms can be used in the same application. I recommend using **ngrx-forms** for everything though for obvious reasons ;) If you still need to use both please ensure that the `NgrxFormsModule` is imported _after_ the `FormsModule`/`ReactiveFormsModule` since there is an issue with the way `@angular/forms` registers some of their directives (see [this](https://github.com/MrWolfZ/ngrx-forms/issues/32) issue for more details).
 
+### I want to transform / parse the view value before it is saved into the state. I am using a NgrxValueConverter, but the displayed value does not seem to be updated or parsed properly. How can I do this?
+
+Using a to-uppercase converter in your component for example:
+
+```typescript
+uppercaseConverter: NgrxValueConverter<string, string> = {
+  convertViewToStateValue: (viewValue: string) => viewValue.toUpperCase(),
+  convertStateToViewValue: (stateValue: string) => stateValue,
+};
+```
+
+The trick is to add an `onChange` event listener that will forcefully synchronize the state and view values whenever a change occurs:
+
+```html
+<input type="text"
+  [ngrxFormControlState]="(formState$ | async).controls.myFormField"
+  [ngrxValueConverter]="uppercaseConverter"
+  (change)="$event.target.value = uppercaseConverter.convertStateToViewValue(uppercaseConverter.convertViewToStateValue($event.target.value))">
+```
+
+For reference, this limitation is related to the internal implementation, which has to rely on referential equality checking (see [this](https://github.com/MrWolfZ/ngrx-forms/pull/168) PR for more details).
+
 #### What is the meaning of life?
 
 Sorry, can't help you with that.
-
