@@ -16,6 +16,7 @@ The following table lists all validation functions provided by **ngrx-forms**.
 |`minLength`|Requires a `string` or `array` value to have a minimum length. Empty strings and arrays are always valid to allow for optional form controls. Use this function together with `required` if those values should not be valid|
 |`maxLength`|Requires a `string` or `array` value to have a maximum length|
 |`email`|Requires a `string` value to be a valid e-mail address. Empty strings are always valid to allow for optional form controls. Use this function together with `required` if empty strings should not be valid|
+|`number`|Requires the value to be a `number`|
 |`pattern`|Requires a `string` value to match a regular expression. Empty strings are always valid to allow for optional form controls. Use this function together with `required` if empty strings should not be valid|
 
 Below you can see an example of how these functions can be used:
