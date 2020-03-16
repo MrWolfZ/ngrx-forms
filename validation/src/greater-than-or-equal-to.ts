@@ -14,7 +14,7 @@ declare module 'ngrx-forms/src/state' {
 
 /**
  * A validation function that requires the value to be greater than or equal to a number.
- * Considers `null` and `undefined` as valid. Combine this function with the `required`
+ * Considers `null`, `undefined` and non-numeric values as valid. Combine this function with the `required`
  * validation function if `null` or `undefined` should be considered invalid.
  *
  * The validation error returned by this validation function has the following shape:
@@ -49,7 +49,7 @@ export function greaterThanOrEqualTo(comparand: number) {
   return <T extends number | Boxed<number> | null | undefined>(value: T): ValidationErrors => {
     value = unbox(value) as number | null | undefined as T;
 
-    if (value === null || value === undefined) {
+    if (value === null || value === undefined || typeof value !== 'number') {
       return {};
     }
 
