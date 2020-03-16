@@ -18,6 +18,10 @@ describe(lessThan.name, () => {
     expect(lessThan(1)(undefined)).toEqual({});
   });
 
+  it('should not return an error for non-numeric value', () => {
+    expect(lessThan(1)('string' as any)).toEqual({});
+  });
+
   it('should return an error if value is greater than comparand', () => {
     expect(lessThan(1)(2)).not.toEqual({});
   });

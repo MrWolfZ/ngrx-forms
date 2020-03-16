@@ -18,6 +18,10 @@ describe(lessThanOrEqualTo.name, () => {
     expect(lessThanOrEqualTo(1)(undefined)).toEqual({});
   });
 
+  it('should not return an error for non-numeric value', () => {
+    expect(lessThanOrEqualTo(1)('string' as any)).toEqual({});
+  });
+
   it('should return an error if value is greater than comparand', () => {
     expect(lessThanOrEqualTo(1)(2)).not.toEqual({});
   });
@@ -45,7 +49,7 @@ describe(lessThanOrEqualTo.name, () => {
     expect(lessThanOrEqualTo(1)(box(0))).toEqual({});
   });
 
-  it('should return errors with comparand and actual properties', () => {
+  it('should return errors with comparand and actual properties for boxed values', () => {
     const comparand = 1;
     const actual = box(2);
     expect(lessThanOrEqualTo(comparand)(actual)).toEqual({

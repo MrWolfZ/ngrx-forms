@@ -18,6 +18,14 @@ describe(greaterThan.name, () => {
     expect(greaterThan(1)(undefined)).toEqual({});
   });
 
+  it('should not return an error for undefined', () => {
+    expect(greaterThan(1)('' as any)).toEqual({});
+  });
+
+  it('should not return an error for non-numeric value', () => {
+    expect(greaterThan(1)('string' as any)).toEqual({});
+  });
+
   it('should not return an error if value is greater than comparand', () => {
     expect(greaterThan(1)(2)).toEqual({});
   });
