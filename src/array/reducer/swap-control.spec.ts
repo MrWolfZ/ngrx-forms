@@ -65,7 +65,7 @@ describe(`form array ${swapControlReducer.name}`, () => {
   });
 
   it('should update nested array child IDs after a swap', () => {
-    const testValue = [ { array: [0, 1, 2, 3] }, { array: [0, 1, 2, 3] } ];
+    const testValue = [{ array: [0, 1, 2, 3] }, { array: [0, 1, 2, 3] }];
     const testState = createFormArrayState(FORM_CONTROL_ID, testValue);
     const action = new SwapArrayControlAction(FORM_CONTROL_ID, 0, 1);
     const resultState = moveControlReducer(testState, action);
@@ -76,12 +76,11 @@ describe(`form array ${swapControlReducer.name}`, () => {
         expect(c.id).toEqual(`${FORM_CONTROL_ID}.${index}.array.${i}`);
       });
     });
+  });
 
-    it ('should mark the array as dirty', () => {
-      const action = new SwapArrayControlAction(FORM_CONTROL_ID, 2, 1);
-      const resultState = swapControlReducer(testArrayState, action);
-      expect(resultState.isDirty).toEqual(true);
-    });
-
+  it('should mark the array as dirty', () => {
+    const action = new SwapArrayControlAction(FORM_CONTROL_ID, 2, 1);
+    const resultState = swapControlReducer(testArrayState, action);
+    expect(resultState.isDirty).toEqual(true);
   });
 });
