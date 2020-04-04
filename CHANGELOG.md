@@ -1,5 +1,13 @@
 ## ngrx-forms Changelog
 
+<a name="6.2.0"></a>
+### 6.2.0
+
+#### Features
+
+* add new validation function `number` to validate a value is a number (useful in cases where the concrete type of a value is unknown) ([#182](https://github.com/MrWolfZ/ngrx-forms/pull/182)), thanks @dzonatan for implementing this feature
+* ignore non-numeric values in `lessThan`, `lessThanOrEqualTo`, `greaterThan`, and `greaterThanOrEqualTo` validation functions ([#182](https://github.com/MrWolfZ/ngrx-forms/pull/182)), thanks @dzonatan for this change
+
 <a name="6.1.0"></a>
 ### 6.1.0
 
