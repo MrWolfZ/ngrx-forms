@@ -35,9 +35,6 @@ module.exports = function (config) {
       bundlerOptions: {
         entrypoints: /\.spec\.(ts|tsx)$/,
         resolve: {
-          alias: {
-            'ngrx-forms': '.'
-          },
           extensions: ['.js', '.json', '.ts'],
           directories: ['node_modules', '.']
         },

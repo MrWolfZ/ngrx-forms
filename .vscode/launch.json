@@ -4,11 +4,15 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Run Build",
-      "program": "${workspaceFolder}/build.js",
+      "name": "Run Karma",
+      "program": "${workspaceFolder}/node_modules/karma/bin/karma",
+      "args": [
+        "start"
+      ],
       "env": {
         "Path": "${env:Path};node_modules/.bin"
-      }
+      },
+      "sourceMaps": false
     }
   ]
 }

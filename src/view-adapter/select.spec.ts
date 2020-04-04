@@ -1,4 +1,4 @@
-import { Component, getDebugNode, Renderer2 } from '@angular/core';
+import { Component, ElementRef, getDebugNode, Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgrxSelectOption, NgrxSelectViewAdapter } from './select';
@@ -420,11 +420,13 @@ describe(NgrxSelectOption.name, () => {
   let viewAdapter: NgrxSelectViewAdapter;
   let option: NgrxSelectOption;
   let renderer: Renderer2;
+  let elementRef: ElementRef;
 
   beforeEach(() => {
+    elementRef = { nativeElement: {} } as any;
     renderer = jasmine.createSpyObj('renderer2', ['setProperty']);
     viewAdapter = new NgrxSelectViewAdapter(renderer, {} as any);
-    option = new NgrxSelectOption({} as any, renderer, viewAdapter);
+    option = new NgrxSelectOption(elementRef, renderer, viewAdapter);
   });
 
   it('should work if option is created without view adapter', () => {
@@ -433,7 +435,7 @@ describe(NgrxSelectOption.name, () => {
 
   it('should set the value to the id of the element', () => {
     option.value = 'value';
-    expect(renderer.setProperty).not.toHaveBeenCalledWith(0);
+    expect(renderer.setProperty).not.toHaveBeenCalledWith(elementRef.nativeElement, 'value', 0);
   });
 
   it('should not set the value to the id if no view adapter is provided', () => {

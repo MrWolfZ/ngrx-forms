@@ -19,7 +19,7 @@ describe(NgrxFormControlDirective.name, () => {
   let document: Document;
   let actionsSubject: ReplaySubject<Action>;
   let actions$: Observable<Action>;
-  let viewAdapter: FormViewAdapter;
+  let viewAdapter: Required<FormViewAdapter>;
   let onChange: (value: any) => void;
   let onTouched: () => void;
   const FORM_CONTROL_ID = 'test ID';
@@ -337,7 +337,7 @@ describe(NgrxFormControlDirective.name, () => {
     });
 
     it('should not throw if setIsDisabled is not defined', () => {
-      viewAdapter.setIsDisabled = undefined;
+      (viewAdapter as FormViewAdapter).setIsDisabled = undefined;
       expect(() => directive.ngrxFormControlState = { ...INITIAL_STATE, isEnabled: false, isDisabled: true }).not.toThrow();
     });
   });
