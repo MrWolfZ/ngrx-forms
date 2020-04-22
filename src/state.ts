@@ -1,5 +1,5 @@
 import { Boxed, isBoxed } from './boxing';
-import { deepEquals, isEmpty } from './util';
+import { deepEquals, deepMap, isEmpty } from './util';
 
 export type FormControlValueTypes = Boxed<any> | string | number | boolean | null | undefined;
 export type NgrxFormControlId = string;
@@ -639,8 +639,14 @@ export function verifyFormControlValueIsValid<TValue>(value: TValue) {
     return value;
   }
 
-  const serialized = JSON.stringify(value);
-  const deserialized = JSON.parse(serialized);
+  const undefinedReplacement = '$ngrx-forms:undefined';
+  const serialized = JSON.stringify(value, (key, value) => ((key && value === undefined) ? undefinedReplacement : value));
+  const deserialized = deepMap(JSON.parse(serialized), (propertyValue) => {
+    if (propertyValue === undefinedReplacement) {
+      return undefined;
+    }
+    return propertyValue;
+  });
 
   if (deepEquals(value, deserialized)) {
     return value;

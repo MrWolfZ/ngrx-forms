@@ -109,3 +109,23 @@ export function deepEquals<T>(_1: T, _2: T, ..._3: T[]) {
 
   return true;
 }
+
+/**
+ * The return value is a copy of obj on which mapperFunction is called for all nodes and replaces each value.
+ */
+export function deepMap(obj: any, mapperFunction: ((value: any, key: string | number) => any)) {
+  if (!obj || !(obj instanceof Object) || typeof obj !== 'object'  || Array.isArray(obj)) {
+    return obj;
+  }
+
+  const copy = {
+    ...obj,
+  };
+
+  for (const [key, value] of Object.entries(copy)) {
+    const mappingValue = typeof value === 'object' && !Array.isArray(value) ? deepMap(value, mapperFunction) : value;
+    copy[key] = mapperFunction(mappingValue, key);
+  }
+
+  return copy;
+}

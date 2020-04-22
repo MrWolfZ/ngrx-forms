@@ -1,4 +1,4 @@
-import { deepEquals } from './util';
+import { deepEquals, deepMap } from './util';
 
 describe(deepEquals.name, () => {
   it('should compare numbers', () => {
@@ -73,5 +73,48 @@ describe(deepEquals.name, () => {
   it('should throw if called with less than 2 arguments', () => {
     expect(() => (deepEquals as any)()).toThrowError();
     expect(() => (deepEquals as any)(1)).toThrowError();
+  });
+});
+
+describe(deepMap.name, () => {
+  it('should return non-objects unmodified', () => {
+    function replacer() {
+      return '';
+    }
+    const arrayValue = ['a', 'b'];
+    const functionValue = () => 0;
+    const stringValue = 'a';
+    const numberValue = 3.141592;
+    const booleanValue = true;
+    expect(deepMap(arrayValue, replacer)).toBe(arrayValue);
+    expect(deepMap(functionValue, replacer)).toBe(functionValue);
+    expect(deepMap(stringValue, replacer)).toBe(stringValue);
+    expect(deepMap(numberValue, replacer)).toBe(numberValue);
+    expect(deepMap(booleanValue, replacer)).toBe(booleanValue);
+    expect(deepMap(undefined, replacer)).toBe(undefined);
+    expect(deepMap(null, replacer)).toBe(null);
+  });
+
+  it('should map deep properties', () => {
+    function replacer(value: any) {
+      if (typeof value === 'string') {
+        return 'worldwide';
+      }
+      return value;
+    }
+    const value = {
+      c: {
+        o: {
+          v: {
+            i: {
+              d: {
+                19: 'nowhere',
+              },
+            },
+          },
+        },
+      },
+    };
+    expect(deepMap(value, replacer).c.o.v.i.d['19']).toEqual('worldwide');
   });
 });
