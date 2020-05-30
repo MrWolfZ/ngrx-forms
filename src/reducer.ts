@@ -108,6 +108,18 @@ export function onNgrxForms<TState = any>(): { reducer: ActionReducer<TState>; t
   };
 }
 
+
+/**
+ * This function is an individualized version of onNgrxForms for use cases
+ * where either no root reducer exists or the state is nested below the first level of the store
+ */
+export function onNgrxForm<TState = any>(): { reducer: ActionReducer<TState>; types: string[] } {
+  return {
+    reducer: (state, action) => (isFormState(state) && { ...formStateReducer(state, action) }),
+    types: ALL_NGRX_FORMS_ACTION_TYPES,
+  };
+}
+
 export interface ActionConstructor {
   new(...args: any[]): Actions<any>;
   readonly TYPE: string;
