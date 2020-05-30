@@ -29,6 +29,7 @@ export {
   createFormStateReducerWithUpdate,
   formStateReducer,
   onNgrxForms,
+  onNgrxForm,
   onNgrxFormsAction,
   wrapReducerWithFormStateUpdate,
 } from './reducer';

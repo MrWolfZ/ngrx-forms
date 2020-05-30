@@ -49,7 +49,7 @@ export function reducer(state = initialState, action: Action) {
 }
 ```
 
-If you are using ngrx version 8 or above you can alternatively use `onNgrxForms`, `onNgrxFormsAction`, and `wrapReducerWithFormStateUpdate` with `createReducer`:
+If you are using ngrx version 8 or above you can alternatively use `onNgrxForms`, `onNgrxForm`, `onNgrxFormsAction`, and `wrapReducerWithFormStateUpdate` with `createReducer`:
 
 ```ts
 import { createReducer } from '@ngrx/store';
@@ -84,6 +84,21 @@ export const reducer = wrapReducerWithFormStateUpdate(
   s => s.loginForm,
   // this function is always called after the reducer
   validateLoginForm,
+);
+```
+
+Use in an Individual/Nested Reducer
+
+```ts
+import { createReducer } from '@ngrx/store';
+import { onNgrxForm } from 'ngrx-forms';
+
+const nestedReducer = createReducer(
+  initialNestedState,
+
+  // manually call the appropriate reducer for the state slice
+  onNgrxForm(),
+  // your other action reducers...
 );
 ```
 

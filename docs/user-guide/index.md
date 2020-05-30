@@ -78,7 +78,7 @@ export function appReducer(state = initialState, action: Action): AppState {
 }
 ```
 
-If you are using ngrx version 8 or above you can alternatively use `onNgrxForms` with `createReducer`:
+If you are using ngrx version 8 or above you can alternatively use `onNgrxForms` with `createReducer` for top level store slices:
 
 ```ts
 import { createReducer } from '@ngrx/store';
@@ -88,6 +88,26 @@ export const appReducer = createReducer(
   initialState,
   onNgrxForms(),
   // your other reducers...
+);
+```
+
+If you would like to nest forms below the top level of the store use `onNgrxForm` with `createReducer` instead on your specific reducer:
+
+```ts
+import { createReducer } from '@ngrx/store';
+import { onNgrxForm } from 'ngrx-forms';
+
+export interface AppState {
+  featureX: FeatureX;
+  featureY: {
+    someOtherNestedSlice: SomeOtherNestedSlice,
+    myForm: FormGroupState<MyFormValue>;
+  }
+}
+
+export const myFormReducer = createReducer(
+  initialFeatureState,
+  onNgrxForm(),
 );
 ```
 
