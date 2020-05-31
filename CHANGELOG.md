@@ -5,7 +5,7 @@
 
 #### Features
 
-* allow `onNgrxForms` to work on form states directly instead of requiring form states to be direct children of reduced states
+* allow `onNgrxForms` to work on form states directly instead of requiring form states to be direct children of reduced states ([b81abb4](https://github.com/MrWolfZ/ngrx-forms/commit/b81abb4))
 
 <a name="6.2.0"></a>
 ### 6.2.0
