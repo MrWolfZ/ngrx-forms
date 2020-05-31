@@ -53,7 +53,7 @@ If you are using ngrx version 8 or above you can alternatively use `onNgrxForms`
 
 ```ts
 import { createReducer } from '@ngrx/store';
-import { onNgrxForms, wrapReducerWithFormStateUpdate } from 'ngrx-forms';
+import { onNgrxForms, onNgrxFormsAction, wrapReducerWithFormStateUpdate } from 'ngrx-forms';
 
 const rawReducer = createReducer(
   initialState,
@@ -84,6 +84,29 @@ export const reducer = wrapReducerWithFormStateUpdate(
   s => s.loginForm,
   // this function is always called after the reducer
   validateLoginForm,
+);
+```
+
+`onNgrxForms` also works if the reduced state itself is a form state:
+
+```ts
+import { createReducer } from '@ngrx/store';
+import { onNgrxForms, wrapReducerWithFormStateUpdate } from 'ngrx-forms';
+
+const initialState = createFormGroupState('loginForm', initialLoginFormValue)
+
+// this reducer is equivalent to the `formStateReducer` provided by
+// ngrx-forms, but it allows you simple composition of additional
+// action handlers; this style also makes your reducer more consistent
+// with your other reducers that use `onX` handlers
+export const reducer = createReducer(
+  initialState,
+
+  // this function automatically calls the appropriate reducer
+  // for the form state
+  onNgrxForms(),
+
+  // your other reducers...
 );
 ```
 

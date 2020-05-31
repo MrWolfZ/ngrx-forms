@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="6.3.0"></a>
+### 6.3.0
+
+#### Features
+
+* allow `onNgrxForms` to work on form states directly instead of requiring form states to be direct children of reduced states
+
 <a name="6.2.0"></a>
 ### 6.2.0
 

@@ -103,7 +103,7 @@ function reduceNestedFormStates<TState>(state: TState, action: Action): TState {
  */
 export function onNgrxForms<TState = any>(): { reducer: ActionReducer<TState>; types: string[] } {
   return {
-    reducer: (state, action) => reduceNestedFormStates(state!, action),
+    reducer: (state, action) => isFormState(state) ? formStateReducer(state!, action) as unknown as TState : reduceNestedFormStates(state!, action),
     types: ALL_NGRX_FORMS_ACTION_TYPES,
   };
 }

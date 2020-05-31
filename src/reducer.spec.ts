@@ -135,7 +135,16 @@ describe(onNgrxForms.name, () => {
     };
 
     const resultState = onNgrxForms<typeof state>().reducer(state, new MarkAsTouchedAction(FORM_CONTROL_INNER_ID));
+    expect(resultState.form.id).toBe(INITIAL_STATE.controls.inner.id);
     expect(resultState.form).not.toBe(INITIAL_STATE.controls.inner);
+  });
+
+  it('should call the reducer for top-level controls', () => {
+    const state = INITIAL_STATE.controls.inner;
+
+    const resultState = onNgrxForms<typeof state>().reducer(state, new MarkAsTouchedAction(FORM_CONTROL_INNER_ID));
+    expect(resultState.id).toBe(INITIAL_STATE.controls.inner.id);
+    expect(resultState).not.toBe(INITIAL_STATE.controls.inner);
   });
 
   it('should call the reducer for groups', () => {
@@ -148,6 +157,14 @@ describe(onNgrxForms.name, () => {
     expect(resultState.form).not.toBe(INITIAL_STATE);
   });
 
+  it('should call the reducer for top-level groups', () => {
+    const state = INITIAL_STATE;
+
+    const resultState = onNgrxForms<typeof state>().reducer(state, new MarkAsTouchedAction(FORM_CONTROL_ID));
+    expect(resultState.id).toBe(INITIAL_STATE.id);
+    expect(resultState).not.toBe(INITIAL_STATE);
+  });
+
   it('should call the reducer for arrays', () => {
     const state = {
       prop: 'value',
@@ -156,6 +173,14 @@ describe(onNgrxForms.name, () => {
 
     const resultState = onNgrxForms<typeof state>().reducer(state, new MarkAsTouchedAction(FORM_CONTROL_INNER5_ID));
     expect(resultState.form).not.toBe(INITIAL_STATE.controls.inner5);
+  });
+
+  it('should call the reducer for top-level arrays', () => {
+    const state = INITIAL_STATE.controls.inner5;
+
+    const resultState = onNgrxForms<typeof state>().reducer(state, new MarkAsTouchedAction(FORM_CONTROL_INNER5_ID));
+    expect(resultState.id).toBe(INITIAL_STATE.controls.inner5.id);
+    expect(resultState).not.toBe(INITIAL_STATE.controls.inner5);
   });
 
   it('should work with createReducer', () => {
@@ -179,6 +204,19 @@ describe(onNgrxForms.name, () => {
 
     resultState = reducer(state, new MarkAsTouchedAction(FORM_CONTROL_INNER5_ID));
     expect(resultState.array).not.toBe(INITIAL_STATE.controls.inner5);
+  });
+
+  it('should work with createReducer for top-level form state', () => {
+    const state = INITIAL_STATE;
+
+    const reducer = createReducer(
+      state,
+      onNgrxForms(),
+    );
+
+    const resultState = reducer(state, new MarkAsTouchedAction(FORM_CONTROL_ID));
+    expect(resultState.id).toBe(INITIAL_STATE.id);
+    expect(resultState).not.toBe(INITIAL_STATE);
   });
 });
 
