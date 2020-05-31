@@ -5,7 +5,7 @@
 
 #### Bugfixes
 
-* allow `undefined` property values in boxed objects, thanks @alex-vg for reporting this bug, closes [#186](https://github.com/MrWolfZ/ngrx-forms/issues/186)
+* allow `undefined` property values in boxed objects, thanks @alex-vg for reporting this bug ([22b2667](https://github.com/MrWolfZ/ngrx-forms/commit/22b2667)), closes [#186](https://github.com/MrWolfZ/ngrx-forms/issues/186)
 
 <a name="6.3.0"></a>
 ### 6.3.0
