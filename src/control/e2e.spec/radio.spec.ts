@@ -8,7 +8,7 @@ import { MarkAsDirtyAction, SetValueAction } from '../../actions';
 import { NgrxFormsModule } from '../../module';
 import { createFormControlState, FormControlState } from '../../state';
 
-const RADIO_OPTIONS = ['op1', 'op2'];
+const RADIO_OPTIONS = ['op1', 'op2'] as readonly string[];
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -121,7 +121,7 @@ describe(RadioTestComponent.name, () => {
       done();
     });
 
-    component.options[1] = newValue;
+    component.options = [RADIO_OPTIONS[0], newValue];
     fixture.detectChanges();
   });
 
