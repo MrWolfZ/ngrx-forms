@@ -642,7 +642,7 @@ export function verifyFormControlValueIsValid<TValue>(value: TValue) {
   const serialized = JSON.stringify(value);
   const deserialized = JSON.parse(serialized);
 
-  if (deepEquals(value, deserialized)) {
+  if (deepEquals(value, deserialized, { treatUndefinedAndMissingKeyAsSame: true })) {
     return value;
   }
 

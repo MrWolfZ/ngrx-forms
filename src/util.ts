@@ -2,11 +2,19 @@ export function isEmpty(obj: object) {
   return Object.keys(obj).length === 0;
 }
 
-export function deepEquals<T>(_1: T, _2: T, ..._3: T[]) {
-  let i: any;
-  let l: any;
-  let leftChain: any;
-  let rightChain: any;
+export interface DeepEqualsOptions {
+  treatUndefinedAndMissingKeyAsSame?: boolean;
+}
+
+const defaultOptions: Required<DeepEqualsOptions> = {
+  treatUndefinedAndMissingKeyAsSame: false,
+};
+
+export function deepEquals<T>(_1: T, _2: T, options: DeepEqualsOptions = {}) {
+  const { treatUndefinedAndMissingKeyAsSame } = Object.assign({}, defaultOptions, options);
+
+  const leftChain: any[] = [];
+  const rightChain: any[] = [];
 
   function compare2Objects(x: any, y: any) {
     let p;
@@ -55,6 +63,10 @@ export function deepEquals<T>(_1: T, _2: T, ..._3: T[]) {
 
     // Quick checking of one object being a subset of another.
     for (p in y) {
+      if (treatUndefinedAndMissingKeyAsSame && y.hasOwnProperty(p) && !x.hasOwnProperty(p) && y[p] === undefined) {
+        continue;
+      }
+
       if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
         return false;
       } else if (typeof y[p] !== typeof x[p]) {
@@ -65,7 +77,9 @@ export function deepEquals<T>(_1: T, _2: T, ..._3: T[]) {
     // tslint:disable:forin
     for (p in x) {
       if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
-        return false;
+        if (!treatUndefinedAndMissingKeyAsSame || !x.hasOwnProperty(p) || y.hasOwnProperty(p) || x[p] !== undefined) {
+          return false;
+        }
       }
 
       switch (typeof (x[p])) {
@@ -98,14 +112,5 @@ export function deepEquals<T>(_1: T, _2: T, ..._3: T[]) {
     throw new Error('Need two or more arguments to compare');
   }
 
-  for (i = 1, l = arguments.length; i < l; i++) {
-    leftChain = [];
-    rightChain = [];
-
-    if (!compare2Objects(arguments[0], arguments[i])) {
-      return false;
-    }
-  }
-
-  return true;
+  return compare2Objects(_1, _2);
 }

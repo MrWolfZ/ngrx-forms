@@ -63,6 +63,13 @@ describe(deepEquals.name, () => {
     expect(deepEquals({ a: { b: '' } }, { a: { b: 'a' } })).toBe(false);
   });
 
+  it('should compare plain objects with undefined properties', () => {
+    expect(deepEquals({ a: 'a', b: undefined }, { a: 'a' })).toBe(false);
+    expect(deepEquals({ a: 'a' }, { a: 'a', b: undefined })).toBe(false);
+    expect(deepEquals({ a: 'a', b: undefined }, { a: 'a' }, { treatUndefinedAndMissingKeyAsSame: true })).toBe(true);
+    expect(deepEquals({ a: 'a' }, { a: 'a', b: undefined }, { treatUndefinedAndMissingKeyAsSame: true })).toBe(true);
+  });
+
   it('should compare cyclic objects', () => {
     const a = { b: undefined as any };
     a.b = a;

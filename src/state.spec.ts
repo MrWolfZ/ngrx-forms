@@ -460,6 +460,14 @@ describe('state', () => {
       expect(verifyFormControlValueIsValid(boxedUndefinedValue)).toBe(boxedUndefinedValue);
     });
 
+    it('should return boxed serializable values with undefined properties', () => {
+      const boxedUndefinedObjectValue = box({ v: 'A', u: undefined });
+      expect(verifyFormControlValueIsValid(boxedUndefinedObjectValue)).toEqual(boxedUndefinedObjectValue);
+
+      const boxedSubUndefinedObjectValue = box({ v: 'A', u: { u: undefined } });
+      expect(verifyFormControlValueIsValid(boxedSubUndefinedObjectValue)).toEqual(boxedSubUndefinedObjectValue);
+    });
+
     it('should throw for non-serializable boxed values', () => {
       const boxedFunctionValue = box(() => void 0);
       const boxedObjectWithFunctionValue = box({ f: () => void 0 });
