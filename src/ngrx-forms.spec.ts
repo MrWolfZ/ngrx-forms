@@ -24,6 +24,7 @@ import {
   markAsTouched,
   markAsUnsubmitted,
   markAsUntouched,
+  moveArrayControl,
   NGRX_STATUS_CLASS_NAMES,
   NgrxCheckboxViewAdapter,
   NgrxDefaultViewAdapter,
@@ -52,6 +53,7 @@ import {
   setUserDefinedProperty,
   setValue,
   startAsyncValidation,
+  swapArrayControl,
   unbox,
   unfocus,
   updateArray,
@@ -88,6 +90,7 @@ describe('ngrx-forms', () => {
   it(`should export ${markAsTouched.name}`, () => expect(markAsTouched).toBeDefined());
   it(`should export ${markAsUnsubmitted.name}`, () => expect(markAsUnsubmitted).toBeDefined());
   it(`should export ${markAsUntouched.name}`, () => expect(markAsUntouched).toBeDefined());
+  it(`should export ${moveArrayControl.name}`, () => expect(moveArrayControl).toBeDefined());
   it(`should export ${removeArrayControl.name}`, () => expect(removeArrayControl).toBeDefined());
   it(`should export ${removeGroupControl.name}`, () => expect(removeGroupControl).toBeDefined());
   it(`should export ${reset.name}`, () => expect(reset).toBeDefined());
@@ -96,6 +99,7 @@ describe('ngrx-forms', () => {
   it(`should export ${setUserDefinedProperty.name}`, () => expect(setUserDefinedProperty).toBeDefined());
   it(`should export ${setValue.name}`, () => expect(setValue).toBeDefined());
   it(`should export ${startAsyncValidation.name}`, () => expect(startAsyncValidation).toBeDefined());
+  it(`should export ${swapArrayControl.name}`, () => expect(swapArrayControl).toBeDefined());
   it(`should export ${unfocus.name}`, () => expect(unfocus).toBeDefined());
   it(`should export ${updateArray.name}`, () => expect(updateArray).toBeDefined());
   it(`should export ${updateGroup.name}`, () => expect(updateGroup).toBeDefined());
