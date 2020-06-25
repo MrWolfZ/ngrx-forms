@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="6.3.2"></a>
+### 6.3.2
+
+#### Bugfixes
+
+* export missing update functions `moveArrayControl` and `swapArrayControl` ([#193](https://github.com/MrWolfZ/ngrx-forms/pull/193)), thanks @jamie94bc for this fix
+
 <a name="6.3.1"></a>
 ### 6.3.1
 
