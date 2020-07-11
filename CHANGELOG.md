@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="6.3.3"></a>
+### 6.3.3
+
+#### Bugfixes
+
+* make `wrapReducerWithFormStateUpdate` work properly if used on states that are form states themselves, closes [#196](https://github.com/MrWolfZ/ngrx-forms/issues/196)
+
 <a name="6.3.2"></a>
 ### 6.3.2
 

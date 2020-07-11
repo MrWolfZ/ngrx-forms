@@ -1,6 +1,10 @@
 import { Action, createReducer } from '@ngrx/store';
 import { MarkAsDirtyAction, MarkAsTouchedAction, SetValueAction } from './actions';
+import { formArrayReducer } from './array/reducer';
+import { formControlReducer } from './control/reducer';
+import { formGroupReducer } from './group/reducer';
 import { createFormStateReducerWithUpdate, formStateReducer, onNgrxForms, onNgrxFormsAction, wrapReducerWithFormStateUpdate } from './reducer';
+import { FormArrayState, FormControlState, FormGroupState } from './state';
 import { FORM_CONTROL_ID, FORM_CONTROL_INNER5_ID, FORM_CONTROL_INNER_ID, FormGroupValue, INITIAL_STATE } from './update-function/test-util';
 import { updateGroup } from './update-function/update-group';
 
@@ -294,6 +298,20 @@ describe(wrapReducerWithFormStateUpdate.name, () => {
     expect(resultState.control).not.toBe(INITIAL_STATE.controls.inner);
   });
 
+  it('should update a non-nested control after the reducer', () => {
+    const wrappedReducer = wrapReducerWithFormStateUpdate<FormControlState<string>, FormControlState<string>>(
+      formControlReducer,
+      s => s,
+      s => {
+        expect(s).toBe(INITIAL_STATE.controls.inner);
+        return ({ ...s });
+      },
+    );
+
+    const resultState = wrappedReducer(initialState.control, { type: '' });
+    expect(resultState).not.toBe(INITIAL_STATE.controls.inner);
+  });
+
   it('should update a group after the reducer', () => {
     const wrappedReducer = wrapReducerWithFormStateUpdate(reducer, s => s.group, s => {
       expect(s).toBe(INITIAL_STATE);
@@ -304,6 +322,20 @@ describe(wrapReducerWithFormStateUpdate.name, () => {
     expect(resultState.group).not.toBe(INITIAL_STATE);
   });
 
+  it('should update a non-nested group after the reducer', () => {
+    const wrappedReducer = wrapReducerWithFormStateUpdate<FormGroupState<FormGroupValue>, FormGroupState<FormGroupValue>>(
+      formGroupReducer,
+      s => s,
+      s => {
+        expect(s).toBe(INITIAL_STATE);
+        return ({ ...s });
+      },
+    );
+
+    const resultState = wrappedReducer(initialState.group, { type: '' });
+    expect(resultState).not.toBe(INITIAL_STATE);
+  });
+
   it('should update an array after the reducer', () => {
     const wrappedReducer = wrapReducerWithFormStateUpdate(reducer, s => s.array, s => {
       expect(s).toBe(INITIAL_STATE.controls.inner5);
@@ -312,6 +344,20 @@ describe(wrapReducerWithFormStateUpdate.name, () => {
 
     const resultState = wrappedReducer(undefined, { type: '' });
     expect(resultState.array).not.toBe(INITIAL_STATE.controls.inner5);
+  });
+
+  it('should update a non-nested array after the reducer', () => {
+    const wrappedReducer = wrapReducerWithFormStateUpdate<FormArrayState<string>, FormArrayState<string>>(
+      formArrayReducer,
+      s => s,
+      s => {
+        expect(s).toBe(INITIAL_STATE.controls.inner5);
+        return ({ ...s });
+      },
+    );
+
+    const resultState = wrappedReducer(initialState.array, { type: '' });
+    expect(resultState).not.toBe(INITIAL_STATE.controls.inner5);
   });
 
   it('should set the updated form state', () => {

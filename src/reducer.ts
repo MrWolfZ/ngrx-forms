@@ -150,6 +150,12 @@ export function wrapReducerWithFormStateUpdate<TState, TFormState extends Abstra
     const updatedState = reducer(state, action);
 
     const formState = formStateLocator(updatedState);
+
+    // if the state itself is the form state, update it directly
+    if (formState === updatedState as unknown) {
+      return updateFn(formState, updatedState) as unknown as TState;
+    }
+
     const formStateKey = Object.keys(updatedState).find(key => updatedState[key as keyof TState] as any === formState)!;
 
     const updatedFormState = updateFn(formState, updatedState);
