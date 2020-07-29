@@ -12,7 +12,7 @@ install:
 script:
   - npm run build
   - npm run test-no-progress
-  # - npm run dtslint
+  - npm run tsd
 after_success:
   - npm run report-coverage
 before_script:

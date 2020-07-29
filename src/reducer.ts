@@ -4,7 +4,7 @@ import { Actions, ALL_NGRX_FORMS_ACTION_TYPES } from './actions';
 import { formArrayReducer } from './array/reducer';
 import { formControlReducer } from './control/reducer';
 import { formGroupReducer } from './group/reducer';
-import { AbstractControlState, FormControlState, FormState, isArrayState, isFormState, isGroupState } from './state';
+import { AbstractControlState, FormArrayState, FormControlState, FormState, isArrayState, isFormState, isGroupState } from './state';
 import { ProjectFn } from './update-function/util';
 
 export function formStateReducer<TValue>(
@@ -24,7 +24,7 @@ export function formStateReducer<TValue>(
   }
 
   if (isArrayState(state)) {
-    return formArrayReducer(state, action) as any;
+    return formArrayReducer(state as FormArrayState<any>, action) as any;
   }
 
   return formControlReducer(state as FormControlState<any>, action) as any;

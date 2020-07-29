@@ -14,14 +14,14 @@
     "test-watch": "karma start --single-run=false",
     "test-watch-headless": "karma start --single-run=false --browsers ChromeHeadless",
     "lint": "tslint --project .",
-    "dtslint": "dtslint types",
+    "tsd": "tsd",
     "pack-lib": "npm pack ./dist",
     "publish-lib": "npm publish ./dist",
     "publish-lib:next": "npm publish ./dist --tag next",
     "report-coverage": "codecov ./coverage/lcov/lcov.info",
     "example-install": "npm run build && npm pack ./dist && cd example-app && cross-var npm install ../ngrx-forms-$npm_package_version.tgz && cd .."
   },
-  "typings": "./index.d.ts",
+  "types": "./ngrx-forms.d.ts",
   "ngPackage": {
     "lib": {
       "entryFile": "public_api.ts",
@@ -69,7 +69,6 @@
     "codelyzer": "5.0.1",
     "core-js": "2.6.1",
     "cross-var": "^1.1.0",
-    "dtslint": "3.6.14",
     "jasmine-core": "3.6.0",
     "karma": "5.1.1",
     "karma-chrome-launcher": "3.1.0",
@@ -81,6 +80,7 @@
     "reflect-metadata": "0.1.12",
     "rimraf": "2.6.3",
     "rxjs": "6.5.2",
+    "tsd": "0.13.1",
     "tsickle": "0.35.0",
     "tslint": "5.16.0",
     "tslint-eslint-rules": "5.4.0",
