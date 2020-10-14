@@ -32,7 +32,7 @@ export const COMPONENTS = [
     HttpClientModule,
     RouterModule.forRoot(routes),
     StoreModule.forRoot(reducers),
-    StoreRouterConnectingModule,
+    StoreRouterConnectingModule.forRoot(),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([]),
     LayoutModule.forRoot(),
