@@ -1,0 +1,40 @@
+@import '../../styles/shared';
+
+:host {
+  @extend .page;
+}
+
+form {
+  >div:not(.buttons) {
+    display: flex;
+    padding: 5px;
+
+    >label {
+      width: 110px;
+      float: right;
+      display: flex;
+      justify-content: flex-end;
+      margin-right: 10px;
+      font-weight: bold;
+      line-height: 21px;
+    }
+
+    >div {
+      flex: 1;
+    }
+  }
+
+  >.buttons {
+    display: flex;
+    padding: 5px;
+
+    >div:nth-child(1) {
+      width: 110px;
+      margin-right: 10px;
+    }
+
+    >div:nth-child(2) {
+      flex: 1;
+    }
+  }
+}

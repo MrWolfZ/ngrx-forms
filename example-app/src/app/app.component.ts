@@ -14,6 +14,11 @@ export class AppComponent {
       label: 'Simple Form',
     },
     {
+      path: '/simpleFormNgrx8',
+      hint: 'The basic form but using action creators and simple reducers as available in ngrx 8 and above',
+      label: 'Simple Form (ngrx 8+)',
+    },
+    {
       path: '/syncValidation',
       hint: 'How to perform synchronous validation and basic state updates',
       label: 'Synchronous Validation',
