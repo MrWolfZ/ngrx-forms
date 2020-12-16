@@ -191,8 +191,10 @@ export class MyComponent {
 ```
 
 ```html
-<form novalidate [ngrxFormState]="(formState$ | async)">
-  <custom-date-picker [ngrxFormControlState]="(formState$ | async).controls.date"
-                      [ngrxValueConverter]="dateValueConverter"></custom-date-picker>
-</form>
+<ng-container *ngIf="formState$ | async as formState">
+  <form novalidate [ngrxFormState]="formState">
+    <custom-date-picker [ngrxFormControlState]="formState.controls.date"
+                        [ngrxValueConverter]="dateValueConverter"></custom-date-picker>
+  </form>
+</ng-container>
 ```

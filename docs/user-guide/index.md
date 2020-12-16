@@ -116,14 +116,16 @@ export class MyComponent {
 
 Set the control states in your template:
 ```html
-<form novalidate [ngrxFormState]="(formState$ | async)">
-  <input type="text"
-         [ngrxFormControlState]="(formState$ | async).controls.someTextInput">
+<ng-container *ngIf="formState$ | async as formState">
+  <form novalidate [ngrxFormState]="formState">
+    <input type="text"
+           [ngrxFormControlState]="formState.controls.someTextInput">
 
-  <input type="checkbox"
-         [ngrxFormControlState]="(formState$ | async).controls.someCheckbox">
+    <input type="checkbox"
+           [ngrxFormControlState]="formState.controls.someCheckbox">
 
-  <input type="number"
-         [ngrxFormControlState]="(formState$ | async).controls.nested.controls.someNumber">
-</form>
+    <input type="number"
+           [ngrxFormControlState]="formState.controls.nested.controls.someNumber">
+  </form>
+</ng-container>
 ```
