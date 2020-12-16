@@ -18,6 +18,7 @@ The following table lists all validation functions provided by **ngrx-forms**.
 |`email`|Requires a `string` value to be a valid e-mail address. Empty strings are always valid to allow for optional form controls. Use this function together with `required` if empty strings should not be valid|
 |`number`|Requires the value to be a `number`|
 |`pattern`|Requires a `string` value to match a regular expression. Empty strings are always valid to allow for optional form controls. Use this function together with `required` if empty strings should not be valid|
+|`noSequentialCharacters`|Requires a `string` to not have sequential characters (e.g. 'abc' or '234') beyond provided length.|
 
 Below you can see an example of how these functions can be used:
 
