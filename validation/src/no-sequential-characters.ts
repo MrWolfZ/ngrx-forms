@@ -64,7 +64,7 @@ function detectedSequence(value: any, maxLength: number) {
     return false;
   }
 
-  let detectedSequence;
+  let foundSequence;
   let sequentialChars = 1;
   let lastCharCode = value.charCodeAt(0);
 
@@ -85,7 +85,7 @@ function detectedSequence(value: any, maxLength: number) {
 
     // break out of a loop as soon as maxLength of sequential characters detected
     if (sequentialChars === maxLength) {
-      detectedSequence = value.substr(i + 1 - maxLength, maxLength);
+      foundSequence = value.substr(i + 1 - maxLength, maxLength);
       break;
     }
 
@@ -93,7 +93,7 @@ function detectedSequence(value: any, maxLength: number) {
   }
 
   if (sequentialChars >= maxLength) {
-    return detectedSequence;
+    return foundSequence;
   } else {
     return false;
   }
