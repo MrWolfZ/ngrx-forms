@@ -9,7 +9,6 @@
   "scripts": {
     "build": "ng-packagr -p package.json -c tsconfig.json && rimraf ./dist/example-app ./dist/types",
     "test": "karma start",
-    "test-headless": "karma start --browsers ChromeHeadless",
     "test-no-progress": "karma start --reporters spec,karma-typescript",
     "test-watch": "karma start --single-run=false",
     "test-watch-headless": "karma start --single-run=false --browsers ChromeHeadless",
