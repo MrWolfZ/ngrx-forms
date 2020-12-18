@@ -1,20 +1,32 @@
-@import '../../styles/shared';
+@import "../../styles/shared";
 
 :host {
   @extend .page;
 }
 
-form>div {
-  margin-bottom: 5px;
+form {
+  max-width: 250px;
+
+  > div {
+    margin-bottom: 5px;
+  }
 }
 
 .buttons {
   margin-top: 20px;
 }
 
+.mat-form-field {
+  width: 100%;
+}
+
 .mat-radio-group {
   display: block;
   margin-bottom: 20px;
+
+  .mat-radio-button + .mat-radio-button {
+    margin-left: 10px;
+  }
 }
 
 .terms-of-use-error {
