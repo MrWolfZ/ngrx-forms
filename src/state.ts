@@ -615,7 +615,7 @@ export function createChildState<TValue>(id: string, childValue: TValue): FormSt
   }
 
   if (childValue !== null && Array.isArray(childValue)) {
-    return createFormArrayState(id, childValue) as FormState<TValue>;
+    return createFormArrayState(id, childValue as any[]) as FormState<TValue>;
   }
 
   if (childValue !== null && typeof childValue === 'object') {
