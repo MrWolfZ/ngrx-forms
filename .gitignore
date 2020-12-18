@@ -4,6 +4,7 @@ $ cat .gitignore
 /dist
 /example-app/dist
 /coverage
+/example-app/coverage
 
 *.log
 *.idea
