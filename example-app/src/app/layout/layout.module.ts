@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { MaterialModule } from '../material';
@@ -23,7 +23,7 @@ export const COMPONENTS = [
   exports: COMPONENTS,
 })
 export class LayoutModule {
-  static forRoot() {
+  static forRoot(): ModuleWithProviders<LayoutModule> {
     return {
       ngModule: LayoutModule,
     };
