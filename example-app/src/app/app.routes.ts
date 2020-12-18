@@ -4,55 +4,55 @@ export const routes: Routes = [
   { path: '', redirectTo: '/introduction', pathMatch: 'full' },
   {
     path: 'introduction',
-    loadChildren: './introduction/introduction.module#IntroductionModule',
+    loadChildren: () => import('./introduction/introduction.module').then(m => m.IntroductionModule),
   },
   {
     path: 'simpleForm',
-    loadChildren: './simple-form/simple-form.module#SimpleFormModule',
+    loadChildren: () => import('./simple-form/simple-form.module').then(m => m.SimpleFormModule),
   },
   {
     path: 'simpleFormNgrx8',
-    loadChildren: './simple-form-ngrx8/simple-form-ngrx8.module#SimpleFormNgrx8Module',
+    loadChildren: () => import('./simple-form-ngrx8/simple-form-ngrx8.module').then(m => m.SimpleFormNgrx8Module),
   },
   {
     path: 'syncValidation',
-    loadChildren: './sync-validation/sync-validation.module#SyncValidationModule',
+    loadChildren: () => import('./sync-validation/sync-validation.module').then(m => m.SyncValidationModule),
   },
   {
     path: 'asyncValidation',
-    loadChildren: './async-validation/async-validation.module#AsyncValidationModule',
+    loadChildren: () => import('./async-validation/async-validation.module').then(m => m.AsyncValidationModule),
   },
   {
     path: 'array',
-    loadChildren: './array/array.module#ArrayModule',
+    loadChildren: () => import('./array/array.module').then(m => m.ArrayModule),
   },
   {
     path: 'dynamic',
-    loadChildren: './dynamic/dynamic.module#DynamicModule',
+    loadChildren: () => import('./dynamic/dynamic.module').then(m => m.DynamicModule),
   },
   {
     path: 'valueBoxing',
-    loadChildren: './value-boxing/value-boxing.module#ValueBoxingModule',
+    loadChildren: () => import('./value-boxing/value-boxing.module').then(m => m.ValueBoxingModule),
   },
   {
     path: 'valueConversion',
-    loadChildren: './value-conversion/value-conversion.module#ValueConversionModule',
+    loadChildren: () => import('./value-conversion/value-conversion.module').then(m => m.ValueConversionModule),
   },
   {
     path: 'recursiveUpdate',
-    loadChildren: './recursive-update/recursive-update.module#RecursiveUpdateModule',
+    loadChildren: () => import('./recursive-update/recursive-update.module').then(m => m.RecursiveUpdateModule),
   },
   {
     path: 'material',
-    loadChildren: './material-example/material.module#MaterialExampleModule',
+    loadChildren: () => import('./material-example/material.module').then(m => m.MaterialExampleModule),
   },
   {
     path: 'localStateIntroduction',
-    loadChildren: './local-state-introduction/local-state-introduction.module#LocalStateIntroductionModule',
+    loadChildren: () => import('./local-state-introduction/local-state-introduction.module').then(m => m.LocalStateIntroductionModule),
   },
   {
     path: 'localStateAdvanced',
-    loadChildren: './local-state-advanced/local-state-advanced.module#LocalStateAdvancedModule',
+    loadChildren: () => import('./local-state-advanced/local-state-advanced.module').then(m => m.LocalStateAdvancedModule),
   },
   { path: '**', redirectTo: '/introduction' },
 ];
