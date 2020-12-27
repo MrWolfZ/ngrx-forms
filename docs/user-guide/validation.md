@@ -13,6 +13,8 @@ The following table lists all validation functions provided by **ngrx-forms**.
 |`lessThanOrEqualTo`|Requires the `number` value to be less than or equal to another number|
 |`greaterThan`|Requires the `number` value to be greater than another number|
 |`greaterThanOrEqualTo`|Requires the `number` value to be greater than or equal to another number|
+|`exclusiveBetween`|Requires the `number` value to be between min and max numbers|
+|`inclusiveBetween`|Requires the `number` value to be between or equal to min and max numbers|
 |`minLength`|Requires a `string` or `array` value to have a minimum length. Empty strings and arrays are always valid to allow for optional form controls. Use this function together with `required` if those values should not be valid|
 |`maxLength`|Requires a `string` or `array` value to have a maximum length|
 |`email`|Requires a `string` value to be a valid e-mail address. Empty strings are always valid to allow for optional form controls. Use this function together with `required` if empty strings should not be valid|
