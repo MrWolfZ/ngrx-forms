@@ -121,7 +121,7 @@
     "number-literal-format": true,
     "object-literal-key-quotes": [
       true,
-      "single"
+      "as-needed"
     ],
     "object-literal-shorthand": true,
     "object-literal-sort-keys": false,
@@ -157,7 +157,12 @@
     ],
     "space-before-function-paren": [
       true,
-      "never"
+      {
+        "anonymous": "never",
+        "asyncArrow": "never",
+        "method": "never",
+        "named": "never"
+      }
     ],
     "space-within-parens": false,
     "strict-boolean-expressions": false,
@@ -205,13 +210,6 @@
       "check-separator",
       "check-type"
     ],
-    "angular-whitespace": [
-      true,
-      "check-interpolation",
-      "check-pipe",
-      "check-semicolon"
-    ],
-    "banana-in-box": true,
     "component-class-suffix": [
       true,
       "Component",
@@ -224,7 +222,6 @@
       "ngrx"
     ],
     "contextual-life-cycle": true,
-    "decorator-not-allowed": true,
     "directive-class-suffix": true,
     "directive-selector": [
       true,
@@ -234,18 +231,13 @@
     ],
     "import-destructuring-spacing": true,
     "no-input-rename": true,
-    "no-output-named-after-standard-event": true,
     "no-output-rename": true,
     "no-unused-css": true,
     "pipe-naming": [
       "camelCase"
     ],
-    "templates-no-negated-async": true,
     "trackBy-function": false,
     "use-life-cycle-interface": true,
-    "use-host-property-decorator": true,
-    "use-input-property-decorator": true,
-    "use-output-property-decorator": true,
     "use-pipe-decorator": true,
     "use-pipe-transform-interface": true
   },
