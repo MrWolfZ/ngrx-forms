@@ -7,8 +7,8 @@ import {
   SetAsyncErrorAction,
   StartAsyncValidationAction,
 } from 'ngrx-forms';
-import { Observable, timer } from 'rxjs';
-import { catchError, concat, distinct, filter, flatMap, map, switchMap } from 'rxjs/operators';
+import { concat, Observable, timer } from 'rxjs';
+import { catchError, distinct, filter, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import { SetSearchResultAction, State } from './async-validation.reducer';
 
@@ -21,53 +21,53 @@ export class AsyncValidationEffects {
     filter(fs => !!fs.value.searchTerm && fs.controls.numberOfResultsToShow.isValid),
     distinct(fs => fs.value),
     switchMap(fs =>
-      timer(300).pipe(
-        map(() => new StartAsyncValidationAction(
-          fs.controls.searchTerm.id,
-          'exists',
-        )),
-        concat(
-          this.httpClient.get(
-            `https://www.googleapis.com/books/v1/volumes`,
-            {
-              params: {
-                q: fs.value.searchTerm,
-                maxResults: `${fs.value.numberOfResultsToShow}`,
-              },
-            }
-          ).pipe(
-            flatMap((resp: any) => {
-              if (resp.totalItems > 0) {
-                return [
-                  new SetSearchResultAction(
-                    resp.items.map((i: any) => i.volumeInfo.title),
-                  ),
-                  new ClearAsyncErrorAction(
-                    fs.controls.searchTerm.id,
-                    'exists',
-                  ),
-                ] as Action[];
-              }
-
+      concat(
+        timer(300).pipe(
+          map(() => new StartAsyncValidationAction(
+            fs.controls.searchTerm.id,
+            'exists',
+          ))
+        ),
+        this.httpClient.get(
+          `https://www.googleapis.com/books/v1/volumes`,
+          {
+            params: {
+              q: fs.value.searchTerm,
+              maxResults: `${fs.value.numberOfResultsToShow}`,
+            },
+          }
+        ).pipe(
+          mergeMap((resp: any) => {
+            if (resp.totalItems > 0) {
               return [
-                new SetSearchResultAction([]),
-                new SetAsyncErrorAction(
+                new SetSearchResultAction(
+                  resp.items.map((i: any) => i.volumeInfo.title),
+                ),
+                new ClearAsyncErrorAction(
                   fs.controls.searchTerm.id,
                   'exists',
-                  fs.value.searchTerm,
                 ),
-              ];
-            }),
-            catchError(_ => [
+              ] as Action[];
+            }
+
+            return [
               new SetSearchResultAction([]),
               new SetAsyncErrorAction(
                 fs.controls.searchTerm.id,
                 'exists',
                 fs.value.searchTerm,
               ),
-            ]),
-          )
-        ),
+            ];
+          }),
+          catchError(_ => [
+            new SetSearchResultAction([]),
+            new SetAsyncErrorAction(
+              fs.controls.searchTerm.id,
+              'exists',
+              fs.value.searchTerm,
+            ),
+          ]),
+        )
       )
     )
   );

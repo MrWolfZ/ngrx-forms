@@ -33,6 +33,7 @@ export class DynamicPageComponent {
       value = new Date(Date.UTC(value.getFullYear(), value.getMonth(), value.getDate()));
       return NgrxValueConverters.dateToISOString.convertViewToStateValue(value);
     },
+    // tslint:disable-next-line: no-unbound-method
     convertStateToViewValue: NgrxValueConverters.dateToISOString.convertStateToViewValue,
   };
 
