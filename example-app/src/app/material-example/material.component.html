@@ -1,36 +1,38 @@
 <ngf-form-example exampleName="Material UI Form"
                   githubLinkOverride="material-example"
-                  [formState]="formState$ | async">
-  This example shows how easily ngrx-forms integrates with any third party library as long as it supports control value accessors
-  from @angular/forms.
+                  *ngIf="formState$ | async as formState"
+                  [formState]="formState">
+  This example shows how easily ngrx-forms integrates with any third party library as long as it supports control value
+  accessors from @angular/forms.
   <br />
   <br />
-  <form [ngrxFormState]="formState$ | async"
+  <form [ngrxFormState]="formState"
         (submit)="submit()">
     <div>
       <mat-form-field>
         <input matInput
                placeholder="User Name"
-               [ngrxFormControlState]="(formState$ | async).controls.userName">
-        <mat-error *ngIf="(formState$ | async).errors._userName?.required">
+               [ngrxFormControlState]="formState.controls.userName">
+        <mat-error *ngIf="formState.errors._userName?.required">
           A user name is required
         </mat-error>
       </mat-form-field>
     </div>
     <div>
-      <mat-checkbox [ngrxFormControlState]="(formState$ | async).controls.createAccount">Create Account?</mat-checkbox>
+      <mat-checkbox [ngrxFormControlState]="formState.controls.createAccount">Create Account?</mat-checkbox>
     </div>
     <div>
       <mat-form-field>
         <input matInput
                type="password"
-               placeholder="Password {{ (formState$ | async).controls.password.isDisabled ? '(disabled)' : '' }}"
-               [ngrxFormControlState]="(formState$ | async).controls.password.controls.password">
-        <mat-error *ngIf="(formState$ | async).errors._password?._password?.required">
+               placeholder="Password {{ formState.controls.password.isDisabled ? '(disabled)' : '' }}"
+               [ngrxFormControlState]="formState.controls.password.controls.password">
+        <mat-error *ngIf="formState.errors._password?._password?.required">
           A password is required
         </mat-error>
-        <mat-error *ngIf="!(formState$ | async).errors._password?._password?.required && (formState$ | async).errors._password?._password?.minLength">
-          Must be at least {{ (formState$ | async).errors._password._password.minLength.minLength }} characters long
+        <mat-error
+                   *ngIf="!formState.errors._password?._password?.required && formState.errors._password?._password?.minLength">
+          Must be at least {{ formState.errors._password._password.minLength.minLength }} characters long
         </mat-error>
       </mat-form-field>
     </div>
@@ -38,15 +40,15 @@
       <mat-form-field>
         <input matInput
                type="password"
-               placeholder="Confirm Password {{ (formState$ | async).controls.password.isDisabled ? '(disabled)' : '' }}"
-               [ngrxFormControlState]="(formState$ | async).controls.password.controls.confirmPassword">
-        <mat-error *ngIf="(formState$ | async).errors._password?._confirmPassword?.equalTo">
+               placeholder="Confirm Password {{ formState.controls.password.isDisabled ? '(disabled)' : '' }}"
+               [ngrxFormControlState]="formState.controls.password.controls.confirmPassword">
+        <mat-error *ngIf="formState.errors._password?._confirmPassword?.equalTo">
           The passwords do not match
         </mat-error>
       </mat-form-field>
     </div>
     <div>
-      <mat-radio-group [ngrxFormControlState]="(formState$ | async).controls.sex">
+      <mat-radio-group [ngrxFormControlState]="formState.controls.sex">
         <mat-radio-button value="male">Male</mat-radio-button>
         <mat-radio-button value="female">Female</mat-radio-button>
       </mat-radio-group>
@@ -54,7 +56,7 @@
     <div>
       <mat-form-field>
         <mat-select placeholder="Favorite Color"
-                    [ngrxFormControlState]="(formState$ | async).controls.favoriteColor">
+                    [ngrxFormControlState]="formState.controls.favoriteColor">
           <mat-option value=""></mat-option>
           <mat-option value="ff0000">Red</mat-option>
           <mat-option value="00ff00">Green</mat-option>
@@ -64,7 +66,7 @@
     </div>
     <div>
       Hobbies:
-      <mat-selection-list [ngrxFormControlState]="(formState$ | async).controls.hobbies">
+      <mat-selection-list [ngrxFormControlState]="formState.controls.hobbies">
         <mat-list-option *ngFor="let op of hobbyOptions"
                          [value]="op">
           {{ op }}
@@ -76,7 +78,7 @@
         <input matInput
                [matDatepicker]="picker"
                placeholder="Date of Birth"
-               [ngrxFormControlState]="(formState$ | async).controls.dateOfBirth"
+               [ngrxFormControlState]="formState.controls.dateOfBirth"
                [ngrxValueConverter]="dateValueConverter">
         <mat-datepicker-toggle matSuffix
                                [for]="picker"></mat-datepicker-toggle>
@@ -84,10 +86,10 @@
       </mat-form-field>
     </div>
     <div>
-      <mat-checkbox [ngrxFormControlState]="(formState$ | async).controls.agreeToTermsOfUse">Agree to terms of use</mat-checkbox>
-      <mat-error *ngIf="(formState$ | async).errors._agreeToTermsOfUse?.required 
-                        && ((formState$ | async).controls.agreeToTermsOfUse.isTouched || (formState$ | async).controls.agreeToTermsOfUse.isSubmitted)"
-    
+      <mat-checkbox [ngrxFormControlState]="formState.controls.agreeToTermsOfUse">Agree to terms of use
+      </mat-checkbox>
+      <mat-error *ngIf="formState.errors._agreeToTermsOfUse?.required 
+                        && (formState.controls.agreeToTermsOfUse.isTouched || formState.controls.agreeToTermsOfUse.isSubmitted)"
                  class="terms-of-use-error">
         You must agree to the terms of use
       </mat-error>
@@ -97,14 +99,14 @@
         <button mat-raised-button
                 color="primary"
                 type="submit"
-                [disabled]="(formState$ | async).isInvalid && (formState$ | async).isSubmitted">
+                [disabled]="formState.isInvalid && formState.isSubmitted">
           Register
         </button>
         <button mat-raised-button
                 type="button"
-                [disabled]="(formState$ | async).isPristine
-                            && (formState$ | async).isUntouched
-                            && (formState$ | async).isUnsubmitted"
+                [disabled]="formState.isPristine
+                            && formState.isUntouched
+                            && formState.isUnsubmitted"
                 (click)="reset()">
           Reset
         </button>

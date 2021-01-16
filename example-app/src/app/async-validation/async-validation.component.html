@@ -1,40 +1,42 @@
 <ngf-form-example exampleName="Asynchronous Validation"
                   githubLinkOverride="async-validation"
-                  [formState]="formState$ | async">
-  This example shows how to perform asynchronous validation. The entered text will be used to search Google books and will
-  return up to the entered number of results. Please note that this example uses the Google books API anonymously and is
-  therefore rate limited. This means sometimes the search will not return a result even if the search term is valid.
+                  *ngIf="formState$ | async as formState"
+                  [formState]="formState">
+  This example shows how to perform asynchronous validation. The entered text will be used to search Google books and
+  will return up to the entered number of results. Please note that this example uses the Google books API anonymously
+  and is therefore rate limited. This means sometimes the search will not return a result even if the search term is
+  valid.
   <br />
   <br />
   <div class="control">
     <label>Search Term</label>
     <div>
       <input type="text"
-             [ngrxFormControlState]="(formState$ | async).controls.searchTerm" />
-      <span *ngIf="(formState$ | async).isValidationPending">Searching...</span>
+             [ngrxFormControlState]="formState.controls.searchTerm" />
+      <span *ngIf="formState.isValidationPending">Searching...</span>
     </div>
   </div>
   <div class="control">
     <label>Nr of results</label>
     <div>
       <input type="number"
-             [ngrxFormControlState]="(formState$ | async).controls.numberOfResultsToShow" />
+             [ngrxFormControlState]="formState.controls.numberOfResultsToShow" />
     </div>
   </div>
-  
-  <ul *ngIf="(formState$ | async).isInvalid"
+
+  <ul *ngIf="formState.isInvalid"
       class="error-messages">
-    <li *ngIf="(formState$ | async).errors._searchTerm?.$exists">
+    <li *ngIf="formState.errors._searchTerm?.$exists">
       The search returned no results
     </li>
-    <li *ngIf="(formState$ | async).errors._numberOfResultsToShow?.required">
+    <li *ngIf="formState.errors._numberOfResultsToShow?.required">
       The number of results must be specified
     </li>
-    <li *ngIf="(formState$ | async).errors._numberOfResultsToShow?.greaterThan">
+    <li *ngIf="formState.errors._numberOfResultsToShow?.greaterThan">
       The number of results must be at least 1
     </li>
   </ul>
-  
+
   <ul *ngIf="(searchResults$ | async).length > 0">
     <li *ngFor="let r of (searchResults$ | async)">
       {{ r }}

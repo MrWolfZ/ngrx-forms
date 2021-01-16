@@ -1,20 +1,21 @@
 <ngf-form-example exampleName="Recursive Update"
-                  [formState]="formState$ | async">
-  This example shows how it is possible to update the full form state with a single update function. In this scenario we want
-  to block/disable the form inputs after submitting the form. However, some elements have been manually disabled in the form
-  state and they should remain disabled when the UI is unblocked, which will happen 1 second after submitting the form (simulating
-  a server call). We achieve this by storing a user-defined property for each form control. This allows returning all form
-  inputs to the state they were before the UI was blocked.
+                  *ngIf="formState$ | async as formState"
+                  [formState]="formState">
+  This example shows how it is possible to update the full form state with a single update function. In this scenario we
+  want to block/disable the form inputs after submitting the form. However, some elements have been manually disabled in
+  the form state and they should remain disabled when the UI is unblocked, which will happen 1 second after submitting
+  the form (simulating a server call). We achieve this by storing a user-defined property for each form control. This
+  allows returning all form inputs to the state they were before the UI was blocked.
   <br />
   <br />
-  <form [ngrxFormState]="formState$ | async"
+  <form [ngrxFormState]="formState"
         (submit)="submit()">
     <div>
       <label>First Name</label>
       <div>
         <input type="text"
                placeholder="First Name"
-               [ngrxFormControlState]="(formState$ | async).controls.firstName" />
+               [ngrxFormControlState]="formState.controls.firstName" />
       </div>
     </div>
     <div>
@@ -22,7 +23,7 @@
       <div>
         <input type="text"
                placeholder="Last Name"
-               [ngrxFormControlState]="(formState$ | async).controls.lastName" />
+               [ngrxFormControlState]="formState.controls.lastName" />
       </div>
     </div>
     <div>
@@ -30,7 +31,7 @@
       <div>
         <input type="email"
                placeholder="Email"
-               [ngrxFormControlState]="(formState$ | async).controls.email" />
+               [ngrxFormControlState]="formState.controls.email" />
       </div>
     </div>
     <div>
@@ -39,19 +40,19 @@
         <label>
           <input type="radio"
                  value="male"
-                 [ngrxFormControlState]="(formState$ | async).controls.sex" /> Male
+                 [ngrxFormControlState]="formState.controls.sex" /> Male
         </label>
         <label>
           <input type="radio"
                  value="female"
-                 [ngrxFormControlState]="(formState$ | async).controls.sex" /> Female
+                 [ngrxFormControlState]="formState.controls.sex" /> Female
         </label>
       </div>
     </div>
     <div>
       <label>Favorite Color</label>
       <div>
-        <select [ngrxFormControlState]="(formState$ | async).controls.favoriteColor">
+        <select [ngrxFormControlState]="formState.controls.favoriteColor">
           <option value=""></option>
           <option value="ff0000">Red</option>
           <option value="00ff00">Green</option>
@@ -63,13 +64,13 @@
       <label>Employed</label>
       <div>
         <input type="checkbox"
-               [ngrxFormControlState]="(formState$ | async).controls.employed" />
+               [ngrxFormControlState]="formState.controls.employed" />
       </div>
     </div>
     <div>
       <label>Notes</label>
       <div>
-        <textarea [ngrxFormControlState]="(formState$ | async).controls.notes">
+        <textarea [ngrxFormControlState]="formState.controls.notes">
         </textarea>
       </div>
     </div>

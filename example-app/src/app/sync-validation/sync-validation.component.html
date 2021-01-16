@@ -1,52 +1,53 @@
 <ngf-form-example exampleName="Synchronous Validation"
                   githubLinkOverride="sync-validation"
-                  [formState]="formState$ | async">
+                  *ngIf="formState$ | async as formState"
+                  [formState]="formState">
   This example shows how to use update functions to validate a form state. In addition it
   shows how to apply other updates like enabling and disabling form elements dynamically.
   <br />
   <br />
-  <form [ngrxFormState]="formState$ | async"
+  <form [ngrxFormState]="formState"
         (submit)="submit()">
     <div>
       <label>User Name</label>
       <div>
         <input type="text"
-               [ngrxFormControlState]="(formState$ | async).controls.userName" />
+               [ngrxFormControlState]="formState.controls.userName" />
       </div>
     </div>
     <div>
       <label>Create Account?</label>
       <div>
         <input type="checkbox"
-               [ngrxFormControlState]="(formState$ | async).controls.createAccount" />
+               [ngrxFormControlState]="formState.controls.createAccount" />
       </div>
     </div>
     <div>
       <label>Password</label>
       <div>
         <input type="password"
-               [ngrxFormControlState]="(formState$ | async).controls.password.controls.password" />
+               [ngrxFormControlState]="formState.controls.password.controls.password" />
       </div>
     </div>
     <div>
       <label>Confirm Password</label>
       <div>
         <input type="password"
-               [ngrxFormControlState]="(formState$ | async).controls.password.controls.confirmPassword" />
+               [ngrxFormControlState]="formState.controls.password.controls.confirmPassword" />
       </div>
     </div>
     <div>
       <label>Date of Birth</label>
       <div>
-        <select [ngrxFormControlState]="(formState$ | async).controls.dayOfBirth">
+        <select [ngrxFormControlState]="formState.controls.dayOfBirth">
           <option *ngFor="let day of days"
                   [value]="day">{{ day }}</option>
         </select>
-        <select [ngrxFormControlState]="(formState$ | async).controls.monthOfBirth">
+        <select [ngrxFormControlState]="formState.controls.monthOfBirth">
           <option *ngFor="let month of months"
                   [value]="month">{{ month }}</option>
         </select>
-        <select [ngrxFormControlState]="(formState$ | async).controls.yearOfBirth">
+        <select [ngrxFormControlState]="formState.controls.yearOfBirth">
           <option *ngFor="let year of years"
                   [value]="year">{{ year }}</option>
         </select>
@@ -56,47 +57,47 @@
       <label>Agree to terms of use</label>
       <div>
         <input type="checkbox"
-               [ngrxFormControlState]="(formState$ | async).controls.agreeToTermsOfUse" />
+               [ngrxFormControlState]="formState.controls.agreeToTermsOfUse" />
       </div>
     </div>
     <div class="buttons">
       <div></div>
       <div>
         <button type="submit"
-                [disabled]="(formState$ | async).isInvalid">
+                [disabled]="formState.isInvalid">
           Register
         </button>
         <button type="button"
-                [disabled]="(formState$ | async).isPristine
-                            && (formState$ | async).isUntouched
-                            && (formState$ | async).isUnsubmitted"
+                [disabled]="formState.isPristine
+                            && formState.isUntouched
+                            && formState.isUnsubmitted"
                 (click)="reset()">
           Reset
         </button>
       </div>
     </div>
   </form>
-  
-  <ul *ngIf="(formState$ | async).isInvalid"
+
+  <ul *ngIf="formState.isInvalid"
       class="error-messages">
-    <li *ngIf="(formState$ | async).errors._userName?.required">
+    <li *ngIf="formState.errors._userName?.required">
       A user name is required
     </li>
-    <li *ngIf="(formState$ | async).errors._password?._password?.required">
+    <li *ngIf="formState.errors._password?._password?.required">
       A password is required
     </li>
-    <li *ngIf="(formState$ | async).errors._password?._password?.minLength">
-      The password must be at least {{ (formState$ | async).errors._password._password.minLength.minLength }} characters long.
+    <li *ngIf="formState.errors._password?._password?.minLength">
+      The password must be at least {{ formState.errors._password._password.minLength.minLength }} characters long.
     </li>
-    <li *ngIf="(formState$ | async).errors._password?.passwordMatch">
+    <li *ngIf="formState.errors._password?.passwordMatch">
       The passwords do not match
     </li>
-    <li *ngIf="(formState$ | async).errors._agreeToTermsOfUse?.required">
+    <li *ngIf="formState.errors._agreeToTermsOfUse?.required">
       You must agree to the terms of use
     </li>
   </ul>
   <br />
-  <div *ngIf="(formState$ | async).isSubmitted">
+  <div *ngIf="formState.isSubmitted">
     The form was submitted with the following value:
     <br />
     <pre>{{ submittedValue$ | async | json }}</pre>

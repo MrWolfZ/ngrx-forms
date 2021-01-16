@@ -1,11 +1,12 @@
 <ngf-form-example exampleName="Array Form"
                   githubLinkOverride="array"
-                  [formState]="formState$ | async">
+                  *ngIf="formState$ | async as formState"
+                  [formState]="formState">
   This example shows arrays of form states can be created and used.
   <br />
   <br />
   <form>
-    <div *ngFor="let control of (formState$ | async).controls.options.controls;
+    <div *ngFor="let control of formState.controls.options.controls;
                  trackBy: trackByIndex;
                  let i = index">
       <label>Option {{ i }}</label>

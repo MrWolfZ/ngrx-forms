@@ -1,9 +1,10 @@
 <ngf-form-example exampleName="Dynamic Form"
                   githubLinkOverride="dynamic"
-                  [formState]="formState$ | async">
-  This example shows how to dynamically add and remove controls from arrays and groups. For arrays we directly dispatch the
-  corresponding actions from the component. For groups we dispatch custom actions which we handle in the reducer by calling
-  the corresponding update functions.
+                  *ngIf="formState$ | async as formState"
+                  [formState]="formState">
+  This example shows how to dynamically add and remove controls from arrays and groups. For arrays we directly dispatch
+  the corresponding actions from the component. For groups we dispatch custom actions which we handle in the reducer by
+  calling the corresponding update functions.
   <br />
   <br />
   <form>
@@ -22,7 +23,7 @@
           <label>Option {{ o }}</label>
           <div>
             <input type="checkbox"
-                   [ngrxFormControlState]="(formState$ | async).controls.array.controls[i]" />
+                   [ngrxFormControlState]="formState.controls.array.controls[i]" />
           </div>
           <button (click)="removeArrayOption(i)"
                   type="button"
@@ -45,7 +46,7 @@
           <label>Option {{ o }}</label>
           <div>
             <input type="checkbox"
-                   [ngrxFormControlState]="(formState$ | async).controls.group.controls[o]" />
+                   [ngrxFormControlState]="formState.controls.group.controls[o]" />
           </div>
           <button (click)="removeGroupOption(o)"
                   type="button"
