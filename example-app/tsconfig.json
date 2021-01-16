@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "module": "esnext",
+    "module": "es2020",
     "outDir": "./dist/out-tsc",
     "baseUrl": "src",
     "sourceMap": true,
@@ -14,7 +14,7 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "skipLibCheck": false,
-    "target": "es5",
+    "target": "es2018",
     "typeRoots": [
       "node_modules/@types"
     ],
