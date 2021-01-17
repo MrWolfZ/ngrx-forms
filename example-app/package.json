@@ -27,7 +27,7 @@
     "@ngrx/store": "10.1.2",
     "@ngrx/store-devtools": "10.1.2",
     "core-js": "^3.8.2",
-    "ngrx-forms": "file:../ngrx-forms-6.3.3.tgz",
+    "ngrx-forms": "file:../ngrx-forms-6.3.4.tgz",
     "prismjs": "^1.23.0",
     "rxjs": "6.6.3",
     "tslib": "^2.0.0",
