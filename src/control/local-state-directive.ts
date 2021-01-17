@@ -11,18 +11,17 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { Actions } from '../actions';
-import { FormControlValueTypes } from '../state';
 import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from '../view-adapter/view-adapter';
-import { Document, NgrxFormControlDirective } from './directive';
+import { Document, NgrxFormControlDirective, NgrxFormControlValueType } from './directive';
 
 @Directive({
   // tslint:disable-next-line:directive-selector
   selector: '[ngrxFormControlState][ngrxFormsAction]',
 })
-export class NgrxLocalFormControlDirective<TStateValue extends FormControlValueTypes, TViewValue = TStateValue>
+export class NgrxLocalFormControlDirective<TStateValue, TViewValue = TStateValue>
   extends NgrxFormControlDirective<TStateValue, TViewValue> {
 
-  @Output() ngrxFormsAction = new EventEmitter<Actions<TStateValue>>();
+  @Output() ngrxFormsAction = new EventEmitter<Actions<NgrxFormControlValueType<TStateValue>>>();
 
   constructor(
     el: ElementRef,
@@ -33,7 +32,7 @@ export class NgrxLocalFormControlDirective<TStateValue extends FormControlValueT
     super(el, dom, null, viewAdapters, valueAccessors);
   }
 
-  protected dispatchAction(action: Actions<TStateValue>) {
+  protected dispatchAction(action: Actions<NgrxFormControlValueType<TStateValue>>) {
     this.ngrxFormsAction.emit(action);
   }
 }

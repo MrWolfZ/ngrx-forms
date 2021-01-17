@@ -7,16 +7,15 @@ import { NgrxFormDirective } from './directive';
   // tslint:disable-next-line:directive-selector
   selector: 'form[ngrxFormState][ngrxFormsAction]',
 })
-export class NgrxLocalFormDirective<TValue extends { [key: string]: any }>
-  extends NgrxFormDirective<TValue> {
+export class NgrxLocalFormDirective<TStateValue> extends NgrxFormDirective<TStateValue> {
 
-  @Output() ngrxFormsAction = new EventEmitter<Actions<TValue>>();
+  @Output() ngrxFormsAction = new EventEmitter<Actions<TStateValue>>();
 
   constructor() {
     super(null);
   }
 
-  protected dispatchAction(action: Actions<TValue>) {
+  protected dispatchAction(action: Actions<TStateValue>) {
     this.ngrxFormsAction.emit(action);
   }
 }

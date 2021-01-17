@@ -51,15 +51,17 @@ class ControlValueAccessorAdapter implements FormViewAdapter {
   }
 }
 
+export type NgrxFormControlValueType<TStateValue> = TStateValue extends FormControlValueTypes ? TStateValue : never;
+
 @Directive({
   // tslint:disable-next-line:directive-selector
   selector: ':not([ngrxFormsAction])[ngrxFormControlState]',
 })
-export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes, TViewValue = TStateValue> implements AfterViewInit, OnInit {
+export class NgrxFormControlDirective<TStateValue, TViewValue = TStateValue> implements AfterViewInit, OnInit {
   private isInitialized = false;
   private focusTrackingIsEnabled = false;
 
-  @Input() set ngrxFormControlState(newState: FormControlState<TStateValue>) {
+  @Input() set ngrxFormControlState(newState: FormControlState<NgrxFormControlValueType<TStateValue>>) {
     if (!newState) {
       throw new Error('The control state must not be undefined!');
     }
@@ -92,7 +94,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     return this.state && this.state.isFocused ? '' : null;
   }
 
-  state: FormControlState<TStateValue>;
+  state: FormControlState<NgrxFormControlValueType<TStateValue>>;
 
   private viewAdapter: FormViewAdapter;
 
@@ -128,7 +130,10 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
       : selectViewAdapter(viewAdapters);
   }
 
-  updateViewIfControlIdChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue> | undefined) {
+  updateViewIfControlIdChanged(
+    newState: FormControlState<NgrxFormControlValueType<TStateValue>>,
+    oldState: FormControlState<NgrxFormControlValueType<TStateValue>> | undefined,
+  ) {
     if (oldState && newState.id === oldState.id) {
       return;
     }
@@ -141,7 +146,10 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     }
   }
 
-  updateViewIfValueChanged(newState: FormControlState<TStateValue>, _: FormControlState<TStateValue> | undefined) {
+  updateViewIfValueChanged(
+    newState: FormControlState<NgrxFormControlValueType<TStateValue>>,
+    _: FormControlState<NgrxFormControlValueType<TStateValue>> | undefined,
+  ) {
     if (newState.value === this.stateValue) {
       return;
     }
@@ -151,7 +159,10 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     this.viewAdapter.setViewValue(this.viewValue);
   }
 
-  updateViewIfIsDisabledChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue> | undefined) {
+  updateViewIfIsDisabledChanged(
+    newState: FormControlState<NgrxFormControlValueType<TStateValue>>,
+    oldState: FormControlState<NgrxFormControlValueType<TStateValue>> | undefined,
+  ) {
     if (!this.viewAdapter.setIsDisabled) {
       return;
     }
@@ -163,7 +174,10 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     this.viewAdapter.setIsDisabled(newState.isDisabled);
   }
 
-  updateViewIfIsFocusedChanged(newState: FormControlState<TStateValue>, oldState: FormControlState<TStateValue> | undefined) {
+  updateViewIfIsFocusedChanged(
+    newState: FormControlState<NgrxFormControlValueType<TStateValue>>,
+    oldState: FormControlState<NgrxFormControlValueType<TStateValue>> | undefined,
+  ) {
     if (!this.focusTrackingIsEnabled) {
       return;
     }
@@ -179,7 +193,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     }
   }
 
-  protected dispatchAction(action: Actions<TStateValue>) {
+  protected dispatchAction(action: Actions<NgrxFormControlValueType<TStateValue>>) {
     if (this.actionsSubject !== null) {
       this.actionsSubject.next(action);
     } else {
@@ -208,7 +222,7 @@ export class NgrxFormControlDirective<TStateValue extends FormControlValueTypes,
     const dispatchSetValueAction = () => {
       this.stateValue = this.ngrxValueConverter.convertViewToStateValue(this.viewValue);
       if (this.stateValue !== this.state.value) {
-        this.dispatchAction(new SetValueAction(this.state.id, this.stateValue));
+        this.dispatchAction(new SetValueAction(this.state.id, this.stateValue as NgrxFormControlValueType<TStateValue>));
 
         dispatchMarkAsDirtyAction();
       }

@@ -13,9 +13,9 @@ interface CustomEvent extends Event { }
   // tslint:disable-next-line:directive-selector
   selector: 'form:not([ngrxFormsAction])[ngrxFormState]',
 })
-export class NgrxFormDirective<TValue extends { [key: string]: any }> implements OnInit {
+export class NgrxFormDirective<TStateValue> implements OnInit {
   // tslint:disable-next-line:no-input-rename
-  @Input('ngrxFormState') state: FormGroupState<TValue>;
+  @Input('ngrxFormState') state: FormGroupState<TStateValue>;
 
   constructor(
     @Optional() @Inject(ActionsSubject) private actionsSubject: ActionsSubject | null
@@ -23,7 +23,7 @@ export class NgrxFormDirective<TValue extends { [key: string]: any }> implements
     this.actionsSubject = actionsSubject;
   }
 
-  protected dispatchAction(action: Actions<TValue>) {
+  protected dispatchAction(action: Actions<TStateValue>) {
     if (this.actionsSubject !== null) {
       this.actionsSubject.next(action);
     } else {

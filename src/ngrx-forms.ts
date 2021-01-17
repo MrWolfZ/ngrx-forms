@@ -73,7 +73,7 @@ export { NgrxRangeViewAdapter } from './view-adapter/range';
 export { NgrxSelectViewAdapter, NgrxSelectOption } from './view-adapter/select';
 export { NgrxSelectMultipleViewAdapter, NgrxSelectMultipleOption } from './view-adapter/select-multiple';
 
-export { NgrxFormControlDirective, NGRX_UPDATE_ON_TYPE } from './control/directive';
+export { NgrxFormControlDirective, NgrxFormControlValueType, NGRX_UPDATE_ON_TYPE } from './control/directive';
 export { NgrxLocalFormControlDirective } from './control/local-state-directive';
 export { NgrxFormDirective } from './group/directive';
 export { NgrxLocalFormDirective } from './group/local-state-directive';
