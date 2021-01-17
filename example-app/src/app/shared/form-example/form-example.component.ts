@@ -12,7 +12,7 @@ import { FormGroupState } from 'ngrx-forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormExampleComponent {
-  @Input() exampleName: string;
+  @Input() exampleName = '';
   @Input() githubLinkOverride: string | undefined;
 
   @Input() set formState(value: FormGroupState<any>) {
@@ -20,7 +20,7 @@ export class FormExampleComponent {
     this.formattedFormState = Prism.highlight(formStateJson, Prism.languages.json, 'en');
   }
 
-  formattedFormState: string;
+  formattedFormState = '';
 
   get githubLink() {
     return this.githubLinkOverride || this.exampleName.replace(' ', '-').toLowerCase();

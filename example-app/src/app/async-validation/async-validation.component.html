@@ -37,9 +37,11 @@
     </li>
   </ul>
 
-  <ul *ngIf="(searchResults$ | async).length > 0">
-    <li *ngFor="let r of (searchResults$ | async)">
-      {{ r }}
-    </li>
-  </ul>
+  <ng-container *ngIf="searchResults$ | async as searchResults">
+    <ul *ngIf="searchResults.length > 0">
+      <li *ngFor="let r of searchResults">
+        {{ r }}
+      </li>
+    </ul>
+  </ng-container>
 </ngf-form-example>
