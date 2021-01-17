@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="6.3.4"></a>
+### 6.3.4
+
+#### Bugfixes
+
+* remove generic type constraints from directives to prevent errors during angular template type-checking ([713497f](https://github.com/MrWolfZ/ngrx-forms/commit/713497f)), closes [#225](https://github.com/MrWolfZ/ngrx-forms/issues/225)
+
 <a name="6.3.3"></a>
 ### 6.3.3
 
