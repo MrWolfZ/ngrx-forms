@@ -1,12 +1,12 @@
-import { Actions, RemoveArrayControlAction } from '../../actions';
+import { NgrxFormActionTypes, RemoveArrayControlAction} from '../../actions';
 import { computeArrayState, FormArrayState } from '../../state';
 import { childReducer, updateIdRecursive } from './util';
 
 export function removeControlReducer<TValue>(
   state: FormArrayState<TValue>,
-  action: Actions<TValue[]>,
+  action: NgrxFormActionTypes,
 ): FormArrayState<TValue> {
-  if (action.type !== RemoveArrayControlAction.TYPE) {
+  if (action.type !== RemoveArrayControlAction.type) {
     return state;
   }
 

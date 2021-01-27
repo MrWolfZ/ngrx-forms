@@ -24,5 +24,5 @@ export function markAsSubmitted<TValue>(state: FormGroupState<TValue>): FormGrou
 export function markAsSubmitted<TValue>(state: AbstractControlState<TValue>): FormState<TValue>;
 
 export function markAsSubmitted<TValue>(state: AbstractControlState<TValue>) {
-  return abstractControlReducer(state, new MarkAsSubmittedAction(state.id));
+  return abstractControlReducer(state, MarkAsSubmittedAction(state.id));
 }

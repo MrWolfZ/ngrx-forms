@@ -16,7 +16,7 @@ export function clearAsyncError<TValue>(state: AbstractControlState<TValue>, nam
 
 export function clearAsyncError<TValue>(nameOrState: string | AbstractControlState<TValue>, name?: string) {
   if (isFormState(nameOrState)) {
-    return abstractControlReducer(nameOrState, new ClearAsyncErrorAction(nameOrState.id, name!));
+    return abstractControlReducer(nameOrState, ClearAsyncErrorAction(nameOrState.id, name!));
   }
 
   return (s: AbstractControlState<TValue>) => clearAsyncError(ensureState(s), nameOrState);

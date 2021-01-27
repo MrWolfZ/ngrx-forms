@@ -24,5 +24,5 @@ export function markAsUnsubmitted<TValue>(state: FormGroupState<TValue>): FormGr
 export function markAsUnsubmitted<TValue>(state: AbstractControlState<TValue>): FormState<TValue>;
 
 export function markAsUnsubmitted<TValue>(state: AbstractControlState<TValue>) {
-  return abstractControlReducer(state, new MarkAsUnsubmittedAction(state.id));
+  return abstractControlReducer(state, MarkAsUnsubmittedAction(state.id));
 }

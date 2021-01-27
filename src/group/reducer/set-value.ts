@@ -1,13 +1,13 @@
-import { Actions, SetValueAction } from '../../actions';
+import {NgrxFormActionTypes, SetValueAction} from '../../actions';
 import { formStateReducer } from '../../reducer';
 import { computeGroupState, createChildState, FormGroupControls, FormGroupState, KeyValue } from '../../state';
 import { childReducer } from './util';
 
 export function setValueReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormGroupState<TValue> {
-  if (action.type !== SetValueAction.TYPE) {
+  if (action.type !== SetValueAction.type) {
     return state;
   }
 
@@ -31,7 +31,7 @@ export function setValueReducer<TValue extends KeyValue>(
       if (!state.controls[key]) {
         Object.assign(c, { [key]: createChildState<TValue[string]>(`${state.id}.${key}`, value[key]) });
       } else {
-        Object.assign(c, { [key]: formStateReducer(state.controls[key], new SetValueAction(state.controls[key].id, value[key])) });
+        Object.assign(c, { [key]: formStateReducer(state.controls[key], SetValueAction(state.controls[key].id, value[key])) });
       }
       return c;
     }, {} as FormGroupControls<TValue>);

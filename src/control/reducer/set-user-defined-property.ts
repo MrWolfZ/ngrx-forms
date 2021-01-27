@@ -1,11 +1,11 @@
-import { Actions, SetUserDefinedPropertyAction } from '../../actions';
+import {NgrxFormActionTypes, SetUserDefinedPropertyAction} from '../../actions';
 import { FormControlState, FormControlValueTypes } from '../../state';
 
 export function setUserDefinedPropertyReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormControlState<TValue> {
-  if (action.type !== SetUserDefinedPropertyAction.TYPE) {
+  if (action.type !== SetUserDefinedPropertyAction.type) {
     return state;
   }
 

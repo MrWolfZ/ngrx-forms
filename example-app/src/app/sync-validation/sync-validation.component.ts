@@ -39,8 +39,8 @@ export class SyncValidationPageComponent {
   }
 
   reset() {
-    this.store.dispatch(new SetValueAction(INITIAL_STATE.id, INITIAL_STATE.value));
-    this.store.dispatch(new ResetAction(INITIAL_STATE.id));
+    this.store.dispatch(SetValueAction(INITIAL_STATE.id, INITIAL_STATE.value));
+    this.store.dispatch(ResetAction(INITIAL_STATE.id));
   }
 
   submit() {

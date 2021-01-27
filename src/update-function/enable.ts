@@ -24,5 +24,5 @@ export function enable<TValue>(state: FormGroupState<TValue>): FormGroupState<TV
 export function enable<TValue>(state: AbstractControlState<TValue>): FormState<TValue>;
 
 export function enable<TValue>(state: AbstractControlState<TValue>) {
-  return abstractControlReducer(state, new EnableAction(state.id));
+  return abstractControlReducer(state, EnableAction(state.id));
 }

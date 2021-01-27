@@ -1,12 +1,12 @@
-import { Actions, ClearAsyncErrorAction } from '../../actions';
+import {ClearAsyncErrorAction, NgrxFormActionTypes} from '../../actions';
 import { FormControlState, FormControlValueTypes } from '../../state';
 import { isEmpty } from '../../util';
 
 export function clearAsyncErrorReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormControlState<TValue> {
-  if (action.type !== ClearAsyncErrorAction.TYPE) {
+  if (action.type !== ClearAsyncErrorAction.type) {
     return state;
   }
 

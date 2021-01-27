@@ -1,11 +1,11 @@
-import { Actions, MarkAsDirtyAction } from '../../actions';
+import { MarkAsDirtyAction, NgrxFormActionTypes} from '../../actions';
 import { FormControlState, FormControlValueTypes } from '../../state';
 
 export function markAsDirtyReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormControlState<TValue> {
-  if (action.type !== MarkAsDirtyAction.TYPE) {
+  if (action.type !== MarkAsDirtyAction.type) {
     return state;
   }
 

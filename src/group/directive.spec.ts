@@ -36,7 +36,7 @@ describe(NgrxFormDirective.name, () => {
 
   it(`should dispatch a ${MarkAsSubmittedAction.name} if the form is submitted and the state is unsubmitted`, done => {
     actions$.pipe(take(1)).subscribe(a => {
-      expect(a).toEqual(new MarkAsSubmittedAction(INITIAL_STATE.id));
+      expect(a).toEqual(MarkAsSubmittedAction(INITIAL_STATE.id));
       done();
     });
 

@@ -13,7 +13,7 @@ import {
 describe(`form array ${addControlReducer.name}`, () => {
   it('should create child state for control child', () => {
     const value = 'B';
-    const action = new AddArrayControlAction(FORM_CONTROL_ID, value);
+    const action = AddArrayControlAction(FORM_CONTROL_ID, value);
     const resultState = addControlReducer(INITIAL_STATE, action);
     expect(resultState.value).toEqual([...INITIAL_STATE.value, value]);
     expect(resultState.controls[2].value).toEqual(value);
@@ -21,7 +21,7 @@ describe(`form array ${addControlReducer.name}`, () => {
 
   it('should create child state for group child', () => {
     const value = { inner: 'D' };
-    const action = new AddArrayControlAction(FORM_CONTROL_ID, value);
+    const action = AddArrayControlAction(FORM_CONTROL_ID, value);
     const resultState = addControlReducer(INITIAL_STATE_NESTED_GROUP, action);
     expect(resultState.value).toEqual([...INITIAL_STATE_NESTED_GROUP.value, value]);
     expect(resultState.controls[2].value).toBe(value);
@@ -31,7 +31,7 @@ describe(`form array ${addControlReducer.name}`, () => {
 
   it('should create child state for array child', () => {
     const value = ['A'];
-    const action = new AddArrayControlAction(FORM_CONTROL_ID, value);
+    const action = AddArrayControlAction(FORM_CONTROL_ID, value);
     const resultState = addControlReducer(INITIAL_STATE_NESTED_ARRAY, action);
     expect(resultState.value).toEqual([...INITIAL_STATE_NESTED_ARRAY.value, value]);
     expect(resultState.controls[2].value).toEqual(value);
@@ -41,7 +41,7 @@ describe(`form array ${addControlReducer.name}`, () => {
 
   it('should create child state at the given index', () => {
     const value = 'B';
-    const action = new AddArrayControlAction(FORM_CONTROL_ID, value, 1);
+    const action = AddArrayControlAction(FORM_CONTROL_ID, value, 1);
     const resultState = addControlReducer(INITIAL_STATE, action);
     expect(resultState.value).toEqual(['', value, '']);
     expect(resultState.controls[1].value).toEqual(value);
@@ -52,7 +52,7 @@ describe(`form array ${addControlReducer.name}`, () => {
 
   it('should create child state at the start', () => {
     const value = 'B';
-    const action = new AddArrayControlAction(FORM_CONTROL_ID, value, 0);
+    const action = AddArrayControlAction(FORM_CONTROL_ID, value, 0);
     const resultState = addControlReducer(INITIAL_STATE, action);
     expect(resultState.value).toEqual([value, '', '']);
     expect(resultState.controls[0].value).toEqual(value);
@@ -63,25 +63,25 @@ describe(`form array ${addControlReducer.name}`, () => {
 
   it('should mark the state as dirty', () => {
     const value = 'B';
-    const action = new AddArrayControlAction(FORM_CONTROL_ID, value);
+    const action = AddArrayControlAction(FORM_CONTROL_ID, value);
     const resultState = addControlReducer(INITIAL_STATE, action);
     expect(resultState.isDirty).toBe(true);
   });
 
   it('should throw if trying to add control at out of bounds index', () => {
-    const action = new AddArrayControlAction(FORM_CONTROL_ID, '', 3);
+    const action = AddArrayControlAction(FORM_CONTROL_ID, '', 3);
     expect(() => addControlReducer(INITIAL_STATE, action)).toThrowError();
   });
 
   it('should throw if trying to add control at negative index', () => {
-    const action = new AddArrayControlAction(FORM_CONTROL_ID, '', -1);
+    const action = AddArrayControlAction(FORM_CONTROL_ID, '', -1);
     expect(() => addControlReducer(INITIAL_STATE, action)).toThrowError();
   });
 
   it('should forward actions to children', () => {
     const state = createFormArrayState(FORM_CONTROL_ID, [['']]);
     const value = 'B';
-    const action = new AddArrayControlAction(state.controls[0].id, value);
+    const action = AddArrayControlAction(state.controls[0].id, value);
     const resultState = addControlReducer(state, action);
     expect(resultState.controls[0].value).toEqual([...state.controls[0].value, value]);
     expect(resultState.controls[0].controls[1].value).toEqual(value);
@@ -99,7 +99,7 @@ describe(`form array ${addControlReducer.name}`, () => {
       },
     };
 
-    const action = new AddArrayControlAction<DeeplyNestedGroupFormValue>(FORM_CONTROL_ID, value, 0);
+    const action = AddArrayControlAction(FORM_CONTROL_ID, value, 0);
     const resultState = addControlReducer<DeeplyNestedGroupFormValue>(INITIAL_DEEPLY_NESTED_GROUPS_FORM_STATE, action);
 
     expect(resultState.controls[0].value).toEqual(value);

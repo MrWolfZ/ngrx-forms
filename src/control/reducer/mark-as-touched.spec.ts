@@ -11,14 +11,14 @@ describe('form control markAsTouchedReducer', () => {
     expect(markAsTouchedReducer(INITIAL_STATE, { type: '' } as any)).toBe(INITIAL_STATE));
 
   it('should update state if untouched', () => {
-    const resultState = markAsTouchedReducer(INITIAL_STATE, new MarkAsTouchedAction(FORM_CONTROL_ID));
+    const resultState = markAsTouchedReducer(INITIAL_STATE, MarkAsTouchedAction(FORM_CONTROL_ID));
     expect(resultState.isTouched).toEqual(true);
     expect(resultState.isUntouched).toEqual(false);
   });
 
   it('should not update state if touched', () => {
     const state = { ...INITIAL_STATE, isTouched: true, isUntouched: false };
-    const resultState = markAsTouchedReducer(state, new MarkAsTouchedAction(FORM_CONTROL_ID));
+    const resultState = markAsTouchedReducer(state, MarkAsTouchedAction(FORM_CONTROL_ID));
     expect(resultState).toBe(state);
   });
 });

@@ -43,7 +43,7 @@ export function setErrors<TValue>(
     const errorsArray = Array.isArray(errorsOrErrorsArray) ? errorsOrErrorsArray : [errorsOrErrorsArray!];
     const errors = errorsArray.concat(...rest).reduce((agg, err) => Object.assign(agg, err), {} as ValidationErrors);
 
-    return formStateReducer(errorsOrErrorsArrayOrState, new SetErrorsAction(errorsOrErrorsArrayOrState.id, errors));
+    return formStateReducer(errorsOrErrorsArrayOrState, SetErrorsAction(errorsOrErrorsArrayOrState.id, errors));
   }
 
   let errorsArray = Array.isArray(errorsOrErrorsArrayOrState) ? errorsOrErrorsArrayOrState : [errorsOrErrorsArrayOrState];

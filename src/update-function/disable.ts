@@ -32,5 +32,5 @@ export function disable<TValue>(state: FormGroupState<TValue>): FormGroupState<T
 export function disable<TValue>(state: AbstractControlState<TValue>): FormState<TValue>;
 
 export function disable<TValue>(state: AbstractControlState<TValue>) {
-  return abstractControlReducer(state, new DisableAction(state.id));
+  return abstractControlReducer(state, DisableAction(state.id));
 }

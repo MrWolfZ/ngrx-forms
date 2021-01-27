@@ -19,7 +19,7 @@ export function setAsyncError<TValue>(state: AbstractControlState<TValue>, name:
 
 export function setAsyncError<TValue>(nameOrState: string | AbstractControlState<TValue>, nameOrValue?: string | any, value?: any) {
   if (isFormState(nameOrState)) {
-    return abstractControlReducer(nameOrState, new SetAsyncErrorAction(nameOrState.id, nameOrValue, value));
+    return abstractControlReducer(nameOrState, SetAsyncErrorAction(nameOrState.id, nameOrValue, value));
   }
 
   return (s: AbstractControlState<TValue>) => setAsyncError(ensureState(s), nameOrState, nameOrValue);

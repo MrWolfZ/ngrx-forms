@@ -1,7 +1,6 @@
 import {
   addArrayControl,
   addGroupControl,
-  ALL_NGRX_FORMS_ACTION_TYPES,
   box,
   clearAsyncError,
   compose,
@@ -64,7 +63,6 @@ import {
 } from './ngrx-forms';
 
 describe('ngrx-forms', () => {
-  it(`should export ALL_NGRX_FORMS_ACTION_TYPES`, () => expect(ALL_NGRX_FORMS_ACTION_TYPES).toBeDefined());
   it(`should export ${compose.name}`, () => expect(compose).toBeDefined());
   it(`should export ${isArrayState.name}`, () => expect(isArrayState).toBeDefined());
   it(`should export ${isGroupState.name}`, () => expect(isGroupState).toBeDefined());

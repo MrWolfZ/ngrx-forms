@@ -1,11 +1,10 @@
 import { Action, ActionReducer } from '@ngrx/store';
-
-import { Actions, ALL_NGRX_FORMS_ACTION_TYPES } from './actions';
 import { formArrayReducer } from './array/reducer';
 import { formControlReducer } from './control/reducer';
 import { formGroupReducer } from './group/reducer';
 import { AbstractControlState, FormArrayState, FormControlState, FormState, isArrayState, isFormState, isGroupState } from './state';
 import { ProjectFn } from './update-function/util';
+import {ALL_NGRX_FORMS_ACTION_TYPES, NgrxFormActionTypes} from "./actions";
 
 export function formStateReducer<TValue>(
   state: FormState<TValue> | AbstractControlState<TValue> | undefined,
@@ -109,7 +108,7 @@ export function onNgrxForms<TState = any>(): { reducer: ActionReducer<TState>; t
 }
 
 export interface ActionConstructor {
-  new(...args: any[]): Actions<any>;
+  new(...args: any[]): NgrxFormActionTypes;
   readonly TYPE: string;
 }
 

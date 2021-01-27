@@ -1,12 +1,12 @@
-import { Actions, MarkAsPristineAction } from '../../actions';
+import {MarkAsPristineAction, NgrxFormActionTypes} from '../../actions';
 import { computeGroupState, FormGroupState, KeyValue } from '../../state';
 import { childReducer, dispatchActionPerChild } from './util';
 
 export function markAsPristineReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormGroupState<TValue> {
-  if (action.type !== MarkAsPristineAction.TYPE) {
+  if (action.type !== MarkAsPristineAction.type) {
     return state;
   }
 
@@ -20,7 +20,7 @@ export function markAsPristineReducer<TValue extends KeyValue>(
 
   return computeGroupState(
     state.id,
-    dispatchActionPerChild(state.controls, controlId => new MarkAsPristineAction(controlId)),
+    dispatchActionPerChild(state.controls, controlId => MarkAsPristineAction(controlId)),
     state.value,
     state.errors,
     state.pendingValidations,

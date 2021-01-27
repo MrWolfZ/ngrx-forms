@@ -1,4 +1,4 @@
-import { Actions, SwapArrayControlAction } from '../../actions';
+import { NgrxFormActionTypes, SwapArrayControlAction} from '../../actions';
 import { computeArrayState, FormArrayState } from '../../state';
 import { childReducer, updateIdRecursive } from './util';
 
@@ -10,9 +10,9 @@ function swapArrayValues(a: readonly any[], i: number, j: number) {
 
 export function swapControlReducer<TValue>(
   state: FormArrayState<TValue>,
-  action: Actions<TValue[]>,
+  action: NgrxFormActionTypes,
 ): FormArrayState<TValue> {
-  if (action.type !== SwapArrayControlAction.TYPE) {
+  if (action.type !== SwapArrayControlAction.type) {
     return state;
   }
 

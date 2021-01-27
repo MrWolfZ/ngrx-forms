@@ -1,10 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { FormGroupState, NgrxValueConverter, NgrxValueConverters, ResetAction, SetValueAction } from 'ngrx-forms';
 import { Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 
 import { FormValue, INITIAL_STATE, SetSubmittedValueAction, State } from './material.reducer';
+import {
+  FormGroupState,
+  NgrxValueConverter,
+  NgrxValueConverters,
+  ResetAction,
+  SetValueAction
+} from "../../../../src/ngrx-forms";
 
 @Component({
   selector: 'ngf-material',
@@ -24,7 +30,7 @@ export class DynamicPageComponent {
   hobbyOptions = ['Sports', 'Video Games'];
 
   dateValueConverter: NgrxValueConverter<Date | null, string | null> = {
-    convertViewToStateValue(value) {
+    convertViewToStateValue(value: any) {
       if (value === null) {
         return null;
       }
@@ -38,8 +44,8 @@ export class DynamicPageComponent {
   };
 
   reset() {
-    this.store.dispatch(new SetValueAction(INITIAL_STATE.id, INITIAL_STATE.value));
-    this.store.dispatch(new ResetAction(INITIAL_STATE.id));
+    this.store.dispatch(SetValueAction(INITIAL_STATE.id, INITIAL_STATE.value));
+    this.store.dispatch(ResetAction(INITIAL_STATE.id));
   }
 
   submit() {

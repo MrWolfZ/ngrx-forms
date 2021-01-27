@@ -1,10 +1,9 @@
 import { Action } from '@ngrx/store';
 
 import {
-  Actions,
   AddArrayControlAction,
   FocusAction,
-  isNgrxFormsAction,
+  isNgrxFormsAction, NgrxFormActionTypes,
   RemoveArrayControlAction,
   UnfocusAction,
 } from '../actions';
@@ -28,7 +27,7 @@ import { setValueReducer } from './reducer/set-value';
 import { startAsyncValidationReducer } from './reducer/start-async-validation';
 import { childReducer } from './reducer/util';
 
-export function formGroupReducerInternal<TValue extends KeyValue>(state: FormGroupState<TValue>, action: Actions<TValue>) {
+export function formGroupReducerInternal<TValue extends KeyValue>(state: FormGroupState<TValue>, action: NgrxFormActionTypes) {
   if (!isGroupState(state)) {
     throw new Error('The state must be a group state');
   }
@@ -42,10 +41,10 @@ export function formGroupReducerInternal<TValue extends KeyValue>(state: FormGro
   }
 
   switch (action.type) {
-    case FocusAction.TYPE:
-    case UnfocusAction.TYPE:
-    case AddArrayControlAction.TYPE:
-    case RemoveArrayControlAction.TYPE:
+    case FocusAction.type:
+    case UnfocusAction.type:
+    case AddArrayControlAction.type:
+    case RemoveArrayControlAction.type:
       return childReducer(state, action);
 
     default:

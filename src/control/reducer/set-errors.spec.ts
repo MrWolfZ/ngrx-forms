@@ -11,7 +11,7 @@ describe('form control setErrorsReducer', () => {
 
   it('should update state if there are errors', () => {
     const errors = { required: true };
-    const resultState = setErrorsReducer(INITIAL_STATE, new SetErrorsAction(FORM_CONTROL_ID, errors));
+    const resultState = setErrorsReducer(INITIAL_STATE, SetErrorsAction(FORM_CONTROL_ID, errors));
     expect(resultState.errors).toBe(errors);
     expect(resultState.isValid).toBe(false);
     expect(resultState.isInvalid).toBe(true);
@@ -21,7 +21,7 @@ describe('form control setErrorsReducer', () => {
     const errors = { required: true };
     const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors };
     const newErrors = {};
-    const resultState = setErrorsReducer(state, new SetErrorsAction(FORM_CONTROL_ID, newErrors));
+    const resultState = setErrorsReducer(state, SetErrorsAction(FORM_CONTROL_ID, newErrors));
     expect(resultState.errors).toBe(newErrors);
     expect(resultState.isValid).toBe(true);
     expect(resultState.isInvalid).toBe(false);
@@ -29,25 +29,25 @@ describe('form control setErrorsReducer', () => {
 
   it('should not update state if errors are same', () => {
     const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { required: true } };
-    const resultState = setErrorsReducer(state, new SetErrorsAction(FORM_CONTROL_ID, state.errors));
+    const resultState = setErrorsReducer(state, SetErrorsAction(FORM_CONTROL_ID, state.errors));
     expect(resultState).toBe(state);
   });
 
   it('should not update state if errors are equal', () => {
     const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { required: true } };
-    const resultState = setErrorsReducer(state, new SetErrorsAction(FORM_CONTROL_ID, { required: true }));
+    const resultState = setErrorsReducer(state, SetErrorsAction(FORM_CONTROL_ID, { required: true }));
     expect(resultState).toBe(state);
   });
 
   it('should not update state if control is disabled', () => {
     const errors = { required: true };
     const state = { ...INITIAL_STATE, isEnabled: false, isDisabled: true };
-    const resultState = setErrorsReducer(state, new SetErrorsAction(FORM_CONTROL_ID, errors));
+    const resultState = setErrorsReducer(state, SetErrorsAction(FORM_CONTROL_ID, errors));
     expect(resultState).toBe(state);
   });
 
   it('should not update state if errors are equal and empty', () => {
-    const resultState = setErrorsReducer(INITIAL_STATE, new SetErrorsAction(FORM_CONTROL_ID, {}));
+    const resultState = setErrorsReducer(INITIAL_STATE, SetErrorsAction(FORM_CONTROL_ID, {}));
     expect(resultState).toBe(INITIAL_STATE);
   });
 
@@ -55,14 +55,14 @@ describe('form control setErrorsReducer', () => {
     const syncErrors = { required: true };
     const asyncErrors = { $required: true };
     const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: asyncErrors };
-    const resultState = setErrorsReducer(state, new SetErrorsAction(FORM_CONTROL_ID, syncErrors));
+    const resultState = setErrorsReducer(state, SetErrorsAction(FORM_CONTROL_ID, syncErrors));
     expect(resultState.errors).toEqual({ ...asyncErrors, ...syncErrors });
   });
 
   it('should throw if trying to set invalid error value', () => {
-    expect(() => setErrorsReducer(INITIAL_STATE, new SetErrorsAction(FORM_CONTROL_ID, null as any))).toThrowError();
-    expect(() => setErrorsReducer(INITIAL_STATE, new SetErrorsAction(FORM_CONTROL_ID, 1 as any))).toThrowError();
-    expect(() => setErrorsReducer(INITIAL_STATE, new SetErrorsAction(FORM_CONTROL_ID, [] as any))).toThrowError();
-    expect(() => setErrorsReducer(INITIAL_STATE, new SetErrorsAction(FORM_CONTROL_ID, { $required: true }))).toThrowError();
+    expect(() => setErrorsReducer(INITIAL_STATE, SetErrorsAction(FORM_CONTROL_ID, null as any))).toThrowError();
+    expect(() => setErrorsReducer(INITIAL_STATE, SetErrorsAction(FORM_CONTROL_ID, 1 as any))).toThrowError();
+    expect(() => setErrorsReducer(INITIAL_STATE, SetErrorsAction(FORM_CONTROL_ID, [] as any))).toThrowError();
+    expect(() => setErrorsReducer(INITIAL_STATE, SetErrorsAction(FORM_CONTROL_ID, { $required: true }))).toThrowError();
   });
 });

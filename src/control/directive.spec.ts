@@ -91,8 +91,8 @@ describe(NgrxFormControlDirective.name, () => {
       expect(spy).toHaveBeenCalledWith(INITIAL_STATE.value);
     });
 
-    it('should not throw if id changes and new state is disabled but adapter does not support disabling', () => {
-      delete viewAdapter.setIsDisabled;
+    it('should not throw if id changes and State is disabled but adapter does not support disabling', () => {
+      delete (viewAdapter as FormViewAdapter).setIsDisabled;
       expect(() => directive.ngrxFormControlState = { ...INITIAL_STATE, id: `${FORM_CONTROL_ID}1`, isDisabled: true, isEnabled: false }).not.toThrowError();
     });
 
@@ -121,7 +121,7 @@ describe(NgrxFormControlDirective.name, () => {
     });
 
     it('should not throw after the view is initialized and adapter does not support disabling', () => {
-      delete viewAdapter.setIsDisabled;
+      delete (viewAdapter as FormViewAdapter).setIsDisabled;
       directive.ngrxFormControlState = { ...INITIAL_STATE, isDisabled: true, isEnabled: false };
       expect(() => directive.ngAfterViewInit()).not.toThrowError();
     });
@@ -130,7 +130,7 @@ describe(NgrxFormControlDirective.name, () => {
       const newValue = 'new value';
 
       actions$.pipe(first()).subscribe(a => {
-        expect(a).toEqual(new SetValueAction(INITIAL_STATE.id, newValue));
+        expect(a).toEqual(SetValueAction(INITIAL_STATE.id, newValue));
         done();
       });
 
@@ -149,7 +149,7 @@ describe(NgrxFormControlDirective.name, () => {
 
     it(`should dispatch a ${MarkAsDirtyAction.name} if the view value changes when the state is not marked as dirty`, done => {
       actions$.pipe(skip(1)).pipe(first()).subscribe(a => {
-        expect(a).toEqual(new MarkAsDirtyAction(INITIAL_STATE.id));
+        expect(a).toEqual(MarkAsDirtyAction(INITIAL_STATE.id));
         done();
       });
 
@@ -202,7 +202,7 @@ describe(NgrxFormControlDirective.name, () => {
 
     it(`should dispatch a ${MarkAsTouchedAction.name} if the view adapter notifies and the state is not touched`, done => {
       actions$.pipe(first()).subscribe(a => {
-        expect(a).toEqual(new MarkAsTouchedAction(INITIAL_STATE.id));
+        expect(a).toEqual(MarkAsTouchedAction(INITIAL_STATE.id));
         done();
       });
 
@@ -233,7 +233,7 @@ describe(NgrxFormControlDirective.name, () => {
       const newValue = 'new value';
 
       actions$.pipe(first()).subscribe(a => {
-        expect(a).toEqual(new SetValueAction(INITIAL_STATE.id, newValue));
+        expect(a).toEqual(SetValueAction(INITIAL_STATE.id, newValue));
         done();
       });
 
@@ -359,7 +359,7 @@ describe(NgrxFormControlDirective.name, () => {
 
     it('should convert the view value if it changes', done => {
       actions$.pipe(first()).subscribe(a => {
-        expect(a).toEqual(new SetValueAction(INITIAL_STATE.id, STATE_VALUE));
+        expect(a).toEqual(SetValueAction(INITIAL_STATE.id, STATE_VALUE));
         done();
       });
 
@@ -429,7 +429,7 @@ describe(NgrxFormControlDirective.name, () => {
         directive.ngOnInit();
 
         actions$.pipe(first()).subscribe(a => {
-          expect(a).toEqual(new FocusAction(INITIAL_STATE.id));
+          expect(a).toEqual(FocusAction(INITIAL_STATE.id));
           done();
         });
 
@@ -456,7 +456,7 @@ describe(NgrxFormControlDirective.name, () => {
         directive.ngOnInit();
 
         actions$.pipe(first()).subscribe(a => {
-          expect(a).toEqual(new UnfocusAction(INITIAL_STATE.id));
+          expect(a).toEqual(UnfocusAction(INITIAL_STATE.id));
           done();
         });
 

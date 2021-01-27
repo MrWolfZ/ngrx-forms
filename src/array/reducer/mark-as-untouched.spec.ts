@@ -11,40 +11,40 @@ import {
 describe(`form array ${markAsUntouchedReducer.name}`, () => {
   it('should update state if touched', () => {
     const state = { ...INITIAL_STATE, isTouched: true, isUntouched: false };
-    const resultState = markAsUntouchedReducer(state, new MarkAsUntouchedAction(FORM_CONTROL_ID));
+    const resultState = markAsUntouchedReducer(state, MarkAsUntouchedAction(FORM_CONTROL_ID));
     expect(resultState.isTouched).toEqual(false);
     expect(resultState.isUntouched).toEqual(true);
   });
 
   it('should not update state if untouched', () => {
-    const resultState = markAsUntouchedReducer(INITIAL_STATE, new MarkAsUntouchedAction(FORM_CONTROL_ID));
+    const resultState = markAsUntouchedReducer(INITIAL_STATE, MarkAsUntouchedAction(FORM_CONTROL_ID));
     expect(resultState).toBe(INITIAL_STATE);
   });
 
   it('should mark control children as untouched', () => {
     const state = setPropertiesRecursively(INITIAL_STATE, [['isTouched', true], ['isUntouched', false]]);
-    const resultState = markAsUntouchedReducer(state, new MarkAsUntouchedAction(FORM_CONTROL_ID));
+    const resultState = markAsUntouchedReducer(state, MarkAsUntouchedAction(FORM_CONTROL_ID));
     expect(resultState.controls[0].isTouched).toEqual(false);
     expect(resultState.controls[0].isUntouched).toEqual(true);
   });
 
   it('should mark group children as untouched', () => {
     const state = setPropertiesRecursively(INITIAL_STATE_NESTED_GROUP, [['isTouched', true], ['isUntouched', false]]);
-    const resultState = markAsUntouchedReducer(state, new MarkAsUntouchedAction(FORM_CONTROL_ID));
+    const resultState = markAsUntouchedReducer(state, MarkAsUntouchedAction(FORM_CONTROL_ID));
     expect(resultState.controls[0].isTouched).toEqual(false);
     expect(resultState.controls[0].isUntouched).toEqual(true);
   });
 
   it('should mark array children as untouched', () => {
     const state = setPropertiesRecursively(INITIAL_STATE_NESTED_ARRAY, [['isTouched', true], ['isUntouched', false]]);
-    const resultState = markAsUntouchedReducer(state, new MarkAsUntouchedAction(FORM_CONTROL_ID));
+    const resultState = markAsUntouchedReducer(state, MarkAsUntouchedAction(FORM_CONTROL_ID));
     expect(resultState.controls[0].isTouched).toEqual(false);
     expect(resultState.controls[0].isUntouched).toEqual(true);
   });
 
   it('should forward actions to children', () => {
     const state = setPropertiesRecursively(INITIAL_STATE, [['isTouched', true], ['isUntouched', false]]);
-    const resultState = markAsUntouchedReducer(state, new MarkAsUntouchedAction(state.controls[0].id));
+    const resultState = markAsUntouchedReducer(state, MarkAsUntouchedAction(state.controls[0].id));
     expect(resultState).not.toBe(state);
   });
 });

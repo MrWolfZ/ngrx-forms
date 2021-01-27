@@ -23,7 +23,7 @@ export class AsyncValidationEffects {
     switchMap(fs =>
       concat(
         timer(300).pipe(
-          map(() => new StartAsyncValidationAction(
+          map(() => StartAsyncValidationAction(
             fs.controls.searchTerm.id,
             'exists',
           ))
@@ -43,7 +43,7 @@ export class AsyncValidationEffects {
                 new SetSearchResultAction(
                   resp.items.map((i: any) => i.volumeInfo.title),
                 ),
-                new ClearAsyncErrorAction(
+                ClearAsyncErrorAction(
                   fs.controls.searchTerm.id,
                   'exists',
                 ),
@@ -52,7 +52,7 @@ export class AsyncValidationEffects {
 
             return [
               new SetSearchResultAction([]),
-              new SetAsyncErrorAction(
+              SetAsyncErrorAction(
                 fs.controls.searchTerm.id,
                 'exists',
                 fs.value.searchTerm,
@@ -61,7 +61,7 @@ export class AsyncValidationEffects {
           }),
           catchError(_ => [
             new SetSearchResultAction([]),
-            new SetAsyncErrorAction(
+            SetAsyncErrorAction(
               fs.controls.searchTerm.id,
               'exists',
               fs.value.searchTerm,

@@ -1,12 +1,12 @@
-import { Actions, SetUserDefinedPropertyAction } from '../../actions';
+import {NgrxFormActionTypes, SetUserDefinedPropertyAction} from '../../actions';
 import { FormGroupState, KeyValue } from '../../state';
 import { childReducer } from './util';
 
 export function setUserDefinedPropertyReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormGroupState<TValue> {
-  if (action.type !== SetUserDefinedPropertyAction.TYPE) {
+  if (action.type !== SetUserDefinedPropertyAction.type) {
     return state;
   }
 

@@ -1,4 +1,4 @@
-import { Actions, MoveArrayControlAction } from '../../actions';
+import {MoveArrayControlAction, NgrxFormActionTypes} from '../../actions';
 import { computeArrayState, FormArrayState } from '../../state';
 import { childReducer, updateIdRecursive } from './util';
 
@@ -25,9 +25,9 @@ export function move(array: readonly any[], fromIndex: number, toIndex: number) 
 
 export function moveControlReducer<TValue>(
   state: FormArrayState<TValue>,
-  action: Actions<TValue[]>,
+  action: NgrxFormActionTypes,
 ): FormArrayState<TValue> {
-  if (action.type !== MoveArrayControlAction.TYPE) {
+  if (action.type !== MoveArrayControlAction.type) {
     return state;
   }
   if (action.controlId !== state.id) {

@@ -11,13 +11,13 @@ describe('form control enableReducer', () => {
 
   it('should update state if disabled', () => {
     const state = { ...INITIAL_STATE, isEnabled: false, isDisabled: true };
-    const resultState = enableReducer(state, new EnableAction(FORM_CONTROL_ID));
+    const resultState = enableReducer(state, EnableAction(FORM_CONTROL_ID));
     expect(resultState.isEnabled).toEqual(true);
     expect(resultState.isDisabled).toEqual(false);
   });
 
   it('should not update state if enabled', () => {
-    const resultState = enableReducer(INITIAL_STATE, new EnableAction(FORM_CONTROL_ID));
+    const resultState = enableReducer(INITIAL_STATE, EnableAction(FORM_CONTROL_ID));
     expect(resultState).toBe(INITIAL_STATE);
   });
 });

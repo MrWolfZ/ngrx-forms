@@ -1,13 +1,13 @@
-import { Actions, SetErrorsAction } from '../../actions';
+import {NgrxFormActionTypes, SetErrorsAction} from '../../actions';
 import { computeArrayState, FormArrayState, ValidationErrors } from '../../state';
 import { deepEquals } from '../../util';
 import { childReducer } from './util';
 
 export function setErrorsReducer<TValue>(
   state: FormArrayState<TValue>,
-  action: Actions<TValue[]>,
+  action: NgrxFormActionTypes,
 ): FormArrayState<TValue> {
-  if (action.type !== SetErrorsAction.TYPE) {
+  if (action.type !== SetErrorsAction.type) {
     return state;
   }
 

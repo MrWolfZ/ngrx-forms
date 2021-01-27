@@ -13,7 +13,7 @@ describe(`form control ${setAsyncErrorReducer.name}`, () => {
     const name = 'required';
     const value = true;
     const state = { ...INITIAL_STATE, pendingValidations: [name], isValidationPending: true };
-    const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+    const resultState = setAsyncErrorReducer(state, SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
     expect(resultState.errors).toEqual({ [`$${name}`]: value });
     expect(resultState.isValid).toBe(false);
     expect(resultState.isInvalid).toBe(true);
@@ -23,7 +23,7 @@ describe(`form control ${setAsyncErrorReducer.name}`, () => {
     const name = 'required';
     const value = true;
     const state = { ...INITIAL_STATE, pendingValidations: [name], isValidationPending: true };
-    const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+    const resultState = setAsyncErrorReducer(state, SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
     expect(resultState.pendingValidations).toEqual([]);
     expect(resultState.isValidationPending).toBe(false);
   });
@@ -33,7 +33,7 @@ describe(`form control ${setAsyncErrorReducer.name}`, () => {
     const name2 = 'min';
     const value = true;
     const state = { ...INITIAL_STATE, pendingValidations: [name, name2], isValidationPending: true };
-    const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+    const resultState = setAsyncErrorReducer(state, SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
     expect(resultState.pendingValidations).toEqual([name2]);
     expect(resultState.isValidationPending).toBe(true);
   });
@@ -42,7 +42,7 @@ describe(`form control ${setAsyncErrorReducer.name}`, () => {
     const name = 'required';
     const value = true;
     const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { [`$${name}`]: value }, pendingValidations: [name], isValidationPending: true };
-    const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+    const resultState = setAsyncErrorReducer(state, SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
     expect(resultState.errors[`$${name}`]).toBe(value);
     expect(resultState.pendingValidations).toEqual([]);
     expect(resultState.isValidationPending).toBe(false);
@@ -52,7 +52,7 @@ describe(`form control ${setAsyncErrorReducer.name}`, () => {
     const name = 'required';
     const value = { field: true };
     const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { [`$${name}`]: value }, pendingValidations: [name], isValidationPending: true };
-    const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, { ...value }));
+    const resultState = setAsyncErrorReducer(state, SetAsyncErrorAction(FORM_CONTROL_ID, name, { ...value }));
     expect(resultState.errors[`$${name}`]).toBe(value);
     expect(resultState.pendingValidations).toEqual([]);
     expect(resultState.isValidationPending).toBe(false);
@@ -62,7 +62,7 @@ describe(`form control ${setAsyncErrorReducer.name}`, () => {
     const name = 'required';
     const value = true;
     const state = { ...INITIAL_STATE, isEnabled: false, isDisabled: true };
-    const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+    const resultState = setAsyncErrorReducer(state, SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
     expect(resultState).toBe(state);
   });
 
@@ -70,7 +70,7 @@ describe(`form control ${setAsyncErrorReducer.name}`, () => {
     const name = 'required';
     const value = true;
     const state = { ...INITIAL_STATE, pendingValidations: ['min'], isValidationPending: true };
-    const resultState = setAsyncErrorReducer(state, new SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
+    const resultState = setAsyncErrorReducer(state, SetAsyncErrorAction(FORM_CONTROL_ID, name, value));
     expect(resultState.errors).toEqual({ [`$${name}`]: value });
     expect(resultState.isValid).toBe(false);
     expect(resultState.isInvalid).toBe(true);

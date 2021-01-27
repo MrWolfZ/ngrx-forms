@@ -7,5 +7,5 @@ import { FormControlState, FormControlValueTypes } from '../state';
  * will also `.focus()` the form element).
  */
 export function focus<TValue extends FormControlValueTypes>(state: FormControlState<TValue>) {
-  return formControlReducer(state, new FocusAction(state.id));
+  return formControlReducer(state, FocusAction(state.id));
 }

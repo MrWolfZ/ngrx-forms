@@ -1,12 +1,12 @@
-import { Actions, ClearAsyncErrorAction } from '../../actions';
+import { ClearAsyncErrorAction, NgrxFormActionTypes} from '../../actions';
 import { computeArrayState, FormArrayState } from '../../state';
 import { childReducer } from './util';
 
 export function clearAsyncErrorReducer<TValue>(
   state: FormArrayState<TValue>,
-  action: Actions<TValue[]>,
+  action: NgrxFormActionTypes,
 ): FormArrayState<TValue> {
-  if (action.type !== ClearAsyncErrorAction.TYPE) {
+  if (action.type !== ClearAsyncErrorAction.type) {
     return state;
   }
 

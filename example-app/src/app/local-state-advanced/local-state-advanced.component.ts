@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { Actions, SetValueAction } from 'ngrx-forms';
 import { Subscription } from 'rxjs';
 
 import { GetManufacturersAction, INITIAL_LOCAL_STATE, reducer } from './local-state-advanced.reducer';
+import {NgrxFormActionTypes, SetValueAction} from "../../../../src/actions";
 
 @Component({
   selector: 'ngf-local-state-advanced',
@@ -33,16 +33,16 @@ export class LocalStateAdvancedComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  handleFormAction(action: Actions<any>) {
+  handleFormAction(action: NgrxFormActionTypes) {
     this.updateState(action);
 
     // trigger loading of new manufacturers list in effect
-    if (action.type === SetValueAction.TYPE && action.controlId === this.localState.formState.controls.countryCode.id) {
-      this.actionsSubject.next(new GetManufacturersAction(action.value));
+    if (action.type === SetValueAction.type && action.controlId === this.localState.formState.controls.countryCode.id) {
+      this.actionsSubject.next(GetManufacturersAction(action.value));
     }
   }
 
-  private updateState(action: Action): boolean {
+  private updateState(action: NgrxFormActionTypes): boolean {
     const localState = reducer(this.localState, action);
     const updated = localState !== this.localState;
     this.localState = localState;

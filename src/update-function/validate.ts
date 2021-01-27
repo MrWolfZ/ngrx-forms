@@ -54,7 +54,7 @@ export function validate<TValue>(
     const functionArr = Array.isArray(functionOrFunctionArr) ? functionOrFunctionArr : [functionOrFunctionArr!];
     const errors = functionArr.concat(...rest)
       .reduce((agg, validationFn) => Object.assign(agg, validationFn(stateOrFunctionOrFunctionArray.value)), {} as ValidationErrors);
-    return formStateReducer<TValue>(stateOrFunctionOrFunctionArray, new SetErrorsAction(stateOrFunctionOrFunctionArray.id, errors));
+    return formStateReducer<TValue>(stateOrFunctionOrFunctionArray, SetErrorsAction(stateOrFunctionOrFunctionArray.id, errors));
   }
 
   let updateFnArr = Array.isArray(stateOrFunctionOrFunctionArray) ? stateOrFunctionOrFunctionArray : [stateOrFunctionOrFunctionArray];

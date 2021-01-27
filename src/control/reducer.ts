@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 
-import { Actions } from '../actions';
 import { FormControlState, FormControlValueTypes, isArrayState, isGroupState } from '../state';
 import { clearAsyncErrorReducer } from './reducer/clear-async-error';
 import { disableReducer } from './reducer/disable';
@@ -19,10 +18,11 @@ import { setUserDefinedPropertyReducer } from './reducer/set-user-defined-proper
 import { setValueReducer } from './reducer/set-value';
 import { startAsyncValidationReducer } from './reducer/start-async-validation';
 import { unfocusReducer } from './reducer/unfocus';
+import {NgrxFormActionTypes} from "../actions";
 
 export function formControlReducerInternal<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormControlState<TValue> {
   if (isGroupState(state) || isArrayState(state)) {
     throw new Error('The state must be a control state');

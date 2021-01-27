@@ -5,12 +5,12 @@ import { FORM_CONTROL_ID, INITIAL_STATE_FULL, setPropertiesRecursively } from '.
 describe(`form group ${enableReducer.name}`, () => {
   it('should enable itself and all children recursively', () => {
     const state = setPropertiesRecursively(INITIAL_STATE_FULL, [['isEnabled', false], ['isDisabled', true]]);
-    const resultState = enableReducer(state, new EnableAction(FORM_CONTROL_ID));
+    const resultState = enableReducer(state, EnableAction(FORM_CONTROL_ID));
     expect(resultState).toEqual(INITIAL_STATE_FULL);
   });
 
   it('should not update state if all children are enabled recursively', () => {
-    const resultState = enableReducer(INITIAL_STATE_FULL, new EnableAction(FORM_CONTROL_ID));
+    const resultState = enableReducer(INITIAL_STATE_FULL, EnableAction(FORM_CONTROL_ID));
     expect(resultState).toBe(INITIAL_STATE_FULL);
   });
 
@@ -26,7 +26,7 @@ describe(`form group ${enableReducer.name}`, () => {
         },
       },
     };
-    const resultState = enableReducer(state, new EnableAction(FORM_CONTROL_ID));
+    const resultState = enableReducer(state, EnableAction(FORM_CONTROL_ID));
     expect(resultState).toEqual(INITIAL_STATE_FULL);
   });
 
@@ -42,7 +42,7 @@ describe(`form group ${enableReducer.name}`, () => {
         },
       },
     };
-    const resultState = enableReducer(state, new EnableAction(state.controls.inner2.id));
+    const resultState = enableReducer(state, EnableAction(state.controls.inner2.id));
     expect(resultState).not.toBe(state);
   });
 });

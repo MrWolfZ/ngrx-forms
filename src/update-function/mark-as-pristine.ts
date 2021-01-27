@@ -24,5 +24,5 @@ export function markAsPristine<TValue>(state: FormGroupState<TValue>): FormGroup
 export function markAsPristine<TValue>(state: AbstractControlState<TValue>): FormState<TValue>;
 
 export function markAsPristine<TValue>(state: AbstractControlState<TValue>) {
-  return abstractControlReducer(state, new MarkAsPristineAction(state.id));
+  return abstractControlReducer(state, MarkAsPristineAction(state.id));
 }

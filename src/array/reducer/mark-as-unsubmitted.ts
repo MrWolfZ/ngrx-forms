@@ -1,12 +1,12 @@
-import { Actions, MarkAsUnsubmittedAction } from '../../actions';
+import { MarkAsUnsubmittedAction, NgrxFormActionTypes} from '../../actions';
 import { computeArrayState, FormArrayState } from '../../state';
 import { childReducer, dispatchActionPerChild } from './util';
 
 export function markAsUnsubmittedReducer<TValue>(
   state: FormArrayState<TValue>,
-  action: Actions<TValue[]>,
+  action: NgrxFormActionTypes,
 ): FormArrayState<TValue> {
-  if (action.type !== MarkAsUnsubmittedAction.TYPE) {
+  if (action.type !== MarkAsUnsubmittedAction.type) {
     return state;
   }
 
@@ -20,7 +20,7 @@ export function markAsUnsubmittedReducer<TValue>(
 
   return computeArrayState(
     state.id,
-    dispatchActionPerChild(state.controls, controlId => new MarkAsUnsubmittedAction(controlId)),
+    dispatchActionPerChild(state.controls, controlId => MarkAsUnsubmittedAction(controlId)),
     state.value,
     state.errors,
     state.pendingValidations,

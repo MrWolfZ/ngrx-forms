@@ -44,7 +44,7 @@ export class DynamicPageComponent {
     this.formState$.pipe(
       take(1),
       map(s => s.controls.array.id),
-      map(id => new RemoveArrayControlAction(id, index)),
+      map(id => RemoveArrayControlAction(id, index)),
     ).subscribe(this.store);
   }
 

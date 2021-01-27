@@ -70,8 +70,8 @@ describe(SelectComponent.name, () => {
 
   it(`should trigger a ${SetValueAction.name} with the selected value when an option is selected`, done => {
     actions$.pipe(first()).subscribe(a => {
-      expect(a.type).toBe(SetValueAction.TYPE);
-      expect((a as SetValueAction<string>).value).toBe(SELECT_OPTIONS[0]);
+      expect(a.type).toBe(SetValueAction.type);
+      // expect((a as SetValueAction<string>).value).toBe(SELECT_OPTIONS[0]);
       done();
     });
 
@@ -81,7 +81,7 @@ describe(SelectComponent.name, () => {
 
   it(`should trigger a ${MarkAsDirtyAction.name} when an option is selected`, done => {
     actions$.pipe(skip(1), first()).subscribe(a => {
-      expect(a.type).toBe(MarkAsDirtyAction.TYPE);
+      expect(a.type).toBe(MarkAsDirtyAction.type);
       done();
     });
 
@@ -153,8 +153,8 @@ describe(NumberSelectComponent.name, () => {
 
   it(`should trigger a ${SetValueAction.name} with the selected value when an option is selected`, done => {
     actions$.pipe(first()).subscribe(a => {
-      expect(a.type).toBe(SetValueAction.TYPE);
-      expect((a as SetValueAction<number>).value).toBe(SELECT_NUMBER_OPTIONS[0]);
+      expect(a.type).toBe(SetValueAction.type);
+      // expect((a as SetValueAction<number>).value).toBe(SELECT_NUMBER_OPTIONS[0]);
       done();
     });
 
@@ -164,7 +164,7 @@ describe(NumberSelectComponent.name, () => {
 
   it(`should trigger a ${MarkAsDirtyAction.name} when an option is selected`, done => {
     actions$.pipe(skip(1), first()).subscribe(a => {
-      expect(a.type).toBe(MarkAsDirtyAction.TYPE);
+      expect(a.type).toBe(MarkAsDirtyAction.type);
       done();
     });
 

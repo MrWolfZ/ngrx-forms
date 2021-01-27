@@ -1,11 +1,11 @@
-import { Actions, MarkAsPristineAction } from '../../actions';
+import {MarkAsPristineAction, NgrxFormActionTypes} from '../../actions';
 import { FormControlState, FormControlValueTypes } from '../../state';
 
 export function markAsPristineReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormControlState<TValue> {
-  if (action.type !== MarkAsPristineAction.TYPE) {
+  if (action.type !== MarkAsPristineAction.type) {
     return state;
   }
 

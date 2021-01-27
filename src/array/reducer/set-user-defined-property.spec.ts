@@ -9,7 +9,7 @@ describe(`form group ${setUserDefinedPropertyReducer.name}`, () => {
   it('should update state user defined properties if different', () => {
     const prop = 'prop';
     const value = 12;
-    const resultState = setUserDefinedPropertyReducer(INITIAL_STATE, new SetUserDefinedPropertyAction(FORM_CONTROL_ID, prop, value));
+    const resultState = setUserDefinedPropertyReducer(INITIAL_STATE, SetUserDefinedPropertyAction(FORM_CONTROL_ID, prop, value));
     expect(resultState.userDefinedProperties).toEqual({
       [prop]: value,
     });
@@ -19,14 +19,14 @@ describe(`form group ${setUserDefinedPropertyReducer.name}`, () => {
     const prop = 'prop';
     const value = 12;
     const state = { ...INITIAL_STATE, userDefinedProperties: { [prop]: value } };
-    const resultState = setUserDefinedPropertyReducer(state, new SetUserDefinedPropertyAction(FORM_CONTROL_ID, prop, value));
+    const resultState = setUserDefinedPropertyReducer(state, SetUserDefinedPropertyAction(FORM_CONTROL_ID, prop, value));
     expect(resultState).toBe(state);
   });
 
   it('should update state user defined properties for children', () => {
     const prop = 'prop';
     const value = 12;
-    const resultState = setUserDefinedPropertyReducer(INITIAL_STATE, new SetUserDefinedPropertyAction(FORM_CONTROL_0_ID, prop, value));
+    const resultState = setUserDefinedPropertyReducer(INITIAL_STATE, SetUserDefinedPropertyAction(FORM_CONTROL_0_ID, prop, value));
     expect(resultState.controls[0].userDefinedProperties).toEqual({
       [prop]: value,
     });
