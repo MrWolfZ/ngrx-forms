@@ -17,7 +17,7 @@ export function removeArrayControl<TValue>(state: FormArrayState<TValue>, index:
 
 export function removeArrayControl<TValue>(indexOrState: number | FormArrayState<TValue>, index?: number) {
   if (isArrayState(indexOrState)) {
-    return formArrayReducer(indexOrState, new RemoveArrayControlAction(indexOrState.id, index!));
+    return formArrayReducer(indexOrState, RemoveArrayControlAction(indexOrState.id, index!));
   }
 
   return (s: FormArrayState<TValue>) => removeArrayControl(ensureState(s), indexOrState as number);

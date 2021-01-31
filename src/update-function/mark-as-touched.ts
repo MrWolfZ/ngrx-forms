@@ -24,5 +24,5 @@ export function markAsTouched<TValue>(state: FormGroupState<TValue>): FormGroupS
 export function markAsTouched<TValue>(state: AbstractControlState<TValue>): FormState<TValue>;
 
 export function markAsTouched<TValue>(state: AbstractControlState<TValue>) {
-  return abstractControlReducer(state, new MarkAsTouchedAction(state.id));
+  return abstractControlReducer(state, MarkAsTouchedAction(state.id));
 }

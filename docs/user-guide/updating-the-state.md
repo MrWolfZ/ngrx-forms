@@ -121,19 +121,19 @@ The `setValue` update function takes a value and returns a projection function t
 const control = createFormControlState<string>('control ID', '');
 const updatedControl = setValue('new Value')(control);
 const updatedControlUncurried = setValue(control, 'newValue');
-const updatedControlViaAction = formStateReducer(control, new SetValueAction(control.id, 'newValue'));
+const updatedControlViaAction = formStateReducer(control, SetValueAction(control.id, 'newValue'));
 
 // group
 const group = createFormGroupState('group ID', { inner: '' });
 const updatedGroup = setValue({ inner: 'newValue' })(group);
 const updatedGroupUncurried = setValue(group, { inner: 'newValue' });
-const updatedGroupViaAction = formStateReducer(group, new SetValueAction(group.id, { inner: 'newValue' }));
+const updatedGroupViaAction = formStateReducer(group, SetValueAction(group.id, { inner: 'newValue' }));
 
 // array
 const array = createFormArrayState('array ID', ['']);
 const updatedArray = setValue(['newValue'])(array);
 const updatedArrayUncurried = setValue(array, ['newValue']);
-const updatedArrayViaAction = formStateReducer(array, new SetValueAction(array.id, ['newValue']));
+const updatedArrayViaAction = formStateReducer(array, SetValueAction(array.id, ['newValue']));
 ```
 
 #### Validating the value
@@ -168,19 +168,19 @@ The `setErrors` update function takes one or more error objects and returns a pr
 const control = createFormControlState<string>('control ID', '');
 const updatedControl = setErrors({ missing: true })(control);
 const updatedControlUncurried = setErrors(control, { missing: true });
-const updatedControlViaAction = formStateReducer(control, new SetErrorsAction(control.id, { missing: true }));
+const updatedControlViaAction = formStateReducer(control, SetErrorsAction(control.id, { missing: true }));
 
 // group
 const group = createFormGroupState('group ID', { inner: '' });
 const updatedGroup = setErrors({ innerMissing: true })(group);
 const updatedGroupUncurried = setErrors(group, { innerMissing: true });
-const updatedGroupViaAction = formStateReducer(group, new SetErrorsAction(group.id, { innerMissing: true }));
+const updatedGroupViaAction = formStateReducer(group, SetErrorsAction(group.id, { innerMissing: true }));
 
 // array
 const array = createFormArrayState('array ID', ['']);
 const updatedArray = setErrors({ missing: true })(array);
 const updatedArrayUncurried = setErrors(array, { missing: true });
-const updatedArrayViaAction = formStateReducer(array, new SetErrorsAction(array.id, { missing: true }));
+const updatedArrayViaAction = formStateReducer(array, SetErrorsAction(array.id, { missing: true }));
 ```
 
 #### Enabling and disabling
@@ -192,22 +192,22 @@ The `enable` and `disable` update functions take a form state and enable/disable
 const control = createFormControlState<string>('control ID', '');
 const disabledControl = disable(control);
 const enabledControl = enable(disabledControl);
-const disabledControlViaAction = formStateReducer(control, new DisableAction(control.id));
-const enabledControlViaAction = formStateReducer(disabledControlViaAction, new EnableAction(control.id));
+const disabledControlViaAction = formStateReducer(control, DisableAction(control.id));
+const enabledControlViaAction = formStateReducer(disabledControlViaAction, EnableAction(control.id));
 
 // group
 const group = createFormGroupState('group ID', { inner: '' });
 const disabledGroup = disable(group);
 const enabledGroup = enable(disabledGroup);
-const disabledGroupViaAction = formStateReducer(group, new DisableAction(group.id));
-const enabledGroupViaAction = formStateReducer(disabledGroupViaAction, new EnableAction(group.id));
+const disabledGroupViaAction = formStateReducer(group, DisableAction(group.id));
+const enabledGroupViaAction = formStateReducer(disabledGroupViaAction, EnableAction(group.id));
 
 // array
 const array = createFormArrayState('array ID', ['']);
 const disabledArray = disable(array);
 const enabledArray = enable(disabledArray);
-const disabledArrayViaAction = formStateReducer(array, new DisableAction(array.id));
-const enabledArrayViaAction = formStateReducer(disabledArrayViaAction, new EnableAction(array.id));
+const disabledArrayViaAction = formStateReducer(array, DisableAction(array.id));
+const enabledArrayViaAction = formStateReducer(disabledArrayViaAction, EnableAction(array.id));
 ```
 
 #### Marking as dirty or pristine
@@ -219,22 +219,22 @@ The `markAsDirty` and `markAsPristine` update functions take a form state and ma
 const control = createFormControlState<string>('control ID', '');
 const dirtyControl = markAsDirty(control);
 const pristineControl = markAsPristine(dirtyControl);
-const dirtyControlViaAction = formStateReducer(control, new MarkAsDirtyAction(control.id));
-const pristineControlViaAction = formStateReducer(dirtyControlViaAction, new MarkAsPristineAction(control.id));
+const dirtyControlViaAction = formStateReducer(control, MarkAsDirtyAction(control.id));
+const pristineControlViaAction = formStateReducer(dirtyControlViaAction, MarkAsPristineAction(control.id));
 
 // group
 const group = createFormGroupState('group ID', { inner: '' });
 const dirtyGroup = markAsDirty(group);
 const pristineGroup = markAsPristine(dirtyGroup);
-const dirtyGroupViaAction = formStateReducer(group, new MarkAsDirtyAction(group.id));
-const pristineGroupViaAction = formStateReducer(dirtyGroupViaAction, new MarkAsPristineAction(group.id));
+const dirtyGroupViaAction = formStateReducer(group, MarkAsDirtyAction(group.id));
+const pristineGroupViaAction = formStateReducer(dirtyGroupViaAction, MarkAsPristineAction(group.id));
 
 // array
 const array = createFormArrayState('array ID', ['']);
 const dirtyArray = markAsDirty(array);
 const pristineArray = markAsPristine(dirtyArray);
-const dirtyArrayViaAction = formStateReducer(array, new MarkAsDirtyAction(array.id));
-const pristineArrayViaAction = formStateReducer(dirtyArrayViaAction, new MarkAsPristineAction(array.id));
+const dirtyArrayViaAction = formStateReducer(array, MarkAsDirtyAction(array.id));
+const pristineArrayViaAction = formStateReducer(dirtyArrayViaAction, MarkAsPristineAction(array.id));
 ```
 
 #### Marking as touched or untouched
@@ -246,22 +246,22 @@ The `markAsTouched` and `markAsUntouched` update functions take a form state and
 const control = createFormControlState<string>('control ID', '');
 const touchedControl = markAsTouched(control);
 const untouchedControl = markAsUntouched(touchedControl);
-const touchedControlViaAction = formStateReducer(control, new MarkAsTouchedAction(control.id));
-const untouchedControlViaAction = formStateReducer(touchedControlViaAction, new MarkAsUntouchedAction(control.id));
+const touchedControlViaAction = formStateReducer(control, MarkAsTouchedAction(control.id));
+const untouchedControlViaAction = formStateReducer(touchedControlViaAction, MarkAsUntouchedAction(control.id));
 
 // group
 const group = createFormGroupState('group ID', { inner: '' });
 const touchedGroup = markAsTouched(group);
 const untouchedGroup = markAsUntouched(touchedGroup);
-const touchedGroupViaAction = formStateReducer(group, new MarkAsTouchedAction(group.id));
-const untouchedGroupViaAction = formStateReducer(touchedGroupViaAction, new MarkAsUntouchedAction(group.id));
+const touchedGroupViaAction = formStateReducer(group, MarkAsTouchedAction(group.id));
+const untouchedGroupViaAction = formStateReducer(touchedGroupViaAction, MarkAsUntouchedAction(group.id));
 
 // array
 const array = createFormArrayState('array ID', ['']);
 const touchedArray = markAsTouched(array);
 const untouchedArray = markAsUntouched(touchedArray);
-const touchedArrayViaAction = formStateReducer(array, new MarkAsTouchedAction(array.id));
-const untouchedArrayViaAction = formStateReducer(touchedArrayViaAction, new MarkAsUntouchedAction(array.id));
+const touchedArrayViaAction = formStateReducer(array, MarkAsTouchedAction(array.id));
+const untouchedArrayViaAction = formStateReducer(touchedArrayViaAction, MarkAsUntouchedAction(array.id));
 ```
 
 #### Marking as submitted or unsubmitted
@@ -273,22 +273,22 @@ The `markAsSubmitted` and `markAsUnsubmitted` update functions take a form state
 const control = createFormControlState<string>('control ID', '');
 const submittedControl = markAsSubmitted(control);
 const unsubmittedControl = markAsUnsubmitted(submittedControl);
-const submittedControlViaAction = formStateReducer(control, new MarkAsSubmittedAction(control.id));
-const unsubmittedControlViaAction = formStateReducer(submittedControlViaAction, new MarkAsUnsubmittedAction(control.id));
+const submittedControlViaAction = formStateReducer(control, MarkAsSubmittedAction(control.id));
+const unsubmittedControlViaAction = formStateReducer(submittedControlViaAction, MarkAsUnsubmittedAction(control.id));
 
 // group
 const group = createFormGroupState('group ID', { inner: '' });
 const submittedGroup = markAsSubmitted(group);
 const unsubmittedGroup = markAsUnsubmitted(submittedGroup);
-const submittedGroupViaAction = formStateReducer(group, new MarkAsSubmittedAction(group.id));
-const unsubmittedGroupViaAction = formStateReducer(submittedGroupViaAction, new MarkAsUnsubmittedAction(group.id));
+const submittedGroupViaAction = formStateReducer(group, MarkAsSubmittedAction(group.id));
+const unsubmittedGroupViaAction = formStateReducer(submittedGroupViaAction, MarkAsUnsubmittedAction(group.id));
 
 // array
 const array = createFormArrayState('array ID', ['']);
 const submittedArray = markAsSubmitted(array);
 const unsubmittedArray = markAsUnsubmitted(submittedArray);
-const submittedArrayViaAction = formStateReducer(array, new MarkAsSubmittedAction(array.id));
-const unsubmittedArrayViaAction = formStateReducer(submittedArrayViaAction, new MarkAsUnsubmittedAction(array.id));
+const submittedArrayViaAction = formStateReducer(array, MarkAsSubmittedAction(array.id));
+const unsubmittedArrayViaAction = formStateReducer(submittedArrayViaAction, MarkAsUnsubmittedAction(array.id));
 ```
 
 #### Resetting
@@ -300,19 +300,19 @@ The `reset` update function takes a form state and marks it as pristine, untouch
 const control = createFormControlState<string>('control ID', '');
 const updatedControl = markAsSubmitted(markAsTouched(markAsDirty(control)));
 const resetControl = reset(updatedControl);
-const resetControlViaAction = formStateReducer(updatedControl, new ResetAction(control.id));
+const resetControlViaAction = formStateReducer(updatedControl, ResetAction(control.id));
 
 // group
 const group = createFormGroupState('group ID', { inner: '' });
 const updatedGroup = markAsSubmitted(markAsTouched(markAsDirty(group)));
 const resetGroup = reset(updatedGroup);
-const resetGroupViaAction = formStateReducer(updatedGroup, new ResetAction(group.id));
+const resetGroupViaAction = formStateReducer(updatedGroup, ResetAction(group.id));
 
 // array
 const array = createFormArrayState('array ID', ['']);
 const updatedArray = markAsSubmitted(markAsTouched(markAsDirty(array)));
 const resetArray = reset(updatedArray);
-const resetArrayViaAction = formStateReducer(updatedArray, new ResetAction(array.id));
+const resetArrayViaAction = formStateReducer(updatedArray, ResetAction(array.id));
 ```
 
 #### Focusing and unfocusing
@@ -323,8 +323,8 @@ The `focus` and `unfocus` update functions take a form control state and mark it
 const control = createFormControlState<string>('control ID', '');
 const focusedControl = focus(control);
 const unfocusedControl = unfocus(focusedControl);
-const focusedControlViaAction = formStateReducer(control, new FocusAction(control.id));
-const unfocusedControlViaAction = formStateReducer(focusedControlViaAction, new UnfocusAction(control.id));
+const focusedControlViaAction = formStateReducer(control, FocusAction(control.id));
+const unfocusedControlViaAction = formStateReducer(focusedControlViaAction, UnfocusAction(control.id));
 ```
 
 #### Adding and removing group controls
@@ -356,7 +356,7 @@ const arrayWithoutControl = removeArrayControl(1)(arrayWithControl);
 const arrayWithControlUncurried = addArrayControl(array, '1', 1);
 const arrayWithoutControlUncurried = removeArrayControl(arrayWithControlUncurried, 1);
 const arrayWithControlViaAction = formStateReducer(array, new AddArrayControlAction(array.id, '1', 1));
-const arrayWithoutControlViaAction = formStateReducer(arrayWithControlViaAction, new RemoveArrayControlAction(array.id, 1));
+const arrayWithoutControlViaAction = formStateReducer(arrayWithControlViaAction, RemoveArrayControlAction(array.id, 1));
 ```
 
 #### Setting user-defined properties
@@ -368,19 +368,19 @@ The `setUserDefinedProperty` update function takes a name and a value and return
 const control = createFormControlState<string>('control ID', '');
 const updatedControl = setUserDefinedProperty('allowedValues', ['foo', 'bar'])(control);
 const updatedControlUncurried = setUserDefinedProperty(control, 'allowedValues', ['foo', 'bar']);
-const updatedControlViaAction = formStateReducer(control, new SetUserDefinedPropertyAction(control.id, 'allowedValues', ['foo', 'bar']));
+const updatedControlViaAction = formStateReducer(control,SetUserDefinedPropertyAction(control.id, 'allowedValues', ['foo', 'bar']));
 
 // group
 const group = createFormGroupState('group ID', { inner: '' });
 const updatedGroup = setUserDefinedProperty('allowedValues', ['foo', 'bar'])(group);
 const updatedGroupUncurried = setUserDefinedProperty(group, 'allowedValues', ['foo', 'bar']);
-const updatedGroupViaAction = formStateReducer(group, new SetUserDefinedPropertyAction(group.id, 'allowedValues', ['foo', 'bar']));
+const updatedGroupViaAction = formStateReducer(group,SetUserDefinedPropertyAction(group.id, 'allowedValues', ['foo', 'bar']));
 
 // array
 const array = createFormArrayState('array ID', ['']);
 const updatedArray = setUserDefinedProperty('allowedValues', ['foo', 'bar'])(array);
 const updatedArrayUncurried = setUserDefinedProperty(array, 'allowedValues', ['foo', 'bar']);
-const updatedArrayViaAction = formStateReducer(array, new SetUserDefinedPropertyAction(array.id, 'allowedValues', ['foo', 'bar']));
+const updatedArrayViaAction = formStateReducer(array,SetUserDefinedPropertyAction(array.id, 'allowedValues', ['foo', 'bar']));
 ```
 
 #### Updating groups
@@ -640,14 +640,14 @@ function appReducer(state = INITIAL_APP_STATE, action: Action) {
         const value: boolean = a.value;
 
         if (value) {
-          const formState = formGroupReducer(state.formState, new EnableAction(someNumberId));
+          const formState = formGroupReducer(state.formState, EnableAction(someNumberId));
           return {
             ...state,
             formState,
           };
         }
         
-        const formState = formGroupReducer(state.formState, new DisableAction(someNumberId));
+        const formState = formGroupReducer(state.formState, DisableAction(someNumberId));
         return {
           ...state,
           formState,
@@ -660,7 +660,7 @@ function appReducer(state = INITIAL_APP_STATE, action: Action) {
         if (value === null) {
           const formState = formGroupReducer(
             state.formState,
-            new SetErrorsAction(someNumberId, { valueIsNull: true }),
+            SetErrorsAction(someNumberId, { valueIsNull: true }),
           );
 
           return {
@@ -672,7 +672,7 @@ function appReducer(state = INITIAL_APP_STATE, action: Action) {
         if (value < 1) {
           const formState = formGroupReducer(
             state.formState,
-            new SetErrorsAction(someNumberId, { valueTooSmall: true }),
+            SetErrorsAction(someNumberId, { valueTooSmall: true }),
           );
 
           return {
@@ -684,7 +684,7 @@ function appReducer(state = INITIAL_APP_STATE, action: Action) {
         if (value > 10) {
           const formState = formGroupReducer(
             state.formState,
-            new SetErrorsAction(someNumberId, { valueTooLarge: true }),
+            SetErrorsAction(someNumberId, { valueTooLarge: true }),
           );
 
           return {

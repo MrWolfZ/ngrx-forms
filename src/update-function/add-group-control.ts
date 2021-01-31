@@ -28,7 +28,7 @@ export function addGroupControl<TValue extends KeyValue, TControlKey extends key
   value?: TValue[TControlKey],
 ) {
   if (isGroupState(nameOrState)) {
-    return formGroupReducer(nameOrState, new AddGroupControlAction<TValue, TControlKey>(nameOrState.id, valueOrName as TControlKey, value!));
+    return formGroupReducer(nameOrState, AddGroupControlAction(nameOrState.id, valueOrName as TValue[TControlKey], value!));
   }
 
   return (s: FormGroupState<TValue>) => addGroupControl(ensureState(s), nameOrState as TControlKey, valueOrName as TValue[TControlKey]);

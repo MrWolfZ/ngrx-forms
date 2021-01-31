@@ -1,12 +1,12 @@
-import { Actions, AddGroupControlAction } from '../../actions';
+import {AddGroupControlAction, NgrxFormActionTypes} from '../../actions';
 import { computeGroupState, createChildState, FormGroupState, KeyValue } from '../../state';
 import { childReducer } from './util';
 
 export function addControlReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormGroupState<TValue> {
-  if (action.type !== AddGroupControlAction.TYPE) {
+  if (action.type !== AddGroupControlAction.type) {
     return state;
   }
 

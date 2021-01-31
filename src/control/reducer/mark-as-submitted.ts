@@ -1,11 +1,11 @@
-import { Actions, MarkAsSubmittedAction } from '../../actions';
+import { MarkAsSubmittedAction, NgrxFormActionTypes} from '../../actions';
 import { FormControlState, FormControlValueTypes } from '../../state';
 
 export function markAsSubmittedReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormControlState<TValue> {
-  if (action.type !== MarkAsSubmittedAction.TYPE) {
+  if (action.type !== MarkAsSubmittedAction.type) {
     return state;
   }
 

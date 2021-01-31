@@ -60,7 +60,7 @@ describe(NgrxLocalFormControlDirective.name, () => {
       const newValue = 'new value';
 
       directive.ngrxFormsAction.pipe(first()).subscribe(a => {
-        expect(a).toEqual(new SetValueAction(INITIAL_STATE.id, newValue));
+        expect(a).toEqual(SetValueAction(INITIAL_STATE.id, newValue));
         done();
       });
 

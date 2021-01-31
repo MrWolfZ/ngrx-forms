@@ -13,13 +13,13 @@ describe('form control markAsUnsubmittedReducer', () => {
   describe(MarkAsUnsubmittedAction.name, () => {
     it('should update state if submitted', () => {
       const state = { ...INITIAL_STATE, isSubmitted: true, isUnsubmitted: false };
-      const resultState = markAsUnsubmittedReducer(state, new MarkAsUnsubmittedAction(FORM_CONTROL_ID));
+      const resultState = markAsUnsubmittedReducer(state, MarkAsUnsubmittedAction(FORM_CONTROL_ID));
       expect(resultState.isSubmitted).toEqual(false);
       expect(resultState.isUnsubmitted).toEqual(true);
     });
 
     it('should not update state if unsubmitted', () => {
-      const resultState = markAsUnsubmittedReducer(INITIAL_STATE, new MarkAsUnsubmittedAction(FORM_CONTROL_ID));
+      const resultState = markAsUnsubmittedReducer(INITIAL_STATE, MarkAsUnsubmittedAction(FORM_CONTROL_ID));
       expect(resultState).toBe(INITIAL_STATE);
     });
   });

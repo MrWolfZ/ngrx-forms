@@ -17,7 +17,7 @@ export function addArrayControl<TValue>(state: FormArrayState<TValue>, value: TV
 
 export function addArrayControl<TValue>(valueOrState: TValue | FormArrayState<TValue>, indexOrValue: number | TValue | undefined, index?: number) {
   if (isArrayState(valueOrState)) {
-    return formArrayReducer(valueOrState, new AddArrayControlAction(valueOrState.id, indexOrValue as TValue, index));
+    return formArrayReducer(valueOrState, AddArrayControlAction(valueOrState.id, indexOrValue as TValue, index));
   }
 
   return (s: FormArrayState<TValue>) => addArrayControl(ensureState(s), valueOrState as TValue, indexOrValue as number);

@@ -1,7 +1,7 @@
 import { Directive, HostListener, Inject, Input, OnInit, Optional } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 
-import { Actions, MarkAsSubmittedAction } from '../actions';
+import {MarkAsSubmittedAction, NgrxFormActionTypes} from '../actions';
 import { FormGroupState } from '../state';
 
 // this interface just exists to prevent a direct reference to
@@ -23,7 +23,7 @@ export class NgrxFormDirective<TStateValue> implements OnInit {
     this.actionsSubject = actionsSubject;
   }
 
-  protected dispatchAction(action: Actions<TStateValue>) {
+  protected dispatchAction(action: NgrxFormActionTypes) {
     if (this.actionsSubject !== null) {
       this.actionsSubject.next(action);
     } else {
@@ -41,7 +41,7 @@ export class NgrxFormDirective<TStateValue> implements OnInit {
   onSubmit(event: CustomEvent) {
     event.preventDefault();
     if (this.state.isUnsubmitted) {
-      this.dispatchAction(new MarkAsSubmittedAction(this.state.id));
+      this.dispatchAction(MarkAsSubmittedAction(this.state.id));
     }
   }
 }

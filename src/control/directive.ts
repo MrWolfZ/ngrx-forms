@@ -14,7 +14,14 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ActionsSubject } from '@ngrx/store';
 
-import { Actions, FocusAction, MarkAsDirtyAction, MarkAsTouchedAction, SetValueAction, UnfocusAction } from '../actions';
+import {
+  FocusAction,
+  MarkAsDirtyAction,
+  MarkAsTouchedAction,
+  NgrxFormActionTypes,
+  SetValueAction,
+  UnfocusAction
+} from '../actions';
 import { FormControlState, FormControlValueTypes } from '../state';
 import { selectViewAdapter } from '../view-adapter/util';
 import { FormViewAdapter, NGRX_FORM_VIEW_ADAPTER } from '../view-adapter/view-adapter';
@@ -193,7 +200,7 @@ export class NgrxFormControlDirective<TStateValue, TViewValue = TStateValue> imp
     }
   }
 
-  protected dispatchAction(action: Actions<NgrxFormControlValueType<TStateValue>>) {
+  protected dispatchAction(action: NgrxFormActionTypes) {
     if (this.actionsSubject !== null) {
       this.actionsSubject.next(action);
     } else {
@@ -215,14 +222,14 @@ export class NgrxFormControlDirective<TStateValue, TViewValue = TStateValue> imp
 
     const dispatchMarkAsDirtyAction = () => {
       if (this.state.isPristine) {
-        this.dispatchAction(new MarkAsDirtyAction(this.state.id));
+        this.dispatchAction(MarkAsDirtyAction(this.state.id));
       }
     };
 
     const dispatchSetValueAction = () => {
       this.stateValue = this.ngrxValueConverter.convertViewToStateValue(this.viewValue);
       if (this.stateValue !== this.state.value) {
-        this.dispatchAction(new SetValueAction(this.state.id, this.stateValue as NgrxFormControlValueType<TStateValue>));
+        this.dispatchAction(SetValueAction(this.state.id, this.stateValue as NgrxFormControlValueType<TStateValue>));
 
         dispatchMarkAsDirtyAction();
       }
@@ -238,7 +245,7 @@ export class NgrxFormControlDirective<TStateValue, TViewValue = TStateValue> imp
 
     this.viewAdapter.setOnTouchedCallback(() => {
       if (!this.state.isTouched && this.ngrxUpdateOn !== NGRX_UPDATE_ON_TYPE.NEVER) {
-        this.dispatchAction(new MarkAsTouchedAction(this.state.id));
+        this.dispatchAction(MarkAsTouchedAction(this.state.id));
       }
 
       if (this.ngrxUpdateOn === NGRX_UPDATE_ON_TYPE.BLUR) {
@@ -265,7 +272,7 @@ export class NgrxFormControlDirective<TStateValue, TViewValue = TStateValue> imp
 
     const isControlFocused = this.el.nativeElement === this.dom!.activeElement;
     if (isControlFocused !== this.state.isFocused) {
-      this.dispatchAction(isControlFocused ? new FocusAction(this.state.id) : new UnfocusAction(this.state.id));
+      this.dispatchAction(isControlFocused ? FocusAction(this.state.id) : UnfocusAction(this.state.id));
     }
   }
 }

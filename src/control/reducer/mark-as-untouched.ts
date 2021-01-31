@@ -1,11 +1,11 @@
-import { Actions, MarkAsUntouchedAction } from '../../actions';
+import { MarkAsUntouchedAction, NgrxFormActionTypes} from '../../actions';
 import { FormControlState, FormControlValueTypes } from '../../state';
 
 export function markAsUntouchedReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormControlState<TValue> {
-  if (action.type !== MarkAsUntouchedAction.TYPE) {
+  if (action.type !== MarkAsUntouchedAction.type) {
     return state;
   }
 

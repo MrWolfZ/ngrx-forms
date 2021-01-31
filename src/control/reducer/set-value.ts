@@ -1,11 +1,11 @@
-import { Actions, SetValueAction } from '../../actions';
+import {NgrxFormActionTypes, SetValueAction} from '../../actions';
 import { FormControlState, FormControlValueTypes, verifyFormControlValueIsValid } from '../../state';
 
 export function setValueReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormControlState<TValue> {
-  if (action.type !== SetValueAction.TYPE) {
+  if (action.type !== SetValueAction.type) {
     return state;
   }
 

@@ -20,7 +20,7 @@ export function setValue<TValue>(state: AbstractControlState<TValue>, value: TVa
 
 export function setValue<TValue>(valueOrState: TValue | AbstractControlState<TValue>, value?: TValue) {
   if (isFormState(valueOrState)) {
-    return abstractControlReducer(valueOrState, new SetValueAction(valueOrState.id, value));
+    return abstractControlReducer(valueOrState, SetValueAction(valueOrState.id, value));
   }
 
   return (s: AbstractControlState<TValue>) => setValue(ensureState(s), valueOrState);

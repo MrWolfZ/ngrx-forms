@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { FormGroupState, ResetAction, SetValueAction } from 'ngrx-forms';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { FormValue, INITIAL_STATE, SetSubmittedValueAction, State } from './simple-form.reducer';
+import {ResetAction, SetValueAction} from "../../../../src/actions";
+import {FormGroupState} from "../../../../src/state";
 
 @Component({
   selector: 'ngf-simple-form',
@@ -22,8 +23,8 @@ export class SimpleFormPageComponent {
   }
 
   reset() {
-    this.store.dispatch(new SetValueAction(INITIAL_STATE.id, INITIAL_STATE.value));
-    this.store.dispatch(new ResetAction(INITIAL_STATE.id));
+    this.store.dispatch(SetValueAction(INITIAL_STATE.id, INITIAL_STATE.value));
+    this.store.dispatch(ResetAction(INITIAL_STATE.id));
   }
 
   submit() {

@@ -1,12 +1,12 @@
-import { Actions, EnableAction } from '../../actions';
+import {EnableAction, NgrxFormActionTypes} from '../../actions';
 import { computeGroupState, FormGroupState, KeyValue } from '../../state';
 import { childReducer, dispatchActionPerChild } from './util';
 
 export function enableReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormGroupState<TValue> {
-  if (action.type !== EnableAction.TYPE) {
+  if (action.type !== EnableAction.type) {
     return state;
   }
 
@@ -14,7 +14,7 @@ export function enableReducer<TValue extends KeyValue>(
     return childReducer(state, action);
   }
 
-  const controls = dispatchActionPerChild(state.controls, controlId => new EnableAction(controlId));
+  const controls = dispatchActionPerChild(state.controls, controlId => EnableAction(controlId));
 
   if (controls === state.controls) {
     return state;

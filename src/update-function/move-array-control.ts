@@ -17,7 +17,7 @@ export function moveArrayControl<TValue>(state: FormArrayState<TValue>, fromInde
 
 export function moveArrayControl<TValue>(indexOrState: number | FormArrayState<TValue>, fromIndex: number, toIndex?: number) {
   if (isArrayState(indexOrState)) {
-    return formArrayReducer(indexOrState, new MoveArrayControlAction(indexOrState.id, fromIndex, toIndex!));
+    return formArrayReducer(indexOrState, MoveArrayControlAction(indexOrState.id, fromIndex, toIndex!));
   }
 
   return (s: FormArrayState<TValue>) => moveArrayControl(ensureState(s), indexOrState as number, fromIndex);

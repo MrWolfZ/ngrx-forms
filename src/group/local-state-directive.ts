@@ -1,6 +1,6 @@
 import { Directive, EventEmitter, Output } from '@angular/core';
+import { NgrxFormActionTypes } from '../actions';
 
-import { Actions } from '../actions';
 import { NgrxFormDirective } from './directive';
 
 @Directive({
@@ -9,13 +9,13 @@ import { NgrxFormDirective } from './directive';
 })
 export class NgrxLocalFormDirective<TStateValue> extends NgrxFormDirective<TStateValue> {
 
-  @Output() ngrxFormsAction = new EventEmitter<Actions<TStateValue>>();
+  @Output() ngrxFormsAction = new EventEmitter<any>(); // type fix me
 
   constructor() {
     super(null);
   }
 
-  protected dispatchAction(action: Actions<TStateValue>) {
+  protected dispatchAction(action: NgrxFormActionTypes) {
     this.ngrxFormsAction.emit(action);
   }
 }

@@ -1,12 +1,12 @@
-import { Actions, MarkAsTouchedAction } from '../../actions';
+import { MarkAsTouchedAction, NgrxFormActionTypes} from '../../actions';
 import { computeArrayState, FormArrayState } from '../../state';
 import { childReducer, dispatchActionPerChild } from './util';
 
 export function markAsTouchedReducer<TValue>(
   state: FormArrayState<TValue>,
-  action: Actions<TValue[]>,
+  action: NgrxFormActionTypes,
 ): FormArrayState<TValue> {
-  if (action.type !== MarkAsTouchedAction.TYPE) {
+  if (action.type !== MarkAsTouchedAction.type) {
     return state;
   }
 
@@ -14,7 +14,7 @@ export function markAsTouchedReducer<TValue>(
     return childReducer(state, action);
   }
 
-  const controls = dispatchActionPerChild(state.controls, controlId => new MarkAsTouchedAction(controlId));
+  const controls = dispatchActionPerChild(state.controls, controlId => MarkAsTouchedAction(controlId));
 
   if (controls === state.controls) {
     return state;

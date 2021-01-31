@@ -1,12 +1,12 @@
-import { Actions, SetAsyncErrorAction } from '../../actions';
+import {NgrxFormActionTypes, SetAsyncErrorAction} from '../../actions';
 import { FormControlState, FormControlValueTypes } from '../../state';
 import { deepEquals } from '../../util';
 
 export function setAsyncErrorReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormControlState<TValue> {
-  if (action.type !== SetAsyncErrorAction.TYPE) {
+  if (action.type !== SetAsyncErrorAction.type) {
     return state;
   }
 

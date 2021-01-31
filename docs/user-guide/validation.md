@@ -149,10 +149,10 @@ validateBookExists$: Observable<Action> = this.actions$
     this.http.get(`api/books/search/${a.searchTerm}`)
       .map(resp =>
         resp.status === 404
-          ? new SetAsyncErrorAction(a.controlId, "exists", true)
-          : new ClearAsyncErrorAction(a.controlId, "exists")
+          ? SetAsyncErrorAction(a.controlId, "exists", true)
+          : ClearAsyncErrorAction(a.controlId, "exists")
       )
       // controlId may either be sent with the action or obtained from the store via withLatestFrom
-      .startWith(new StartAsyncValidationAction(a.controlId, "exists"))
+      .startWith(StartAsyncValidationAction(a.controlId, "exists"))
   );
 ```

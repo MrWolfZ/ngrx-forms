@@ -1,12 +1,12 @@
-import { Actions, RemoveGroupControlAction } from '../../actions';
+import {NgrxFormActionTypes, RemoveGroupControlAction} from '../../actions';
 import { computeGroupState, FormGroupState, KeyValue } from '../../state';
 import { childReducer } from './util';
 
 export function removeControlReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormGroupState<TValue> {
-  if (action.type !== RemoveGroupControlAction.TYPE) {
+  if (action.type !== RemoveGroupControlAction.type) {
     return state;
   }
 
@@ -18,7 +18,7 @@ export function removeControlReducer<TValue extends KeyValue>(
     throw new Error(`Group '${state.id}' does not have child control '${action.name}'!`); // `;
   }
 
-  const controls = Object.assign({}, state.controls);
+  const controls = <any>Object.assign({}, state.controls);
   delete controls[action.name];
 
   return computeGroupState(

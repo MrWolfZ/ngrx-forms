@@ -1,11 +1,11 @@
-import { Actions, StartAsyncValidationAction } from '../../actions';
+import {NgrxFormActionTypes, StartAsyncValidationAction} from '../../actions';
 import { FormControlState, FormControlValueTypes } from '../../state';
 
 export function startAsyncValidationReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormControlState<TValue> {
-  if (action.type !== StartAsyncValidationAction.TYPE) {
+  if (action.type !== StartAsyncValidationAction.type) {
     return state;
   }
 

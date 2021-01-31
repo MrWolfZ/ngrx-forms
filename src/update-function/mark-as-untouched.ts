@@ -24,5 +24,5 @@ export function markAsUntouched<TValue>(state: FormGroupState<TValue>): FormGrou
 export function markAsUntouched<TValue>(state: AbstractControlState<TValue>): FormState<TValue>;
 
 export function markAsUntouched<TValue>(state: AbstractControlState<TValue>) {
-  return abstractControlReducer(state, new MarkAsUntouchedAction(state.id));
+  return abstractControlReducer(state, MarkAsUntouchedAction(state.id));
 }

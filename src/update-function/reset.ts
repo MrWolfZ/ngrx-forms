@@ -28,5 +28,5 @@ export function reset<TValue>(state: FormGroupState<TValue>): FormGroupState<TVa
 export function reset<TValue>(state: AbstractControlState<TValue>): FormState<TValue>;
 
 export function reset<TValue>(state: AbstractControlState<TValue>) {
-  return abstractControlReducer(state, new ResetAction(state.id));
+  return abstractControlReducer(state, ResetAction(state.id));
 }

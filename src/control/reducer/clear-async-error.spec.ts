@@ -12,7 +12,7 @@ describe(`form control ${clearAsyncErrorReducer.name}`, () => {
   it('should remove error from state', () => {
     const name = 'required';
     const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { [`$${name}`]: true }, pendingValidations: [name], isValidationPending: true };
-    const resultState = clearAsyncErrorReducer(state, new ClearAsyncErrorAction(FORM_CONTROL_ID, name));
+    const resultState = clearAsyncErrorReducer(state, ClearAsyncErrorAction(FORM_CONTROL_ID, name));
     expect(resultState.errors).toEqual({});
     expect(resultState.isValid).toBe(true);
     expect(resultState.isInvalid).toBe(false);
@@ -21,7 +21,7 @@ describe(`form control ${clearAsyncErrorReducer.name}`, () => {
   it('should remove the validation from pending validations if validation is the last pending', () => {
     const name = 'required';
     const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors: { [`$${name}`]: true }, pendingValidations: [name], isValidationPending: true };
-    const resultState = clearAsyncErrorReducer(state, new ClearAsyncErrorAction(FORM_CONTROL_ID, name));
+    const resultState = clearAsyncErrorReducer(state, ClearAsyncErrorAction(FORM_CONTROL_ID, name));
     expect(resultState.pendingValidations).toEqual([]);
     expect(resultState.isValidationPending).toBe(false);
   });
@@ -38,7 +38,7 @@ describe(`form control ${clearAsyncErrorReducer.name}`, () => {
       isValidationPending: true,
     };
 
-    const resultState = clearAsyncErrorReducer(state, new ClearAsyncErrorAction(FORM_CONTROL_ID, name));
+    const resultState = clearAsyncErrorReducer(state, ClearAsyncErrorAction(FORM_CONTROL_ID, name));
     expect(resultState.pendingValidations).toEqual([name2]);
     expect(resultState.isValidationPending).toBe(true);
   });
@@ -47,7 +47,7 @@ describe(`form control ${clearAsyncErrorReducer.name}`, () => {
     const name = 'required';
     const errors = { $min: true };
     const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors, pendingValidations: [name], isValidationPending: true };
-    const resultState = clearAsyncErrorReducer(state, new ClearAsyncErrorAction(FORM_CONTROL_ID, name));
+    const resultState = clearAsyncErrorReducer(state, ClearAsyncErrorAction(FORM_CONTROL_ID, name));
     expect(resultState.errors).toBe(errors);
     expect(resultState.pendingValidations).toEqual([]);
     expect(resultState.isValidationPending).toBe(false);
@@ -64,7 +64,7 @@ describe(`form control ${clearAsyncErrorReducer.name}`, () => {
       isValidationPending: true,
     };
 
-    const resultState = clearAsyncErrorReducer(state, new ClearAsyncErrorAction(FORM_CONTROL_ID, name));
+    const resultState = clearAsyncErrorReducer(state, ClearAsyncErrorAction(FORM_CONTROL_ID, name));
     expect(resultState.errors).toEqual({ $min: true });
     expect(resultState.pendingValidations).toEqual(state.pendingValidations);
     expect(resultState.isValidationPending).toBe(state.isValidationPending);
@@ -81,7 +81,7 @@ describe(`form control ${clearAsyncErrorReducer.name}`, () => {
       isValidationPending: true,
     };
 
-    const resultState = clearAsyncErrorReducer(state, new ClearAsyncErrorAction(FORM_CONTROL_ID, name));
+    const resultState = clearAsyncErrorReducer(state, ClearAsyncErrorAction(FORM_CONTROL_ID, name));
     expect(resultState).toBe(state);
   });
 
@@ -96,7 +96,7 @@ describe(`form control ${clearAsyncErrorReducer.name}`, () => {
       isValidationPending: true,
     };
 
-    const resultState = clearAsyncErrorReducer(state, new ClearAsyncErrorAction(FORM_CONTROL_ID, name));
+    const resultState = clearAsyncErrorReducer(state, ClearAsyncErrorAction(FORM_CONTROL_ID, name));
     expect(resultState.errors).toEqual({});
     expect(resultState.isValid).toBe(true);
     expect(resultState.isInvalid).toBe(false);

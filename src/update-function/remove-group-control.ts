@@ -13,12 +13,12 @@ export function removeGroupControl<TValue extends KeyValue>(name: keyof TValue):
  * This update function takes a group form state and a name and removes the
  * child control with the given name from the state.
  */
-export function removeGroupControl<TValue extends KeyValue>(state: FormGroupState<TValue>, name: keyof TValue): FormGroupState<TValue>;
+export function removeGroupControl<TValue extends KeyValue>(state: FormGroupState<TValue>, name: string): FormGroupState<TValue>;
 
-export function removeGroupControl<TValue extends KeyValue>(nameOrState: keyof TValue | FormGroupState<TValue>, name?: keyof TValue) {
+export function removeGroupControl<TValue extends KeyValue>(nameOrState: keyof TValue | FormGroupState<TValue>, name?: string) {
   if (isGroupState(nameOrState)) {
-    return formGroupReducer(nameOrState, new RemoveGroupControlAction<TValue>(nameOrState.id, name!));
+    return formGroupReducer(nameOrState, RemoveGroupControlAction(nameOrState.id, name!));
   }
 
-  return (s: FormGroupState<TValue>) => removeGroupControl(ensureState(s), nameOrState as keyof TValue);
+  return (s: FormGroupState<TValue>) => removeGroupControl(ensureState(s), nameOrState as string);
 }

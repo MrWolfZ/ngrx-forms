@@ -1,17 +1,17 @@
-import { Action, combineReducers } from '@ngrx/store';
-import { createFormGroupState, formGroupReducer, FormGroupState, setValue, updateGroup } from 'ngrx-forms';
+import {Action, combineReducers, createAction, union} from '@ngrx/store';
+import {
+  createFormGroupState,
+  formGroupReducer,
+  FormGroupState,
+  setValue,
+  updateGroup
+} from "../../../../src/ngrx-forms";
 
-export class GetManufacturersAction implements Action {
-  static readonly TYPE = 'localStateAdvanced/GET_MANUFACTURERS';
-  readonly type = GetManufacturersAction.TYPE;
-  constructor(public countryCode: string) { }
-}
+export const GetManufacturersAction = createAction('localStateAdvanced/GET_MANUFACTURERS', (countryCode: string) => ({ countryCode: countryCode }));
+export const SetManufacturersAction = createAction('localStateAdvanced/SET_MANUFACTURERS', (manufacturers: string[]) => ({ manufacturers: manufacturers }));
 
-export class SetManufacturersAction implements Action {
-  static readonly TYPE = 'localStateAdvanced/SET_MANUFACTURERS';
-  readonly type = SetManufacturersAction.TYPE;
-  constructor(public manufacturers: string[]) { }
-}
+export const ManufacturersActions = union({GetManufacturersAction, SetManufacturersAction});
+export type ManufacturersActionsTypes = typeof ManufacturersActions;
 
 export interface FormValue {
   countryCode: string;
@@ -36,10 +36,10 @@ export const INITIAL_LOCAL_STATE: LocalState = {
 };
 
 const reducers = combineReducers<LocalState>({
-  manufacturers(manufacturers = [], a: Action) {
+  manufacturers(manufacturers: string[] = [], a: Action) {
     // update from loaded data
-    if (a.type === SetManufacturersAction.TYPE) {
-      return (a as SetManufacturersAction).manufacturers;
+    if (a.type === SetManufacturersAction.type) {
+      return a as any['manufacturers'];
     }
     return manufacturers;
   },

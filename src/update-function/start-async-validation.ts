@@ -16,7 +16,7 @@ export function startAsyncValidation<TValue>(state: AbstractControlState<TValue>
 
 export function startAsyncValidation<TValue>(nameOrState: string | AbstractControlState<TValue>, name?: string) {
   if (isFormState(nameOrState)) {
-    return abstractControlReducer(nameOrState, new StartAsyncValidationAction(nameOrState.id, name!));
+    return abstractControlReducer(nameOrState, StartAsyncValidationAction(nameOrState.id, name!));
   }
 
   return (s: AbstractControlState<TValue>) => startAsyncValidation(ensureState(s), nameOrState);

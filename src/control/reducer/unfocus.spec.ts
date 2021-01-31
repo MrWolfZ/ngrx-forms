@@ -11,13 +11,13 @@ describe('form control unfocusReducer', () => {
 
   it('should update state if focused', () => {
     const state = { ...INITIAL_STATE, isFocused: true, isUnfocused: false };
-    const resultState = unfocusReducer(state, new UnfocusAction(FORM_CONTROL_ID));
+    const resultState = unfocusReducer(state, UnfocusAction(FORM_CONTROL_ID));
     expect(resultState.isFocused).toEqual(false);
     expect(resultState.isUnfocused).toEqual(true);
   });
 
   it('should not update state if unfocused', () => {
-    const resultState = unfocusReducer(INITIAL_STATE, new UnfocusAction(FORM_CONTROL_ID));
+    const resultState = unfocusReducer(INITIAL_STATE, UnfocusAction(FORM_CONTROL_ID));
     expect(resultState).toBe(INITIAL_STATE);
   });
 });

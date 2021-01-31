@@ -1,12 +1,12 @@
-import { Actions, MarkAsUnsubmittedAction } from '../../actions';
+import {MarkAsUnsubmittedAction, NgrxFormActionTypes} from '../../actions';
 import { computeGroupState, FormGroupState, KeyValue } from '../../state';
 import { childReducer, dispatchActionPerChild } from './util';
 
 export function markAsUnsubmittedReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormGroupState<TValue> {
-  if (action.type !== MarkAsUnsubmittedAction.TYPE) {
+  if (action.type !== MarkAsUnsubmittedAction.type) {
     return state;
   }
 
@@ -20,7 +20,7 @@ export function markAsUnsubmittedReducer<TValue extends KeyValue>(
 
   return computeGroupState(
     state.id,
-    dispatchActionPerChild(state.controls, controlId => new MarkAsUnsubmittedAction(controlId)),
+    dispatchActionPerChild(state.controls, controlId => MarkAsUnsubmittedAction(controlId)),
     state.value,
     state.errors,
     state.pendingValidations,

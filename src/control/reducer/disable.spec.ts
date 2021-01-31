@@ -10,21 +10,21 @@ describe('form control disableReducer', () => {
   it('should skip any actionof the wrong type', () => expect(disableReducer(INITIAL_STATE, { type: '' } as any)).toBe(INITIAL_STATE));
 
   it('should update state if enabled', () => {
-    const resultState = disableReducer(INITIAL_STATE, new DisableAction(FORM_CONTROL_ID));
+    const resultState = disableReducer(INITIAL_STATE, DisableAction(FORM_CONTROL_ID));
     expect(resultState.isEnabled).toEqual(false);
     expect(resultState.isDisabled).toEqual(true);
   });
 
   it('should not update state if disabled', () => {
     const state = { ...INITIAL_STATE, isEnabled: false, isDisabled: true };
-    const resultState = disableReducer(state, new DisableAction(FORM_CONTROL_ID));
+    const resultState = disableReducer(state, DisableAction(FORM_CONTROL_ID));
     expect(resultState).toBe(state);
   });
 
   it('should mark the state as valid and clear all errors', () => {
     const errors = { required: true };
     const state = { ...INITIAL_STATE, isValid: false, isInvalid: true, errors };
-    const resultState = disableReducer(state, new DisableAction(FORM_CONTROL_ID));
+    const resultState = disableReducer(state, DisableAction(FORM_CONTROL_ID));
     expect(resultState.isValid).toEqual(true);
     expect(resultState.isInvalid).toEqual(false);
     expect(resultState.errors).toEqual({});
@@ -32,7 +32,7 @@ describe('form control disableReducer', () => {
 
   it('should clear all pending validations', () => {
     const state = { ...INITIAL_STATE, pendingValidations: ['required'], isValidationPending: true };
-    const resultState = disableReducer(state, new DisableAction(FORM_CONTROL_ID));
+    const resultState = disableReducer(state, DisableAction(FORM_CONTROL_ID));
     expect(resultState.pendingValidations).toEqual([]);
     expect(resultState.isValidationPending).toBe(false);
   });

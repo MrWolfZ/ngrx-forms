@@ -24,5 +24,5 @@ export function markAsDirty<TValue>(state: FormGroupState<TValue>): FormGroupSta
 export function markAsDirty<TValue>(state: AbstractControlState<TValue>): FormState<TValue>;
 
 export function markAsDirty<TValue>(state: AbstractControlState<TValue>) {
-  return abstractControlReducer(state, new MarkAsDirtyAction(state.id));
+  return abstractControlReducer(state, MarkAsDirtyAction(state.id));
 }

@@ -12,12 +12,12 @@ describe(`form array ${markAsSubmittedReducer.name}`, () => {
   const INITIAL_STATE_SUBMITTED = setPropertiesRecursively(INITIAL_STATE, [['isSubmitted', true], ['isUnsubmitted', false]]);
 
   it('should mark itself and all children recursively as submitted', () => {
-    const resultState = markAsSubmittedReducer(INITIAL_STATE, new MarkAsSubmittedAction(FORM_CONTROL_ID));
+    const resultState = markAsSubmittedReducer(INITIAL_STATE, MarkAsSubmittedAction(FORM_CONTROL_ID));
     expect(resultState).toEqual(INITIAL_STATE_SUBMITTED);
   });
 
   it('should not update state if all children are marked as submitted recursively', () => {
-    const resultState = markAsSubmittedReducer(INITIAL_STATE_SUBMITTED, new MarkAsSubmittedAction(FORM_CONTROL_ID));
+    const resultState = markAsSubmittedReducer(INITIAL_STATE_SUBMITTED, MarkAsSubmittedAction(FORM_CONTROL_ID));
     expect(resultState).toBe(INITIAL_STATE_SUBMITTED);
   });
 
@@ -35,30 +35,30 @@ describe(`form array ${markAsSubmittedReducer.name}`, () => {
         },
       ],
     };
-    const resultState = markAsSubmittedReducer(state, new MarkAsSubmittedAction(FORM_CONTROL_ID));
+    const resultState = markAsSubmittedReducer(state, MarkAsSubmittedAction(FORM_CONTROL_ID));
     expect(resultState).toEqual(INITIAL_STATE_SUBMITTED);
   });
 
   it('should mark control children as submitted', () => {
-    const resultState = markAsSubmittedReducer(INITIAL_STATE, new MarkAsSubmittedAction(FORM_CONTROL_ID));
+    const resultState = markAsSubmittedReducer(INITIAL_STATE, MarkAsSubmittedAction(FORM_CONTROL_ID));
     expect(resultState.controls[0].isSubmitted).toEqual(true);
     expect(resultState.controls[0].isUnsubmitted).toEqual(false);
   });
 
   it('should mark group children as submitted', () => {
-    const resultState = markAsSubmittedReducer(INITIAL_STATE_NESTED_GROUP, new MarkAsSubmittedAction(FORM_CONTROL_ID));
+    const resultState = markAsSubmittedReducer(INITIAL_STATE_NESTED_GROUP, MarkAsSubmittedAction(FORM_CONTROL_ID));
     expect(resultState.controls[0].isSubmitted).toEqual(true);
     expect(resultState.controls[0].isUnsubmitted).toEqual(false);
   });
 
   it('should mark array children as submitted', () => {
-    const resultState = markAsSubmittedReducer(INITIAL_STATE_NESTED_ARRAY, new MarkAsSubmittedAction(FORM_CONTROL_ID));
+    const resultState = markAsSubmittedReducer(INITIAL_STATE_NESTED_ARRAY, MarkAsSubmittedAction(FORM_CONTROL_ID));
     expect(resultState.controls[0].isSubmitted).toEqual(true);
     expect(resultState.controls[0].isUnsubmitted).toEqual(false);
   });
 
   it('should forward actions to children', () => {
-    const resultState = markAsSubmittedReducer(INITIAL_STATE, new MarkAsSubmittedAction(INITIAL_STATE.controls[0].id));
+    const resultState = markAsSubmittedReducer(INITIAL_STATE, MarkAsSubmittedAction(INITIAL_STATE.controls[0].id));
     expect(resultState).not.toBe(INITIAL_STATE);
   });
 });

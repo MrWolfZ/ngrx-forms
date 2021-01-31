@@ -1,11 +1,11 @@
-import { Actions, FocusAction } from '../../actions';
+import { FocusAction, NgrxFormActionTypes} from '../../actions';
 import { FormControlState, FormControlValueTypes } from '../../state';
 
 export function focusReducer<TValue extends FormControlValueTypes>(
   state: FormControlState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormControlState<TValue> {
-  if (action.type !== FocusAction.TYPE) {
+  if (action.type !== FocusAction.type) {
     return state;
   }
 

@@ -1,12 +1,12 @@
-import { Actions, MarkAsDirtyAction } from '../../actions';
+import { MarkAsDirtyAction, NgrxFormActionTypes } from '../../actions';
 import { computeArrayState, FormArrayState } from '../../state';
 import { childReducer, dispatchActionPerChild } from './util';
 
 export function markAsDirtyReducer<TValue>(
   state: FormArrayState<TValue>,
-  action: Actions<TValue[]>,
+  action: NgrxFormActionTypes,
 ): FormArrayState<TValue> {
-  if (action.type !== MarkAsDirtyAction.TYPE) {
+  if (action.type !== MarkAsDirtyAction.type) {
     return state;
   }
 
@@ -14,7 +14,7 @@ export function markAsDirtyReducer<TValue>(
     return childReducer(state, action);
   }
 
-  const controls = dispatchActionPerChild(state.controls, controlId => new MarkAsDirtyAction(controlId));
+  const controls = dispatchActionPerChild(state.controls, controlId => MarkAsDirtyAction(controlId));
 
   if (controls === state.controls) {
     return state;

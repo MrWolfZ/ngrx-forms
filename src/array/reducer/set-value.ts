@@ -1,13 +1,13 @@
-import { Actions, SetValueAction } from '../../actions';
+import {NgrxFormActionTypes, SetValueAction} from '../../actions';
 import { formStateReducer } from '../../reducer';
 import { computeArrayState, createChildState, FormArrayState } from '../../state';
 import { childReducer } from './util';
 
 export function setValueReducer<TValue>(
   state: FormArrayState<TValue>,
-  action: Actions<TValue[]>,
+  action: NgrxFormActionTypes,
 ): FormArrayState<TValue> {
-  if (action.type !== SetValueAction.TYPE) {
+  if (action.type !== SetValueAction.type) {
     return state;
   }
 
@@ -26,12 +26,12 @@ export function setValueReducer<TValue>(
   const value = action.value;
 
   const controls = value
-    .map((v, i) => {
+    .map((v: any, i: number) => {
       if (!state.controls[i]) {
         return createChildState(`${state.id}.${i}`, v);
       }
 
-      return formStateReducer<TValue>(state.controls[i], new SetValueAction(state.controls[i].id, v));
+      return formStateReducer<TValue>(state.controls[i], SetValueAction(state.controls[i].id, v));
     });
 
   return computeArrayState(

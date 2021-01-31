@@ -7,5 +7,5 @@ import { FormControlState, FormControlValueTypes } from '../state';
  * will also `.blur()` the form element).
  */
 export function unfocus<TValue extends FormControlValueTypes>(state: FormControlState<TValue>) {
-  return formControlReducer(state, new UnfocusAction(state.id));
+  return formControlReducer(state, UnfocusAction(state.id));
 }

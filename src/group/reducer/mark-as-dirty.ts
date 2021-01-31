@@ -1,12 +1,12 @@
-import { Actions, MarkAsDirtyAction } from '../../actions';
+import {MarkAsDirtyAction, NgrxFormActionTypes} from '../../actions';
 import { computeGroupState, FormGroupState, KeyValue } from '../../state';
 import { childReducer, dispatchActionPerChild } from './util';
 
 export function markAsDirtyReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormGroupState<TValue> {
-  if (action.type !== MarkAsDirtyAction.TYPE) {
+  if (action.type !== MarkAsDirtyAction.type) {
     return state;
   }
 
@@ -14,7 +14,7 @@ export function markAsDirtyReducer<TValue extends KeyValue>(
     return childReducer(state, action);
   }
 
-  const controls = dispatchActionPerChild(state.controls, controlId => new MarkAsDirtyAction(controlId));
+  const controls = dispatchActionPerChild(state.controls, controlId => MarkAsDirtyAction(controlId));
 
   if (controls === state.controls) {
     return state;

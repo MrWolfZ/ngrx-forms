@@ -1,12 +1,12 @@
-import { Actions, ResetAction } from '../../actions';
+import {NgrxFormActionTypes, ResetAction} from '../../actions';
 import { computeArrayState, FormArrayState } from '../../state';
 import { childReducer, dispatchActionPerChild } from './util';
 
 export function resetReducer<TValue>(
   state: FormArrayState<TValue>,
-  action: Actions<TValue[]>,
+  action: NgrxFormActionTypes,
 ): FormArrayState<TValue> {
-  if (action.type !== ResetAction.TYPE) {
+  if (action.type !== ResetAction.type) {
     return state;
   }
 
@@ -20,7 +20,7 @@ export function resetReducer<TValue>(
 
   return computeArrayState(
     state.id,
-    dispatchActionPerChild(state.controls, controlId => new ResetAction(controlId)),
+    dispatchActionPerChild(state.controls, controlId => ResetAction(controlId)),
     state.value,
     state.errors,
     state.pendingValidations,

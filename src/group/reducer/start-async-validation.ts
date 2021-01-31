@@ -1,12 +1,12 @@
-import { Actions, StartAsyncValidationAction } from '../../actions';
+import {NgrxFormActionTypes, StartAsyncValidationAction} from '../../actions';
 import { computeGroupState, FormGroupState, KeyValue } from '../../state';
 import { childReducer } from './util';
 
 export function startAsyncValidationReducer<TValue extends KeyValue>(
   state: FormGroupState<TValue>,
-  action: Actions<TValue>,
+  action: NgrxFormActionTypes,
 ): FormGroupState<TValue> {
-  if (action.type !== StartAsyncValidationAction.TYPE) {
+  if (action.type !== StartAsyncValidationAction.type) {
     return state;
   }
 

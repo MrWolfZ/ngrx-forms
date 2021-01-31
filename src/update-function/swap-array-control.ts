@@ -17,7 +17,7 @@ export function swapArrayControl<TValue>(state: FormArrayState<TValue>, fromInde
 
 export function swapArrayControl<TValue>(indexOrState: number | FormArrayState<TValue>, fromIndex: number, toIndex?: number) {
   if (isArrayState(indexOrState)) {
-    return formArrayReducer(indexOrState, new SwapArrayControlAction(indexOrState.id, fromIndex, toIndex!));
+    return formArrayReducer(indexOrState, SwapArrayControlAction(indexOrState.id, fromIndex, toIndex!));
   }
 
   return (s: FormArrayState<TValue>) => swapArrayControl(ensureState(s), indexOrState as number, fromIndex);
