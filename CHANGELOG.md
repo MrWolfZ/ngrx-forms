@@ -523,7 +523,7 @@ This release requires TypeScript >=2.8.0 for the conditional type support. It al
 * add common set of validation functions ([40308d4](https://github.com/MrWolfZ/ngrx-forms/commit/40308d4))
 * add support for user defined properties on form controls and groups ([d9778d2](https://github.com/MrWolfZ/ngrx-forms/commit/d9778d2))
 * introduce concept of `FormViewAdapter` and rewrite all control value accessors from scratch as view adapters (see the [documentation](docs/CUSTOM_CONTROLS.md) for more details)
-* extend [example application](https://ngrx-forms-example-app-v2.herokuapp.com/) to contain multiple examples
+* extend [example application](https://mrwolfz.github.io/ngrx-forms/) to contain multiple examples
 * added overloads for many update functions that make casting the state unnecessary in certain situations
 * added lots of inline comments to the API making it easier to understand what certain functions do right in your IDE
 

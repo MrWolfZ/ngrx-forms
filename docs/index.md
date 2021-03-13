@@ -4,7 +4,7 @@ This documentation will help you understand how to include **ngrx-forms** in you
 
 Use the navigation on the left to browse to the different topics. For newcomers it is recommended to read the quick introduction below and then move on to the [user guide](user-guide/index.md).
 
-You can also visit the [example application](https://ngrx-forms-example-app-v2.herokuapp.com/) to see **ngrx-forms** live in action.
+You can also visit the [example application](https://mrwolfz.github.io/ngrx-forms/) to see **ngrx-forms** live in action.
 
 #### Motivation
 
