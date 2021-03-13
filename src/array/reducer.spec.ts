@@ -11,6 +11,7 @@ import {
   MarkAsTouchedAction,
   MarkAsUnsubmittedAction,
   MarkAsUntouchedAction,
+  MoveArrayControlAction,
   RemoveArrayControlAction,
   RemoveGroupControlAction,
   ResetAction,
@@ -19,6 +20,7 @@ import {
   SetUserDefinedPropertyAction,
   SetValueAction,
   StartAsyncValidationAction,
+  SwapArrayControlAction,
   UnfocusAction,
 } from '../actions';
 import { createFormArrayState } from '../state';
@@ -75,6 +77,36 @@ describe('form array reducer', () => {
     const state = createFormArrayState(FORM_CONTROL_ID, value);
     const resultState = formArrayReducer(state, new RemoveGroupControlAction<any>(FORM_CONTROL_0_ID, 'inner2'));
     expect(resultState.controls[0].controls.inner2).toBeUndefined();
+  });
+
+  it(`should forward ${AddArrayControlAction.name}s to children`, () => {
+    const value = [['a']];
+    const state = createFormArrayState(FORM_CONTROL_ID, value);
+    const resultState = formArrayReducer(state, new AddArrayControlAction<string>(FORM_CONTROL_0_ID, 'b'));
+    expect(resultState.controls[0].controls[1]).toBeDefined();
+  });
+
+  it(`should forward ${RemoveArrayControlAction.name}s to children`, () => {
+    const value = [['a', 'b']];
+    const state = createFormArrayState(FORM_CONTROL_ID, value);
+    const resultState = formArrayReducer(state, new RemoveArrayControlAction(FORM_CONTROL_0_ID, 0));
+    expect(resultState.controls[0].controls[1]).toBeUndefined();
+  });
+
+  it(`should forward ${MoveArrayControlAction.name}s to children`, () => {
+    const value = [['a', 'b', 'c']];
+    const state = createFormArrayState(FORM_CONTROL_ID, value);
+    const resultState = formArrayReducer(state, new MoveArrayControlAction(FORM_CONTROL_0_ID, 0, 1));
+    expect(resultState.controls[0].controls[0].value).toBe('b');
+    expect(resultState.controls[0].controls[1].value).toBe('a');
+  });
+
+  it(`should forward ${SwapArrayControlAction.name}s to children`, () => {
+    const value = [['a', 'b', 'c']];
+    const state = createFormArrayState(FORM_CONTROL_ID, value);
+    const resultState = formArrayReducer(state, new SwapArrayControlAction(FORM_CONTROL_0_ID, 0, 1));
+    expect(resultState.controls[0].controls[0].value).toBe('b');
+    expect(resultState.controls[0].controls[1].value).toBe('a');
   });
 
   it('should not update state if no child was updated', () => {
@@ -254,6 +286,24 @@ describe('form array reducer', () => {
       const action = new RemoveArrayControlAction(FORM_CONTROL_ID, 0);
       const resultState = formArrayReducer<string>(INITIAL_STATE, action);
       expect(resultState).not.toBe(INITIAL_STATE);
+    });
+  });
+
+  describe(MoveArrayControlAction.name, () => {
+    it('should update state', () => {
+      const action = new MoveArrayControlAction(FORM_CONTROL_ID, 0, 1);
+      const state = createFormArrayState(FORM_CONTROL_ID, ['a', 'b', 'c']);
+      const resultState = formArrayReducer<string>(state, action);
+      expect(resultState).not.toBe(state);
+    });
+  });
+
+  describe(SwapArrayControlAction.name, () => {
+    it('should update state', () => {
+      const action = new SwapArrayControlAction(FORM_CONTROL_ID, 0, 1);
+      const state = createFormArrayState(FORM_CONTROL_ID, ['a', 'b', 'c']);
+      const resultState = formArrayReducer<string>(state, action);
+      expect(resultState).not.toBe(state);
     });
   });
 });
