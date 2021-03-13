@@ -11,6 +11,7 @@ import {
   MarkAsTouchedAction,
   MarkAsUnsubmittedAction,
   MarkAsUntouchedAction,
+  MoveArrayControlAction,
   RemoveArrayControlAction,
   RemoveGroupControlAction,
   ResetAction,
@@ -19,6 +20,7 @@ import {
   SetUserDefinedPropertyAction,
   SetValueAction,
   StartAsyncValidationAction,
+  SwapArrayControlAction,
   UnfocusAction,
 } from '../actions';
 import { createFormGroupState } from '../state';
@@ -74,6 +76,22 @@ describe('form group reducer', () => {
   it(`should forward remove ${RemoveArrayControlAction.name}s to children`, () => {
     const resultState = formGroupReducer(INITIAL_STATE_FULL, new RemoveArrayControlAction(FORM_CONTROL_INNER5_ID, 0));
     expect(resultState.controls.inner5!.controls[0]).toBeUndefined();
+  });
+
+  it(`should forward add ${MoveArrayControlAction.name}s to children`, () => {
+    const value: FormGroupValue = { inner: '', inner2: '', inner3: { inner4: '' }, inner5: ['a', 'b', 'c'] };
+    const state = createFormGroupState(FORM_CONTROL_ID, value);
+    const resultState = formGroupReducer<FormGroupValue>(state, new MoveArrayControlAction(FORM_CONTROL_INNER5_ID, 0, 1));
+    expect(resultState.controls.inner5!.controls[0].value).toBe('b');
+    expect(resultState.controls.inner5!.controls[1].value).toBe('a');
+  });
+
+  it(`should forward remove ${SwapArrayControlAction.name}s to children`, () => {
+    const value: FormGroupValue = { inner: '', inner2: '', inner3: { inner4: '' }, inner5: ['a', 'b', 'c'] };
+    const state = createFormGroupState(FORM_CONTROL_ID, value);
+    const resultState = formGroupReducer(state, new SwapArrayControlAction(FORM_CONTROL_INNER5_ID, 0, 1));
+    expect(resultState.controls.inner5!.controls[0].value).toBe('b');
+    expect(resultState.controls.inner5!.controls[1].value).toBe('a');
   });
 
   it('should not update state if no child was updated', () => {

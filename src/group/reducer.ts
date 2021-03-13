@@ -5,7 +5,9 @@ import {
   AddArrayControlAction,
   FocusAction,
   isNgrxFormsAction,
+  MoveArrayControlAction,
   RemoveArrayControlAction,
+  SwapArrayControlAction,
   UnfocusAction,
 } from '../actions';
 import { FormGroupState, isGroupState, KeyValue } from '../state';
@@ -46,6 +48,8 @@ export function formGroupReducerInternal<TValue extends KeyValue>(state: FormGro
     case UnfocusAction.TYPE:
     case AddArrayControlAction.TYPE:
     case RemoveArrayControlAction.TYPE:
+    case MoveArrayControlAction.TYPE:
+    case SwapArrayControlAction.TYPE:
       return childReducer(state, action);
 
     default:
