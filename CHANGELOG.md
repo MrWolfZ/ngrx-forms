@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="6.3.5"></a>
+### 6.3.5
+
+#### Bugfixes
+
+* forward move and swap array control actions to children in form group reducer ([f682561](https://github.com/MrWolfZ/ngrx-forms/commit/f682561)), closes [#233](https://github.com/MrWolfZ/ngrx-forms/issues/233), thanks @mme-private for reporting this bug
+
 <a name="6.3.4"></a>
 ### 6.3.4
 
