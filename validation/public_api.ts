@@ -7,8 +7,10 @@
  */
 export { email, EmailValidationError } from './src/email';
 export { equalTo, EqualToValidationError } from './src/equal-to';
+export { exclusiveBetween, ExclusiveBetweenValidationError } from './src/exclusive-between';
 export { greaterThan, GreaterThanValidationError } from './src/greater-than';
 export { greaterThanOrEqualTo, GreaterThanOrEqualToValidationError } from './src/greater-than-or-equal-to';
+export { inclusiveBetween, InclusiveBetweenValidationError } from './src/inclusive-between';
 export { lessThan, LessThanValidationError } from './src/less-than';
 export { lessThanOrEqualTo, LessThanOrEqualToValidationError } from './src/less-than-or-equal-to';
 export { maxLength, MaxLengthValidationError } from './src/max-length';
