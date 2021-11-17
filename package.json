@@ -75,7 +75,7 @@
     "karma-spec-reporter": "0.0.32",
     "karma-typescript": "5.2.0",
     "karma-typescript-es6-transform": "5.2.0",
-    "ng-packagr": "9.1.5",
+    "ng-packagr": "10.1.1",
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
     "rxjs": "6.6.3",
