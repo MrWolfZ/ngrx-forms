@@ -10,7 +10,7 @@ export interface EmailValidationError {
 }
 
 // @ts-ignore
-declare module 'ngrx-forms/src/state' {
+declare module 'ngrx-forms' {
   export interface ValidationErrors {
     email?: EmailValidationError;
   }

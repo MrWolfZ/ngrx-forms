@@ -218,7 +218,6 @@
       "kebab-case",
       "ngrx"
     ],
-    "contextual-life-cycle": true,
     "directive-class-suffix": true,
     "directive-selector": [
       true,
@@ -234,44 +233,10 @@
       "camelCase"
     ],
     "trackBy-function": false,
-    "use-life-cycle-interface": true,
     "use-pipe-decorator": true,
-    "use-pipe-transform-interface": true,
-    "ter-computed-property-spacing": [
-      true,
-      "never"
-    ],
-    "object-curly-spacing": [
-      true,
-      "always"
-    ],
-    "ter-arrow-spacing": [
-      true
-    ],
-    "block-spacing": [
-      true,
-      "always"
-    ],
-    "ter-indent": [
-      true,
-      2,
-      {
-        "SwitchCase": 1,
-        "FunctionDeclaration": {
-          "parameters": 1,
-          "body": 1
-        },
-        "FunctionExpression": {
-          "parameters": 1,
-          "body": 1
-        }
-      }
-    ]
+    "use-pipe-transform-interface": true
   },
   "rulesDirectory": [
     "node_modules/codelyzer"
-  ],
-  "extends": [
-    "tslint-eslint-rules"
   ]
 }

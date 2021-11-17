@@ -1,5 +1,5 @@
 import { Component, getDebugNode, Renderer2 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NgrxNumberViewAdapter } from './number';
 
@@ -25,7 +25,7 @@ describe(NgrxNumberViewAdapter.name, () => {
   let viewAdapter: NgrxNumberViewAdapter;
   let element: HTMLInputElement;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         NgrxNumberViewAdapter,

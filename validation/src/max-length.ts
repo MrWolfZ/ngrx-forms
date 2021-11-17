@@ -7,7 +7,7 @@ export interface MaxLengthValidationError {
 }
 
 // @ts-ignore
-declare module 'ngrx-forms/src/state' {
+declare module 'ngrx-forms' {
   export interface ValidationErrors {
     maxLength?: MaxLengthValidationError;
   }

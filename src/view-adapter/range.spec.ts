@@ -1,5 +1,5 @@
 import { Component, getDebugNode, Renderer2 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NgrxRangeViewAdapter } from './range';
 
@@ -25,7 +25,7 @@ describe(NgrxRangeViewAdapter.name, () => {
   let viewAdapter: NgrxRangeViewAdapter;
   let element: HTMLInputElement;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         NgrxRangeViewAdapter,

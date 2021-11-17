@@ -6,7 +6,7 @@ export interface LessThanValidationError {
 }
 
 // @ts-ignore
-declare module 'ngrx-forms/src/state' {
+declare module 'ngrx-forms' {
   export interface ValidationErrors {
     lessThan?: LessThanValidationError;
   }

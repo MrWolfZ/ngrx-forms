@@ -6,7 +6,7 @@ export interface NotEqualToValidationError<T> {
 }
 
 // @ts-ignore
-declare module 'ngrx-forms/src/state' {
+declare module 'ngrx-forms' {
   export interface ValidationErrors {
     notEqualTo?: NotEqualToValidationError<any>;
   }

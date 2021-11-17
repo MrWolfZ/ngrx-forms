@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { first, skip } from 'rxjs/operators';
@@ -46,7 +46,7 @@ describe(SelectComponent.name, () => {
     actions$ = actionsSubject as Observable<Action>; // cast required due to mismatch of lift() function signature
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [NgrxFormsModule],
       declarations: [SelectComponent, SelectFallbackComponent],
@@ -129,7 +129,7 @@ describe(NumberSelectComponent.name, () => {
     actions$ = actionsSubject as Observable<Action>; // cast required due to mismatch of lift() function signature
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [NgrxFormsModule],
       declarations: [NumberSelectComponent],

@@ -1,5 +1,5 @@
 import { Component, getDebugNode, Renderer2 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NgrxDefaultViewAdapter } from './default';
 
@@ -29,7 +29,7 @@ describe(NgrxDefaultViewAdapter.name, () => {
   const androidUserAgent = 'Mozilla/5.0 (Linux; Android 5.1.1; Nexus 5 Build/LMY48B; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/43.0.2357.65 Mobile Safari/537.36';
   const androidNavigator: Navigator = { userAgent: androidUserAgent } as any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         NgrxDefaultViewAdapter,

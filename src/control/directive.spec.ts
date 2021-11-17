@@ -92,7 +92,7 @@ describe(NgrxFormControlDirective.name, () => {
     });
 
     it('should not throw if id changes and new state is disabled but adapter does not support disabling', () => {
-      delete viewAdapter.setIsDisabled;
+      delete (viewAdapter as FormViewAdapter).setIsDisabled;
       expect(() => directive.ngrxFormControlState = { ...INITIAL_STATE, id: `${FORM_CONTROL_ID}1`, isDisabled: true, isEnabled: false }).not.toThrowError();
     });
 
@@ -121,7 +121,7 @@ describe(NgrxFormControlDirective.name, () => {
     });
 
     it('should not throw after the view is initialized and adapter does not support disabling', () => {
-      delete viewAdapter.setIsDisabled;
+      delete (viewAdapter as FormViewAdapter).setIsDisabled;
       directive.ngrxFormControlState = { ...INITIAL_STATE, isDisabled: true, isEnabled: false };
       expect(() => directive.ngAfterViewInit()).not.toThrowError();
     });

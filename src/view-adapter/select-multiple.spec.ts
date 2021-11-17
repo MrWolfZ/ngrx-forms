@@ -1,5 +1,5 @@
 import { Component, ElementRef, getDebugNode, Renderer2 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NgrxSelectMultipleOption, NgrxSelectMultipleViewAdapter } from './select-multiple';
 
@@ -61,7 +61,7 @@ describe(NgrxSelectMultipleViewAdapter.name, () => {
   let option1: HTMLOptionElement;
   let option2: HTMLOptionElement;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         NgrxSelectMultipleViewAdapter,

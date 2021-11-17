@@ -8,6 +8,7 @@ import {
   createFormArrayState,
   createFormControlState,
   createFormGroupState,
+  createFormStateReducerWithUpdate,
   disable,
   enable,
   focus,
@@ -25,7 +26,9 @@ import {
   markAsUnsubmitted,
   markAsUntouched,
   moveArrayControl,
+  NGRX_FORM_VIEW_ADAPTER,
   NGRX_STATUS_CLASS_NAMES,
+  NGRX_UPDATE_ON_TYPE,
   NgrxCheckboxViewAdapter,
   NgrxDefaultViewAdapter,
   NgrxFallbackSelectOption,
@@ -65,6 +68,8 @@ import {
 
 describe('ngrx-forms', () => {
   it(`should export ALL_NGRX_FORMS_ACTION_TYPES`, () => expect(ALL_NGRX_FORMS_ACTION_TYPES).toBeDefined());
+  it(`should export NGRX_FORM_VIEW_ADAPTER`, () => expect(NGRX_FORM_VIEW_ADAPTER).toBeDefined());
+  it(`should export NGRX_UPDATE_ON_TYPE`, () => expect(NGRX_UPDATE_ON_TYPE).toBeDefined());
   it(`should export ${compose.name}`, () => expect(compose).toBeDefined());
   it(`should export ${isArrayState.name}`, () => expect(isArrayState).toBeDefined());
   it(`should export ${isGroupState.name}`, () => expect(isGroupState).toBeDefined());
@@ -77,6 +82,7 @@ describe('ngrx-forms', () => {
   it(`should export ${formStateReducer.name}`, () => expect(formStateReducer).toBeDefined());
   it(`should export ${onNgrxForms.name}`, () => expect(onNgrxForms).toBeDefined());
   it(`should export ${onNgrxFormsAction.name}`, () => expect(onNgrxFormsAction).toBeDefined());
+  it(`should export ${createFormStateReducerWithUpdate.name}`, () => expect(createFormStateReducerWithUpdate).toBeDefined());
   it(`should export ${wrapReducerWithFormStateUpdate.name}`, () => expect(wrapReducerWithFormStateUpdate).toBeDefined());
   it(`should export ${addArrayControl.name}`, () => expect(addArrayControl).toBeDefined());
   it(`should export ${addGroupControl.name}`, () => expect(addGroupControl).toBeDefined());

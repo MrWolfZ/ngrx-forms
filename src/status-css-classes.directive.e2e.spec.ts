@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { createFormGroupState, FormGroupState } from './state';
 import { NGRX_STATUS_CLASS_NAMES, NgrxStatusCssClassesDirective } from './status-css-classes.directive';
@@ -27,7 +27,7 @@ describe(NgrxStatusCssClassesDirective.name, () => {
   const FORM_CONTROL_ID = 'test ID';
   const INITIAL_STATE = createFormGroupState(FORM_CONTROL_ID, { inner: 'A' });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         NgrxStatusCssClassesDirective,
