@@ -1,4 +1,5 @@
 import { MarkAsPristineAction } from '../../actions';
+import { createFormArrayState } from '../../state';
 import { markAsPristineReducer } from './mark-as-pristine';
 import {
   FORM_CONTROL_ID,
@@ -46,5 +47,12 @@ describe(`form array ${markAsPristineReducer.name}`, () => {
     const state = setPropertiesRecursively(INITIAL_STATE, [['isDirty', true], ['isPristine', false]]);
     const resultState = markAsPristineReducer(state, new MarkAsPristineAction(state.controls[0].id));
     expect(resultState).not.toBe(state);
+  });
+
+  it('should update state if dirty and empty', () => {
+    const state = { ...createFormArrayState(FORM_CONTROL_ID, []), isDirty: true, isPristine: false };
+    const resultState = markAsPristineReducer(state, new MarkAsPristineAction(FORM_CONTROL_ID));
+    expect(resultState.isDirty).toEqual(false);
+    expect(resultState.isPristine).toEqual(true);
   });
 });

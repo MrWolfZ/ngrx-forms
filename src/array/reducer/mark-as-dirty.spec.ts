@@ -1,4 +1,5 @@
 import { MarkAsDirtyAction } from '../../actions';
+import { createFormArrayState } from '../../state';
 import { markAsDirtyReducer } from './mark-as-dirty';
 import {
   FORM_CONTROL_ID,
@@ -60,5 +61,11 @@ describe(`form array ${markAsDirtyReducer.name}`, () => {
   it('should forward actions to children', () => {
     const resultState = markAsDirtyReducer(INITIAL_STATE, new MarkAsDirtyAction(INITIAL_STATE.controls[0].id));
     expect(resultState).not.toBe(INITIAL_STATE);
+  });
+
+  it('should mark itself as dirty even if empty', () => {
+    const initialState = createFormArrayState(FORM_CONTROL_ID, []);
+    const resultState = markAsDirtyReducer(initialState, new MarkAsDirtyAction(FORM_CONTROL_ID));
+    expect(resultState.isDirty).toBe(true);
   });
 });

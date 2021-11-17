@@ -16,7 +16,7 @@ export function markAsDirtyReducer<TValue>(
 
   const controls = dispatchActionPerChild(state.controls, controlId => new MarkAsDirtyAction(controlId));
 
-  if (controls === state.controls) {
+  if (controls === state.controls && state.isDirty) {
     return state;
   }
 
