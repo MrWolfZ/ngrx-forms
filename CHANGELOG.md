@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="7.0.0"></a>
+### 7.0.0
+
+#### Breaking Changes
+
+* update peer dependency version requirements of Angular and ngrx to >=12.0.0 and TypeScript to >=4.2.3 ([b8659ab](https://github.com/MrWolfZ/ngrx-forms/commit/b8659ab))
+
 <a name="6.3.6"></a>
 ### 6.3.6
 
