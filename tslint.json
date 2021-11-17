@@ -21,7 +21,7 @@
     "completed-docs": false,
     "curly": true,
     "cyclomatic-complexity": false,
-    "deprecation": true,
+    "deprecation": false,
     "encoding": true,
     "eofline": true,
     "file-header": false,
