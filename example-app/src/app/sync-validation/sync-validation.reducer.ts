@@ -7,10 +7,10 @@ import {
   FormGroupState,
   updateGroup,
   validate,
+  ValidationErrors,
 } from 'ngrx-forms';
 import { minLength, required, requiredTrue } from 'ngrx-forms/validation';
 
-import { ValidationErrors } from '@angular/forms';
 import { State as RootState } from '../app.reducer';
 
 export interface PasswordValue {
@@ -57,7 +57,7 @@ export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
 });
 
 // @ts-ignore
-declare module 'ngrx-forms/src/state' {
+declare module 'ngrx-forms' {
   interface ValidationErrors {
     passwordMatch?: PasswordValue;
   }
