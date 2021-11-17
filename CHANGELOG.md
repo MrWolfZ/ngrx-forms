@@ -7,12 +7,16 @@
 
 * update peer dependency version requirements of Angular and ngrx to >=12.0.0 and TypeScript to >=4.2.3 ([b8659ab](https://github.com/MrWolfZ/ngrx-forms/commit/b8659ab))
 
+#### Features
+
+* build library in Ivy mode ([9a87d53](https://github.com/MrWolfZ/ngrx-forms/commit/9a87d53)), closes [#260](https://github.com/MrWolfZ/ngrx-forms/issues/260)
+
 <a name="6.3.6"></a>
 ### 6.3.6
 
 #### Bugfixes
 
-* allow marking empty array controls as dirty ([b4df005](https://github.com/MrWolfZ/ngrx-forms/commit/b4df005)), closes [#233](https://github.com/MrWolfZ/ngrx-forms/issues/257), thanks @bram96 for reporting this bug
+* allow marking empty array controls as dirty ([b4df005](https://github.com/MrWolfZ/ngrx-forms/commit/b4df005)), closes [#257](https://github.com/MrWolfZ/ngrx-forms/issues/257), thanks @bram96 for reporting this bug
 
 <a name="6.3.5"></a>
 ### 6.3.5
