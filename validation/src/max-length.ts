@@ -2,7 +2,7 @@ import { Boxed, unbox, ValidationErrors } from 'ngrx-forms';
 
 export interface MaxLengthValidationError {
   maxLength: number;
-  value: string;
+  value: string | any[];
   actualLength: number;
 }
 

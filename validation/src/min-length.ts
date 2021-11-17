@@ -2,7 +2,7 @@ import { Boxed, unbox, ValidationErrors } from 'ngrx-forms';
 
 export interface MinLengthValidationError {
   minLength: number;
-  value: string;
+  value: string | any[];
   actualLength: number;
 }
 
