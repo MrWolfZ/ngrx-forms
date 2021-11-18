@@ -57,7 +57,7 @@ export function validate<TValue>(
     return formStateReducer<TValue>(stateOrFunctionOrFunctionArray, new SetErrorsAction(stateOrFunctionOrFunctionArray.id, errors));
   }
 
-  const functionOrFunctionArray = stateOrFunctionOrFunctionArray as ValidationFn<TValue> | ValidationFn<TValue>[]
+  const functionOrFunctionArray = stateOrFunctionOrFunctionArray as ValidationFn<TValue> | ValidationFn<TValue>[];
   let updateFnArr = Array.isArray(functionOrFunctionArray) ? functionOrFunctionArray : [functionOrFunctionArray];
   updateFnArr = functionOrFunctionArr === undefined ? updateFnArr : updateFnArr.concat(functionOrFunctionArr);
   return (s: AbstractControlState<TValue>) => validate<TValue>(ensureState(s), updateFnArr.concat(rest));
