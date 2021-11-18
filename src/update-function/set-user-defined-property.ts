@@ -20,5 +20,5 @@ export function setUserDefinedProperty<TValue>(nameOrState: string | FormState<T
     return formStateReducer(nameOrState, new SetUserDefinedPropertyAction(nameOrState.id, valueOrName, value));
   }
 
-  return (s: AbstractControlState<TValue>) => setUserDefinedProperty(ensureState(s), nameOrState, valueOrName);
+  return (s: AbstractControlState<TValue>) => setUserDefinedProperty(ensureState(s), nameOrState as string, valueOrName);
 }
