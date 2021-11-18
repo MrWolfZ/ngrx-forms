@@ -10,6 +10,6 @@
     "max_preserve_newlines": 10
   },
   "tslint.autoFixOnSave": false,
-  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "typescript.tsdk": "node_modules/typescript/lib",
   "angular.experimental-ivy": true
 }
