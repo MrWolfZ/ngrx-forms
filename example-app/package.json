@@ -44,7 +44,7 @@
     "@types/prismjs": "^1.16.2",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.6.0",
-    "karma": "~6.3.9",
+    "karma": "~6.3.16",
     "karma-chrome-launcher": "~3.1.0",
     "karma-jasmine": "~4.0.0",
     "karma-spec-reporter": "0.0.32",
