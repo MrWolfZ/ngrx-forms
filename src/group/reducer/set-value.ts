@@ -27,11 +27,13 @@ export function setValueReducer<TValue extends KeyValue>(
 
   const controls = Object.keys(value)
     .reduce((c, key) => {
+      const control = state.controls[key] as AbstractControlState<unknown> | undefined;
+
       // tslint:disable-next-line:prefer-conditional-expression
-      if (!state.controls[key]) {
+      if (!control) {
         Object.assign(c, { [key]: createChildState<TValue[string]>(`${state.id}.${key}`, value[key]) });
       } else {
-        Object.assign(c, { [key]: formStateReducer(state.controls[key], new SetValueAction((state.controls[key] as AbstractControlState<unknown>).id, value[key])) });
+        Object.assign(c, { [key]: formStateReducer(control, new SetValueAction((control as AbstractControlState<unknown>).id, value[key])) });
       }
       return c;
     }, {} as FormGroupControls<TValue>);

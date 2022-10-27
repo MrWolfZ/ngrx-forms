@@ -738,11 +738,12 @@ export function computeGroupState<TValue extends KeyValue>(
   value = getFormGroupValue<TValue>(controls, value);
   errors = getFormGroupErrors(controls, errors);
   const isValid = isEmpty(errors);
-  const isDirty = flags.wasOrShouldBeDirty || Object.keys(controls).some(key => (controls[key] as AbstractControlState<TValue[keyof TValue]>).isDirty);
-  const isEnabled = flags.wasOrShouldBeEnabled || Object.keys(controls).some(key => (controls[key] as AbstractControlState<TValue[keyof TValue]>).isEnabled);
-  const isTouched = flags.wasOrShouldBeTouched || Object.keys(controls).some(key => (controls[key] as AbstractControlState<TValue[keyof TValue]>).isTouched);
-  const isSubmitted = flags.wasOrShouldBeSubmitted || Object.keys(controls).some(key => (controls[key] as AbstractControlState<TValue[keyof TValue]>).isSubmitted);
-  const isValidationPending = pendingValidations.length > 0 || Object.keys(controls).some(key => (controls[key] as AbstractControlState<TValue[keyof TValue]>).isValidationPending);
+  const typedControls = Object.keys(controls).map(key => controls[key] as AbstractControlState<TValue[keyof TValue]>);
+  const isDirty = flags.wasOrShouldBeDirty || typedControls.some(control => control.isDirty);
+  const isEnabled = flags.wasOrShouldBeEnabled || typedControls.some(control => control.isEnabled);
+  const isTouched = flags.wasOrShouldBeTouched || typedControls.some(control => control.isTouched);
+  const isSubmitted = flags.wasOrShouldBeSubmitted || typedControls.some(control => control.isSubmitted);
+  const isValidationPending = pendingValidations.length > 0 || typedControls.some(control => control.isValidationPending);
   return {
     id,
     value,
