@@ -40,10 +40,11 @@ export function setErrors<TValue>(
   ...rest: ValidationErrors[]
 ) {
   if (isFormState<TValue>(errorsOrErrorsArrayOrState)) {
+    const state = errorsOrErrorsArrayOrState as AbstractControlState<TValue>;
     const errorsArray = Array.isArray(errorsOrErrorsArray) ? errorsOrErrorsArray : [errorsOrErrorsArray!];
     const errors = errorsArray.concat(...rest).reduce((agg, err) => Object.assign(agg, err), {} as ValidationErrors);
 
-    return formStateReducer(errorsOrErrorsArrayOrState, new SetErrorsAction(errorsOrErrorsArrayOrState.id, errors));
+    return formStateReducer(state, new SetErrorsAction(state.id, errors));
   }
 
   let errorsArray = Array.isArray(errorsOrErrorsArrayOrState) ? errorsOrErrorsArrayOrState : [errorsOrErrorsArrayOrState];

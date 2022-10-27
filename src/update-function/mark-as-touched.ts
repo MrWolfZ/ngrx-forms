@@ -1,5 +1,5 @@
 import { MarkAsTouchedAction } from '../actions';
-import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState, FormState } from '../state';
+import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState, FormState, KeyValue } from '../state';
 import { abstractControlReducer } from './util';
 
 /**
@@ -15,7 +15,7 @@ export function markAsTouched<TValue>(state: FormArrayState<TValue>): FormArrayS
 /**
  * This update function takes a form group state and marks it and all of its children as touched.
  */
-export function markAsTouched<TValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
+export function markAsTouched<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
 
 /**
  * This update function takes a state and marks it as touched. For groups and arrays this also marks

@@ -17,7 +17,8 @@ export function setUserDefinedProperty<TValue>(state: AbstractControlState<TValu
 
 export function setUserDefinedProperty<TValue>(nameOrState: string | FormState<TValue>, valueOrName: any | string, value?: any) {
   if (isFormState<TValue>(nameOrState)) {
-    return formStateReducer(nameOrState, new SetUserDefinedPropertyAction(nameOrState.id, valueOrName, value));
+    const state = nameOrState as AbstractControlState<TValue>;
+    return formStateReducer(nameOrState, new SetUserDefinedPropertyAction(state.id, valueOrName, value));
   }
 
   return (s: AbstractControlState<TValue>) => setUserDefinedProperty(ensureState(s), nameOrState as string, valueOrName);

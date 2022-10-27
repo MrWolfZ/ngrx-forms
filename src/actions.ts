@@ -246,7 +246,7 @@ export type Actions<TValue> =
   | UnfocusAction
   | MarkAsSubmittedAction
   | MarkAsUnsubmittedAction
-  | AddGroupControlAction<TValue>
+  | (TValue extends KeyValue ? AddGroupControlAction<TValue> : never)
   | RemoveGroupControlAction<TValue>
   | AddArrayControlAction<any>
   | RemoveArrayControlAction

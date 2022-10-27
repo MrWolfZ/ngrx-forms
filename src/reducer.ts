@@ -4,7 +4,7 @@ import { Actions, ALL_NGRX_FORMS_ACTION_TYPES } from './actions';
 import { formArrayReducer } from './array/reducer';
 import { formControlReducer } from './control/reducer';
 import { formGroupReducer } from './group/reducer';
-import { AbstractControlState, FormArrayState, FormControlState, FormState, isArrayState, isFormState, isGroupState } from './state';
+import { AbstractControlState, FormArrayState, FormControlState, FormState, isArrayState, isFormState, isGroupState, KeyValue } from './state';
 import { ProjectFn } from './update-function/util';
 
 export function formStateReducer<TValue>(
@@ -88,7 +88,7 @@ function reduceNestedFormState<TState>(state: TState, key: keyof TState, action:
   };
 }
 
-function reduceNestedFormStates<TState>(state: TState, action: Action): TState {
+function reduceNestedFormStates<TState extends KeyValue>(state: TState, action: Action): TState {
   return Object.keys(state).reduce((s, key) => reduceNestedFormState(s, key as keyof TState, action), state);
 }
 
@@ -141,7 +141,7 @@ export function onNgrxFormsAction<
  * The update function is passed the form state and the updated containing state
  * as parameters.
  */
-export function wrapReducerWithFormStateUpdate<TState, TFormState extends AbstractControlState<any>>(
+export function wrapReducerWithFormStateUpdate<TState extends KeyValue, TFormState extends AbstractControlState<any>>(
   reducer: ActionReducer<TState>,
   formStateLocator: (state: TState) => TFormState,
   updateFn: (formState: TFormState, state: TState) => TFormState,

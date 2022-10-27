@@ -1,5 +1,5 @@
 import { DisableAction } from '../actions';
-import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState, FormState } from '../state';
+import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState, FormState, KeyValue } from '../state';
 import { abstractControlReducer } from './util';
 
 /**
@@ -21,7 +21,7 @@ export function disable<TValue>(state: FormArrayState<TValue>): FormArrayState<T
  * Disabling a control will clear all of its errors (i.e. making it always valid) and
  * will remove all pending validations (thereby effectively cancelling those validations).
  */
-export function disable<TValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
+export function disable<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
 
 /**
  * This update function takes a form state and disables it. For groups and arrays also

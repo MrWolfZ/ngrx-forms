@@ -51,10 +51,11 @@ export function validate<TValue>(
   ...rest: ValidationFn<TValue>[]
 ) {
   if (isFormState<TValue>(stateOrFunctionOrFunctionArray)) {
+    const state = stateOrFunctionOrFunctionArray as AbstractControlState<TValue>;
     const functionArr = Array.isArray(functionOrFunctionArr) ? functionOrFunctionArr : [functionOrFunctionArr!];
     const errors = functionArr.concat(...rest)
-      .reduce((agg, validationFn) => Object.assign(agg, validationFn(stateOrFunctionOrFunctionArray.value)), {} as ValidationErrors);
-    return formStateReducer<TValue>(stateOrFunctionOrFunctionArray, new SetErrorsAction(stateOrFunctionOrFunctionArray.id, errors));
+      .reduce((agg, validationFn) => Object.assign(agg, validationFn(state.value)), {} as ValidationErrors);
+    return formStateReducer<TValue>(stateOrFunctionOrFunctionArray, new SetErrorsAction(state.id, errors));
   }
 
   const functionOrFunctionArray = stateOrFunctionOrFunctionArray as ValidationFn<TValue> | ValidationFn<TValue>[];

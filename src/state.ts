@@ -229,7 +229,7 @@ export interface FormControlState<TValue extends FormControlValueTypes> extends 
 /**
  * This type represents the child control states of a form group.
  */
-export type FormGroupControls<TValue> = {
+export type FormGroupControls<TValue extends KeyValue> = {
   readonly [controlId in keyof TValue]: FormState<TValue[controlId]>;
 };
 
@@ -576,7 +576,7 @@ export type InferredFormState<T extends InferenceWrapper<any>> =
   : T extends InferenceWrapper<readonly (infer U)[] | undefined | null> ? FormArrayState<U>
 
   // group
-  : T extends InferenceWrapper<infer U | undefined | null> ? FormGroupState<U>
+  : T extends InferenceWrapper<infer U | undefined | null> ? U extends KeyValue ? FormGroupState<U> : never
 
   // fallback type (this case should never (no pun intended) be hit)
   : never
@@ -605,7 +605,7 @@ export function isArrayState<TValue = any>(state: any): state is FormArrayState<
 /**
  * This function determines if a value is a group state.
  */
-export function isGroupState<TValue = any>(state: any): state is FormGroupState<TValue> {
+export function isGroupState<TValue extends KeyValue = any>(state: any): state is FormGroupState<TValue> {
   return isFormState(state) && state.hasOwnProperty('controls') && !Array.isArray((state as any).controls) && typeof (state as any).controls !== 'function';
 }
 
@@ -684,8 +684,9 @@ export function getFormGroupValue<TValue extends KeyValue>(
 ): TValue {
   let hasChanged = Object.keys(originalValue).length !== Object.keys(controls).length;
   const newValue = Object.keys(controls).reduce((res, key: keyof TValue) => {
-    hasChanged = hasChanged || originalValue[key] !== controls[key].value;
-    res[key] = controls[key].value;
+    const control = controls[key] as AbstractControlState<TValue[keyof TValue]>;
+    hasChanged = hasChanged || originalValue[key] !== control.value;
+    res[key] = control.value;
     return res;
   }, {} as TValue);
 
@@ -703,10 +704,11 @@ export function getFormGroupErrors<TValue extends KeyValue>(
       .reduce((res, key) => Object.assign(res, { [key]: originalErrors[key] }), {} as ValidationErrors);
 
   const newErrors = Object.keys(controls).reduce((res, key: any) => {
-    const controlErrors = controls[key].errors;
+    const control = controls[key] as AbstractControlState<TValue[keyof TValue]>;
+    const controlErrors = control.errors;
     if (!isEmpty(controlErrors)) {
       hasChanged = hasChanged || originalErrors[`_${key}`] !== controlErrors;
-      Object.assign(res, { [`_${key}`]: controls[key].errors });
+      Object.assign(res, { [`_${key}`]: control.errors });
     } else {
       hasChanged = hasChanged || originalErrors.hasOwnProperty(`_${key}`);
     }
@@ -736,11 +738,11 @@ export function computeGroupState<TValue extends KeyValue>(
   value = getFormGroupValue<TValue>(controls, value);
   errors = getFormGroupErrors(controls, errors);
   const isValid = isEmpty(errors);
-  const isDirty = flags.wasOrShouldBeDirty || Object.keys(controls).some(key => controls[key].isDirty);
-  const isEnabled = flags.wasOrShouldBeEnabled || Object.keys(controls).some(key => controls[key].isEnabled);
-  const isTouched = flags.wasOrShouldBeTouched || Object.keys(controls).some(key => controls[key].isTouched);
-  const isSubmitted = flags.wasOrShouldBeSubmitted || Object.keys(controls).some(key => controls[key].isSubmitted);
-  const isValidationPending = pendingValidations.length > 0 || Object.keys(controls).some(key => controls[key].isValidationPending);
+  const isDirty = flags.wasOrShouldBeDirty || Object.keys(controls).some(key => (controls[key] as AbstractControlState<TValue[keyof TValue]>).isDirty);
+  const isEnabled = flags.wasOrShouldBeEnabled || Object.keys(controls).some(key => (controls[key] as AbstractControlState<TValue[keyof TValue]>).isEnabled);
+  const isTouched = flags.wasOrShouldBeTouched || Object.keys(controls).some(key => (controls[key] as AbstractControlState<TValue[keyof TValue]>).isTouched);
+  const isSubmitted = flags.wasOrShouldBeSubmitted || Object.keys(controls).some(key => (controls[key] as AbstractControlState<TValue[keyof TValue]>).isSubmitted);
+  const isValidationPending = pendingValidations.length > 0 || Object.keys(controls).some(key => (controls[key] as AbstractControlState<TValue[keyof TValue]>).isValidationPending);
   return {
     id,
     value,
@@ -774,7 +776,7 @@ export function createFormGroupState<TValue extends KeyValue>(
   initialValue: TValue,
 ): FormGroupState<TValue> {
   const controls = Object.keys(initialValue)
-    .map((key: keyof TValue) => [key, createChildState(`${id}.${key}`, initialValue[key])] as [string, FormState<any>])
+    .map((key: keyof TValue) => [key, createChildState(`${id}.${key as string}`, initialValue[key])] as [string, FormState<any>])
     .reduce((res, [controlId, state]) => Object.assign(res, { [controlId]: state }), {} as FormGroupControls<TValue>);
 
   return computeGroupState(id, controls, initialValue, {}, [], {}, { wasOrShouldBeEnabled: true });

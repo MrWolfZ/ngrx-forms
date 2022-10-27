@@ -1,6 +1,6 @@
 import { Actions } from '../../actions';
 import { formStateReducer } from '../../reducer';
-import { computeGroupState, FormGroupControls, FormGroupState, FormState, KeyValue } from '../../state';
+import { AbstractControlState, computeGroupState, FormGroupControls, FormGroupState, FormState, KeyValue } from '../../state';
 
 export function dispatchActionPerChild<TValue extends KeyValue>(
   controls: FormGroupControls<TValue>,
@@ -9,7 +9,7 @@ export function dispatchActionPerChild<TValue extends KeyValue>(
   let hasChanged = false;
   const newControls = Object.keys(controls)
     .reduce((c, key) => {
-      Object.assign(c, { [key]: formStateReducer(controls[key], actionCreator(controls[key].id)) });
+      Object.assign(c, { [key]: formStateReducer(controls[key], actionCreator((controls[key] as AbstractControlState<unknown>).id)) });
       hasChanged = hasChanged || c[key] !== controls[key];
       return c;
     }, {} as FormGroupControls<TValue>);

@@ -1,5 +1,5 @@
 import { MarkAsUntouchedAction } from '../actions';
-import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState, FormState } from '../state';
+import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState, FormState, KeyValue } from '../state';
 import { abstractControlReducer } from './util';
 
 /**
@@ -15,7 +15,7 @@ export function markAsUntouched<TValue>(state: FormArrayState<TValue>): FormArra
 /**
  * This update function takes a form group state and marks it and all of its children as untouched.
  */
-export function markAsUntouched<TValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
+export function markAsUntouched<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
 
 /**
  * This update function takes a state and marks it as untouched. For groups and arrays this also marks

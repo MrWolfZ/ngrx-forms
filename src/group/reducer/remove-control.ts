@@ -15,7 +15,7 @@ export function removeControlReducer<TValue extends KeyValue>(
   }
 
   if (!state.controls.hasOwnProperty(action.name)) {
-    throw new Error(`Group '${state.id}' does not have child control '${action.name}'!`); // `;
+    throw new Error(`Group '${state.id}' does not have child control '${action.name as string}'!`); // `;
   }
 
   const controls = Object.assign({}, state.controls);

@@ -32,7 +32,7 @@ export function box<T>(value: T): Boxed<T> {
 }
 
 export function unbox<T>(value: T): Unboxed<T> {
-  if (['string', 'boolean', 'number', 'undefined'].indexOf(typeof value) >= 0 || value === null) {
+  if (['string', 'boolean', 'number', 'undefined'].indexOf(typeof value) >= 0 || value === null || value === undefined) {
     return value as unknown as Unboxed<T>;
   }
 

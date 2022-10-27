@@ -1,5 +1,5 @@
 import { EnableAction } from '../actions';
-import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState, FormState } from '../state';
+import { AbstractControlState, FormArrayState, FormControlState, FormControlValueTypes, FormGroupState, FormState, KeyValue } from '../state';
 import { abstractControlReducer } from './util';
 
 /**
@@ -15,7 +15,7 @@ export function enable<TValue>(state: FormArrayState<TValue>): FormArrayState<TV
 /**
  * This update function takes a form group state and enables it and all of its children.
  */
-export function enable<TValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
+export function enable<TValue extends KeyValue>(state: FormGroupState<TValue>): FormGroupState<TValue>;
 
 /**
  * This update function takes a form state and enables it. For groups and arrays also

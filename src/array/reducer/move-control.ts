@@ -51,7 +51,7 @@ export function moveControlReducer<TValue>(
 
   let controls = move(state.controls, fromIndex, toIndex);
 
-  controls = controls.map((c, i) => updateIdRecursive(c, `${state.id}.${i}`));
+  controls = controls.map((c, i) => updateIdRecursive<any>(c, `${state.id}.${i}`));
 
   return computeArrayState(
     state.id,

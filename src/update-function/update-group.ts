@@ -73,7 +73,7 @@ const groupUpdateFn = updateGroup<FormValue>(
 const updatedState = groupUpdateFn(state);
 ```
  */
-export function updateGroup<TValue>(
+export function updateGroup<TValue extends KeyValue>(
   updateFn: StateUpdateFns<TValue>,
   ...updateFnsArr: StateUpdateFns<TValue>[]
 ): (state: FormGroupState<TValue>) => FormGroupState<TValue>;
@@ -109,7 +109,7 @@ const groupUpdateFn = updateGroup<FormValue>(
 const updatedState = groupUpdateFn(state);
 ```
  */
-export function updateGroup<TValue>(
+export function updateGroup<TValue extends KeyValue>(
   updateFnsArr: StateUpdateFns<TValue>[],
 ): (state: FormGroupState<TValue>) => FormGroupState<TValue>;
 
@@ -143,7 +143,7 @@ const updatedState = updateGroup<FormValue>(
 );
 ```
  */
-export function updateGroup<TValue>(
+export function updateGroup<TValue extends KeyValue>(
   state: FormGroupState<TValue>,
   updateFn: StateUpdateFns<TValue>,
   ...updateFnsArr: StateUpdateFns<TValue>[]
@@ -181,7 +181,7 @@ const updatedState = updateGroup<FormValue>(
 );
 ```
  */
-export function updateGroup<TValue>(
+export function updateGroup<TValue extends KeyValue>(
   state: FormGroupState<TValue>,
   updateFnsArr: StateUpdateFns<TValue>[],
 ): FormGroupState<TValue>;

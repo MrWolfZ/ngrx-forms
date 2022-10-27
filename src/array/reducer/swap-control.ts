@@ -36,7 +36,7 @@ export function swapControlReducer<TValue>(
   }
 
   let controls = swapArrayValues(state.controls, fromIndex, toIndex);
-  controls = controls.map((c, i) => (i >= fromIndex || i >= toIndex) ? updateIdRecursive(c, `${state.id}.${i}`) : c);
+  controls = controls.map((c, i) => (i >= fromIndex || i >= toIndex) ? updateIdRecursive<any>(c, `${state.id}.${i}`) : c);
 
   return computeArrayState(
     state.id,
