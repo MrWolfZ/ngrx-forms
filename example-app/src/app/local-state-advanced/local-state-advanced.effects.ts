@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { debounceTime, delay, map } from 'rxjs/operators';
@@ -9,8 +9,8 @@ import { GetManufacturersAction, SetManufacturersAction } from './local-state-ad
 @Injectable()
 export class LocalStateAdvancedEffects {
 
-  @Effect()
-  getManufacturers$: Observable<Action> = this.actions$.pipe(
+  
+  getManufacturers$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType(GetManufacturersAction.TYPE),
     debounceTime(300),
     delay(1000),
@@ -23,7 +23,7 @@ export class LocalStateAdvancedEffects {
         return new SetManufacturersAction([]);
       }
     })
-  );
+  ));
 
   constructor(private actions$: Actions) { }
 }

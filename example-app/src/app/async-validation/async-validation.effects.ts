@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Effect } from '@ngrx/effects';
+import { createEffect } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import {
   ClearAsyncErrorAction,
@@ -15,8 +15,8 @@ import { SetSearchResultAction, State } from './async-validation.reducer';
 @Injectable()
 export class AsyncValidationEffects {
 
-  @Effect()
-  searchBooks$: Observable<Action> = this.store.pipe(
+  
+  searchBooks$: Observable<Action> = createEffect(() => this.store.pipe(
     select(s => s.asyncValidation.formState),
     filter(fs => !!fs.value.searchTerm && fs.controls.numberOfResultsToShow.isValid),
     distinct(fs => fs.value),
@@ -70,7 +70,7 @@ export class AsyncValidationEffects {
         )
       )
     )
-  );
+  ));
 
   constructor(private store: Store<State>, private httpClient: HttpClient) { }
 }
