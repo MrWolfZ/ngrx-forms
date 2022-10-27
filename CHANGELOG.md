@@ -1,5 +1,12 @@
 ## ngrx-forms Changelog
 
+<a name="8.0.0"></a>
+### 8.0.0
+
+#### Breaking Changes
+
+* adjust types for compatibility with TypeScript >=4.8 ([00885ae](https://github.com/MrWolfZ/ngrx-forms/commit/00885ae))
+
 <a name="7.0.0"></a>
 ### 7.0.0
 
