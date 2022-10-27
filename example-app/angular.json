@@ -90,7 +90,6 @@
       }
     }
   },
-  "defaultProject": "example-app",
   "cli": {
     "warnings": {}
   },
