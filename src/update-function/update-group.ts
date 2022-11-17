@@ -66,7 +66,7 @@ const groupUpdateFn = updateGroup<FormValue>(
   {
     email: (email, parentGroup) =>
       parentGroup.controls.name.isInvalid
-        ? setValue('', email)
+        ? setValue(email, '')
         : email,
   },
 );
@@ -101,7 +101,7 @@ const groupUpdateFn = updateGroup<FormValue>(
     {
       email: (email, parentGroup) =>
         parentGroup.controls.name.isInvalid
-          ? setValue('', email)
+          ? setValue(email, '')
           : email,
     },
   ],
@@ -137,7 +137,7 @@ const updatedState = updateGroup<FormValue>(
   {
     email: (email, parentGroup) =>
       parentGroup.controls.name.isInvalid
-        ? setValue('', email)
+        ? setValue(email, '')
         : email,
   },
 );
@@ -174,7 +174,7 @@ const updatedState = updateGroup<FormValue>(
     {
       email: (email, parentGroup) =>
         parentGroup.controls.name.isInvalid
-          ? setValue('', email)
+          ? setValue(email, '')
           : email,
     },
   ],
