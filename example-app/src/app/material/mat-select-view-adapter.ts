@@ -41,7 +41,7 @@ export class NgrxMatSelectViewAdapter implements FormViewAdapter, AfterViewInit,
 
     if (selectedOption) {
       if (Array.isArray(selectedOption) && Array.isArray(value)) {
-        if (value.length === selectedOption.length && value.every((v, i) => v === selectedOption[i])) {
+        if (value.length === selectedOption.length && value.every((v, i) => v === selectedOption[i].value)) {
           return;
         }
       } else if (!Array.isArray(selectedOption)) {
