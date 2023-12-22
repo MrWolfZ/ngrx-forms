@@ -1,4 +1,4 @@
-import { Boxed, unbox, ValidationErrors } from 'ngrx-forms';
+import { ValidationErrors } from 'ngrx-forms';
 
 // this regex is taken from the @angular/forms source code
 // tslint:disable-next-line:max-line-length
@@ -44,9 +44,7 @@ updateGroup<MyFormValue>({
  * Note that this function is generic to allow the compiler to properly infer the type
  * of the `validate` function for both optional and non-optional controls.
  */
-export function email<T extends string | Boxed<string> | null | undefined>(value: T): ValidationErrors {
-  value = unbox(value) as string | null | undefined as T;
-
+export function email<T extends string | null | undefined>(value: T): ValidationErrors {
   if (value === null || value === undefined || (value as string).length === 0) {
     return {};
   }

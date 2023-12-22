@@ -1,5 +1,5 @@
 import { expectType } from 'tsd';
-import { AbstractControlState, Boxed, FormArrayState, FormControlState, FormGroupState, FormState } from '../public_api';
+import { AbstractControlState, FormArrayState, FormControlState, FormGroupState, FormState } from '../public_api';
 
 expectType<AbstractControlState<any>>(undefined! as FormState<any>);
 expectType<AbstractControlState<any>>(undefined! as FormState<undefined>);
@@ -34,7 +34,3 @@ expectType<FormArrayState<string>>(undefined! as FormState<string[] | undefined>
 expectType<FormArrayState<string>>(undefined! as FormState<readonly string[]>);
 expectType<FormArrayState<any>>(undefined! as FormState<any[]>);
 expectType<AbstractControlState<any>>((undefined! as FormState<any[]>).controls[0]);
-
-expectType<FormControlState<Boxed<string>>>(undefined! as FormState<Boxed<string>>);
-expectType<FormControlState<Boxed<string | undefined>>>(undefined! as FormState<Boxed<string | undefined>>);
-expectType<FormControlState<Boxed<string> | undefined>>(undefined! as FormState<Boxed<string> | undefined>);

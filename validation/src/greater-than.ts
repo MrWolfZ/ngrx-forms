@@ -1,4 +1,4 @@
-import { Boxed, unbox, ValidationErrors } from 'ngrx-forms';
+import { ValidationErrors } from 'ngrx-forms';
 
 export interface GreaterThanValidationError {
   comparand: number;
@@ -46,9 +46,7 @@ export function greaterThan(comparand: number) {
     throw new Error(`The greaterThan Validation function requires the comparand parameter to be a non-null number, got ${comparand}!`);
   }
 
-  return <T extends number | Boxed<number> | null | undefined>(value: T): ValidationErrors => {
-    value = unbox(value) as number | null | undefined as T;
-
+  return <T extends number | null | undefined>(value: T): ValidationErrors => {
     if (value === null || value === undefined || typeof value !== 'number') {
       return {};
     }

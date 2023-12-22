@@ -1,4 +1,4 @@
-import { Boxed, unbox, ValidationErrors } from 'ngrx-forms';
+import { ValidationErrors } from 'ngrx-forms';
 
 /**
  * A validation function that requires the value to be `true`. Considers `null` and
@@ -27,9 +27,7 @@ updateGroup<MyFormValue>({
  * Note that this function is generic to allow the compiler to properly infer the type
  * of the `validate` function for both optional and non-optional controls.
  */
-export function requiredTrue<T extends boolean | Boxed<boolean> | null | undefined>(value: T): ValidationErrors {
-  value = unbox(value) as boolean | null | undefined as T;
-
+export function requiredTrue<T extends boolean | null | undefined>(value: T): ValidationErrors {
   // tslint:disable-next-line:strict-type-predicates
   if (value === null || value === undefined) {
     return {};

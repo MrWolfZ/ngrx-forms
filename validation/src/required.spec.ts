@@ -1,4 +1,4 @@
-import { AbstractControlState, box, unbox, validate } from 'ngrx-forms';
+import { AbstractControlState, validate } from 'ngrx-forms';
 import { required } from './required';
 
 describe(required.name, () => {
@@ -62,45 +62,10 @@ describe(required.name, () => {
     expect(required(['a'])).toEqual({});
   });
 
-  it('should work for boxed strings', () => {
-    expect(required(box('a'))).toEqual({});
+  it('should work for strings', () => {
+    expect(required('a')).toEqual({});
   });
 
-  it('should return an error for boxed undefined', () => {
-    const value = box(undefined);
-    expect(required(value)).toEqual({
-      required: {
-        actual: unbox(value),
-      },
-    });
-  });
-
-  it('should return an error for boxed null', () => {
-    const value = box(null);
-    expect(required(value)).toEqual({
-      required: {
-        actual: unbox(value),
-      },
-    });
-  });
-
-  it('should return an error for boxed empty string', () => {
-    const value = box('');
-    expect(required(value)).toEqual({
-      required: {
-        actual: unbox(value),
-      },
-    });
-  });
-
-  it('should return an error for boxed empty array', () => {
-    const value = box([] as any[]);
-    expect(required(value)).toEqual({
-      required: {
-        actual: unbox(value),
-      },
-    });
-  });
 
   it('should properly infer value type when used with validate update function', () => {
     // this code is never meant to be executed, it should just pass the type checker

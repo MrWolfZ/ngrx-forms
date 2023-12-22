@@ -1,5 +1,5 @@
 import { Actions, AddGroupControlAction } from '../../actions';
-import { computeGroupState, createChildState, FormGroupState, KeyValue } from '../../state';
+import { computeGroupState, createChildState, FormGroupControls, FormGroupState, KeyValue } from '../../state';
 import { childReducer } from './util';
 
 export function addControlReducer<TValue extends KeyValue>(
@@ -18,7 +18,7 @@ export function addControlReducer<TValue extends KeyValue>(
     throw new Error(`Group '${state.id}' already has child control '${action.name as string}'!`); // `;
   }
 
-  const controls = Object.assign({}, state.controls, {
+  const controls: FormGroupControls<TValue> = Object.assign({}, state.controls, {
     [action.name]: createChildState(`${state.id}.${action.name as string}`, action.value),
   });
 

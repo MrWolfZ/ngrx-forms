@@ -1,4 +1,4 @@
-import { AbstractControlState, box, unbox, validate } from 'ngrx-forms';
+import { AbstractControlState, validate } from 'ngrx-forms';
 import { email, NGRX_FORMS_EMAIL_VALIDATION_REGEXP } from './email';
 
 // note that we do not test the validation regex itself, but we
@@ -34,20 +34,6 @@ describe(email.name, () => {
       email: {
         pattern: NGRX_FORMS_EMAIL_VALIDATION_REGEXP.toString(),
         actual: value,
-      },
-    });
-  });
-
-  it('should not return an error if value is boxed valid mail address', () => {
-    expect(email(box('a@b.com'))).toEqual({});
-  });
-
-  it('should return errors with pattern and actual properties for boxed values', () => {
-    const value = box('abc');
-    expect(email(value)).toEqual({
-      email: {
-        pattern: NGRX_FORMS_EMAIL_VALIDATION_REGEXP.toString(),
-        actual: unbox(value),
       },
     });
   });

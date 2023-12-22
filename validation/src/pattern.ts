@@ -1,4 +1,4 @@
-import { Boxed, unbox, ValidationErrors } from 'ngrx-forms';
+import { ValidationErrors } from 'ngrx-forms';
 
 export interface PatternValidationError {
   pattern: string;
@@ -46,9 +46,7 @@ export function pattern(patternParam: RegExp) {
     throw new Error(`The pattern Validation function requires the pattern parameter to be a non-null string or regular expression, got ${patternParam}!`);
   }
 
-  return <T extends string | Boxed<string> | null | undefined>(value: T): ValidationErrors => {
-    value = unbox(value) as string | null | undefined as T;
-
+  return <T extends string | null | undefined>(value: T): ValidationErrors => {
     if (value === null || value === undefined || (value as string).length === 0) {
       return {};
     }

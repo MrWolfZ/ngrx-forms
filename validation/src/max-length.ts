@@ -1,4 +1,4 @@
-import { Boxed, unbox, ValidationErrors } from 'ngrx-forms';
+import { ValidationErrors } from 'ngrx-forms';
 
 export interface MaxLengthValidationError {
   maxLength: number;
@@ -48,9 +48,7 @@ export function maxLength(maxLengthParam: number) {
     throw new Error(`The maxLength Validation function requires the maxLength parameter to be a non-null number, got ${maxLengthParam}!`);
   }
 
-  return <T extends string | Boxed<string> | any[] | Boxed<any[]> | null | undefined>(value: T): ValidationErrors => {
-    value = unbox(value);
-
+  return <T extends string | any[] | null | undefined>(value: T): ValidationErrors => {
     if (value === null || value === undefined) {
       return {};
     }

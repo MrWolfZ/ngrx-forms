@@ -1,4 +1,4 @@
-import { AbstractControlState, box, unbox, validate } from 'ngrx-forms';
+import { AbstractControlState, validate } from 'ngrx-forms';
 import { minLength } from './min-length';
 
 describe(minLength.name, () => {
@@ -70,38 +70,6 @@ describe(minLength.name, () => {
         minLength: minLengthParam,
         value,
         actualLength: value.length,
-      },
-    });
-  });
-
-  it('should not return an error if boxed string value\'s length is equal to minLength', () => {
-    expect(minLength(2)(box('ab'))).toEqual({});
-  });
-
-  it('should not return an error if boxed array value\'s length is equal to minLength', () => {
-    expect(minLength(2)(box(['a', 'b']))).toEqual({});
-  });
-
-  it('should return errors with minLength, value, and actualLength properties for boxed string value', () => {
-    const minLengthParam = 2;
-    const value = box('a');
-    expect(minLength(minLengthParam)(value)).toEqual({
-      minLength: {
-        minLength: minLengthParam,
-        value: unbox(value),
-        actualLength: unbox(value).length,
-      },
-    });
-  });
-
-  it('should return errors with minLength, value, and actualLength properties for boxed array value', () => {
-    const minLengthParam = 2;
-    const value = box(['a']);
-    expect(minLength(minLengthParam)(value)).toEqual({
-      minLength: {
-        minLength: minLengthParam,
-        value: unbox(value),
-        actualLength: unbox(value).length,
       },
     });
   });

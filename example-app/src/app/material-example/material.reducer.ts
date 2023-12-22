@@ -1,7 +1,5 @@
 import { Action, combineReducers } from '@ngrx/store';
 import {
-  box,
-  Boxed,
   createFormGroupState,
   createFormStateReducerWithUpdate,
   disable,
@@ -25,7 +23,7 @@ export interface FormValue {
   password: PasswordValue;
   sex: string;
   favoriteColor: string;
-  hobbies: Boxed<string[]>;
+  hobbies: string[];
   dateOfBirth: string;
   agreeToTermsOfUse: boolean;
 }
@@ -54,7 +52,7 @@ export const INITIAL_STATE = createFormGroupState<FormValue>(FORM_ID, {
   },
   sex: '',
   favoriteColor: '',
-  hobbies: box([]),
+  hobbies: [],
   dateOfBirth: new Date(Date.UTC(1970, 0, 1)).toISOString(),
   agreeToTermsOfUse: false,
 });

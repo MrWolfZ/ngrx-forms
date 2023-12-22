@@ -1,4 +1,4 @@
-import { AbstractControlState, box, unbox, validate } from 'ngrx-forms';
+import { AbstractControlState, validate } from 'ngrx-forms';
 import { requiredTrue } from './required-true';
 
 describe(requiredTrue.name, () => {
@@ -19,19 +19,6 @@ describe(requiredTrue.name, () => {
     expect(requiredTrue(value)).toEqual({
       required: {
         actual: value,
-      },
-    });
-  });
-
-  it('should not return an error for boxed true', () => {
-    expect(requiredTrue(box(true))).toEqual({});
-  });
-
-  it('should return an error for boxed false', () => {
-    const value = box(false);
-    expect(requiredTrue(value)).toEqual({
-      required: {
-        actual: unbox(value),
       },
     });
   });

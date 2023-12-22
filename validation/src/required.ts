@@ -1,4 +1,4 @@
-import { Boxed, unbox, ValidationErrors } from 'ngrx-forms';
+import { ValidationErrors } from 'ngrx-forms';
 
 export interface RequiredValidationError<T> {
   actual: T | null | undefined;
@@ -34,9 +34,7 @@ updateGroup<MyFormValue>({
 })
 ```
  */
-export function required<T>(value: T | Boxed<T> | null | undefined): ValidationErrors {
-  value = unbox(value) as T | null | undefined;
-
+export function required<T>(value: T | null | undefined): ValidationErrors {
   if (value !== undefined && value !== null && (value as any).length !== 0) {
     return {};
   }

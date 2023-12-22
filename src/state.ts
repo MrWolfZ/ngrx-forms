@@ -1,7 +1,6 @@
-import { Boxed, isBoxed } from './boxing';
 import { deepEquals, isEmpty } from './util';
 
-export type FormControlValueTypes = Boxed<any> | string | number | boolean | null | undefined;
+export type FormControlValueTypes = string | number | boolean | null | undefined;
 export type NgrxFormControlId = string;
 
 /**
@@ -510,18 +509,6 @@ export interface InferenceWrapper<T> {
 
 /**
  * This is a helper type that infers the correct form state type based
- * on the boxed type contained in the inference wrapper.
- */
-export type InferredBoxedFormState<T extends InferenceWrapper<any>> =
-  T extends InferenceWrapper<Boxed<infer U>> ? FormControlState<Boxed<U>>
-  : T extends InferenceWrapper<Boxed<infer U> | undefined> ? FormControlState<Boxed<U> | undefined>
-  : T extends InferenceWrapper<Boxed<infer U> | null> ? FormControlState<Boxed<U> | null>
-  : T extends InferenceWrapper<Boxed<infer U> | undefined | null> ? FormControlState<Boxed<U> | undefined | null>
-  : never
-  ;
-
-/**
- * This is a helper type that infers the correct form state type based
  * on the string type contained in the inference wrapper.
  */
 export type InferredStringFormState<T extends InferenceWrapper<any>> =
@@ -567,7 +554,6 @@ export type InferredFormState<T extends InferenceWrapper<any>> =
   : T extends InferenceWrapper<null> ? AbstractControlState<any>
 
   // control
-  : T extends InferenceWrapper<Boxed<any> | undefined | null> ? InferredBoxedFormState<T>
   : T extends InferenceWrapper<string | undefined | null> ? InferredStringFormState<T>
   : T extends InferenceWrapper<number | undefined | null> ? InferredNumberFormState<T>
   : T extends InferenceWrapper<boolean | undefined | null> ? InferredBooleanFormState<T>
@@ -610,10 +596,6 @@ export function isGroupState<TValue extends KeyValue = any>(state: any): state i
 }
 
 export function createChildState<TValue>(id: string, childValue: TValue): FormState<TValue> {
-  if (isBoxed(childValue)) {
-    return createFormControlState<any>(id, childValue) as FormState<TValue>;
-  }
-
   if (childValue !== null && Array.isArray(childValue)) {
     return createFormArrayState(id, childValue as any[]) as FormState<TValue>;
   }
@@ -626,16 +608,9 @@ export function createChildState<TValue>(id: string, childValue: TValue): FormSt
 }
 
 export function verifyFormControlValueIsValid<TValue>(value: TValue) {
-  if (value === null || ['string', 'number', 'boolean', 'undefined'].indexOf(typeof value) >= 0) {
-    return value;
-  }
-
-  if (!isBoxed(value)) {
-    const errorMsg = 'Form control states only support undefined, null, string, number, and boolean values as well as boxed values';
-    throw new Error(`${errorMsg}; got ${JSON.stringify(value)} of type ${typeof value}`); // `;
-  }
-
-  if (value.value === null || ['string', 'number', 'boolean', 'undefined'].indexOf(typeof value.value) >= 0) {
+  if (value === null || ['string', 'number', 'boolean', 'undefined'].includes(typeof value) || 
+    (Array.isArray(value) && (value.length === 0 || value.every(item => ['string', 'number'].includes(typeof item))))
+    ) {
     return value;
   }
 
@@ -680,7 +655,7 @@ export function createFormControlState<TValue extends FormControlValueTypes>(
 
 export function getFormGroupValue<TValue extends KeyValue>(
   controls: FormGroupControls<TValue>,
-  originalValue: TValue,
+  originalValue: Partial<TValue>,
 ): TValue {
   let hasChanged = Object.keys(originalValue).length !== Object.keys(controls).length;
   const newValue = Object.keys(controls).reduce((res, key: keyof TValue) => {
@@ -690,7 +665,7 @@ export function getFormGroupValue<TValue extends KeyValue>(
     return res;
   }, {} as TValue);
 
-  return hasChanged ? newValue : originalValue;
+  return hasChanged ? newValue : originalValue as TValue;
 }
 
 export function getFormGroupErrors<TValue extends KeyValue>(
@@ -724,7 +699,7 @@ export function getFormGroupErrors<TValue extends KeyValue>(
 export function computeGroupState<TValue extends KeyValue>(
   id: string,
   controls: FormGroupControls<TValue>,
-  value: TValue,
+  partialValue: Partial<TValue>,
   errors: ValidationErrors,
   pendingValidations: readonly string[],
   userDefinedProperties: KeyValue,
@@ -735,7 +710,7 @@ export function computeGroupState<TValue extends KeyValue>(
     wasOrShouldBeSubmitted?: boolean;
   },
 ): FormGroupState<TValue> {
-  value = getFormGroupValue<TValue>(controls, value);
+  const value = getFormGroupValue<TValue>(controls, partialValue);
   errors = getFormGroupErrors(controls, errors);
   const isValid = isEmpty(errors);
   const typedControls = Object.keys(controls).map(key => controls[key] as AbstractControlState<TValue[keyof TValue]>);

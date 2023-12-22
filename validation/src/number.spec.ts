@@ -1,4 +1,4 @@
-import { AbstractControlState, box, unbox, validate } from 'ngrx-forms';
+import { AbstractControlState, validate } from 'ngrx-forms';
 import { number } from './number';
 
 describe(number.name, () => {
@@ -18,18 +18,10 @@ describe(number.name, () => {
     expect(number(123.45)).toEqual({});
   });
 
-  it('should not return an error for any boxed number', () => {
-    expect(number(box(123))).toEqual({});
-  });
-
   it('should return an error if value is not a number', () => {
     expect(number('abc' as any)).not.toEqual({});
     expect(number(false as any)).not.toEqual({});
     expect(number([] as any)).not.toEqual({});
-  });
-
-  it('should return an unboxed error if value is not a number', () => {
-    expect(number(box('abc' as any))).not.toEqual({});
   });
 
   it('should return error with actual property', () => {
@@ -37,15 +29,6 @@ describe(number.name, () => {
     expect(number(actual)).toEqual({
       number: {
         actual,
-      },
-    });
-  });
-
-  it('should return error with actual property for boxed value', () => {
-    const actual = box('abc' as any);
-    expect(number(actual)).toEqual({
-      number: {
-        actual: unbox(actual),
       },
     });
   });

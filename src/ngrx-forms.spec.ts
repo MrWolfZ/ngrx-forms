@@ -2,7 +2,6 @@ import {
   addArrayControl,
   addGroupControl,
   ALL_NGRX_FORMS_ACTION_TYPES,
-  box,
   clearAsyncError,
   compose,
   createFormArrayState,
@@ -17,7 +16,6 @@ import {
   formGroupReducer,
   formStateReducer,
   isArrayState,
-  isBoxed,
   isGroupState,
   markAsDirty,
   markAsPristine,
@@ -57,7 +55,6 @@ import {
   setValue,
   startAsyncValidation,
   swapArrayControl,
-  unbox,
   unfocus,
   updateArray,
   updateGroup,
@@ -129,7 +126,4 @@ describe('ngrx-forms', () => {
   it(`should export ${NgrxFallbackSelectOption.name}`, () => expect(NgrxFallbackSelectOption).toBeDefined());
   it(`should export ${NgrxStatusCssClassesDirective.name}`, () => expect(NgrxStatusCssClassesDirective).toBeDefined());
   it(`should export ${NgrxFormsModule.name}`, () => expect(NgrxFormsModule).toBeDefined());
-  it(`should export ${box.name}`, () => expect(box).toBeDefined());
-  it(`should export ${unbox.name}`, () => expect(unbox).toBeDefined());
-  it(`should export ${isBoxed.name}`, () => expect(isBoxed).toBeDefined());
 });

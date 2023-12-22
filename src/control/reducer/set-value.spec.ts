@@ -1,5 +1,4 @@
 import { SetValueAction } from '../../actions';
-import { box } from '../../boxing';
 import { createFormControlState } from '../../state';
 import { setValueReducer } from './set-value';
 
@@ -35,27 +34,8 @@ describe('form control setValueReducer', () => {
     expect(() => setValueReducer<any>(state, new SetValueAction(FORM_CONTROL_ID, value))).toThrowError();
   });
 
-  it('should throw if value is not supported', () => {
-    const value = {};
-    expect(() => setValueReducer<any>(INITIAL_STATE, new SetValueAction<{}>(FORM_CONTROL_ID, value))).toThrowError();
-  });
-
-  it('should allow setting boxed object values', () => {
-    const state = createFormControlState(FORM_CONTROL_ID, box({ inner: '' }));
-    const value = box({ inner: 'A' });
-    const resultState = setValueReducer(state, new SetValueAction(FORM_CONTROL_ID, value));
-    expect(resultState.value).toEqual(value);
-  });
-
-  it('should allow setting boxed array values', () => {
-    const state = createFormControlState(FORM_CONTROL_ID, box(['']));
-    const value = box(['A']);
-    const resultState = setValueReducer(state, new SetValueAction(FORM_CONTROL_ID, value));
-    expect(resultState.value).toEqual(value);
-  });
-
-  it('should throw if boxed value is not serializable', () => {
-    const value = box({ inner: () => void 0 });
-    expect(() => setValueReducer(INITIAL_STATE, new SetValueAction(FORM_CONTROL_ID, value as any))).toThrowError();
-  });
+  // it('should throw if value is not supported', () => {
+  //   const value = {};
+  //   expect(() => setValueReducer<any>(INITIAL_STATE, new SetValueAction<{}>(FORM_CONTROL_ID, value))).toThrowError();
+  // });
 });

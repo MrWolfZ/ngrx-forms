@@ -1,4 +1,4 @@
-import { Boxed, unbox, ValidationErrors } from 'ngrx-forms';
+import { ValidationErrors } from 'ngrx-forms';
 
 export interface EqualToValidationError<T> {
   comparand: T;
@@ -37,9 +37,7 @@ updateGroup<MyFormValue>({
 ```
  */
 export function equalTo<T>(comparand: T) {
-  return <TV extends T | Boxed<T> = T>(value: TV): ValidationErrors => {
-    value = unbox(value) as T as TV;
-
+  return <TV extends T = T>(value: TV): ValidationErrors => {
     if (value === comparand) {
       return {};
     }
